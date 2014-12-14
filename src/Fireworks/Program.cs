@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Fireworks
 {
@@ -30,7 +28,7 @@ namespace Fireworks
                 if (shiftCoord[i] == 1)
                 {
                     sparkCoords[i] += offsetDisplacement;
-                    if (IsOutOfBounds(i, sparkCoords[i]))
+                    if (IsOutOfBounds(i, sparkCoords[i], dimensionsMin, dimensionsMax))
                     {
                         sparkCoords[i] = dimensionsMin[i] + Math.Abs(sparkCoords[i]) % (dimensionsMax[i] - dimensionsMin[i]);
                     }
@@ -38,9 +36,30 @@ namespace Fireworks
             }
         }
 
-        public static bool IsOutOfBounds(int dimension, double coordValue)
+        public static bool IsOutOfBounds(int dimension, double coordValue, double[] dimensionsMin, double[] dimensionsMax)
         {
-            return false;
+            // TODO: Compare doubles properly
+            // TODO: Consider reverting the method (i.e. IsInBounds)
+            return (coordValue > dimensionsMax[dimension]) || (coordValue < dimensionsMin[dimension]);
+        }
+
+        public static double CalcAmplitude(int fireworkNumber, double explosionAmplitudeModifier, IList<double> fireworkQualities)
+        {
+            double minFireworkQuality = fireworkQualities.Min();
+            return explosionAmplitudeModifier * (fireworkQualities[fireworkNumber] - minFireworkQuality + double.Epsilon) / (fireworkQualities.Sum(fq => fq - minFireworkQuality) + double.Epsilon);
+        }
+
+        // TODO:
+        //public static double CalcExplosionSparksNumberExact(int fireworkNumber, double explosionSparksNumberModifier, IList<double> fireworkQualities)
+        //{
+        //    double maxFireworkQuality = fireworkQualities.Max();
+        //    return explosionSparksNumberModifier * (fireworkQualities[fireworkNumber] - maxFireworkQuality + double.Epsilon) / (fireworkQualities.Sum(fq => fq - maxFireworkQuality) + double.Epsilon);
+        //}
+
+        // That's a quality (fitness) function. TODO: delegate?
+        private static double CalcQuality(double[] firework)
+        {
+            return 0.0;
         }
     }
 }
