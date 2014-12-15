@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MathNet.Numerics.Distributions;
 
 namespace Fireworks
 {
@@ -16,7 +17,9 @@ namespace Fireworks
 		// TODO: Add ISparkGenerator
 		// TODO: Add ExplosionSparkGenerator - as conventional explosion spark generator (impl. ISparkGenerator)
 		// TODO: ExplosionSparkGenerator: IRandomizer and collection of Parameters - thru ctor
-		// TODO: ExplosionSparkGenerator: fireworkCoords (coords of the firework that produces the spark being generated) and amplitude - pass to GenerateSpark method
+		// TODO: ExplosionSparkGenerator: fireworkCoords (coords of the firework that produces the spark being generated) - pass to GenerateSpark method
+		// TODO: ExplosionSparkGenerator: pass amplitude as member of Explosion arg?
+		// Firework newSpark = CreateSpark(Explosion explosion, Firework parentFirework);
 		public static double[] GenerateExplosionSpark(double[] fireworkCoords, double amplitude, IRandomizer randomizer, int dimensionsCount, double[] dimensionsMin, double[] dimensionsMax)
         {
             double[] sparkCoords = fireworkCoords;
@@ -91,5 +94,34 @@ namespace Fireworks
         {
             return 0.0;
         }
+
+		// TODO: Add GaussianSparkGenerator - as conventional Gaussian spark generator (impl. ISparkGenerator)
+		// TODO: ExplosionSparkGenerator: IRandomizer and collection of Parameters - thru ctor
+		// TODO: ExplosionSparkGenerator: fireworkCoords (coords of the firework that produces the spark being generated) - pass to GenerateSpark method
+		// Firework newSpark = CreateSpark(Explosion explosion, Firework parentFirework);
+		public static double[] GenerateGaussianSpark(double[] fireworkCoords, IRandomizer randomizer, int dimensionsCount, double[] dimensionsMin, double[] dimensionsMax)
+		{
+			double[] sparkCoords = fireworkCoords;
+			double offsetDisplacement = Normal.Sample(1.0, 1.0); // Coefficient of Gaussian explosion
+			int[] shiftCoord = new int[dimensionsCount];
+			for (int i = 0; i < dimensionsCount; i++)
+			{
+				shiftCoord[i] = (int)RoundAwayFromZero(randomizer.GetNext(0.0, 1.0));
+			}
+
+			for (int i = 0; i < dimensionsCount; i++)
+			{
+				if (shiftCoord[i] == 1)
+				{
+					sparkCoords[i] *= offsetDisplacement;
+					if (IsOutOfBounds(i, sparkCoords[i], dimensionsMin, dimensionsMax))
+					{
+						sparkCoords[i] = dimensionsMin[i] + Math.Abs(sparkCoords[i]) % (dimensionsMax[i] - dimensionsMin[i]);
+					}
+				}
+			}
+
+			return sparkCoords;
+		}
     }
 }
