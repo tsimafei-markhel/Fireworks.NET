@@ -13,6 +13,10 @@ namespace Fireworks
 
     public class Fireworks
     {
+		// TODO: Add ISparkGenerator
+		// TODO: Add ExplosionSparkGenerator - as conventional explosion spark generator (impl. ISparkGenerator)
+		// TODO: ExplosionSparkGenerator: IRandomizer and collection of Parameters - thru ctor
+		// TODO: ExplosionSparkGenerator: fireworkCoords (coords of the firework that produces the spark being generated) and amplitude - pass to GenerateSpark method
 		public static double[] GenerateExplosionSpark(double[] fireworkCoords, double amplitude, IRandomizer randomizer, int dimensionsCount, double[] dimensionsMin, double[] dimensionsMax)
         {
             double[] sparkCoords = fireworkCoords;
