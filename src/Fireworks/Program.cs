@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MathNet.Numerics;
 using MathNet.Numerics.Distributions;
 
 namespace Fireworks
@@ -47,9 +48,8 @@ namespace Fireworks
 
         public static bool IsOutOfBounds(int dimension, double coordValue, double[] dimensionsMin, double[] dimensionsMax)
         {
-            // TODO: Compare doubles properly
             // TODO: Consider reverting the method (i.e. IsInBounds)
-            return (coordValue > dimensionsMax[dimension]) || (coordValue < dimensionsMin[dimension]);
+			return coordValue.IsLarger(dimensionsMax[dimension], double.Epsilon) || coordValue.IsSmaller(dimensionsMin[dimension], double.Epsilon);
         }
 
         public static double CalcAmplitude(int fireworkNumber, double explosionAmplitudeModifier, IList<double> fireworkQualities)
@@ -70,11 +70,11 @@ namespace Fireworks
 			
 			// TODO: Compare doubles properly
 			// TODO: 2010 paper states "A < B < 1", 2013 paper does not
-			if (explosionSparksNumberExact < explosionSparksConstA * explosionSparksNumberModifier)
+			if (explosionSparksNumberExact.IsSmaller(explosionSparksConstA * explosionSparksNumberModifier, double.Epsilon))
 			{
 				return (int)RoundAwayFromZero(explosionSparksConstA * explosionSparksNumberModifier);
 			}
-			else if (explosionSparksNumberExact > explosionSparksConstB * explosionSparksNumberModifier)
+			else if (explosionSparksNumberExact.IsLarger(explosionSparksConstB * explosionSparksNumberModifier, double.Epsilon))
 			{
 				return (int)RoundAwayFromZero(explosionSparksConstB * explosionSparksNumberModifier);
 			}
