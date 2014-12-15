@@ -13,7 +13,7 @@ namespace Fireworks
 
     public class Fireworks
     {
-        public static void GenerateExplosionSparks(double[] fireworkCoords, double amplitude, IRandomizer randomizer, int dimensionsCount, double[] dimensionsMin, double[] dimensionsMax)
+		public static double[] GenerateExplosionSpark(double[] fireworkCoords, double amplitude, IRandomizer randomizer, int dimensionsCount, double[] dimensionsMin, double[] dimensionsMax)
         {
             double[] sparkCoords = fireworkCoords;
             double offsetDisplacement = amplitude * randomizer.GetNext(-1.0, 1.0);
@@ -34,6 +34,8 @@ namespace Fireworks
                     }
                 }
             }
+
+			return sparkCoords;
         }
 
         public static bool IsOutOfBounds(int dimension, double coordValue, double[] dimensionsMin, double[] dimensionsMax)
