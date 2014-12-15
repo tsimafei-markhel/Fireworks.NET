@@ -20,7 +20,7 @@ namespace Fireworks
             int[] shiftCoord = new int[dimensionsCount];
             for (int i = 0; i < dimensionsCount; i++)
             {
-                shiftCoord[i] = (int)Math.Round(randomizer.GetNext(0.0, 1.0));
+				shiftCoord[i] = (int)RoundAwayFromZero(randomizer.GetNext(0.0, 1.0));
             }
 
             for (int i = 0; i < dimensionsCount; i++)
@@ -49,12 +49,36 @@ namespace Fireworks
             return explosionAmplitudeModifier * (fireworkQualities[fireworkNumber] - minFireworkQuality + double.Epsilon) / (fireworkQualities.Sum(fq => fq - minFireworkQuality) + double.Epsilon);
         }
 
-        // TODO:
-        //public static double CalcExplosionSparksNumberExact(int fireworkNumber, double explosionSparksNumberModifier, IList<double> fireworkQualities)
-        //{
-        //    double maxFireworkQuality = fireworkQualities.Max();
-        //    return explosionSparksNumberModifier * (fireworkQualities[fireworkNumber] - maxFireworkQuality + double.Epsilon) / (fireworkQualities.Sum(fq => fq - maxFireworkQuality) + double.Epsilon);
-        //}
+		public static double CalcExplosionSparksNumberExact(int fireworkNumber, double explosionSparksNumberModifier, IList<double> fireworkQualities)
+		{
+			double maxFireworkQuality = fireworkQualities.Max();
+			return explosionSparksNumberModifier * (maxFireworkQuality - fireworkQualities[fireworkNumber] + double.Epsilon) / (fireworkQualities.Sum(fq => maxFireworkQuality - fq) + double.Epsilon);
+		}
+
+		public static int CalcExplosionSparksNumber(int fireworkNumber, double explosionSparksNumberModifier, IList<double> fireworkQualities, double explosionSparksConstA, double explosionSparksConstB)
+		{
+			double explosionSparksNumberExact = CalcExplosionSparksNumberExact(fireworkNumber, explosionSparksNumberModifier, fireworkQualities);
+			
+			// TODO: Compare doubles properly
+			// TODO: 2010 paper states "A < B < 1", 2013 paper does not
+			if (explosionSparksNumberExact < explosionSparksConstA * explosionSparksNumberModifier)
+			{
+				return (int)RoundAwayFromZero(explosionSparksConstA * explosionSparksNumberModifier);
+			}
+			else if (explosionSparksNumberExact > explosionSparksConstB * explosionSparksNumberModifier)
+			{
+				return (int)RoundAwayFromZero(explosionSparksConstB * explosionSparksNumberModifier);
+			}
+			
+			// else:
+			return (int)RoundAwayFromZero(explosionSparksNumberExact);
+		}
+
+		// Helper
+		public static double RoundAwayFromZero(double value)
+		{
+			return Math.Round(value, MidpointRounding.AwayFromZero);
+		}
 
         // That's a quality (fitness) function. TODO: delegate?
         private static double CalcQuality(double[] firework)
