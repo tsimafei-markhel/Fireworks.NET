@@ -7,7 +7,7 @@ namespace Fireworks.Model
 	/// within specified <see cref="Range"/>
 	/// </summary>
 	/// <remarks>Immutable</remarks>
-	public class Dimension : ICloneable
+	public class Dimension
 	{
 		/// <summary>
 		/// Gets <see cref="Range"/> instance identifying minimal and maximal possible
@@ -35,15 +35,6 @@ namespace Fireworks.Model
 		public Boolean IsValueInBounds(Double valueToCheck)
 		{
 			return VariationRange.IsInRange(valueToCheck);
-		}
-
-		/// <summary>
-		/// Creates a deep copy of <see cref="Dimension"/> instance
-		/// </summary>
-		/// <returns>Deep copy of self</returns>
-		public Object Clone()
-		{
-			return new Dimension(VariationRange);
 		}
 	}
 }
