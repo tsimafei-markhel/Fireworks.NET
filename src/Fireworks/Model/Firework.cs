@@ -5,7 +5,7 @@ namespace Fireworks.Model
 {
 	public class Firework
 	{
-		public string Id { get; private set; }
+		public String Id { get; private set; }
 
 		public FireworkType Type { get; private set; }
 
