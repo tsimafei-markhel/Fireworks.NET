@@ -42,12 +42,6 @@ namespace Fireworks
 			return spark;
         }
 
-        public static bool IsOutOfBounds(int dimension, double coordValue, double[] dimensionsMin, double[] dimensionsMax)
-        {
-            // TODO: Consider reverting the method (i.e. IsInBounds)
-			return coordValue.IsLarger(dimensionsMax[dimension], double.Epsilon) || coordValue.IsSmaller(dimensionsMin[dimension], double.Epsilon);
-        }
-
         public static double CalcAmplitude(int fireworkNumber, double explosionAmplitudeModifier, IList<double> fireworkQualities)
         {
             double minFireworkQuality = fireworkQualities.Min();
