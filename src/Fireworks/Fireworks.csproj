@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IRandomizer.cs" />
+    <Compile Include="Model\Dimension.cs" />
     <Compile Include="Model\Range.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
