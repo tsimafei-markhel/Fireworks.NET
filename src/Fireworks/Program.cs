@@ -58,7 +58,7 @@ namespace Fireworks
 		{
 			double explosionSparksNumberExact = CalcExplosionSparksNumberExact(fireworkNumber, explosionSparksNumberModifier, fireworkQualities);
 			
-			// TODO: pre 2010 paper: A < B < 1, A and B are user-defined constants
+			// TODO: per 2010 paper: A < B < 1, A and B are user-defined constants
 			if (explosionSparksNumberExact.IsSmaller(explosionSparksConstA * explosionSparksNumberModifier, double.Epsilon))
 			{
 				return (int)RoundAwayFromZero(explosionSparksConstA * explosionSparksNumberModifier);
