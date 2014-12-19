@@ -15,33 +15,11 @@ namespace Fireworks
         }
     }
 
+	/// <summary>
+	/// Temp holder for algorithm pieces
+	/// </summary>
     public class Fireworks
     {
-		// TODO: Add ISparkGenerator
-		// TODO: Add ExplosionSparkGenerator - as conventional explosion spark generator (impl. ISparkGenerator)
-		// TODO: ExplosionSparkGenerator: IRandomizer and collection of Parameters - thru ctor
-		// Firework newSpark = CreateSpark(Explosion explosion, Firework parentFirework);
-		public static Firework GenerateExplosionSpark(Explosion explosion, IEnumerable<Dimension> dimensions, IRandom randomizer)
-        {
-			// TODO: Think over explosion.ParentFirework.BirthStepNumber + 1. Is that correct?
-			Firework spark = new Firework(FireworkType.ExplosionSpark, explosion.ParentFirework.BirthStepNumber + 1, explosion.ParentFirework.Coordinates);
-
-            double offsetDisplacement = explosion.Amplitude * randomizer.GetNext(-1.0, 1.0);
-			foreach (Dimension dimension in dimensions)
-			{
-				if ((int)RoundAwayFromZero(randomizer.GetNext(0.0, 1.0)) == 1)
-				{
-					spark.Coordinates[dimension] += offsetDisplacement;
-					if (!dimension.IsValueInBounds(spark.Coordinates[dimension]))
-					{
-						spark.Coordinates[dimension] = dimension.VariationRange.Minimum + Math.Abs(spark.Coordinates[dimension]) % dimension.VariationRange.Length;
-					}
-				}
-			}
-
-			return spark;
-        }
-
         public static double CalcAmplitude(int fireworkNumber, double explosionAmplitudeModifier, IList<double> fireworkQualities)
         {
             double minFireworkQuality = fireworkQualities.Min();
