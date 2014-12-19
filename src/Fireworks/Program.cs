@@ -23,7 +23,7 @@ namespace Fireworks
 		// Firework newSpark = CreateSpark(Explosion explosion, Firework parentFirework);
 		public static Firework GenerateExplosionSpark(Explosion explosion, IEnumerable<Dimension> dimensions, IRandom randomizer)
         {
-			// TODO: Think over explosion.ParentFirework.BirthStepNumber + 1. Is that correct? 
+			// TODO: Think over explosion.ParentFirework.BirthStepNumber + 1. Is that correct?
 			Firework spark = new Firework(FireworkType.ExplosionSpark, explosion.ParentFirework.BirthStepNumber + 1, explosion.ParentFirework.Coordinates);
 
             double offsetDisplacement = explosion.Amplitude * randomizer.GetNext(-1.0, 1.0);
@@ -34,7 +34,7 @@ namespace Fireworks
 					spark.Coordinates[dimension] += offsetDisplacement;
 					if (!dimension.IsValueInBounds(spark.Coordinates[dimension]))
 					{
-						spark.Coordinates[dimension] = dimension.VariationRange.Minimum + Math.Abs(spark.Coordinates[dimension]) % (dimension.VariationRange.Length);
+						spark.Coordinates[dimension] = dimension.VariationRange.Minimum + Math.Abs(spark.Coordinates[dimension]) % dimension.VariationRange.Length;
 					}
 				}
 			}
@@ -92,31 +92,26 @@ namespace Fireworks
 
 		// TODO: Add GaussianSparkGenerator - as conventional Gaussian spark generator (impl. ISparkGenerator)
 		// TODO: ExplosionSparkGenerator: IRandomizer and collection of Parameters - thru ctor
-		// TODO: ExplosionSparkGenerator: fireworkCoords (coords of the firework that produces the spark being generated) - pass to GenerateSpark method
 		// Firework newSpark = CreateSpark(Explosion explosion, Firework parentFirework);
-		public static double[] GenerateGaussianSpark(double[] fireworkCoords, IRandom randomizer, int dimensionsCount, double[] dimensionsMin, double[] dimensionsMax)
+		public static Firework GenerateGaussianSpark(Explosion explosion, IEnumerable<Dimension> dimensions, IRandom randomizer)
 		{
-			double[] sparkCoords = fireworkCoords;
-			double offsetDisplacement = Normal.Sample(1.0, 1.0); // Coefficient of Gaussian explosion
-			int[] shiftCoord = new int[dimensionsCount];
-			for (int i = 0; i < dimensionsCount; i++)
-			{
-				shiftCoord[i] = (int)RoundAwayFromZero(randomizer.GetNext(0.0, 1.0));
-			}
+			// TODO: Think over explosion.ParentFirework.BirthStepNumber + 1. Is that correct?
+			Firework spark = new Firework(FireworkType.SpecificSpark, explosion.ParentFirework.BirthStepNumber + 1, explosion.ParentFirework.Coordinates);
 
-			for (int i = 0; i < dimensionsCount; i++)
+			double offsetDisplacement = Normal.Sample(1.0, 1.0); // Coefficient of Gaussian explosion
+			foreach (Dimension dimension in dimensions)
 			{
-				if (shiftCoord[i] == 1)
+				if ((int)RoundAwayFromZero(randomizer.GetNext(0.0, 1.0)) == 1)
 				{
-					sparkCoords[i] *= offsetDisplacement;
-					if (IsOutOfBounds(i, sparkCoords[i], dimensionsMin, dimensionsMax))
+					spark.Coordinates[dimension] *= offsetDisplacement;
+					if (!dimension.IsValueInBounds(spark.Coordinates[dimension]))
 					{
-						sparkCoords[i] = dimensionsMin[i] + Math.Abs(sparkCoords[i]) % (dimensionsMax[i] - dimensionsMin[i]);
+						spark.Coordinates[dimension] = dimension.VariationRange.Minimum + Math.Abs(spark.Coordinates[dimension]) % dimension.VariationRange.Length;
 					}
 				}
 			}
 
-			return sparkCoords;
+			return spark;
 		}
     }
 }
