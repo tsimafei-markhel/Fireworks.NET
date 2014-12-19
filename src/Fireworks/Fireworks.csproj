@@ -49,7 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IRandom.cs" />
+    <Compile Include="Randomization\IRandom.cs" />
     <Compile Include="Model\Dimension.cs" />
     <Compile Include="Model\Range.cs" />
     <Compile Include="Program.cs" />
