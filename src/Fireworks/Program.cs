@@ -21,7 +21,7 @@ namespace Fireworks
 		// TODO: ExplosionSparkGenerator: fireworkCoords (coords of the firework that produces the spark being generated) - pass to GenerateSpark method
 		// TODO: ExplosionSparkGenerator: pass amplitude as member of Explosion arg?
 		// Firework newSpark = CreateSpark(Explosion explosion, Firework parentFirework);
-		public static double[] GenerateExplosionSpark(double[] fireworkCoords, double amplitude, IRandomizer randomizer, int dimensionsCount, double[] dimensionsMin, double[] dimensionsMax)
+		public static double[] GenerateExplosionSpark(double[] fireworkCoords, double amplitude, IRandom randomizer, int dimensionsCount, double[] dimensionsMin, double[] dimensionsMax)
         {
             double[] sparkCoords = fireworkCoords;
             double offsetDisplacement = amplitude * randomizer.GetNext(-1.0, 1.0);
@@ -99,7 +99,7 @@ namespace Fireworks
 		// TODO: ExplosionSparkGenerator: IRandomizer and collection of Parameters - thru ctor
 		// TODO: ExplosionSparkGenerator: fireworkCoords (coords of the firework that produces the spark being generated) - pass to GenerateSpark method
 		// Firework newSpark = CreateSpark(Explosion explosion, Firework parentFirework);
-		public static double[] GenerateGaussianSpark(double[] fireworkCoords, IRandomizer randomizer, int dimensionsCount, double[] dimensionsMin, double[] dimensionsMax)
+		public static double[] GenerateGaussianSpark(double[] fireworkCoords, IRandom randomizer, int dimensionsCount, double[] dimensionsMin, double[] dimensionsMax)
 		{
 			double[] sparkCoords = fireworkCoords;
 			double offsetDisplacement = Normal.Sample(1.0, 1.0); // Coefficient of Gaussian explosion

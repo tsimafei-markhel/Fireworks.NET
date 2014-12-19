@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Fireworks
 {
-    public interface IRandomizer
+    public interface IRandom
     {
         double GetNext(double from, double to);
     }
