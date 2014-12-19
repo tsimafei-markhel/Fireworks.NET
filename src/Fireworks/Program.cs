@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Fireworks.Model;
 using Fireworks.Randomization;
 using MathNet.Numerics;
 using MathNet.Numerics.Distributions;
@@ -19,32 +20,26 @@ namespace Fireworks
 		// TODO: Add ISparkGenerator
 		// TODO: Add ExplosionSparkGenerator - as conventional explosion spark generator (impl. ISparkGenerator)
 		// TODO: ExplosionSparkGenerator: IRandomizer and collection of Parameters - thru ctor
-		// TODO: ExplosionSparkGenerator: fireworkCoords (coords of the firework that produces the spark being generated) - pass to GenerateSpark method
-		// TODO: ExplosionSparkGenerator: pass amplitude as member of Explosion arg?
 		// Firework newSpark = CreateSpark(Explosion explosion, Firework parentFirework);
-		public static double[] GenerateExplosionSpark(double[] fireworkCoords, double amplitude, IRandom randomizer, int dimensionsCount, double[] dimensionsMin, double[] dimensionsMax)
+		public static Firework GenerateExplosionSpark(Explosion explosion, IEnumerable<Dimension> dimensions, IRandom randomizer)
         {
-            double[] sparkCoords = fireworkCoords;
-            double offsetDisplacement = amplitude * randomizer.GetNext(-1.0, 1.0);
-            int[] shiftCoord = new int[dimensionsCount];
-            for (int i = 0; i < dimensionsCount; i++)
-            {
-				shiftCoord[i] = (int)RoundAwayFromZero(randomizer.GetNext(0.0, 1.0));
-            }
+			// TODO: Think over explosion.ParentFirework.BirthStepNumber + 1. Is that correct? 
+			Firework spark = new Firework(FireworkType.ExplosionSpark, explosion.ParentFirework.BirthStepNumber + 1, explosion.ParentFirework.Coordinates);
 
-            for (int i = 0; i < dimensionsCount; i++)
-            {
-                if (shiftCoord[i] == 1)
-                {
-                    sparkCoords[i] += offsetDisplacement;
-                    if (IsOutOfBounds(i, sparkCoords[i], dimensionsMin, dimensionsMax))
-                    {
-                        sparkCoords[i] = dimensionsMin[i] + Math.Abs(sparkCoords[i]) % (dimensionsMax[i] - dimensionsMin[i]);
-                    }
-                }
-            }
+            double offsetDisplacement = explosion.Amplitude * randomizer.GetNext(-1.0, 1.0);
+			foreach (Dimension dimension in dimensions)
+			{
+				if ((int)RoundAwayFromZero(randomizer.GetNext(0.0, 1.0)) == 1)
+				{
+					spark.Coordinates[dimension] += offsetDisplacement;
+					if (!dimension.IsValueInBounds(spark.Coordinates[dimension]))
+					{
+						spark.Coordinates[dimension] = dimension.VariationRange.Minimum + Math.Abs(spark.Coordinates[dimension]) % (dimension.VariationRange.Length);
+					}
+				}
+			}
 
-			return sparkCoords;
+			return spark;
         }
 
         public static bool IsOutOfBounds(int dimension, double coordValue, double[] dimensionsMin, double[] dimensionsMax)
