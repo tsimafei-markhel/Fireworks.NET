@@ -24,7 +24,7 @@ namespace Fireworks.Explode
 
 			if (randomizer == null)
 			{
-				throw new ArgumentNullException("random");
+                throw new ArgumentNullException("randomizer");
 			}
 
 			this.dimensions = dimensions;
