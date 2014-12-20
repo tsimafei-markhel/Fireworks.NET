@@ -6,7 +6,7 @@ using Fireworks.Randomization;
 namespace Fireworks.Explode
 {
 	/// <summary>
-	/// Conventional spark generator, as described in 2010 paper
+	/// Conventional Explosion spark generator, as described in 2010 paper
 	/// </summary>
 	public class ExplosionSparkGenerator : SparkGenerator
 	{
