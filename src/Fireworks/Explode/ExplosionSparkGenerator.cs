@@ -8,12 +8,12 @@ namespace Fireworks.Explode
 	/// <summary>
 	/// Conventional spark generator, as described in 2010 paper
 	/// </summary>
-	public class ExplosionSparkGenerator : ISparkGenerator
+	public class ExplosionSparkGenerator : SparkGenerator
 	{
 		private readonly IEnumerable<Dimension> dimensions;
 		private readonly IRandom randomizer;
 
-		public const FireworkType GeneratedSparkType = FireworkType.ExplosionSpark;
+        public override FireworkType GeneratedSparkType { get { return FireworkType.ExplosionSpark; } }
 
 		public ExplosionSparkGenerator(IEnumerable<Dimension> dimensions, IRandom randomizer)
 		{
@@ -31,24 +31,7 @@ namespace Fireworks.Explode
 			this.randomizer = randomizer;
 		}
 
-		public IEnumerable<Firework> CreateSparks(Explosion explosion)
-		{
-            int desiredNumberOfSparks;
-            if (!explosion.SparkCounts.TryGetValue(GeneratedSparkType, out desiredNumberOfSparks))
-            {
-                return new List<Firework>();
-            }
-
-            List<Firework> sparks = new List<Firework>(desiredNumberOfSparks);
-            for (int i = 0; i < desiredNumberOfSparks; i++)
-            {
-                sparks.Add(CreateSpark(explosion));
-            }
-
-            return sparks;
-		}
-
-		public Firework CreateSpark(Explosion explosion)
+		public override Firework CreateSpark(Explosion explosion)
 		{
 			// TODO: Think over explosion.ParentFirework.BirthStepNumber + 1. Is that correct?
 			Firework spark = new Firework(GeneratedSparkType, explosion.ParentFirework.BirthStepNumber + 1, explosion.ParentFirework.Coordinates);
