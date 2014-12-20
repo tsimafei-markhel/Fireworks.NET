@@ -1,4 +1,5 @@
-﻿using Fireworks.Model;
+﻿using System.Collections.Generic;
+using Fireworks.Model;
 
 namespace Fireworks.Explode
 {
@@ -9,6 +10,7 @@ namespace Fireworks.Explode
 	//   prefix (e.g. TODO)
 	public interface ISparkGenerator
 	{
-		Firework CreateSparks(Explosion explosion);
+		IEnumerable<Firework> CreateSparks(Explosion explosion);
+        Firework CreateSpark(Explosion explosion);
 	}
 }

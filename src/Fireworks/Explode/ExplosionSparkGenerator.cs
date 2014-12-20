@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Fireworks.Model;
 using Fireworks.Randomization;
 
@@ -34,13 +31,24 @@ namespace Fireworks.Explode
 			this.randomizer = randomizer;
 		}
 
-		public Firework CreateSparks(Explosion explosion)
+		public IEnumerable<Firework> CreateSparks(Explosion explosion)
 		{
-			// TODO:
-			throw new NotImplementedException();
+            int desiredNumberOfSparks;
+            if (!explosion.SparkCounts.TryGetValue(GeneratedSparkType, out desiredNumberOfSparks))
+            {
+                return new List<Firework>();
+            }
+
+            List<Firework> sparks = new List<Firework>(desiredNumberOfSparks);
+            for (int i = 0; i < desiredNumberOfSparks; i++)
+            {
+                sparks.Add(CreateSpark(explosion));
+            }
+
+            return sparks;
 		}
 
-		private Firework CreateSpark(Explosion explosion)
+		public Firework CreateSpark(Explosion explosion)
 		{
 			// TODO: Think over explosion.ParentFirework.BirthStepNumber + 1. Is that correct?
 			Firework spark = new Firework(GeneratedSparkType, explosion.ParentFirework.BirthStepNumber + 1, explosion.ParentFirework.Coordinates);
