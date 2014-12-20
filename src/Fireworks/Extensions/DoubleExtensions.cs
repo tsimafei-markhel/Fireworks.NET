@@ -75,7 +75,7 @@ namespace Fireworks.Extensions
         /// <returns>True if <paramref name="left"/> is greater than or equal to
         /// <paramref name="right"/> within the <see cref="Double.Epsilon"/> error.
         /// </returns>
-        public static Boolean IsGreatOrEqual(this Double left, Double right)
+        public static Boolean IsGreaterOrEqual(this Double left, Double right)
         {
             return left.IsLarger(right, Double.Epsilon) || left.AlmostEqual(right, Double.Epsilon);
         }
