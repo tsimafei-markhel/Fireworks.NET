@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Fireworks.Model;
 using Fireworks.Randomization;
-using MathNet.Numerics;
+using Fireworks.Extensions;
 using MathNet.Numerics.Distributions;
 
 namespace Fireworks
@@ -37,11 +37,11 @@ namespace Fireworks
 			double explosionSparksNumberExact = CalcExplosionSparksNumberExact(fireworkNumber, explosionSparksNumberModifier, fireworkQualities);
 			
 			// TODO: per 2010 paper: A < B < 1, A and B are user-defined constants
-			if (explosionSparksNumberExact.IsSmaller(explosionSparksConstA * explosionSparksNumberModifier, double.Epsilon))
+			if (explosionSparksNumberExact.IsLess(explosionSparksConstA * explosionSparksNumberModifier))
 			{
 				return (int)RoundAwayFromZero(explosionSparksConstA * explosionSparksNumberModifier);
 			}
-			else if (explosionSparksNumberExact.IsLarger(explosionSparksConstB * explosionSparksNumberModifier, double.Epsilon))
+			else if (explosionSparksNumberExact.IsGreater(explosionSparksConstB * explosionSparksNumberModifier))
 			{
 				return (int)RoundAwayFromZero(explosionSparksConstB * explosionSparksNumberModifier);
 			}

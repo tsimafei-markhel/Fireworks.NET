@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Globalization;
-using MathNet.Numerics;
+using Fireworks.Extensions;
 
 namespace Fireworks.Model
 {
-	// I don't like the idea of referencing Math.NET Numerics here much, but...
-
 	/// <summary>
 	/// Represents an interval (range)
 	/// </summary>
@@ -108,23 +106,23 @@ namespace Fireworks.Model
 		/// otherwise False</returns>
 		public Boolean IsInRange(Double value)
 		{
-			if (value.IsSmaller(Minimum, Double.Epsilon) || value.IsLarger(Maximum, Double.Epsilon))
+			if (value.IsLess(Minimum) || value.IsGreater(Maximum))
 			{
 				return false;
 			}
 
-			if (value.IsLarger(Minimum, Double.Epsilon) && value.IsSmaller(Maximum, Double.Epsilon))
+            if (value.IsGreater(Minimum) && value.IsLess(Maximum))
 			{
 				return true;
 			}
 
-			Boolean isMinEdge = value.AlmostEqual(Minimum, Double.Epsilon);
+			Boolean isMinEdge = value.IsEqual(Minimum);
 			if (IsMinimumOpen && isMinEdge)
 			{
 				return false;
 			}
 
-			Boolean isMaxEdge = value.AlmostEqual(Maximum, Double.Epsilon);
+            Boolean isMaxEdge = value.IsEqual(Maximum);
 			if (IsMaximumOpen && isMaxEdge)
 			{
 				return false;
@@ -296,7 +294,7 @@ namespace Fireworks.Model
 			Double max = Double.NaN;
 			Double deviationValue = deviationPercent / 100.0;
 
-			if (mean.IsLarger(0.0, Double.Epsilon) || mean.AlmostEqual(0.0, Double.Epsilon))
+            if (mean.IsGreaterOrEqual(0.0))
 			{
 				min = mean - deviationValue * mean;
 				max = mean + deviationValue * mean;
@@ -379,13 +377,13 @@ namespace Fireworks.Model
 			ValidateBoundaries(minRestriction, maxRestriction);
 
 			Double min = mean - deviationValue;
-			if (min.IsSmaller(minRestriction, Double.Epsilon))
+            if (min.IsLess(minRestriction))
 			{
 				min = minRestriction;
 			}
 
 			Double max = mean + deviationValue;
-			if (max.IsLarger(maxRestriction, Double.Epsilon))
+            if (max.IsGreater(maxRestriction))
 			{
 				max = maxRestriction;
 			}
@@ -466,7 +464,7 @@ namespace Fireworks.Model
 			Double max = Double.NaN;
 			Double deviationValue = deviationPercent / 100.0;
 
-			if (mean.IsLarger(0.0, Double.Epsilon) || mean.AlmostEqual(0.0, Double.Epsilon))
+            if (mean.IsGreaterOrEqual(0.0))
 			{
 				min = mean - deviationValue * mean;
 				max = mean + deviationValue * mean;
@@ -477,12 +475,12 @@ namespace Fireworks.Model
 				max = mean - deviationValue * mean;
 			}
 
-			if (min.IsSmaller(minRestriction, Double.Epsilon))
+			if (min.IsLess(minRestriction))
 			{
 				min = minRestriction;
 			}
 
-			if (max.IsLarger(maxRestriction, Double.Epsilon))
+            if (max.IsGreater(maxRestriction))
 			{
 				max = maxRestriction;
 			}
@@ -537,7 +535,7 @@ namespace Fireworks.Model
 				throw new ArgumentOutOfRangeException("deviationValue");
 			}
 
-			if (deviationValue.IsSmaller(0.0, Double.Epsilon))
+            if (deviationValue.IsLess(0.0))
 			{
 				throw new ArgumentOutOfRangeException("deviationValue");
 			}
@@ -581,7 +579,7 @@ namespace Fireworks.Model
 				throw new ArgumentOutOfRangeException("maximum");
 			}
 
-			if (minimum.IsLarger(maximum, Double.Epsilon))
+            if (minimum.IsGreater(maximum))
 			{
 				throw new ArgumentOutOfRangeException("minimum");
 			}
@@ -654,8 +652,8 @@ namespace Fireworks.Model
 		/// value; otherwise, False</returns>
 		public static Boolean operator ==(Range range1, Range range2)
 		{
-			return (range1.Minimum.AlmostEqual(range2.Minimum, Double.Epsilon)) &&
-				   (range1.Maximum.AlmostEqual(range2.Maximum, Double.Epsilon)) &&
+            return (range1.Minimum.IsEqual(range2.Minimum)) &&
+                   (range1.Maximum.IsEqual(range2.Maximum)) &&
 				   (range1.IsMinimumOpen == range2.IsMinimumOpen) &&
 				   (range1.IsMaximumOpen == range2.IsMaximumOpen);
 		}
