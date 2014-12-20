@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Explode\ExplosionSparkGenerator.cs" />
     <Compile Include="Explode\ISparkGenerator.cs" />
+    <Compile Include="Extensions\DoubleExtensions.cs" />
     <Compile Include="Model\Explosion.cs" />
     <Compile Include="Model\Firework.cs" />
     <Compile Include="Model\FireworkType.cs" />
