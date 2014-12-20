@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Distributions\IContinuousDistribution.cs" />
     <Compile Include="Explode\ExplosionSparkGenerator.cs" />
     <Compile Include="Explode\ISparkGenerator.cs" />
     <Compile Include="Explode\SparkGenerator.cs" />
