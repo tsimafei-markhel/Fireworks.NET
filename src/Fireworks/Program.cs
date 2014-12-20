@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Fireworks.Model;
-using Fireworks.Randomization;
 using Fireworks.Extensions;
-using MathNet.Numerics.Distributions;
 
 namespace Fireworks
 {
