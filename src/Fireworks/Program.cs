@@ -61,29 +61,5 @@ namespace Fireworks
         {
             return 0.0;
         }
-
-		// TODO: Add GaussianSparkGenerator - as conventional Gaussian spark generator (impl. ISparkGenerator)
-		// TODO: ExplosionSparkGenerator: IRandomizer and collection of Parameters - thru ctor
-		// Firework newSpark = CreateSpark(Explosion explosion, Firework parentFirework);
-		public static Firework GenerateGaussianSpark(Explosion explosion, IEnumerable<Dimension> dimensions, IRandom randomizer)
-		{
-			// TODO: Think over explosion.ParentFirework.BirthStepNumber + 1. Is that correct?
-			Firework spark = new Firework(FireworkType.SpecificSpark, explosion.ParentFirework.BirthStepNumber + 1, explosion.ParentFirework.Coordinates);
-
-			double offsetDisplacement = Normal.Sample(1.0, 1.0); // Coefficient of Gaussian explosion
-			foreach (Dimension dimension in dimensions)
-			{
-				if ((int)RoundAwayFromZero(randomizer.GetNext(0.0, 1.0)) == 1)
-				{
-					spark.Coordinates[dimension] *= offsetDisplacement;
-					if (!dimension.IsValueInBounds(spark.Coordinates[dimension]))
-					{
-						spark.Coordinates[dimension] = dimension.VariationRange.Minimum + Math.Abs(spark.Coordinates[dimension]) % dimension.VariationRange.Length;
-					}
-				}
-			}
-
-			return spark;
-		}
     }
 }
