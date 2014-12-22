@@ -17,10 +17,10 @@ namespace Fireworks
 	/// </summary>
     public class Fireworks
     {
-        public static double CalcAmplitude(int fireworkNumber, double explosionAmplitudeModifier, IList<double> fireworkQualities)
+        public static double CalcAmplitude(int fireworkNumber, double maximumExplosionAmplitude, IList<double> fireworkQualities)
         {
             double minFireworkQuality = fireworkQualities.Min();
-            return explosionAmplitudeModifier * (fireworkQualities[fireworkNumber] - minFireworkQuality + double.Epsilon) / (fireworkQualities.Sum(fq => fq - minFireworkQuality) + double.Epsilon);
+            return maximumExplosionAmplitude * (fireworkQualities[fireworkNumber] - minFireworkQuality + double.Epsilon) / (fireworkQualities.Sum(fq => fq - minFireworkQuality) + double.Epsilon);
         }
 
 		public static double CalcExplosionSparksNumberExact(int fireworkNumber, double explosionSparksNumberModifier, IList<double> fireworkQualities)
