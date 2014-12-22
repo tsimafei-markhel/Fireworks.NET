@@ -11,6 +11,8 @@ namespace Fireworks.Model
 
 		public Int32 BirthStepNumber { get; private set; }
 
+		public Double Quality { get; set; }
+
 		public IDictionary<Dimension, Double> Coordinates { get; private set; }
 
 		public Firework(FireworkType type, Int32 birthStepNumber)
@@ -33,6 +35,7 @@ namespace Fireworks.Model
 			Id = Guid.NewGuid().ToString();
 			Type = type;
 			BirthStepNumber = birthStepNumber;
+			Quality = Double.NaN;
 			Coordinates = new Dictionary<Dimension, Double>(coordinates);
 		}
 	}

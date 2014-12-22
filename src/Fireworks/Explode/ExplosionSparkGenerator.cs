@@ -50,6 +50,6 @@ namespace Fireworks.Explode
 			}
 
 			return spark;
-		}		
+		}
 	}
 }
