@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fireworks.Extensions;
+using Fireworks.Model;
 
 namespace Fireworks
 {
@@ -19,13 +20,13 @@ namespace Fireworks
     {
         public static double CalcAmplitude(int fireworkNumber, double maximumExplosionAmplitude, IList<double> fireworkQualities)
         {
-            double minFireworkQuality = fireworkQualities.Min();
+			double minFireworkQuality = fireworkQualities.Aggregate((agg, next) => next.IsLess(agg) ? next : agg); // Min() won't use my Double extensions
             return maximumExplosionAmplitude * (fireworkQualities[fireworkNumber] - minFireworkQuality + double.Epsilon) / (fireworkQualities.Sum(fq => fq - minFireworkQuality) + double.Epsilon);
         }
 
 		public static double CalcExplosionSparksNumberExact(int fireworkNumber, double explosionSparksNumberModifier, IList<double> fireworkQualities)
 		{
-			double maxFireworkQuality = fireworkQualities.Max();
+			double maxFireworkQuality = fireworkQualities.Aggregate((agg, next) => next.IsGreater(agg) ? next : agg); // Max() won't use my Double extensions
 			return explosionSparksNumberModifier * (maxFireworkQuality - fireworkQualities[fireworkNumber] + double.Epsilon) / (fireworkQualities.Sum(fq => maxFireworkQuality - fq) + double.Epsilon);
 		}
 
@@ -58,5 +59,43 @@ namespace Fireworks
         {
             return 0.0;
         }
+
+		// allCurrentFireworks include:
+		// - fireworks existed in the beginning of the current step;
+		// - explosion sparks generated on this step;
+		// - specific sparks generated on this step.
+		public static IEnumerable<Firework> SelectLocations(IEnumerable<Firework> allCurrentFireworks, int desiredLocationsNumber)
+		{
+			List<Firework> selectedLocations = new List<Firework>(desiredLocationsNumber);
+
+			// 1. Find a firework with best quality - it will be kept anyways
+			selectedLocations.Add(GetBestFirework(allCurrentFireworks));
+
+			// 2. Calculate distances between all fireworks
+			IDictionary<Firework, Double> distances = CalculateDistances(allCurrentFireworks);
+
+			// 3. Calculate probabilities for each firework
+			IDictionary<Firework, Double> probabilities = CalculateProbabilities(distances);
+
+			// TODO: 4. Select desiredLocationsNumber - 1 of fireworks based on the probabilities
+
+			return selectedLocations;
+		}
+
+		private static IDictionary<Firework, double> CalculateProbabilities(IDictionary<Firework, double> distances)
+		{
+			throw new NotImplementedException();
+		}
+
+		private static IDictionary<Firework, double> CalculateDistances(IEnumerable<Firework> allCurrentFireworks)
+		{
+			throw new NotImplementedException();
+		}
+
+		private static Firework GetBestFirework(IEnumerable<Firework> fireworks)
+		{
+			// TODO: Looking for MAX here (could be MIN)
+			return fireworks.Aggregate((agg, next) => next.Quality.IsGreater(agg.Quality) ? next : agg);
+		}
     }
 }
