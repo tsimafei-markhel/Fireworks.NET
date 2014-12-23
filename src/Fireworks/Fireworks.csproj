@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Distributions\IContinuousDistribution.cs" />
     <Compile Include="Distributions\NormalDistribution.cs" />
+    <Compile Include="DoubleExtensionComparer.cs" />
     <Compile Include="Explode\ExplosionSparkGenerator.cs" />
     <Compile Include="Explode\GaussianSparkGenerator.cs">
       <SubType>Code</SubType>
