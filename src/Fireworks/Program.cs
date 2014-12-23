@@ -69,21 +69,28 @@ namespace Fireworks
 			List<Firework> selectedLocations = new List<Firework>(desiredLocationsNumber);
 
 			// 1. Find a firework with best quality - it will be kept anyways
-			selectedLocations.Add(GetBestFirework(allCurrentFireworks));
+			Firework bestFirework = GetBestFirework(allCurrentFireworks);
+			selectedLocations.Add(bestFirework);
 
 			// 2. Calculate distances between all fireworks
 			IDictionary<Firework, Double> distances = CalculateDistances(allCurrentFireworks);
 
 			// 3. Calculate probabilities for each firework
-			IDictionary<Firework, Double> probabilities = CalculateProbabilities(distances);
+			IDictionary<Firework, Double> probabilities = CalculateSortedProbabilities(distances);
 
-			// TODO: 4. Select desiredLocationsNumber - 1 of fireworks based on the probabilities
+			// 4. Select desiredLocationsNumber - 1 of fireworks based on the probabilities
+			IEnumerable<Firework> otherSelectedLocations = probabilities.Where(p => p.Key != bestFirework)
+																		.Take(desiredLocationsNumber - 1)
+																		.Select(p => p.Key);
+			selectedLocations.AddRange(otherSelectedLocations);
 
 			return selectedLocations;
 		}
 
-		private static IDictionary<Firework, double> CalculateProbabilities(IDictionary<Firework, double> distances)
+		private static IDictionary<Firework, double> CalculateSortedProbabilities(IDictionary<Firework, double> distances)
 		{
+			// TODO: Probably I should separate calculation from sorting...
+			// TODO: Use SortedDictionary<Firework, double> here to get it sorted
 			throw new NotImplementedException();
 		}
 
