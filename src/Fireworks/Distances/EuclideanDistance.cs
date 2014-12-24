@@ -20,13 +20,18 @@ namespace Fireworks.Distances
 			this.dimensions = dimensions;
 		}
 
-		public double Calculate(Double[] first, Double[] second)
+		public Double Calculate(Double[] first, Double[] second)
 		{
 			return Distance.Euclidean(first, second);
 		}
 
-		public double Calculate(Firework first, Firework second)
+		public Double Calculate(Firework first, Firework second)
 		{
+			if (first == second)
+			{
+				return 0.0;
+			}
+
 			// TODO: Move this method to base abstract class
 			double[] firstCoords = new double[dimensions.Count()];
 			double[] secondCoords = new double[dimensions.Count()];
