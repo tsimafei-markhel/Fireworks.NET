@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Fireworks.Distances;
 using Fireworks.Extensions;
 using Fireworks.Model;
 
@@ -64,7 +65,7 @@ namespace Fireworks
 		// - fireworks existed in the beginning of the current step;
 		// - explosion sparks generated on this step;
 		// - specific sparks generated on this step.
-		public static IEnumerable<Firework> SelectLocations(IEnumerable<Firework> allCurrentFireworks, int desiredLocationsNumber)
+		public static IEnumerable<Firework> SelectLocations(IEnumerable<Firework> allCurrentFireworks, int desiredLocationsNumber, IEnumerable<Dimension> dimensions)
 		{
 			List<Firework> selectedLocations = new List<Firework>(desiredLocationsNumber);
 
@@ -73,7 +74,7 @@ namespace Fireworks
 			selectedLocations.Add(bestFirework);
 
 			// 2. Calculate distances between all fireworks
-			IDictionary<Firework, Double> distances = CalculateDistances(allCurrentFireworks);
+			IDictionary<Firework, Double> distances = CalculateDistances(allCurrentFireworks, dimensions);
 
 			// 3. Calculate probabilities for each firework
 			IDictionary<Firework, Double> probabilities = CalculateProbabilities(distances);
@@ -99,29 +100,20 @@ namespace Fireworks
 			return probabilities;
 		}
 
-		private static IDictionary<Firework, Double> CalculateDistances(IEnumerable<Firework> allCurrentFireworks)
+		private static IDictionary<Firework, Double> CalculateDistances(IEnumerable<Firework> allCurrentFireworks, IEnumerable<Dimension> dimensions)
 		{
+			IDistance distanceCalculator = new EuclideanDistance(dimensions);
 			Dictionary<Firework, double> distances = new Dictionary<Firework, double>(allCurrentFireworks.Count());
 			foreach (Firework firework in allCurrentFireworks)
 			{
 				distances.Add(firework, 0.0);
 				foreach (Firework otherFirework in allCurrentFireworks)
 				{
-					distances[firework] += CalculateDistance(firework, otherFirework);
+					distances[firework] += distanceCalculator.Calculate(firework, otherFirework);
 				}
 			}
 
 			return distances;
-		}
-
-		private static Double CalculateDistance(Firework firework, Firework otherFirework)
-		{
-			if (firework == otherFirework)
-			{
-				return 0.0; // TODO: This seems to be obvious...
-			}
-
-			throw new NotImplementedException();
 		}
 
 		private static Firework GetBestFirework(IEnumerable<Firework> fireworks)
