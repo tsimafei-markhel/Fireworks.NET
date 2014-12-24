@@ -1,6 +1,8 @@
 Fireworks
 =========
 
+[![Build status](https://ci.appveyor.com/api/projects/status/em6rtw0cj5lre0k4?svg=true)](https://ci.appveyor.com/project/tsimafei-markhel/fireworks)
+
 .NET implementation of Fireworks Algorithm (FWA).
 
 Based on the following papers that can be found by the [link](http://www.cil.pku.edu.cn/publications/).
