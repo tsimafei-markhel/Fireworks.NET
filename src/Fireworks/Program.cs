@@ -86,13 +86,41 @@ namespace Fireworks
 			return selectedLocations;
 		}
 
-		private static IDictionary<Firework, double> CalculateProbabilities(IDictionary<Firework, double> distances)
+		private static IDictionary<Firework, Double> CalculateProbabilities(IDictionary<Firework, Double> distances)
 		{
-			throw new NotImplementedException();
+			Dictionary<Firework, double> probabilities = new Dictionary<Firework, double>(distances.Count());
+			double distancesSum = distances.Values.Sum();
+			foreach (KeyValuePair<Firework, double> distance in distances)
+			{
+				double probability = distance.Value / distancesSum;
+				probabilities.Add(distance.Key, probability);
+			}
+
+			return probabilities;
 		}
 
-		private static IDictionary<Firework, double> CalculateDistances(IEnumerable<Firework> allCurrentFireworks)
+		private static IDictionary<Firework, Double> CalculateDistances(IEnumerable<Firework> allCurrentFireworks)
 		{
+			Dictionary<Firework, double> distances = new Dictionary<Firework, double>(allCurrentFireworks.Count());
+			foreach (Firework firework in allCurrentFireworks)
+			{
+				distances.Add(firework, 0.0);
+				foreach (Firework otherFirework in allCurrentFireworks)
+				{
+					distances[firework] += CalculateDistance(firework, otherFirework);
+				}
+			}
+
+			return distances;
+		}
+
+		private static Double CalculateDistance(Firework firework, Firework otherFirework)
+		{
+			if (firework == otherFirework)
+			{
+				return 0.0; // TODO: This seems to be obvious...
+			}
+
 			throw new NotImplementedException();
 		}
 
