@@ -50,7 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Distance\IDistance.cs" />
+    <Compile Include="Distances\IDistance.cs" />
     <Compile Include="Distributions\IContinuousDistribution.cs" />
     <Compile Include="Distributions\NormalDistribution.cs" />
     <Compile Include="DoubleExtensionComparer.cs" />

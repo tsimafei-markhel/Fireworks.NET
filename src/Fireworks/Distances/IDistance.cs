@@ -1,7 +1,7 @@
 ﻿using System;
 using Fireworks.Model;
 
-namespace Fireworks.Distance
+namespace Fireworks.Distances
 {
 	public interface IDistance
 	{
