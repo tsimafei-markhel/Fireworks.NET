@@ -12,6 +12,10 @@ namespace Fireworks.Explode
         private readonly ExploderSettings settings;
         private readonly Double minFireworkQuality;
         private readonly Double maxFireworkQuality;
+        private readonly Double minAllowedExplosionSparksNumberExact;
+        private readonly Double maxAllowedExplosionSparksNumberExact;
+        private readonly Int32 minAllowedExplosionSparksNumber;
+        private readonly Int32 maxAllowedExplosionSparksNumber;
 
         public Exploder(IEnumerable<Double> fireworkQualities, ExploderSettings settings)
         {
@@ -31,6 +35,10 @@ namespace Fireworks.Explode
             // Using Aggregate() here because Min() and Max() won't use my Double extensions
             this.minFireworkQuality = fireworkQualities.Aggregate((agg, next) => next.IsLess(agg) ? next : agg);
             this.maxFireworkQuality = fireworkQualities.Aggregate((agg, next) => next.IsGreater(agg) ? next : agg);
+            this.minAllowedExplosionSparksNumberExact = settings.ExplosionSparksNumberLowerBound * settings.ExplosionSparksNumberModifier;
+            this.maxAllowedExplosionSparksNumberExact = settings.ExplosionSparksNumberUpperBound * settings.ExplosionSparksNumberModifier;
+            this.minAllowedExplosionSparksNumber = (int)Math.Round(minAllowedExplosionSparksNumberExact, MidpointRounding.AwayFromZero);
+            this.maxAllowedExplosionSparksNumber = (int)Math.Round(maxAllowedExplosionSparksNumberExact, MidpointRounding.AwayFromZero);
         }
 
         public virtual Explosion Explode(Firework epicenter)
@@ -59,13 +67,13 @@ namespace Fireworks.Explode
         {
             double explosionSparksNumberExact = CalculateExplosionSparksNumberExact(epicenter.Quality);
 
-            if (explosionSparksNumberExact.IsLess(settings.ExplosionSparksNumberLowerBound * settings.ExplosionSparksNumberModifier))
+            if (explosionSparksNumberExact.IsLess(minAllowedExplosionSparksNumberExact))
             {
-                return (int)Math.Round(settings.ExplosionSparksNumberLowerBound * settings.ExplosionSparksNumberModifier, MidpointRounding.AwayFromZero);
+                return minAllowedExplosionSparksNumber;
             }
-            else if (explosionSparksNumberExact.IsGreater(settings.ExplosionSparksNumberUpperBound * settings.ExplosionSparksNumberModifier))
+            else if (explosionSparksNumberExact.IsGreater(maxAllowedExplosionSparksNumberExact))
             {
-                return (int)Math.Round(settings.ExplosionSparksNumberUpperBound * settings.ExplosionSparksNumberModifier, MidpointRounding.AwayFromZero);
+                return maxAllowedExplosionSparksNumber;
             }
             else
             {
