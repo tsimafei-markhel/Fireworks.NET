@@ -19,21 +19,21 @@ namespace Fireworks
 	/// </summary>
     public class Fireworks
     {
-        public static double CalcAmplitude(int fireworkNumber, double maximumExplosionAmplitude, IList<double> fireworkQualities)
+        public static Double CalcAmplitude(Double explodedFireworkQuality, IEnumerable<Double> fireworkQualities, Double maximumExplosionAmplitude)
         {
 			double minFireworkQuality = fireworkQualities.Aggregate((agg, next) => next.IsLess(agg) ? next : agg); // Min() won't use my Double extensions
-            return maximumExplosionAmplitude * (fireworkQualities[fireworkNumber] - minFireworkQuality + double.Epsilon) / (fireworkQualities.Sum(fq => fq - minFireworkQuality) + double.Epsilon);
+            return maximumExplosionAmplitude * (explodedFireworkQuality - minFireworkQuality + double.Epsilon) / (fireworkQualities.Sum(fq => fq - minFireworkQuality) + double.Epsilon);
         }
 
-		public static double CalcExplosionSparksNumberExact(int fireworkNumber, double explosionSparksNumberModifier, IList<double> fireworkQualities)
+        public static Double CalcExplosionSparksNumberExact(Double explodedFireworkQuality, IEnumerable<Double> fireworkQualities, Double explosionSparksNumberModifier)
 		{
 			double maxFireworkQuality = fireworkQualities.Aggregate((agg, next) => next.IsGreater(agg) ? next : agg); // Max() won't use my Double extensions
-			return explosionSparksNumberModifier * (maxFireworkQuality - fireworkQualities[fireworkNumber] + double.Epsilon) / (fireworkQualities.Sum(fq => maxFireworkQuality - fq) + double.Epsilon);
+            return explosionSparksNumberModifier * (maxFireworkQuality - explodedFireworkQuality + double.Epsilon) / (fireworkQualities.Sum(fq => maxFireworkQuality - fq) + double.Epsilon);
 		}
 
-		public static int CalcExplosionSparksNumber(int fireworkNumber, double explosionSparksNumberModifier, IList<double> fireworkQualities, double explosionSparksConstA, double explosionSparksConstB)
+        public static Int32 CalcExplosionSparksNumber(Double explodedFireworkQuality, Double explosionSparksNumberModifier, IEnumerable<Double> fireworkQualities, Double explosionSparksConstA, Double explosionSparksConstB)
 		{
-			double explosionSparksNumberExact = CalcExplosionSparksNumberExact(fireworkNumber, explosionSparksNumberModifier, fireworkQualities);
+            double explosionSparksNumberExact = CalcExplosionSparksNumberExact(explodedFireworkQuality, fireworkQualities, explosionSparksNumberModifier);
 			
 			// TODO: per 2010 paper: A < B < 1, A and B are user-defined constants
 			if (explosionSparksNumberExact.IsLess(explosionSparksConstA * explosionSparksNumberModifier))
