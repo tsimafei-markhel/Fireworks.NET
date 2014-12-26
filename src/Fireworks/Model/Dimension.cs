@@ -20,14 +20,14 @@ namespace Fireworks.Model
 		/// </summary>
 		/// <param name="id">Parameter identifier</param>
 		/// <param name="variationRange"><see cref="Range"/> instance that determines minimal and
-		/// maximal possible values for this parameter</param>
+		/// maximal possible values for this dimension</param>
 		public Dimension(Range variationRange)
 		{
 			VariationRange = variationRange;
 		}
 
 		/// <summary>
-		/// Checks if a <paramref name="valueToCheck"/> is valid parameter value
+		/// Checks if a <paramref name="valueToCheck"/> is valid dimension coordinate
 		/// </summary>
 		/// <param name="valueToCheck">Value to be checked</param>
 		/// <returns>True if <paramref name="valueToCheck"/> can be used as a value
