@@ -72,6 +72,7 @@
     <Compile Include="Model\Explosion.cs" />
     <Compile Include="Model\Firework.cs" />
     <Compile Include="Model\FireworkType.cs" />
+    <Compile Include="Problems\Problem.cs" />
     <Compile Include="Randomization\DefaultRandom.cs" />
     <Compile Include="Randomization\IRandom.cs" />
     <Compile Include="Model\Dimension.cs" />
