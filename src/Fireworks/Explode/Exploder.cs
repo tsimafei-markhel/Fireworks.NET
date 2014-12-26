@@ -35,6 +35,8 @@ namespace Fireworks.Explode
             // Using Aggregate() here because Min() and Max() won't use my Double extensions
             this.minFireworkQuality = fireworkQualities.Aggregate((agg, next) => next.IsLess(agg) ? next : agg);
             this.maxFireworkQuality = fireworkQualities.Aggregate((agg, next) => next.IsGreater(agg) ? next : agg);
+
+            // TODO: Consider moving these to ExploderSettings class, because these are run-wise, not step-wise (as Exploder instance is)
             this.minAllowedExplosionSparksNumberExact = settings.ExplosionSparksNumberLowerBound * settings.ExplosionSparksNumberModifier;
             this.maxAllowedExplosionSparksNumberExact = settings.ExplosionSparksNumberUpperBound * settings.ExplosionSparksNumberModifier;
             this.minAllowedExplosionSparksNumber = (int)Math.Round(minAllowedExplosionSparksNumberExact, MidpointRounding.AwayFromZero);
