@@ -19,42 +19,6 @@ namespace Fireworks
 	/// </summary>
     public class Fireworks
     {
-        public static Double CalcAmplitude(Double explodedFireworkQuality, IEnumerable<Double> fireworkQualities, Double maximumExplosionAmplitude)
-        {
-			double minFireworkQuality = fireworkQualities.Aggregate((agg, next) => next.IsLess(agg) ? next : agg); // Min() won't use my Double extensions
-            return maximumExplosionAmplitude * (explodedFireworkQuality - minFireworkQuality + double.Epsilon) / (fireworkQualities.Sum(fq => fq - minFireworkQuality) + double.Epsilon);
-        }
-
-        public static Double CalcExplosionSparksNumberExact(Double explodedFireworkQuality, IEnumerable<Double> fireworkQualities, Double explosionSparksNumberModifier)
-		{
-			double maxFireworkQuality = fireworkQualities.Aggregate((agg, next) => next.IsGreater(agg) ? next : agg); // Max() won't use my Double extensions
-            return explosionSparksNumberModifier * (maxFireworkQuality - explodedFireworkQuality + double.Epsilon) / (fireworkQualities.Sum(fq => maxFireworkQuality - fq) + double.Epsilon);
-		}
-
-        public static Int32 CalcExplosionSparksNumber(Double explodedFireworkQuality, Double explosionSparksNumberModifier, IEnumerable<Double> fireworkQualities, Double explosionSparksConstA, Double explosionSparksConstB)
-		{
-            double explosionSparksNumberExact = CalcExplosionSparksNumberExact(explodedFireworkQuality, fireworkQualities, explosionSparksNumberModifier);
-			
-			// TODO: per 2010 paper: A < B < 1, A and B are user-defined constants
-			if (explosionSparksNumberExact.IsLess(explosionSparksConstA * explosionSparksNumberModifier))
-			{
-				return (int)RoundAwayFromZero(explosionSparksConstA * explosionSparksNumberModifier);
-			}
-			else if (explosionSparksNumberExact.IsGreater(explosionSparksConstB * explosionSparksNumberModifier))
-			{
-				return (int)RoundAwayFromZero(explosionSparksConstB * explosionSparksNumberModifier);
-			}
-			
-			// else:
-			return (int)RoundAwayFromZero(explosionSparksNumberExact);
-		}
-
-		// Helper
-		public static double RoundAwayFromZero(double value)
-		{
-			return Math.Round(value, MidpointRounding.AwayFromZero);
-		}
-
         // That's a quality (fitness) function. TODO: delegate?
         private static double CalcQuality(double[] firework)
         {
