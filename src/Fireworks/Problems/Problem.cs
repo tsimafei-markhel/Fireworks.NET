@@ -34,24 +34,6 @@ namespace Fireworks.Problems
 
         public event EventHandler<QualityCalculatedEventArgs> QualityCalculated;
 
-        protected virtual void OnQualityCalculating(QualityCalculatingEventArgs eventArgs)
-        {
-            EventHandler<QualityCalculatingEventArgs> handler = QualityCalculating;
-            if (handler != null)
-            {
-                handler(this, eventArgs);
-            }
-        }
-
-        protected virtual void OnQualityCalculated(QualityCalculatedEventArgs eventArgs)
-        {
-            EventHandler<QualityCalculatedEventArgs> handler = QualityCalculated;
-            if (handler != null)
-            {
-                handler(this, eventArgs);
-            }
-        }
-
         public IEnumerable<Dimension> Dimensions { get; protected set; }
 
         public Problem(IEnumerable<Dimension> dimensions, Func<IDictionary<Dimension, Double>, Double> targetFunction)
@@ -82,6 +64,24 @@ namespace Fireworks.Problems
             double result = targetFunction(coordinateValues);
             OnQualityCalculated(new QualityCalculatedEventArgs(coordinateValues, result));
             return result;
+        }
+
+        protected virtual void OnQualityCalculating(QualityCalculatingEventArgs eventArgs)
+        {
+            EventHandler<QualityCalculatingEventArgs> handler = QualityCalculating;
+            if (handler != null)
+            {
+                handler(this, eventArgs);
+            }
+        }
+
+        protected virtual void OnQualityCalculated(QualityCalculatedEventArgs eventArgs)
+        {
+            EventHandler<QualityCalculatedEventArgs> handler = QualityCalculated;
+            if (handler != null)
+            {
+                handler(this, eventArgs);
+            }
         }
     }
 }
