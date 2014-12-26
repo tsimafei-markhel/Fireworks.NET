@@ -62,6 +62,7 @@
     <Compile Include="Explode\GaussianSparkGenerator.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Explode\IExploder.cs" />
     <Compile Include="Explode\InitialSparkGenerator.cs" />
     <Compile Include="Explode\ISparkGenerator.cs" />
     <Compile Include="Explode\SparkGenerator.cs" />
