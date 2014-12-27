@@ -9,6 +9,18 @@ namespace Fireworks
 {
     class Program
     {
+        private readonly AlgorithmSetup Setup2010Paper = new AlgorithmSetup()
+        {
+            LocationsNumber = 5,
+            ExplosionSparksNumberModifier = 50,
+            ExplosionSparksNumberLowerBound = 0.04,
+            ExplosionSparksNumberUpperBound = 0.8,
+            ExplosionSparksMaximumAmplitude = 40,
+            SpecificSparksNumber = 5,
+            TerminationNumberOfSteps = 100, // Not in paper
+            TerminationDesiredAccuracy = 0.01 // Not in paper
+        };
+
         static void Main(string[] args)
         {
         }
