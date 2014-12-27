@@ -53,6 +53,7 @@ namespace Fireworks.Explode
             double amplitude = CalculateAmplitude(epicenter);
             IDictionary<FireworkType, int> sparkCounts = new Dictionary<FireworkType, int>()
             {
+                // TODO: Need further decomposition (e.g. ExplosionSparksNumberCalculator)?..
                 { FireworkType.ExplosionSpark, CalculateExplosionSparksNumber(epicenter) },
                 { FireworkType.SpecificSpark, CalculateSpecificSparksNumber(epicenter) }
             };
