@@ -8,6 +8,14 @@ namespace FireworksNet
     /// <remarks>Uses notation described in 2010 paper</remarks>
     public class AlgorithmSetup
     {
+        private Object fieldInitLock = new Object();
+
+        // TODO: I don't like Double.NaN and -1 here. Maybe nullable type?..
+        protected Double minAllowedExplosionSparksNumberExact = Double.NaN;
+        protected Double maxAllowedExplosionSparksNumberExact = Double.NaN;
+        protected Int32 minAllowedExplosionSparksNumber = -1;
+        protected Int32 maxAllowedExplosionSparksNumber = -1;
+
         /// <summary>
         /// n - Number of fireworks (initial or selected on each step)
         /// </summary>
@@ -51,5 +59,97 @@ namespace FireworksNet
         /// existing firework or spark)
         /// </summary>
         public Double TerminationDesiredAccuracy { get; set; }
+
+        /// <summary>
+        /// Minimum allowed explosion sparks number (not rounded)
+        /// </summary>
+        /// <remarks>Pre-calculated for this run</remarks>
+        public Double MinAllowedExplosionSparksNumberExact
+        {
+            get
+            {
+                if (Double.IsNaN(minAllowedExplosionSparksNumberExact))
+                {
+                    lock (fieldInitLock)
+                    {
+                        if (Double.IsNaN(minAllowedExplosionSparksNumberExact))
+                        {
+                            minAllowedExplosionSparksNumberExact = ExplosionSparksNumberLowerBound * ExplosionSparksNumberModifier;
+                        }
+                    }
+                }
+
+                return minAllowedExplosionSparksNumberExact;
+            }
+        }
+
+        /// <summary>
+        /// Maximum allowed explosion sparks number (not rounded)
+        /// </summary>
+        /// <remarks>Pre-calculated for this run</remarks>
+        public Double MaxAllowedExplosionSparksNumberExact
+        {
+            get
+            {
+                if (Double.IsNaN(maxAllowedExplosionSparksNumberExact))
+                {
+                    lock (fieldInitLock)
+                    {
+                        if (Double.IsNaN(maxAllowedExplosionSparksNumberExact))
+                        {
+                            maxAllowedExplosionSparksNumberExact = ExplosionSparksNumberUpperBound * ExplosionSparksNumberModifier;
+                        }
+                    }
+                }
+
+                return maxAllowedExplosionSparksNumberExact;
+            }
+        }
+
+        /// <summary>
+        /// Minimum allowed explosion sparks number (rounded)
+        /// </summary>
+        /// <remarks>Pre-calculated for this run</remarks>
+        public Int32 MinAllowedExplosionSparksNumber
+        {
+            get
+            {
+                if (minAllowedExplosionSparksNumber < 0)
+                {
+                    lock (fieldInitLock)
+                    {
+                        if (minAllowedExplosionSparksNumber < 0)
+                        {
+                            minAllowedExplosionSparksNumber = (int)Math.Round(MinAllowedExplosionSparksNumberExact, MidpointRounding.AwayFromZero);
+                        }
+                    }
+                }
+
+                return minAllowedExplosionSparksNumber;
+            }
+        }
+
+        /// <summary>
+        /// Maximum allowed explosion sparks number (rounded)
+        /// </summary>
+        /// <remarks>Pre-calculated for this run</remarks>
+        public Int32 MaxAllowedExplosionSparksNumber
+        {
+            get
+            {
+                if (maxAllowedExplosionSparksNumber < 0)
+                {
+                    lock (fieldInitLock)
+                    {
+                        if (maxAllowedExplosionSparksNumber < 0)
+                        {
+                            maxAllowedExplosionSparksNumber = (int)Math.Round(MaxAllowedExplosionSparksNumberExact, MidpointRounding.AwayFromZero);
+                        }
+                    }
+                }
+
+                return maxAllowedExplosionSparksNumber;
+            }
+        }
     }
 }
