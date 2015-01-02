@@ -33,11 +33,21 @@ namespace FireworksNet.Explode
             this.maxFireworkQuality = fireworkQualities.Aggregate((agg, next) => next.IsGreater(agg) ? next : agg);
         }
 
-        public virtual Explosion Explode(Firework epicenter)
+        public virtual Explosion Explode(Firework epicenter, Int32 currentStepNumber)
         {
             if (epicenter == null)
             {
                 throw new ArgumentNullException("epicenter");
+            }
+
+            if (currentStepNumber < 0)
+            {
+                throw new ArgumentOutOfRangeException("currentStepNumber");
+            }
+
+            if (currentStepNumber < epicenter.BirthStepNumber) // Not '<=' here because that would limit possible algorithm implementations
+            {
+                throw new ArgumentOutOfRangeException("currentStepNumber");
             }
 
             double amplitude = CalculateAmplitude(epicenter);
@@ -48,7 +58,7 @@ namespace FireworksNet.Explode
                 { FireworkType.SpecificSpark, CalculateSpecificSparksNumber(epicenter) }
             };
 
-            return new Explosion(epicenter, amplitude, sparkCounts);
+            return new Explosion(epicenter, currentStepNumber, amplitude, sparkCounts);
         }
 
         protected virtual Double CalculateAmplitude(Firework epicenter)
