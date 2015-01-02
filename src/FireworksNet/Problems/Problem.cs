@@ -56,25 +56,13 @@ namespace FireworksNet.Problems
             }
 
             this.Dimensions = dimensions;
-            if (initialDimensionRanges != null)
-            {
-                // TODO: Need validation to make sure dimensions and initialDimensionRanges contain the same Dimension instances
-                InitialDimensionRanges = initialDimensionRanges;
-            }
-            else
-            {
-                InitialDimensionRanges = new Dictionary<Dimension, Range>(dimensions.Count());
-                foreach (Dimension dimension in dimensions)
-                {
-                    InitialDimensionRanges.Add(dimension, dimension.VariationRange);
-                }
-            }
-
+            // TODO: Need validation to make sure dimensions and initialDimensionRanges contain the same Dimension instances
+            this.InitialDimensionRanges = initialDimensionRanges;
             this.targetFunction = targetFunction;
         }
 
-        public Problem(IEnumerable<Dimension> dimensions, Func<IDictionary<Dimension, Double>, Double> targetFunction) :
-            this(dimensions, null, targetFunction)
+        public Problem(IEnumerable<Dimension> dimensions, Func<IDictionary<Dimension, Double>, Double> targetFunction)
+            : this(dimensions, null, targetFunction)
         {
         }
 

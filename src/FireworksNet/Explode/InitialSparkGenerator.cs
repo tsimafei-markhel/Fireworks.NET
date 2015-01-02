@@ -12,6 +12,7 @@ namespace FireworksNet.Explode
 
 		public override FireworkType GeneratedSparkType { get { return FireworkType.Initial; } }
 
+        // TODO: Take initial dimension ranges into account
 		public InitialSparkGenerator(IEnumerable<Dimension> dimensions, IRandom randomizer)
 		{
 			if (dimensions == null)
