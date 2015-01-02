@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="FireworksNet Rule Set" Description=" " ToolsVersion="12.0">
+  <Include Path="minimumrecommendedrules.ruleset" Action="Default" />
+</RuleSet>
