@@ -17,7 +17,7 @@ namespace FireworksNet
             ExplosionSparksNumberUpperBound = 0.8,
             ExplosionSparksMaximumAmplitude = 40,
             SpecificSparksNumber = 5,
-            TerminationNumberOfSteps = 100, // Not in paper
+            // TerminationNumberOfSteps = 100, // Not in paper -> need to move to StepCountStopCondition
             TerminationDesiredAccuracy = 0.01 // Not in paper
         };
 

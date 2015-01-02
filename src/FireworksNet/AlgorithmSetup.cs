@@ -50,11 +50,6 @@ namespace FireworksNet
         public Int32 SpecificSparksNumber { get; set; }
 
         /// <summary>
-        /// Number of steps to do before exiting the algorithm
-        /// </summary>
-        public Int32 TerminationNumberOfSteps { get; set; }
-
-        /// <summary>
         /// Maximum allowed error (difference between real optimum and best
         /// existing firework or spark)
         /// </summary>
