@@ -41,8 +41,7 @@ namespace FireworksNet.Explode
 
         public override Firework CreateSpark(Explosion explosion)
         {
-            // TODO: Think over explosion.ParentFirework.BirthStepNumber + 1. Is that correct?
-            Firework spark = new Firework(FireworkType.SpecificSpark, explosion.ParentFirework.BirthStepNumber + 1, explosion.ParentFirework.Coordinates);
+            Firework spark = new Firework(FireworkType.SpecificSpark, explosion.StepNumber, explosion.ParentFirework.Coordinates);
 
             double offsetDisplacement = distribution.Sample(); // Coefficient of Gaussian explosion
             foreach (Dimension dimension in dimensions)

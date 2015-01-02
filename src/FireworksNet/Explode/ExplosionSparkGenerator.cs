@@ -33,8 +33,7 @@ namespace FireworksNet.Explode
 
 		public override Firework CreateSpark(Explosion explosion)
 		{
-			// TODO: Think over explosion.ParentFirework.BirthStepNumber + 1. Is that correct?
-			Firework spark = new Firework(GeneratedSparkType, explosion.ParentFirework.BirthStepNumber + 1, explosion.ParentFirework.Coordinates);
+			Firework spark = new Firework(GeneratedSparkType, explosion.StepNumber, explosion.ParentFirework.Coordinates);
 
 			double offsetDisplacement = explosion.Amplitude * randomizer.GetNext(-1.0, 1.0);
 			foreach (Dimension dimension in dimensions)
