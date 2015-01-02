@@ -8,8 +8,8 @@ namespace FireworksNet.Problems
     {
         public Double KnownSolution { get; private set; }
 
-        public TestProblem(IEnumerable<Dimension> dimensions, IDictionary<Dimension, Range> initialDimensionRanges, Func<IDictionary<Dimension, Double>, Double> targetFunction, Double knownSolution)
-            : base(dimensions, initialDimensionRanges, targetFunction)
+        public TestProblem(IEnumerable<Dimension> dimensions, IDictionary<Dimension, Range> initialDimensionRanges, Func<IDictionary<Dimension, Double>, Double> targetFunction, Double knownSolution, IStopCondition stopCondition)
+            : base(dimensions, initialDimensionRanges, targetFunction, stopCondition)
         {
             if (double.IsNaN(knownSolution) || double.IsInfinity(knownSolution))
             {
@@ -19,11 +19,9 @@ namespace FireworksNet.Problems
             this.KnownSolution = knownSolution;
         }
 
-        public TestProblem(IEnumerable<Dimension> dimensions, Func<IDictionary<Dimension, Double>, Double> targetFunction, Double knownSolution)
-            : this(dimensions, null, targetFunction, knownSolution)
+        public TestProblem(IEnumerable<Dimension> dimensions, Func<IDictionary<Dimension, Double>, Double> targetFunction, Double knownSolution, IStopCondition stopCondition)
+            : this(dimensions, null, targetFunction, knownSolution, stopCondition)
         {
         }
-
-        // TODO: Need to calculate distance between knownSolution and given solution somehow. Maybe not here...
     }
 }

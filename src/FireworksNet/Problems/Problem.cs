@@ -34,11 +34,13 @@ namespace FireworksNet.Problems
 
         public event EventHandler<QualityCalculatedEventArgs> QualityCalculated;
 
-        public IEnumerable<Dimension> Dimensions { get; protected set; }
+        public IEnumerable<Dimension> Dimensions { get; protected set; } // TODO: Really need 'protected set' here?
 
-        public IDictionary<Dimension, Range> InitialDimensionRanges { get; protected set; }
+        public IDictionary<Dimension, Range> InitialDimensionRanges { get; protected set; } // TODO: Really need 'protected set' here?
 
-        public Problem(IEnumerable<Dimension> dimensions, IDictionary<Dimension, Range> initialDimensionRanges, Func<IDictionary<Dimension, Double>, Double> targetFunction)
+        public IStopCondition StopCondition { get; protected set; } // TODO: Really need 'protected set' here?
+
+        public Problem(IEnumerable<Dimension> dimensions, IDictionary<Dimension, Range> initialDimensionRanges, Func<IDictionary<Dimension, Double>, Double> targetFunction, IStopCondition stopCondition)
         {
             if (dimensions == null)
             {
@@ -55,14 +57,20 @@ namespace FireworksNet.Problems
                 throw new ArgumentNullException("targetFunction");
             }
 
+            if (stopCondition == null)
+            {
+                throw new ArgumentNullException("stopCondition");
+            }
+
             this.Dimensions = dimensions;
             // TODO: Need validation to make sure dimensions and initialDimensionRanges contain the same Dimension instances
             this.InitialDimensionRanges = initialDimensionRanges;
             this.targetFunction = targetFunction;
+            this.StopCondition = stopCondition;
         }
 
-        public Problem(IEnumerable<Dimension> dimensions, Func<IDictionary<Dimension, Double>, Double> targetFunction)
-            : this(dimensions, null, targetFunction)
+        public Problem(IEnumerable<Dimension> dimensions, Func<IDictionary<Dimension, Double>, Double> targetFunction, IStopCondition stopCondition)
+            : this(dimensions, null, targetFunction, stopCondition)
         {
         }
 
