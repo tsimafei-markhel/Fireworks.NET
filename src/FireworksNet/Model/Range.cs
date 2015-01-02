@@ -4,6 +4,8 @@ using FireworksNet.Extensions;
 
 namespace FireworksNet.Model
 {
+    // TODO: Make it sealed class
+
 	/// <summary>
 	/// Represents an interval (range)
 	/// </summary>
