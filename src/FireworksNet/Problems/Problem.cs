@@ -36,7 +36,9 @@ namespace FireworksNet.Problems
 
         public IEnumerable<Dimension> Dimensions { get; protected set; }
 
-        public Problem(IEnumerable<Dimension> dimensions, Func<IDictionary<Dimension, Double>, Double> targetFunction)
+        public IDictionary<Dimension, Range> InitialDimensionRanges { get; protected set; }
+
+        public Problem(IEnumerable<Dimension> dimensions, IDictionary<Dimension, Range> initialDimensionRanges, Func<IDictionary<Dimension, Double>, Double> targetFunction)
         {
             if (dimensions == null)
             {
@@ -53,8 +55,27 @@ namespace FireworksNet.Problems
                 throw new ArgumentNullException("targetFunction");
             }
 
-            this.targetFunction = targetFunction;
             this.Dimensions = dimensions;
+            if (initialDimensionRanges != null)
+            {
+                // TODO: Need validation to make sure dimensions and initialDimensionRanges contain the same Dimension instances
+                InitialDimensionRanges = initialDimensionRanges;
+            }
+            else
+            {
+                InitialDimensionRanges = new Dictionary<Dimension, Range>(dimensions.Count());
+                foreach (Dimension dimension in dimensions)
+                {
+                    InitialDimensionRanges.Add(dimension, dimension.VariationRange);
+                }
+            }
+
+            this.targetFunction = targetFunction;
+        }
+
+        public Problem(IEnumerable<Dimension> dimensions, Func<IDictionary<Dimension, Double>, Double> targetFunction) :
+            this(dimensions, null, targetFunction)
+        {
         }
 
         public virtual Double CalculateQuality(IDictionary<Dimension, Double> coordinateValues)
