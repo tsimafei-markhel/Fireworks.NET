@@ -76,6 +76,7 @@
     <Compile Include="Model\Explosion.cs" />
     <Compile Include="Model\Firework.cs" />
     <Compile Include="Model\FireworkType.cs" />
+    <Compile Include="Problems\StopCondition.cs" />
     <Compile Include="Problems\IStopCondition.cs" />
     <Compile Include="Problems\StepCountStopCondition.cs" />
     <Compile Include="Problems\TestProblem.cs" />
