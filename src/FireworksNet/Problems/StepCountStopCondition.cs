@@ -5,7 +5,7 @@ using FireworksNet.Model;
 
 namespace FireworksNet.Problems
 {
-    public class StepCountStopCondition : StopCondition
+    public class StepCountStopCondition : IStopCondition
     {
         private readonly int maxStepCount;
 
@@ -19,7 +19,7 @@ namespace FireworksNet.Problems
             this.maxStepCount = maxStepCount;
         }
 
-        public override Boolean CheckCondition(IEnumerable<Firework> currentFireworks)
+        public Boolean ShouldStop(IEnumerable<Firework> currentFireworks)
         {
             if (currentFireworks == null)
             {

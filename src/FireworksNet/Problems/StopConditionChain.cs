@@ -5,7 +5,8 @@ using FireworksNet.Model;
 namespace FireworksNet.Problems
 {
     // Conditions can be either all AND or all OR, cannot mix them
-    public abstract class StopCondition : IStopCondition
+    // Works in short circuit manner
+    public sealed class StopConditionChain : IStopCondition
     {
         private enum AggregationOperator
         {
@@ -18,15 +19,46 @@ namespace FireworksNet.Problems
 
         private AggregationOperator aggregationMode;
 
-        protected StopCondition()
+        private StopConditionChain()
         {
             stopConditions = new List<IStopCondition>();
             aggregationMode = AggregationOperator.None;
         }
 
-        public abstract Boolean CheckCondition(IEnumerable<Firework> currentFireworks);
+        public static StopConditionChain From(IStopCondition firstStopCondition)
+        {
+            if (firstStopCondition == null)
+            {
+                throw new ArgumentNullException("firstStopCondition");
+            }
 
-        public virtual Boolean ShouldStop(IEnumerable<Firework> currentFireworks)
+            StopConditionChain chain = new StopConditionChain();
+            chain.stopConditions.Add(firstStopCondition);
+
+            return chain;
+        }
+
+        public StopConditionChain And(IStopCondition anotherStopCondition)
+        {
+            if (anotherStopCondition == null)
+            {
+                throw new ArgumentNullException("anotherStopCondition");
+            }
+
+            return AddStopCondition(anotherStopCondition, AggregationOperator.And);
+        }
+
+        public StopConditionChain Or(IStopCondition anotherStopCondition)
+        {
+            if (anotherStopCondition == null)
+            {
+                throw new ArgumentNullException("anotherStopCondition");
+            }
+
+            return AddStopCondition(anotherStopCondition, AggregationOperator.Or);
+        }
+
+        public Boolean ShouldStop(IEnumerable<Firework> currentFireworks)
         {
             switch (aggregationMode)
             {
@@ -39,7 +71,7 @@ namespace FireworksNet.Problems
                         }
                     }
                     
-                    break;
+                    return true;
 
                 case AggregationOperator.Or:
                     foreach (IStopCondition stopCondition in stopConditions)
@@ -50,33 +82,14 @@ namespace FireworksNet.Problems
                         }
                     }
 
-                    break;
-            }
+                    return false;
 
-            return CheckCondition(currentFireworks);
+                default:
+                    throw new InvalidOperationException();
+            }
         }
 
-        public virtual IStopCondition And(IStopCondition anotherStopCondition)
-        {
-            if (anotherStopCondition == null)
-            {
-                throw new ArgumentNullException("anotherStopCondition");
-            }
-
-            return AddStopCondition(anotherStopCondition, AggregationOperator.And);
-        }
-
-        public virtual IStopCondition Or(IStopCondition anotherStopCondition)
-        {
-            if (anotherStopCondition == null)
-            {
-                throw new ArgumentNullException("anotherStopCondition");
-            }
-
-            return AddStopCondition(anotherStopCondition, AggregationOperator.Or);
-        }
-
-        private IStopCondition AddStopCondition(IStopCondition anotherStopCondition, AggregationOperator mode)
+        private StopConditionChain AddStopCondition(IStopCondition anotherStopCondition, AggregationOperator mode)
         {
             if (mode == AggregationOperator.None)
             {
@@ -94,7 +107,7 @@ namespace FireworksNet.Problems
             }
 
             stopConditions.Add(anotherStopCondition);
-            return (IStopCondition)this;
+            return this;
         }
     }
 }
