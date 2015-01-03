@@ -32,7 +32,7 @@ namespace FireworksNet.Distances
 				return 0.0;
 			}
 
-			// TODO: Move this method to base abstract class
+			// TODO: Move this logic to base abstract class
 			double[] firstCoords = new double[dimensions.Count()];
 			double[] secondCoords = new double[dimensions.Count()];
 
@@ -46,5 +46,19 @@ namespace FireworksNet.Distances
 
 			return Calculate(firstCoords, secondCoords);
 		}
-	}
+
+        public Double Calculate(Firework first, Double[] second)
+        {
+            // TODO: Move this logic to base abstract class
+            double[] firstCoords = new double[dimensions.Count()];
+            int dimensionCounter = 0;
+            foreach (Dimension dimension in dimensions)
+            {
+                firstCoords[dimensionCounter] = first.Coordinates[dimension];
+                dimensionCounter++;
+            }
+
+            return Calculate(firstCoords, second);
+        }
+    }
 }

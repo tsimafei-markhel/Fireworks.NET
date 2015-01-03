@@ -7,5 +7,6 @@ namespace FireworksNet.Distances
 	{
 		Double Calculate(Double[] first, Double[] second);
 		Double Calculate(Firework first, Firework second);
+        Double Calculate(Firework first, Double[] second);
 	}
 }
