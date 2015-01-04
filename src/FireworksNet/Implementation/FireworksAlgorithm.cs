@@ -4,14 +4,14 @@ using FireworksNet.Distributions;
 using FireworksNet.Explode;
 using FireworksNet.Model;
 using FireworksNet.Problems;
-using FireworksNet.Randomization;
+using FireworksNet.Random;
 
 namespace FireworksNet.Implementation
 {
     // Per 2010 paper
     public sealed class FireworksAlgorithm : IFireworksAlgorithm
     {
-        private readonly IRandom randomizer;
+        private readonly System.Random randomizer;
         private readonly IContinuousDistribution distribution;
         private readonly ISparkGenerator initialSparkGenerator;
         private readonly ISparkGenerator explosionSparkGenerator;

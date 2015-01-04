@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using FireworksNet.Extensions;
 using FireworksNet.Model;
-using FireworksNet.Randomization;
 
 namespace FireworksNet.Explode
 {
@@ -11,11 +11,11 @@ namespace FireworksNet.Explode
 	public class ExplosionSparkGenerator : SparkGenerator<FireworkExplosion>
 	{
 		private readonly IEnumerable<Dimension> dimensions;
-		private readonly IRandom randomizer;
+		private readonly System.Random randomizer;
 
         public override FireworkType GeneratedSparkType { get { return FireworkType.ExplosionSpark; } }
 
-		public ExplosionSparkGenerator(IEnumerable<Dimension> dimensions, IRandom randomizer)
+        public ExplosionSparkGenerator(IEnumerable<Dimension> dimensions, System.Random randomizer)
 		{
 			if (dimensions == null)
 			{
@@ -35,10 +35,10 @@ namespace FireworksNet.Explode
 		{
 			Firework spark = new Firework(GeneratedSparkType, explosion.StepNumber, explosion.ParentFirework.Coordinates);
 
-			double offsetDisplacement = explosion.Amplitude * randomizer.GetNext(-1.0, 1.0);
+			double offsetDisplacement = explosion.Amplitude * randomizer.NextDouble(-1.0, 1.0);
 			foreach (Dimension dimension in dimensions)
 			{
-				if ((int)Math.Round(randomizer.GetNext(0.0, 1.0), MidpointRounding.AwayFromZero) == 1) // Coin flip
+                if ((int)Math.Round(randomizer.NextDouble(0.0, 1.0), MidpointRounding.AwayFromZero) == 1) // Coin flip
 				{
 					spark.Coordinates[dimension] += offsetDisplacement;
 					if (!dimension.IsValueInBounds(spark.Coordinates[dimension]))

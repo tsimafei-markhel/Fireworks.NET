@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\RandomExtensions.cs" />
     <Compile Include="Implementation\FireworksAlgorithmSettings.cs" />
     <Compile Include="Distances\EuclideanDistance.cs">
       <SubType>Code</SubType>
@@ -84,8 +85,7 @@
     <Compile Include="Problems\StepCountStopCondition.cs" />
     <Compile Include="Problems\TestProblem.cs" />
     <Compile Include="Problems\Problem.cs" />
-    <Compile Include="Randomization\DefaultRandom.cs" />
-    <Compile Include="Randomization\IRandom.cs" />
+    <Compile Include="Random\DefaultRandom.cs" />
     <Compile Include="Model\Dimension.cs" />
     <Compile Include="Model\Range.cs" />
     <Compile Include="Program.cs" />

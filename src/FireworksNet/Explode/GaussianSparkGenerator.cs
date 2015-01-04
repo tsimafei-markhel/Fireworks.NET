@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using FireworksNet.Distributions;
+using FireworksNet.Extensions;
 using FireworksNet.Model;
-using FireworksNet.Randomization;
 
 namespace FireworksNet.Explode
 {
@@ -13,11 +13,11 @@ namespace FireworksNet.Explode
     {
         private readonly IEnumerable<Dimension> dimensions;
         private readonly IContinuousDistribution distribution;
-        private readonly IRandom randomizer;
+        private readonly System.Random randomizer;
 
         public override FireworkType GeneratedSparkType { get { return FireworkType.SpecificSpark; } }
 
-        public GaussianSparkGenerator(IEnumerable<Dimension> dimensions, IContinuousDistribution distribution, IRandom randomizer)
+        public GaussianSparkGenerator(IEnumerable<Dimension> dimensions, IContinuousDistribution distribution, System.Random randomizer)
 		{
 			if (dimensions == null)
 			{
@@ -46,7 +46,7 @@ namespace FireworksNet.Explode
             double offsetDisplacement = distribution.Sample(); // Coefficient of Gaussian explosion
             foreach (Dimension dimension in dimensions)
             {
-                if ((int)Math.Round(randomizer.GetNext(0.0, 1.0), MidpointRounding.AwayFromZero) == 1) // Coin flip
+                if ((int)Math.Round(randomizer.NextDouble(0.0, 1.0), MidpointRounding.AwayFromZero) == 1) // Coin flip
                 {
                     spark.Coordinates[dimension] *= offsetDisplacement;
                     if (!dimension.IsValueInBounds(spark.Coordinates[dimension]))

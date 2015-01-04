@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FireworksNet.Extensions;
 using FireworksNet.Model;
-using FireworksNet.Randomization;
 
 namespace FireworksNet.Explode
 {
@@ -10,11 +10,11 @@ namespace FireworksNet.Explode
 	{
 		private readonly IEnumerable<Dimension> dimensions;
         private readonly IDictionary<Dimension, Range> initialDimensionRanges;
-		private readonly IRandom randomizer;
+		private readonly System.Random randomizer;
 
 		public override FireworkType GeneratedSparkType { get { return FireworkType.Initial; } }
 
-		public InitialSparkGenerator(IEnumerable<Dimension> dimensions, IDictionary<Dimension, Range> initialDimensionRanges, IRandom randomizer)
+        public InitialSparkGenerator(IEnumerable<Dimension> dimensions, IDictionary<Dimension, Range> initialDimensionRanges, System.Random randomizer)
 		{
 			if (dimensions == null)
 			{
@@ -31,7 +31,7 @@ namespace FireworksNet.Explode
 			this.randomizer = randomizer;
 		}
 
-        public InitialSparkGenerator(IEnumerable<Dimension> dimensions, IRandom randomizer)
+        public InitialSparkGenerator(IEnumerable<Dimension> dimensions, System.Random randomizer)
             : this(dimensions, null, randomizer)
         {
         }
@@ -42,7 +42,7 @@ namespace FireworksNet.Explode
 			foreach (Dimension dimension in dimensions)
 			{
                 Range dimensionRange = initialDimensionRanges[dimension];
-                spark.Coordinates[dimension] = dimensionRange.Minimum + randomizer.GetNext(0.0, 1.0) * dimensionRange.Length;
+                spark.Coordinates[dimension] = dimensionRange.Minimum + randomizer.NextDouble(0.0, 1.0) * dimensionRange.Length; // TODO: use extension method properly
 			}
 
 			return spark;
