@@ -5,13 +5,13 @@ namespace FireworksNet.Model
 {
 	public class Explosion
 	{
-		public Firework ParentFirework { get; private set; }
+		public Firework ParentFirework { get; protected set; }
 
-        public Int32 StepNumber { get; private set; }
+        public Int32 StepNumber { get; protected set; }
 
-		public Double Amplitude { get; private set; }
+        public Double Amplitude { get; protected set; }
 
-		public IDictionary<FireworkType, Int32> SparkCounts { get; private set; }
+        public IDictionary<FireworkType, Int32> SparkCounts { get; protected set; }
 
 		public Explosion(Firework parentFirework, Int32 stepNumber, Double amplitude, IDictionary<FireworkType, Int32> sparkCounts)
 		{
@@ -40,5 +40,13 @@ namespace FireworksNet.Model
 			Amplitude = amplitude;
 			SparkCounts = sparkCounts;
 		}
+
+        protected Explosion()
+        {
+            ParentFirework = null;
+            StepNumber = 0;
+            Amplitude = Double.NaN;
+            SparkCounts = new Dictionary<FireworkType, Int32>();
+        }
 	}
 }
