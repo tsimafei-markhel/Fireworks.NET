@@ -6,7 +6,9 @@ namespace FireworksNet.Implementation
 {
     public interface IFireworksAlgorithm
     {
-        Firework Solve(Problem problem, AlgorithmSetup setup);
-        IEnumerable<Firework> MakeStep(IEnumerable<Firework> currentFireworks, Problem problem, AlgorithmSetup setup);
+        Problem ProblemToSolve { get; }
+
+        Firework Solve();
+        IEnumerable<Firework> MakeStep(IEnumerable<Firework> currentFireworks);
     }
 }
