@@ -17,7 +17,8 @@ namespace FireworksNet
             ExplosionSparksNumberLowerBound = 0.04,
             ExplosionSparksNumberUpperBound = 0.8,
             ExplosionSparksMaximumAmplitude = 40,
-            SpecificSparksNumber = 5
+            SpecificSparksNumber = 5,
+            SpecificSparksPerExplosionNumber = 1
         };
 
         static void Main(string[] args)

@@ -86,7 +86,7 @@ namespace FireworksNet.Explode
 
         protected virtual Int32 CalculateSpecificSparksNumber(Firework epicenter)
         {
-            return settings.SpecificSparksNumber;
+            return settings.SpecificSparksPerExplosionNumber;
         }
 
         private Double CalculateExplosionSparksNumberExact(Double explodedFireworkQuality)

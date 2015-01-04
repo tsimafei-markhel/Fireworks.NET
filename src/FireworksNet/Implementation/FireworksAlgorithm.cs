@@ -39,7 +39,7 @@ namespace FireworksNet.Implementation
                 ExplosionSparksNumberLowerBound = settings.ExplosionSparksNumberLowerBound,
                 ExplosionSparksNumberUpperBound = settings.ExplosionSparksNumberUpperBound,
                 ExplosionSparksMaximumAmplitude = settings.ExplosionSparksMaximumAmplitude,
-                SpecificSparksNumber = settings.SpecificSparksNumber,
+                SpecificSparksPerExplosionNumber = settings.SpecificSparksPerExplosionNumber,
                 MinAllowedExplosionSparksNumberExact = settings.MinAllowedExplosionSparksNumberExact,
                 MaxAllowedExplosionSparksNumberExact = settings.MaxAllowedExplosionSparksNumberExact,
                 MinAllowedExplosionSparksNumber = settings.MinAllowedExplosionSparksNumber,
