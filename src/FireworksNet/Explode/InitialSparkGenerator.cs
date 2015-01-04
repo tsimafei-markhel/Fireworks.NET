@@ -42,7 +42,7 @@ namespace FireworksNet.Explode
 			foreach (Dimension dimension in dimensions)
 			{
                 Range dimensionRange = initialDimensionRanges[dimension];
-                spark.Coordinates[dimension] = dimensionRange.Minimum + randomizer.NextDouble(0.0, 1.0) * dimensionRange.Length; // TODO: use extension method properly
+                spark.Coordinates[dimension] = randomizer.NextDouble(dimensionRange);
 			}
 
 			return spark;
