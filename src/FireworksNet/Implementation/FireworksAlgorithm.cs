@@ -30,7 +30,7 @@ namespace FireworksNet.Implementation
 
             this.randomizer = new DefaultRandom();
             this.distribution = new NormalDistribution(1.0, 1.0);
-            this.initialSparkGenerator = new InitialSparkGenerator(problem.Dimensions, this.randomizer);
+            this.initialSparkGenerator = new InitialSparkGenerator(problem.Dimensions, problem.InitialDimensionRanges, this.randomizer);
             this.explosionSparkGenerator = new ExplosionSparkGenerator(problem.Dimensions, this.randomizer);
             this.specificSparkGenerator = new GaussianSparkGenerator(problem.Dimensions, this.distribution, this.randomizer);
             this.exploderSettings = new ExploderSettings()
