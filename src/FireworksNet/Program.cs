@@ -3,22 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using FireworksNet.Distances;
 using FireworksNet.Extensions;
+using FireworksNet.Implementation;
 using FireworksNet.Model;
 
 namespace FireworksNet
 {
     class Program
     {
-        private readonly AlgorithmSetup Setup2010Paper = new AlgorithmSetup()
+        private readonly FireworksAlgorithmSettings Setup2010Paper = new FireworksAlgorithmSettings()
         {
             LocationsNumber = 5,
             ExplosionSparksNumberModifier = 50,
             ExplosionSparksNumberLowerBound = 0.04,
             ExplosionSparksNumberUpperBound = 0.8,
             ExplosionSparksMaximumAmplitude = 40,
-            SpecificSparksNumber = 5,
-            // TerminationNumberOfSteps = 100, // Not in paper -> need to move to StepCountStopCondition
-            TerminationDesiredAccuracy = 0.01 // Not in paper
+            SpecificSparksNumber = 5
         };
 
         static void Main(string[] args)
