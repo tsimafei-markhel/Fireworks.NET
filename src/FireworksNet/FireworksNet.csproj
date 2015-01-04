@@ -73,6 +73,8 @@
     <Compile Include="Extensions\DoubleExtensions.cs" />
     <Compile Include="Implementation\FireworksAlgorithm.cs" />
     <Compile Include="Implementation\IFireworksAlgorithm.cs" />
+    <Compile Include="Model\FireworkExplosion.cs" />
+    <Compile Include="Model\InitialExplosion.cs" />
     <Compile Include="Model\Explosion.cs" />
     <Compile Include="Model\Firework.cs" />
     <Compile Include="Model\FireworkType.cs" />

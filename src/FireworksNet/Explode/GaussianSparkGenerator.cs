@@ -9,7 +9,7 @@ namespace FireworksNet.Explode
     /// <summary>
     /// Conventional Gaussian spark generator, as described in 2010 paper
     /// </summary>
-    public class GaussianSparkGenerator : SparkGenerator
+    public class GaussianSparkGenerator : SparkGenerator<FireworkExplosion>
     {
         private readonly IEnumerable<Dimension> dimensions;
         private readonly IContinuousDistribution distribution;
@@ -39,7 +39,7 @@ namespace FireworksNet.Explode
 			this.randomizer = randomizer;
 		}
 
-        public override Firework CreateSpark(Explosion explosion)
+        protected override Firework CreateSpark(FireworkExplosion explosion)
         {
             Firework spark = new Firework(FireworkType.SpecificSpark, explosion.StepNumber, explosion.ParentFirework.Coordinates);
 

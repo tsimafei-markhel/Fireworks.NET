@@ -6,7 +6,7 @@ using FireworksNet.Randomization;
 
 namespace FireworksNet.Explode
 {
-	public class InitialSparkGenerator : SparkGenerator
+	public class InitialSparkGenerator : SparkGenerator<InitialExplosion>
 	{
 		private readonly IEnumerable<Dimension> dimensions;
         private readonly IDictionary<Dimension, Range> initialDimensionRanges;
@@ -36,7 +36,7 @@ namespace FireworksNet.Explode
         {
         }
 
-		public override Firework CreateSpark(Explosion explosion)
+		protected override Firework CreateSpark(InitialExplosion explosion)
 		{
 			Firework spark = new Firework(GeneratedSparkType, 0);
 			foreach (Dimension dimension in dimensions)

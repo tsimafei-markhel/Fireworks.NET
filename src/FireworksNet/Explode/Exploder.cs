@@ -58,7 +58,7 @@ namespace FireworksNet.Explode
                 { FireworkType.SpecificSpark, CalculateSpecificSparksNumber(epicenter) }
             };
 
-            return new Explosion(epicenter, currentStepNumber, amplitude, sparkCounts);
+            return new FireworkExplosion(epicenter, currentStepNumber, amplitude, sparkCounts);
         }
 
         protected virtual Double CalculateAmplitude(Firework epicenter)

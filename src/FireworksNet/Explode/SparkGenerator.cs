@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using FireworksNet.Model;
 
 namespace FireworksNet.Explode
 {
-    public abstract class SparkGenerator : ISparkGenerator
+    public abstract class SparkGenerator<T> : ISparkGenerator where T : Explosion
     {
         public abstract FireworkType GeneratedSparkType { get; }
 
@@ -24,6 +25,17 @@ namespace FireworksNet.Explode
             return sparks;
         }
 
-        public abstract Firework CreateSpark(Explosion explosion);
+        public virtual Firework CreateSpark(Explosion explosion)
+        {
+            T typedExplosion = explosion as T;
+            if (typedExplosion == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            return CreateSpark(typedExplosion);
+        }
+
+        protected abstract Firework CreateSpark(T explosion);
     }
 }

@@ -8,7 +8,7 @@ namespace FireworksNet.Explode
 	/// <summary>
 	/// Conventional Explosion spark generator, as described in 2010 paper
 	/// </summary>
-	public class ExplosionSparkGenerator : SparkGenerator
+	public class ExplosionSparkGenerator : SparkGenerator<FireworkExplosion>
 	{
 		private readonly IEnumerable<Dimension> dimensions;
 		private readonly IRandom randomizer;
@@ -31,7 +31,7 @@ namespace FireworksNet.Explode
 			this.randomizer = randomizer;
 		}
 
-		public override Firework CreateSpark(Explosion explosion)
+        protected override Firework CreateSpark(FireworkExplosion explosion)
 		{
 			Firework spark = new Firework(GeneratedSparkType, explosion.StepNumber, explosion.ParentFirework.Coordinates);
 
@@ -50,5 +50,5 @@ namespace FireworksNet.Explode
 
 			return spark;
 		}
-	}
+    }
 }
