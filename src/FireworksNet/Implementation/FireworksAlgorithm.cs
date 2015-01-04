@@ -53,6 +53,14 @@ namespace FireworksNet.Implementation
         {
             stepNumber = 0;
 
+            InitialExplosion initialExplosion = new InitialExplosion(Settings.LocationsNumber);
+            IEnumerable<Firework> fireworks = initialSparkGenerator.CreateSparks(initialExplosion);
+            while (!ProblemToSolve.StopCondition.ShouldStop(fireworks))
+            {
+                fireworks = MakeStep(fireworks);
+                stepNumber++;
+            }
+
             throw new NotImplementedException();
         }
 
