@@ -36,7 +36,7 @@ namespace FireworksNet.Explode
         {
         }
 
-		protected override Firework CreateSpark(InitialExplosion explosion)
+        protected override Firework CreateSparkTyped(InitialExplosion explosion)
 		{
 			Firework spark = new Firework(GeneratedSparkType, 0);
 			foreach (Dimension dimension in dimensions)

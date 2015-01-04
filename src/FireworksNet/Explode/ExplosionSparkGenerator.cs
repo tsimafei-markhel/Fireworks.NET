@@ -31,7 +31,7 @@ namespace FireworksNet.Explode
 			this.randomizer = randomizer;
 		}
 
-        protected override Firework CreateSpark(FireworkExplosion explosion)
+        protected override Firework CreateSparkTyped(FireworkExplosion explosion)
 		{
 			Firework spark = new Firework(GeneratedSparkType, explosion.StepNumber, explosion.ParentFirework.Coordinates);
 

@@ -16,10 +16,16 @@ namespace FireworksNet.Explode
                 return new List<Firework>();
             }
 
+            T typedExplosion = explosion as T;
+            if (typedExplosion == null)
+            {
+                throw new InvalidOperationException();
+            }
+
             List<Firework> sparks = new List<Firework>(desiredNumberOfSparks);
             for (int i = 0; i < desiredNumberOfSparks; i++)
             {
-                sparks.Add(CreateSpark(explosion));
+                sparks.Add(CreateSparkTyped(typedExplosion));
             }
 
             return sparks;
@@ -33,9 +39,9 @@ namespace FireworksNet.Explode
                 throw new InvalidOperationException();
             }
 
-            return CreateSpark(typedExplosion);
+            return CreateSparkTyped(typedExplosion);
         }
 
-        protected abstract Firework CreateSpark(T explosion);
+        protected abstract Firework CreateSparkTyped(T explosion);
     }
 }
