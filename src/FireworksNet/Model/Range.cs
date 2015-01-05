@@ -4,13 +4,11 @@ using FireworksNet.Extensions;
 
 namespace FireworksNet.Model
 {
-    // TODO: Make it sealed class
-
 	/// <summary>
 	/// Represents an interval (range)
 	/// </summary>
 	/// <remarks>Immutable</remarks>
-	public struct Range : IEquatable<Range>, IFormattable
+	public sealed class Range : IEquatable<Range>, IFormattable
 	{
 		/// <summary>
 		/// Stores string format of the <see cref="Range"/> determined
@@ -70,7 +68,6 @@ namespace FireworksNet.Model
 			Boolean isMinimumOpen,
 			Double maximum,
 			Boolean isMaximumOpen)
-			: this()
 		{
 			ValidateBoundaries(minimum, maximum);
 
@@ -597,20 +594,9 @@ namespace FireworksNet.Model
 		/// <param name="obj">The <see cref="Range"/> object to compare with the current one</param>
 		/// <returns>True if the specified <see cref="Range"/> is equal to the current one;
 		/// otherwise, False</returns>
-		public override Boolean Equals(object obj)
+		public override Boolean Equals(Object obj)
 		{
-			if (obj == null)
-			{
-				return false;
-			}
-
-			if (!(obj is Range))
-			{
-				return false;
-			}
-
-			Range otherRange = (Range)obj;
-			return this == otherRange;
+            return Equals(obj as Range);
 		}
 
 		/// <summary>
@@ -648,28 +634,35 @@ namespace FireworksNet.Model
 		/// <summary>
 		/// Determines whether values of two instances of <see cref="Range"/> are equal
 		/// </summary>
-		/// <param name="range1">First instance of <see cref="Range"/></param>
-		/// <param name="range2">Second instance of <see cref="Range"/></param>
-		/// <returns>True if <paramref name="range1"/> value is equal to the <paramref name="range2"/> 
+		/// <param name="left">First instance of <see cref="Range"/></param>
+		/// <param name="right">Second instance of <see cref="Range"/></param>
+		/// <returns>True if <paramref name="left"/> value is equal to the <paramref name="right"/> 
 		/// value; otherwise, False</returns>
-		public static Boolean operator ==(Range range1, Range range2)
+		public static Boolean operator ==(Range left, Range right)
 		{
-            return (range1.Minimum.IsEqual(range2.Minimum)) &&
-                   (range1.Maximum.IsEqual(range2.Maximum)) &&
-				   (range1.IsMinimumOpen == range2.IsMinimumOpen) &&
-				   (range1.IsMaximumOpen == range2.IsMaximumOpen);
+            if (object.ReferenceEquals((object)left, (object)null))
+            {
+                return object.ReferenceEquals((object)right, (object)null);
+            }
+
+            return left.Equals(right);
 		}
 
 		/// <summary>
 		/// Determines whether values of two instances of <see cref="Range"/> are not equal
 		/// </summary>
-		/// <param name="range1">First instance of <see cref="Range"/></param>
-		/// <param name="range2">Second instance of <see cref="Range"/></param>
-		/// <returns>True if <paramref name="range1"/> value is not equal to the <paramref name="range2"/> 
+		/// <param name="left">First instance of <see cref="Range"/></param>
+		/// <param name="right">Second instance of <see cref="Range"/></param>
+		/// <returns>True if <paramref name="left"/> value is not equal to the <paramref name="right"/> 
 		/// value; otherwise, False</returns>
-		public static Boolean operator !=(Range range1, Range range2)
+		public static Boolean operator !=(Range left, Range right)
 		{
-			return !(range1 == range2);
+            if (object.ReferenceEquals((object)left, (object)null))
+            {
+                return !object.ReferenceEquals((object)right, (object)null);
+            }
+
+            return !left.Equals(right);
 		}
 
 		#endregion
@@ -683,7 +676,20 @@ namespace FireworksNet.Model
 		/// <returns>True if the current object is equal to the other parameter; otherwise, False</returns>
 		public Boolean Equals(Range other)
 		{
-			return this == other;
+            if (object.ReferenceEquals((object)other, (object)null))
+            {
+                return false;
+            }
+
+            if (object.ReferenceEquals((object)other, (object)this))
+            {
+                return true;
+            }
+
+            return (Minimum.IsEqual(other.Minimum)) &&
+                   (Maximum.IsEqual(other.Maximum)) &&
+                   (IsMinimumOpen == other.IsMinimumOpen) &&
+                   (IsMaximumOpen == other.IsMaximumOpen);
 		}
 
 		#endregion
