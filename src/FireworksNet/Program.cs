@@ -31,12 +31,6 @@ namespace FireworksNet
 	/// </summary>
     public class Fireworks
     {
-        // That's a quality (fitness) function. TODO: delegate?
-        private static double CalcQuality(double[] firework)
-        {
-            return 0.0;
-        }
-
 		// allCurrentFireworks include:
 		// - fireworks existed in the beginning of the current step;
 		// - explosion sparks generated on this step;
@@ -92,9 +86,9 @@ namespace FireworksNet
 			return distances;
 		}
 
+        // TODO: Remove this once CalculateDistances is moved away from here
 		private static Firework GetBestFirework(IEnumerable<Firework> fireworks)
 		{
-			// TODO: Looking for MAX here (could be MIN)
 			return fireworks.Aggregate((agg, next) => next.Quality.IsGreater(agg.Quality) ? next : agg);
 		}
     }

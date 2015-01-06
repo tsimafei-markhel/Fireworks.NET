@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FireworksNet.Extensions;
 using FireworksNet.Model;
 
 namespace FireworksNet.Problems
@@ -89,6 +90,19 @@ namespace FireworksNet.Problems
             double result = targetFunction(coordinateValues);
             OnQualityCalculated(new QualityCalculatedEventArgs(coordinateValues, result));
             return result;
+        }
+
+        public virtual Firework GetBest(IEnumerable<Firework> fireworks)
+        {
+            // TODO: Cache IsGreater/IsLess in the class
+            if (Target == ProblemTarget.Minimum)
+            {
+                return fireworks.Aggregate((agg, next) => next.Quality.IsLess(agg.Quality) ? next : agg);
+            }
+            else
+            {
+                return fireworks.Aggregate((agg, next) => next.Quality.IsGreater(agg.Quality) ? next : agg);
+            }
         }
 
         protected virtual void OnQualityCalculating(QualityCalculatingEventArgs eventArgs)
