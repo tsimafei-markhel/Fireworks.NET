@@ -40,7 +40,9 @@ namespace FireworksNet.Problems
 
         public IStopCondition StopCondition { get; protected set; } // TODO: Really need 'protected set' here?
 
-        public Problem(IEnumerable<Dimension> dimensions, IDictionary<Dimension, Range> initialDimensionRanges, Func<IDictionary<Dimension, Double>, Double> targetFunction, IStopCondition stopCondition)
+        public ProblemTarget Target { get; protected set; } // TODO: Really need 'protected set' here?
+
+        public Problem(IEnumerable<Dimension> dimensions, IDictionary<Dimension, Range> initialDimensionRanges, Func<IDictionary<Dimension, Double>, Double> targetFunction, IStopCondition stopCondition, ProblemTarget target)
         {
             if (dimensions == null)
             {
@@ -67,10 +69,16 @@ namespace FireworksNet.Problems
             this.InitialDimensionRanges = initialDimensionRanges;
             this.targetFunction = targetFunction;
             this.StopCondition = stopCondition;
+            this.Target = target;
+        }
+
+        public Problem(IEnumerable<Dimension> dimensions, Func<IDictionary<Dimension, Double>, Double> targetFunction, IStopCondition stopCondition, ProblemTarget target)
+            : this(dimensions, null, targetFunction, stopCondition, target)
+        {
         }
 
         public Problem(IEnumerable<Dimension> dimensions, Func<IDictionary<Dimension, Double>, Double> targetFunction, IStopCondition stopCondition)
-            : this(dimensions, null, targetFunction, stopCondition)
+            : this(dimensions, null, targetFunction, stopCondition, ProblemTarget.Minimum)
         {
         }
 

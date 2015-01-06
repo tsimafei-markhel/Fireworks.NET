@@ -8,8 +8,8 @@ namespace FireworksNet.Problems
     {
         public Double KnownSolution { get; private set; }
 
-        public TestProblem(IEnumerable<Dimension> dimensions, IDictionary<Dimension, Range> initialDimensionRanges, Func<IDictionary<Dimension, Double>, Double> targetFunction, Double knownSolution, IStopCondition stopCondition)
-            : base(dimensions, initialDimensionRanges, targetFunction, stopCondition)
+        public TestProblem(IEnumerable<Dimension> dimensions, IDictionary<Dimension, Range> initialDimensionRanges, Func<IDictionary<Dimension, Double>, Double> targetFunction, Double knownSolution, IStopCondition stopCondition, ProblemTarget target)
+            : base(dimensions, initialDimensionRanges, targetFunction, stopCondition, target)
         {
             if (double.IsNaN(knownSolution) || double.IsInfinity(knownSolution))
             {
@@ -19,8 +19,13 @@ namespace FireworksNet.Problems
             this.KnownSolution = knownSolution;
         }
 
+        public TestProblem(IEnumerable<Dimension> dimensions, Func<IDictionary<Dimension, Double>, Double> targetFunction, Double knownSolution, IStopCondition stopCondition, ProblemTarget target)
+            : this(dimensions, null, targetFunction, knownSolution, stopCondition, target)
+        {
+        }
+
         public TestProblem(IEnumerable<Dimension> dimensions, Func<IDictionary<Dimension, Double>, Double> targetFunction, Double knownSolution, IStopCondition stopCondition)
-            : this(dimensions, null, targetFunction, knownSolution, stopCondition)
+            : this(dimensions, null, targetFunction, knownSolution, stopCondition, ProblemTarget.Minimum)
         {
         }
     }
