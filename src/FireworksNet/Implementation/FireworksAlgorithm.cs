@@ -21,6 +21,7 @@ namespace FireworksNet.Implementation
         private readonly ISparkGenerator specificSparkGenerator;
         private readonly IDistance distanceCalculator;
         private readonly ExploderSettings exploderSettings;
+        private readonly IExploder exploder;
         private int stepNumber;
 
         public Problem ProblemToSolve { get; private set; }
@@ -44,12 +45,9 @@ namespace FireworksNet.Implementation
                 ExplosionSparksNumberLowerBound = settings.ExplosionSparksNumberLowerBound,
                 ExplosionSparksNumberUpperBound = settings.ExplosionSparksNumberUpperBound,
                 ExplosionSparksMaximumAmplitude = settings.ExplosionSparksMaximumAmplitude,
-                SpecificSparksPerExplosionNumber = settings.SpecificSparksPerExplosionNumber,
-                MinAllowedExplosionSparksNumberExact = settings.MinAllowedExplosionSparksNumberExact,
-                MaxAllowedExplosionSparksNumberExact = settings.MaxAllowedExplosionSparksNumberExact,
-                MinAllowedExplosionSparksNumber = settings.MinAllowedExplosionSparksNumber,
-                MaxAllowedExplosionSparksNumber = settings.MaxAllowedExplosionSparksNumber
+                SpecificSparksPerExplosionNumber = settings.SpecificSparksPerExplosionNumber
             }; // TODO: AutoMapper or something like this can be used here.
+            this.exploder = new Exploder(exploderSettings);
 
             this.stepNumber = 0;
         }
@@ -79,7 +77,6 @@ namespace FireworksNet.Implementation
         public IEnumerable<Firework> MakeStep(IEnumerable<Firework> currentFireworks)
         {
             IEnumerable<double> fireworkQualities = currentFireworks.Select(fw => fw.Quality);
-            IExploder exploder = new Exploder(fireworkQualities, exploderSettings);
 
             IDictionary<Firework, Explosion> explosions = new Dictionary<Firework, Explosion>(Settings.LocationsNumber);
             IEnumerable<Firework> explosionSparks = new List<Firework>();
@@ -88,7 +85,7 @@ namespace FireworksNet.Implementation
             int currentFirework = 0;
             foreach (Firework firework in currentFireworks)
             {
-                Explosion explosion = exploder.Explode(firework, stepNumber);
+                Explosion explosion = exploder.Explode(firework, fireworkQualities, stepNumber);
                 explosions.Add(firework, explosion);
                 explosionSparks = explosionSparks.Concat(explosionSparkGenerator.CreateSparks(explosion));
                 if (specificSparkParentIndices.Contains(currentFirework))

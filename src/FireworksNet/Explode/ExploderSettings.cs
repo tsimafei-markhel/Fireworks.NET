@@ -35,25 +35,5 @@ namespace FireworksNet.Explode
         /// </summary>
         /// <remarks>No such setting in the 2010 paper</remarks>
         public Int32 SpecificSparksPerExplosionNumber { get; set; }
-
-        /// <summary>
-        /// Minimum allowed explosion sparks number (not rounded)
-        /// </summary>
-        public Double MinAllowedExplosionSparksNumberExact { get; set; }
-
-        /// <summary>
-        /// Maximum allowed explosion sparks number (not rounded)
-        /// </summary>
-        public Double MaxAllowedExplosionSparksNumberExact { get; set; }
-
-        /// <summary>
-        /// Minimum allowed explosion sparks number (rounded)
-        /// </summary>
-        public Int32 MinAllowedExplosionSparksNumber { get; set; }
-
-        /// <summary>
-        /// Maximum allowed explosion sparks number (rounded)
-        /// </summary>
-        public Int32 MaxAllowedExplosionSparksNumber { get; set; }
     }
 }
