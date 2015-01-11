@@ -78,7 +78,6 @@ namespace FireworksNet.Implementation
         {
             IEnumerable<double> fireworkQualities = currentFireworks.Select(fw => fw.Quality);
 
-            IDictionary<Firework, Explosion> explosions = new Dictionary<Firework, Explosion>(Settings.LocationsNumber);
             IEnumerable<Firework> explosionSparks = new List<Firework>();
             IEnumerable<Firework> specificSparks = new List<Firework>(Settings.SpecificSparksNumber);
             IEnumerable<int> specificSparkParentIndices = randomizer.NextInt32s(Settings.SpecificSparksNumber, 0, Settings.LocationsNumber);
@@ -86,7 +85,6 @@ namespace FireworksNet.Implementation
             foreach (Firework firework in currentFireworks)
             {
                 Explosion explosion = exploder.Explode(firework, fireworkQualities, stepNumber);
-                explosions.Add(firework, explosion);
                 explosionSparks = explosionSparks.Concat(explosionSparkGenerator.CreateSparks(explosion));
                 if (specificSparkParentIndices.Contains(currentFirework))
                 {
@@ -94,6 +92,16 @@ namespace FireworksNet.Implementation
                 }
 
                 currentFirework++;
+            }
+
+            foreach (Firework explosionSpark in explosionSparks)
+            {
+                explosionSpark.Quality = ProblemToSolve.CalculateQuality(explosionSpark.Coordinates);
+            }
+
+            foreach (Firework specificSpark in specificSparks)
+            {
+                specificSpark.Quality = ProblemToSolve.CalculateQuality(specificSpark.Coordinates);
             }
 
             IEnumerable<Firework> allFireworks = currentFireworks.Concat(explosionSparks.Concat(specificSparks));
