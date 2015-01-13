@@ -8,6 +8,7 @@ using FireworksNet.Extensions;
 using FireworksNet.Model;
 using FireworksNet.Problems;
 using FireworksNet.Random;
+using FireworksNet.Selection;
 
 namespace FireworksNet.Implementation
 {
@@ -20,6 +21,7 @@ namespace FireworksNet.Implementation
         private readonly ISparkGenerator explosionSparkGenerator;
         private readonly ISparkGenerator specificSparkGenerator;
         private readonly IDistance distanceCalculator;
+		private readonly ISelector locationSelector;
         private readonly ExploderSettings exploderSettings;
         private readonly IExploder exploder;
         private int stepNumber;
@@ -39,6 +41,7 @@ namespace FireworksNet.Implementation
             this.explosionSparkGenerator = new ExplosionSparkGenerator(problem.Dimensions, this.randomizer);
             this.specificSparkGenerator = new GaussianSparkGenerator(problem.Dimensions, this.distribution, this.randomizer);
             this.distanceCalculator = new EuclideanDistance(problem.Dimensions);
+			this.locationSelector = new LocationSelector(this.distanceCalculator, new Func<IEnumerable<Firework>, Firework>(problem.GetBest), Settings.LocationsNumber);
             this.exploderSettings = new ExploderSettings()
             {
                 ExplosionSparksNumberModifier = settings.ExplosionSparksNumberModifier,
@@ -105,61 +108,7 @@ namespace FireworksNet.Implementation
             }
 
             IEnumerable<Firework> allFireworks = currentFireworks.Concat(explosionSparks.Concat(specificSparks));
-            return SelectLocations(allFireworks);
-        }
-
-        // allCurrentFireworks include:
-        // - fireworks existed in the beginning of the current step;
-        // - explosion sparks generated on this step;
-        // - specific sparks generated on this step.
-        private IEnumerable<Firework> SelectLocations(IEnumerable<Firework> allCurrentFireworks)
-        {
-            List<Firework> selectedLocations = new List<Firework>(Settings.LocationsNumber);
-
-            // 1. Find a firework with best quality - it will be kept anyways
-            Firework bestFirework = ProblemToSolve.GetBest(allCurrentFireworks);
-            selectedLocations.Add(bestFirework);
-
-            // 2. Calculate distances between all fireworks
-            IDictionary<Firework, Double> distances = CalculateDistances(allCurrentFireworks);
-
-            // 3. Calculate probabilities for each firework
-            IDictionary<Firework, Double> probabilities = CalculateProbabilities(distances);
-
-            // 4. Select desiredLocationsNumber - 1 of fireworks based on the probabilities
-            IOrderedEnumerable<KeyValuePair<Firework, Double>> sortedProbabilities = probabilities.OrderByDescending(p => p.Value, new DoubleExtensionComparer());
-            IEnumerable<Firework> otherSelectedLocations = sortedProbabilities.Where(sp => sp.Key != bestFirework).Take(Settings.LocationsNumber - 1).Select(sp => sp.Key);
-            selectedLocations.AddRange(otherSelectedLocations);
-
-            return selectedLocations;
-        }
-
-        private IDictionary<Firework, Double> CalculateProbabilities(IDictionary<Firework, Double> distances)
-        {
-            Dictionary<Firework, double> probabilities = new Dictionary<Firework, double>(distances.Count());
-            double distancesSum = distances.Values.Sum();
-            foreach (KeyValuePair<Firework, double> distance in distances)
-            {
-                double probability = distance.Value / distancesSum;
-                probabilities.Add(distance.Key, probability);
-            }
-
-            return probabilities;
-        }
-
-        private IDictionary<Firework, Double> CalculateDistances(IEnumerable<Firework> allCurrentFireworks)
-        {
-            Dictionary<Firework, double> distances = new Dictionary<Firework, double>(allCurrentFireworks.Count());
-            foreach (Firework firework in allCurrentFireworks)
-            {
-                distances.Add(firework, 0.0);
-                foreach (Firework otherFirework in allCurrentFireworks)
-                {
-                    distances[firework] += distanceCalculator.Calculate(firework, otherFirework);
-                }
-            }
-
-            return distances;
+            return locationSelector.Select(allFireworks);
         }
     }
 }
