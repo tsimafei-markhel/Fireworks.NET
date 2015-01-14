@@ -7,7 +7,7 @@ using FireworksNet.Model;
 namespace FireworksNet.Explode
 {
     /// <summary>
-    /// Conventional Gaussian spark generator, as described in 2010 paper
+    /// Conventional Gaussian spark generator, as described in 2010 paper.
     /// </summary>
     public class GaussianSparkGenerator : SparkGenerator<FireworkExplosion>
     {

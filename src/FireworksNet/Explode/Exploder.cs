@@ -11,22 +11,22 @@ namespace FireworksNet.Explode
         private readonly ExploderSettings settings;
 
         /// <summary>
-        /// Minimum allowed explosion sparks number (not rounded)
+        /// Minimum allowed explosion sparks number (not rounded).
         /// </summary>
         private readonly Double minAllowedExplosionSparksNumberExact;
 
         /// <summary>
-        /// Maximum allowed explosion sparks number (not rounded)
+        /// Maximum allowed explosion sparks number (not rounded).
         /// </summary>
         private readonly Double maxAllowedExplosionSparksNumberExact;
 
         /// <summary>
-        /// Minimum allowed explosion sparks number (rounded)
+        /// Minimum allowed explosion sparks number (rounded).
         /// </summary>
         private readonly Int32 minAllowedExplosionSparksNumber;
 
         /// <summary>
-        /// Maximum allowed explosion sparks number (rounded)
+        /// Maximum allowed explosion sparks number (rounded).
         /// </summary>
         private readonly Int32 maxAllowedExplosionSparksNumber;
 

@@ -15,7 +15,7 @@ namespace FireworksNet.Extensions
         /// </summary>
         /// <param name="left">The first value.</param>
         /// <param name="right">The second value.</param>
-        /// <returns>True if <paramref name="left"/> is equal to <paramref name="right"/>
+        /// <returns><c>true</c> if <paramref name="left"/> is equal to <paramref name="right"/>
         /// within the <see cref="Double.Epsilon"/> error.</returns>
         public static Boolean IsEqual(this Double left, Double right)
         {
@@ -29,7 +29,7 @@ namespace FireworksNet.Extensions
         /// </summary>
         /// <param name="left">The first value.</param>
         /// <param name="right">The second value.</param>
-        /// <returns>True if <paramref name="left"/> is smaller than <paramref name="right"/>
+		/// <returns><c>true</c> if <paramref name="left"/> is smaller than <paramref name="right"/>
         /// within the <see cref="Double.Epsilon"/> error.</returns>
         public static Boolean IsLess(this Double left, Double right)
         {
@@ -43,7 +43,7 @@ namespace FireworksNet.Extensions
         /// </summary>
         /// <param name="left">The first value.</param>
         /// <param name="right">The second value.</param>
-        /// <returns>True if <paramref name="left"/> is smaller than or equal to
+		/// <returns><c>true</c> if <paramref name="left"/> is smaller than or equal to
         /// <paramref name="right"/> within the <see cref="Double.Epsilon"/> error.
         /// </returns>
         public static Boolean IsLessOrEqual(this Double left, Double right)
@@ -58,7 +58,7 @@ namespace FireworksNet.Extensions
         /// </summary>
         /// <param name="left">The first value.</param>
         /// <param name="right">The second value.</param>
-        /// <returns>True if <paramref name="left"/> is greater than <paramref name="right"/>
+		/// <returns><c>true</c> if <paramref name="left"/> is greater than <paramref name="right"/>
         /// within the <see cref="Double.Epsilon"/> error.</returns>
         public static Boolean IsGreater(this Double left, Double right)
         {
@@ -72,7 +72,7 @@ namespace FireworksNet.Extensions
         /// </summary>
         /// <param name="left">The first value.</param>
         /// <param name="right">The second value.</param>
-        /// <returns>True if <paramref name="left"/> is greater than or equal to
+		/// <returns><c>true</c> if <paramref name="left"/> is greater than or equal to
         /// <paramref name="right"/> within the <see cref="Double.Epsilon"/> error.
         /// </returns>
         public static Boolean IsGreaterOrEqual(this Double left, Double right)

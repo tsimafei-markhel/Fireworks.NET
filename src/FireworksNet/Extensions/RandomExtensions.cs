@@ -27,7 +27,7 @@ namespace FireworksNet.Extensions
         /// <param name="allowedRange">A range that will contain generated number.</param>
         /// <remarks>
         /// <see cref="Range.Maximum"/> is excluded even if <see cref="allowedRange.IsMaximumOpen"/>
-        /// is set to False (i.e. upper bound is exclusive).
+		/// is set to <c>false</c> (i.e. upper bound is exclusive).
         /// </remarks>
         public static Double NextDouble(this System.Random random, Range allowedRange)
         {

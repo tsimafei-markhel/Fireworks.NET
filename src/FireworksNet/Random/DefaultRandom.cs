@@ -4,10 +4,10 @@ using MathNet.Numerics.Random;
 namespace FireworksNet.Random
 {
     /// <summary>
-    /// Represents a pseudo-random number generator
+    /// Represents a pseudo-random number generator.
     /// </summary>
     /// <remarks>Uses <see cref="SystemRandomSource"/> thread-safe wrapper
-    /// around <see cref="Random"/> that comes with Math.NET Numerics</remarks>
+    /// around <see cref="Random"/> that comes with Math.NET Numerics.</remarks>
     public class DefaultRandom : System.Random
     {
         private readonly SystemRandomSource randomizer;
