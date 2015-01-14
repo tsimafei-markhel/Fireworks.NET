@@ -94,16 +94,25 @@ namespace FireworksNet.Problems
 
         public virtual Firework GetBest(IEnumerable<Firework> fireworks)
         {
-            // TODO: Cache IsGreater/IsLess in the class
             if (Target == ProblemTarget.Minimum)
             {
-                return fireworks.Aggregate((agg, next) => next.Quality.IsLess(agg.Quality) ? next : agg);
+				return fireworks.Aggregate(GetLessQualityFirework);
             }
             else
             {
-                return fireworks.Aggregate((agg, next) => next.Quality.IsGreater(agg.Quality) ? next : agg);
+				return fireworks.Aggregate(GetGreaterQualityFirework);
             }
         }
+
+		protected virtual Firework GetLessQualityFirework(Firework currentMin, Firework candidate)
+		{
+			return candidate.Quality.IsLess(currentMin.Quality) ? candidate : currentMin;
+		}
+
+		protected virtual Firework GetGreaterQualityFirework(Firework currentMax, Firework candidate)
+		{
+			return candidate.Quality.IsGreater(currentMax.Quality) ? candidate : currentMax;
+		}
 
         protected virtual void OnQualityCalculating(QualityCalculatingEventArgs eventArgs)
         {
