@@ -50,7 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\RandomExtensions.cs" />
-    <Compile Include="Implementation\FireworksAlgorithmSettings.cs" />
+    <Compile Include="Algorithm\Implementation\FireworksAlgorithmSettings.cs" />
     <Compile Include="Distances\EuclideanDistance.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -69,8 +69,8 @@
     <Compile Include="Explode\ISparkGenerator.cs" />
     <Compile Include="Explode\SparkGenerator.cs" />
     <Compile Include="Extensions\DoubleExtensions.cs" />
-    <Compile Include="Implementation\FireworksAlgorithm.cs" />
-    <Compile Include="Implementation\IFireworksAlgorithm.cs" />
+    <Compile Include="Algorithm\Implementation\FireworksAlgorithm.cs" />
+    <Compile Include="Algorithm\IFireworksAlgorithm.cs" />
     <Compile Include="Model\FireworkExplosion.cs" />
     <Compile Include="Model\InitialExplosion.cs" />
     <Compile Include="Model\Explosion.cs" />
