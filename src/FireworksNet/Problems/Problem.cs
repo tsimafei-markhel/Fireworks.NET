@@ -6,49 +6,6 @@ using FireworksNet.Model;
 
 namespace FireworksNet.Problems
 {
-    public class QualityCalculatingEventArgs : EventArgs
-    {
-        public IDictionary<Dimension, Double> CoordinateValues { get; private set; }
-
-        public QualityCalculatingEventArgs(IDictionary<Dimension, Double> coordinateValues)
-        {
-            CoordinateValues = coordinateValues;
-        }
-    }
-
-    public class QualityCalculatedEventArgs : QualityCalculatingEventArgs
-    {
-        public Double Quality { get; private set; }
-
-        public QualityCalculatedEventArgs(IDictionary<Dimension, Double> coordinateValues, Double quality)
-            : base(coordinateValues)
-        {
-            Quality = quality;
-        }
-    }
-
-	public class BestFireworkFindingEventArgs : EventArgs
-	{
-		public IEnumerable<Firework> FireworksToCheck { get; private set; }
-
-		public BestFireworkFindingEventArgs(IEnumerable<Firework> fireworksToCheck)
-		{
-			FireworksToCheck = fireworksToCheck;
-		}
-	}
-
-	public class BestFireworkFoundEventArgs : EventArgs
-	{
-		public IEnumerable<Firework> FireworksToCheck { get; private set; }
-		public Firework BestFirework { get; private set; }
-
-		public BestFireworkFoundEventArgs(IEnumerable<Firework> fireworksToCheck, Firework bestFirework)
-		{
-			FireworksToCheck = fireworksToCheck;
-			BestFirework = bestFirework;
-		}
-	}
-
     public class Problem
     {
         private readonly Func<IDictionary<Dimension, Double>, Double> targetFunction;
@@ -181,4 +138,47 @@ namespace FireworksNet.Problems
 			}
 		}
     }
+
+	public class QualityCalculatingEventArgs : EventArgs
+	{
+		public IDictionary<Dimension, Double> CoordinateValues { get; private set; }
+
+		public QualityCalculatingEventArgs(IDictionary<Dimension, Double> coordinateValues)
+		{
+			CoordinateValues = coordinateValues;
+		}
+	}
+
+	public class QualityCalculatedEventArgs : QualityCalculatingEventArgs
+	{
+		public Double Quality { get; private set; }
+
+		public QualityCalculatedEventArgs(IDictionary<Dimension, Double> coordinateValues, Double quality)
+			: base(coordinateValues)
+		{
+			Quality = quality;
+		}
+	}
+
+	public class BestFireworkFindingEventArgs : EventArgs
+	{
+		public IEnumerable<Firework> FireworksToCheck { get; private set; }
+
+		public BestFireworkFindingEventArgs(IEnumerable<Firework> fireworksToCheck)
+		{
+			FireworksToCheck = fireworksToCheck;
+		}
+	}
+
+	public class BestFireworkFoundEventArgs : EventArgs
+	{
+		public IEnumerable<Firework> FireworksToCheck { get; private set; }
+		public Firework BestFirework { get; private set; }
+
+		public BestFireworkFoundEventArgs(IEnumerable<Firework> fireworksToCheck, Firework bestFirework)
+		{
+			FireworksToCheck = fireworksToCheck;
+			BestFirework = bestFirework;
+		}
+	}
 }

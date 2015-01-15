@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using FireworksNet.Model;
 
-namespace FireworksNet.Problems
+namespace FireworksNet.Problems.Benchmark
 {
-    public class TestProblem : Problem
+    public class BenchmarkProblem : Problem
     {
         public Double KnownSolution { get; private set; }
 
-        public TestProblem(IEnumerable<Dimension> dimensions, IDictionary<Dimension, Range> initialDimensionRanges, Func<IDictionary<Dimension, Double>, Double> targetFunction, Double knownSolution, IStopCondition stopCondition, ProblemTarget target)
+        public BenchmarkProblem(IEnumerable<Dimension> dimensions, IDictionary<Dimension, Range> initialDimensionRanges, Func<IDictionary<Dimension, Double>, Double> targetFunction, Double knownSolution, IStopCondition stopCondition, ProblemTarget target)
             : base(dimensions, initialDimensionRanges, targetFunction, stopCondition, target)
         {
             if (double.IsNaN(knownSolution) || double.IsInfinity(knownSolution))
@@ -19,12 +19,12 @@ namespace FireworksNet.Problems
             this.KnownSolution = knownSolution;
         }
 
-        public TestProblem(IEnumerable<Dimension> dimensions, Func<IDictionary<Dimension, Double>, Double> targetFunction, Double knownSolution, IStopCondition stopCondition, ProblemTarget target)
+        public BenchmarkProblem(IEnumerable<Dimension> dimensions, Func<IDictionary<Dimension, Double>, Double> targetFunction, Double knownSolution, IStopCondition stopCondition, ProblemTarget target)
             : this(dimensions, null, targetFunction, knownSolution, stopCondition, target)
         {
         }
 
-        public TestProblem(IEnumerable<Dimension> dimensions, Func<IDictionary<Dimension, Double>, Double> targetFunction, Double knownSolution, IStopCondition stopCondition)
+        public BenchmarkProblem(IEnumerable<Dimension> dimensions, Func<IDictionary<Dimension, Double>, Double> targetFunction, Double knownSolution, IStopCondition stopCondition)
             : this(dimensions, null, targetFunction, knownSolution, stopCondition, ProblemTarget.Minimum)
         {
         }

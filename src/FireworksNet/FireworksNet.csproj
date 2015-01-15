@@ -81,7 +81,7 @@
     <Compile Include="Problems\StopConditionChain.cs" />
     <Compile Include="Problems\IStopCondition.cs" />
     <Compile Include="Problems\StepCountStopCondition.cs" />
-    <Compile Include="Problems\TestProblem.cs" />
+    <Compile Include="Problems\Benchmark\BenchmarkProblem.cs" />
     <Compile Include="Problems\Problem.cs" />
     <Compile Include="Random\DefaultRandom.cs" />
     <Compile Include="Model\Dimension.cs" />
