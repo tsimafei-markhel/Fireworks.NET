@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FireworksNet.Implementation
+namespace FireworksNet.Algorithm.Implementation
 {
     /// <summary>
     /// Stores user-defined constants that control algorithm run.

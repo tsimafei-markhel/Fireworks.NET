@@ -10,7 +10,7 @@ using FireworksNet.Problems;
 using FireworksNet.Random;
 using FireworksNet.Selection;
 
-namespace FireworksNet.Implementation
+namespace FireworksNet.Algorithm.Implementation
 {
     // Per 2010 paper
     public sealed class FireworksAlgorithm : IFireworksAlgorithm

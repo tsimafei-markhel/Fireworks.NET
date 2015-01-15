@@ -2,7 +2,7 @@
 using FireworksNet.Model;
 using FireworksNet.Problems;
 
-namespace FireworksNet.Implementation
+namespace FireworksNet.Algorithm
 {
     public interface IFireworksAlgorithm
     {
