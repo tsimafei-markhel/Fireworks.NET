@@ -27,6 +27,28 @@ namespace FireworksNet.Problems
         }
     }
 
+	public class BestFireworkFindingEventArgs : EventArgs
+	{
+		public IEnumerable<Firework> FireworksToCheck { get; private set; }
+
+		public BestFireworkFindingEventArgs(IEnumerable<Firework> fireworksToCheck)
+		{
+			FireworksToCheck = fireworksToCheck;
+		}
+	}
+
+	public class BestFireworkFoundEventArgs : EventArgs
+	{
+		public IEnumerable<Firework> FireworksToCheck { get; private set; }
+		public Firework BestFirework { get; private set; }
+
+		public BestFireworkFoundEventArgs(IEnumerable<Firework> fireworksToCheck, Firework bestFirework)
+		{
+			FireworksToCheck = fireworksToCheck;
+			BestFirework = bestFirework;
+		}
+	}
+
     public class Problem
     {
         private readonly Func<IDictionary<Dimension, Double>, Double> targetFunction;
@@ -35,13 +57,17 @@ namespace FireworksNet.Problems
 
         public event EventHandler<QualityCalculatedEventArgs> QualityCalculated;
 
-        public IEnumerable<Dimension> Dimensions { get; protected set; } // TODO: Really need 'protected set' here?
+		public event EventHandler<BestFireworkFindingEventArgs> BestFireworkFinding;
 
-        public IDictionary<Dimension, Range> InitialDimensionRanges { get; protected set; } // TODO: Really need 'protected set' here?
+		public event EventHandler<BestFireworkFoundEventArgs> BestFireworkFound;
 
-        public IStopCondition StopCondition { get; protected set; } // TODO: Really need 'protected set' here?
+        public IEnumerable<Dimension> Dimensions { get; private set; }
 
-        public ProblemTarget Target { get; protected set; } // TODO: Really need 'protected set' here?
+		public IDictionary<Dimension, Range> InitialDimensionRanges { get; private set; }
+
+		public IStopCondition StopCondition { get; private set; }
+
+		public ProblemTarget Target { get; private set; }
 
         public Problem(IEnumerable<Dimension> dimensions, IDictionary<Dimension, Range> initialDimensionRanges, Func<IDictionary<Dimension, Double>, Double> targetFunction, IStopCondition stopCondition, ProblemTarget target)
         {
@@ -85,7 +111,6 @@ namespace FireworksNet.Problems
 
         public virtual Double CalculateQuality(IDictionary<Dimension, Double> coordinateValues)
         {
-            // TODO: Async?
             OnQualityCalculating(new QualityCalculatingEventArgs(coordinateValues));
             double result = targetFunction(coordinateValues);
             OnQualityCalculated(new QualityCalculatedEventArgs(coordinateValues, result));
@@ -94,14 +119,20 @@ namespace FireworksNet.Problems
 
         public virtual Firework GetBest(IEnumerable<Firework> fireworks)
         {
+			OnBestFireworkFinding(new BestFireworkFindingEventArgs(fireworks));
+
+			Firework bestFirework = null;
             if (Target == ProblemTarget.Minimum)
             {
-				return fireworks.Aggregate(GetLessQualityFirework);
+				bestFirework = fireworks.Aggregate(GetLessQualityFirework);
             }
             else
             {
-				return fireworks.Aggregate(GetGreaterQualityFirework);
+				bestFirework = fireworks.Aggregate(GetGreaterQualityFirework);
             }
+
+			OnBestFireworkFound(new BestFireworkFoundEventArgs(fireworks, bestFirework));
+			return bestFirework;
         }
 
 		protected virtual Firework GetLessQualityFirework(Firework currentMin, Firework candidate)
@@ -131,5 +162,23 @@ namespace FireworksNet.Problems
                 handler(this, eventArgs);
             }
         }
+
+		protected virtual void OnBestFireworkFinding(BestFireworkFindingEventArgs eventArgs)
+		{
+			EventHandler<BestFireworkFindingEventArgs> handler = BestFireworkFinding;
+			if (handler != null)
+			{
+				handler(this, eventArgs);
+			}
+		}
+
+		protected virtual void OnBestFireworkFound(BestFireworkFoundEventArgs eventArgs)
+		{
+			EventHandler<BestFireworkFoundEventArgs> handler = BestFireworkFound;
+			if (handler != null)
+			{
+				handler(this, eventArgs);
+			}
+		}
     }
 }
