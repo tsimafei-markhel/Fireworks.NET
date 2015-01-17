@@ -5,9 +5,9 @@ namespace FireworksNet.Model
 {
 	public class FireworkExplosion : Explosion
 	{
-		public Firework ParentFirework { get; protected set; }
+		public Firework ParentFirework { get; private set; }
 
-        public Double Amplitude { get; protected set; }
+        public Double Amplitude { get; private set; }
 
 		public FireworkExplosion(Firework parentFirework, Int32 stepNumber, Double amplitude, IDictionary<FireworkType, Int32> sparkCounts)
             : base(stepNumber, sparkCounts)

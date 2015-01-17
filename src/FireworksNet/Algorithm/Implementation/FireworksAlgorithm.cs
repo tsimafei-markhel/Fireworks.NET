@@ -15,6 +15,9 @@ namespace FireworksNet.Algorithm.Implementation
     // Per 2010 paper
     public sealed class FireworksAlgorithm : IFireworksAlgorithm
     {
+        private const double normalDistributionMean = 1.0;
+        private const double normalDistributionStdDev = 1.0;
+
         private readonly System.Random randomizer;
         private readonly IContinuousDistribution distribution;
         private readonly ISparkGenerator initialSparkGenerator;
@@ -32,11 +35,21 @@ namespace FireworksNet.Algorithm.Implementation
         
         public FireworksAlgorithm(Problem problem, FireworksAlgorithmSettings settings)
         {
+            if (problem == null)
+            {
+                throw new ArgumentNullException("problem");
+            }
+
+            if (settings == null)
+            {
+                throw new ArgumentNullException("settings");
+            }
+
             this.ProblemToSolve = problem;
             this.Settings = settings;
 
             this.randomizer = new DefaultRandom();
-            this.distribution = new NormalDistribution(1.0, 1.0);
+            this.distribution = new NormalDistribution(normalDistributionMean, normalDistributionStdDev);
             this.initialSparkGenerator = new InitialSparkGenerator(problem.Dimensions, problem.InitialDimensionRanges, this.randomizer);
             this.explosionSparkGenerator = new ExplosionSparkGenerator(problem.Dimensions, this.randomizer);
             this.specificSparkGenerator = new GaussianSparkGenerator(problem.Dimensions, this.distribution, this.randomizer);
@@ -62,10 +75,7 @@ namespace FireworksNet.Algorithm.Implementation
             InitialExplosion initialExplosion = new InitialExplosion(Settings.LocationsNumber);
             IEnumerable<Firework> fireworks = initialSparkGenerator.CreateSparks(initialExplosion);
 
-            foreach (Firework firework in fireworks)
-            {
-                firework.Quality = ProblemToSolve.CalculateQuality(firework.Coordinates);
-            }
+            CalculateQualities(fireworks);
 
             while (!ProblemToSolve.StopCondition.ShouldStop(fireworks))
             {
@@ -73,12 +83,17 @@ namespace FireworksNet.Algorithm.Implementation
                 stepNumber++;
             }
 
-            throw new NotImplementedException();
+            return ProblemToSolve.GetBest(fireworks);
         }
 
         // Does not change state of this instance - TODO: poor design?
         public IEnumerable<Firework> MakeStep(IEnumerable<Firework> currentFireworks)
         {
+            if (currentFireworks == null)
+            {
+                throw new ArgumentNullException("currentFireworks");
+            }
+
             IEnumerable<double> fireworkQualities = currentFireworks.Select(fw => fw.Quality);
 
             IEnumerable<Firework> explosionSparks = new List<Firework>();
@@ -97,18 +112,26 @@ namespace FireworksNet.Algorithm.Implementation
                 currentFirework++;
             }
 
-            foreach (Firework explosionSpark in explosionSparks)
-            {
-                explosionSpark.Quality = ProblemToSolve.CalculateQuality(explosionSpark.Coordinates);
-            }
-
-            foreach (Firework specificSpark in specificSparks)
-            {
-                specificSpark.Quality = ProblemToSolve.CalculateQuality(specificSpark.Coordinates);
-            }
+            CalculateQualities(explosionSparks);
+            CalculateQualities(specificSparks);
 
             IEnumerable<Firework> allFireworks = currentFireworks.Concat(explosionSparks.Concat(specificSparks));
             return locationSelector.Select(allFireworks);
+        }
+
+        private void CalculateQualities(IEnumerable<Firework> fireworks)
+        {
+            System.Diagnostics.Debug.Assert(fireworks != null, "Collection of fireworks to calculate qualities for is null");
+            System.Diagnostics.Debug.Assert(ProblemToSolve != null, "Problem is null");
+
+            foreach (Firework firework in fireworks)
+            {
+                System.Diagnostics.Debug.Assert(firework != null, "Firework to calculate quality for is null");
+                System.Diagnostics.Debug.Assert(double.IsNaN(firework.Quality), "Excessive quality calculation");
+                System.Diagnostics.Debug.Assert(firework.Coordinates != null, "Firework coordinates collection is null");
+
+                firework.Quality = ProblemToSolve.CalculateQuality(firework.Coordinates);
+            }
         }
     }
 }

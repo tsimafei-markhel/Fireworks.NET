@@ -22,6 +22,11 @@ namespace FireworksNet.Model
 		/// maximal possible values for this dimension.</param>
 		public Dimension(Range variationRange)
 		{
+            if (variationRange == null)
+            {
+                throw new ArgumentNullException("variationRange");
+            }
+
 			VariationRange = variationRange;
 		}
 
