@@ -11,22 +11,17 @@ namespace FireworksNet.Model
 
 		public Solution(IDictionary<Dimension, Double> coordinates, Double quality)
 		{
-			if (coordinates == null)
-			{
-				throw new ArgumentNullException("coordinates");
-			}
-
-			if (double.IsInfinity(quality))
-			{
-				throw new ArgumentOutOfRangeException("quality");
-			}
-
-			Coordinates = new Dictionary<Dimension, Double>(coordinates);
+			Coordinates = coordinates == null ? null : new Dictionary<Dimension, Double>(coordinates);
 			Quality = quality;
 		}
 
 		public Solution(IDictionary<Dimension, Double> coordinates)
 			: this(coordinates, Double.NaN)
+		{
+		}
+
+		public Solution(Double quality)
+			: this(null, quality)
 		{
 		}
 	}
