@@ -8,7 +8,7 @@ namespace FireworksNet.Algorithm
     {
         Problem ProblemToSolve { get; }
 
-        Firework Solve(); // TODO: Use Solution here
-        IEnumerable<Firework> MakeStep(IEnumerable<Firework> currentFireworks);
+        Solution Solve();
+        IEnumerable<Firework> MakeStep(IEnumerable<Firework> currentFireworks); // TODO: Maintain a state that should contain current step data
     }
 }

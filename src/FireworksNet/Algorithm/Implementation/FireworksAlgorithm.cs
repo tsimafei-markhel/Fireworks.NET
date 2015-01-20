@@ -68,7 +68,7 @@ namespace FireworksNet.Algorithm.Implementation
             this.stepNumber = 0;
         }
 
-        public Firework Solve()
+        public Solution Solve()
         {
             stepNumber = 0;
 
