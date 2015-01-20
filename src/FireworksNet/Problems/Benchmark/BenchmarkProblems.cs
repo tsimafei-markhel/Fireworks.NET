@@ -28,7 +28,7 @@ namespace FireworksNet.Problems.Benchmark
 
 			// TODO: In 2010 paper, stop condition was not number of steps
 			// TODO: Need 'max number of quality function evaluations' stop condition
-			return new BenchmarkProblem(dimensions, initialDimensionRanges, func, 0.0, new StepCountStopCondition(10), ProblemTarget.Minimum);
+			return new BenchmarkProblem(dimensions, initialDimensionRanges, func, new Solution(0.0), new StepCountStopCondition(10), ProblemTarget.Minimum);
 		}
 	}
 }

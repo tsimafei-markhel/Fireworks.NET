@@ -6,26 +6,34 @@ namespace FireworksNet.Problems.Benchmark
 {
     public class BenchmarkProblem : Problem
     {
-		// TODO: May need coordinates instead of value...
-        public Double KnownSolution { get; private set; }
+		public Solution KnownSolution { get; private set; }
 
-        public BenchmarkProblem(IEnumerable<Dimension> dimensions, IDictionary<Dimension, Range> initialDimensionRanges, Func<IDictionary<Dimension, Double>, Double> targetFunction, Double knownSolution, IStopCondition stopCondition, ProblemTarget target)
+        public BenchmarkProblem(IEnumerable<Dimension> dimensions, IDictionary<Dimension, Range> initialDimensionRanges, Func<IDictionary<Dimension, Double>, Double> targetFunction, Solution knownSolution, IStopCondition stopCondition, ProblemTarget target)
             : base(dimensions, initialDimensionRanges, targetFunction, stopCondition, target)
         {
-            if (double.IsNaN(knownSolution) || double.IsInfinity(knownSolution))
+			if (knownSolution == null)
             {
-                throw new ArgumentOutOfRangeException("knownSolution");
+                throw new ArgumentNullException("knownSolution");
             }
+
+			if (knownSolution.Coordinates == null && double.IsNaN(knownSolution.Quality))
+			{
+				// We have neither coordinates of a known solution nor its quality.
+				// Therefore, such known solution is useless.
+				throw new ArgumentException(string.Empty, "knownSolution");
+
+				// TODO: Check all Argument... exceptions for correctness or parameters (e.g. param name is passed instead of message or vice versa etc.)
+			}
 
             this.KnownSolution = knownSolution;
         }
 
-        public BenchmarkProblem(IEnumerable<Dimension> dimensions, Func<IDictionary<Dimension, Double>, Double> targetFunction, Double knownSolution, IStopCondition stopCondition, ProblemTarget target)
+		public BenchmarkProblem(IEnumerable<Dimension> dimensions, Func<IDictionary<Dimension, Double>, Double> targetFunction, Solution knownSolution, IStopCondition stopCondition, ProblemTarget target)
             : this(dimensions, null, targetFunction, knownSolution, stopCondition, target)
         {
         }
 
-        public BenchmarkProblem(IEnumerable<Dimension> dimensions, Func<IDictionary<Dimension, Double>, Double> targetFunction, Double knownSolution, IStopCondition stopCondition)
+		public BenchmarkProblem(IEnumerable<Dimension> dimensions, Func<IDictionary<Dimension, Double>, Double> targetFunction, Solution knownSolution, IStopCondition stopCondition)
             : this(dimensions, null, targetFunction, knownSolution, stopCondition, ProblemTarget.Minimum)
         {
         }
