@@ -77,6 +77,7 @@
     <Compile Include="Model\Firework.cs" />
     <Compile Include="Model\FireworkType.cs" />
     <Compile Include="Model\Solution.cs" />
+    <Compile Include="Problems\Benchmark\BenchmarkProblems.cs" />
     <Compile Include="Problems\MinErrorStopCondition.cs" />
     <Compile Include="Problems\ProblemTarget.cs" />
     <Compile Include="Problems\StopConditionChain.cs" />
