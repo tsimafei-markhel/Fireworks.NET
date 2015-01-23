@@ -33,6 +33,8 @@ namespace FireworksNet.Distances
 				throw new ArgumentNullException("second");
 			}
 
+            System.Diagnostics.Debug.Assert(first.Length == second.Length, "First and Second coordinate collections have different dimensionality");
+
 			return Distance.Euclidean(first, second);
 		}
 
@@ -57,6 +59,9 @@ namespace FireworksNet.Distances
 			double[] secondCoordinates;
 			GetCoordinates(first, second, out firstCoordinates, out secondCoordinates);
 
+            System.Diagnostics.Debug.Assert(firstCoordinates != null, "First coordinate collection is null");
+            System.Diagnostics.Debug.Assert(secondCoordinates != null, "Second coordinate collection is null");
+
 			return Calculate(firstCoordinates, secondCoordinates);
 		}
 
@@ -72,7 +77,11 @@ namespace FireworksNet.Distances
 				throw new ArgumentNullException("second");
 			}
 
-			return Calculate(GetCoordinates(first), second);
+            double[] firstCoordinates = GetCoordinates(first);
+
+            System.Diagnostics.Debug.Assert(firstCoordinates != null, "First coordinate collection is null");
+
+            return Calculate(firstCoordinates, second);
         }
 
 		private Double[] GetCoordinates(Solution firework)
