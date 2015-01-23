@@ -15,11 +15,15 @@ namespace FireworksNet.Distributions
 
         public double Sample()
         {
+            System.Diagnostics.Debug.Assert(internalNormal != null, "Internal distribution implementation is null");
+
             return internalNormal.Sample();
         }
 
         public IEnumerable<Double> Samples()
         {
+            System.Diagnostics.Debug.Assert(internalNormal != null, "Internal distribution implementation is null");
+
             return internalNormal.Samples();
         }
     }
