@@ -5,10 +5,22 @@ using FireworksNet.Model;
 
 namespace FireworksNet.Problems.Benchmark
 {
+	/// <summary>
+	/// Stores various benchmark problems that can be used to test algorithm and its efficiency.
+	/// </summary>
+	/// <remarks>http://en.wikipedia.org/wiki/Test_functions_for_optimization</remarks>
 	public static class BenchmarkProblems
 	{
+		/// <summary>
+		/// Sphere test function, as used in 2010 paper
+		/// </summary>
 		public static Lazy<BenchmarkProblem> Sphere2010 = new Lazy<BenchmarkProblem>(InitializeSphere2010);
 
+		/// <summary>
+		/// Initializes the Sphere test function, as used in 2010 paper.
+		/// </summary>
+		/// <returns><see cref="BenchmarkProblem"/> instance that represents
+		/// Sphere test function, as used in 2010 paper.</returns>
 		private static BenchmarkProblem InitializeSphere2010()
 		{
 			Dimension[] dimensions = new Dimension[30];
@@ -27,7 +39,6 @@ namespace FireworksNet.Problems.Benchmark
 			);
 
 			// TODO: In 2010 paper, stop condition was not number of steps
-			// TODO: Need 'max number of quality function evaluations' stop condition
 			return new BenchmarkProblem(dimensions, initialDimensionRanges, func, new Solution(0.0), new StepCountStopCondition(10), ProblemTarget.Minimum);
 		}
 	}
