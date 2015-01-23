@@ -57,7 +57,6 @@
     <Compile Include="Distances\IDistance.cs" />
     <Compile Include="Distributions\IContinuousDistribution.cs" />
     <Compile Include="Distributions\NormalDistribution.cs" />
-    <Compile Include="DoubleExtensionComparer.cs" />
     <Compile Include="Explode\Exploder.cs" />
     <Compile Include="Explode\ExploderSettings.cs" />
     <Compile Include="Explode\ExplosionSparkGenerator.cs" />

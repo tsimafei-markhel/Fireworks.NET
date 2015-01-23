@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FireworksNet.Distances;
+using FireworksNet.Extensions;
 using FireworksNet.Model;
 
 namespace FireworksNet.Selection
@@ -88,7 +89,7 @@ namespace FireworksNet.Selection
                 IDictionary<Firework, Double> probabilities = CalculateProbabilities(distances);
 
                 // 4. Select desiredLocationsNumber - 1 of fireworks based on the probabilities
-                IOrderedEnumerable<KeyValuePair<Firework, Double>> sortedProbabilities = probabilities.OrderByDescending(p => p.Value, new DoubleExtensionComparer());
+                IOrderedEnumerable<KeyValuePair<Firework, Double>> sortedProbabilities = probabilities.OrderByDescending(p => p.Value, new DoubleExtensions.DoubleExtensionComparer());
                 IEnumerable<Firework> otherSelectedLocations = sortedProbabilities.Where(sp => sp.Key != bestFirework).Take(numberToSelect - 1).Select(sp => sp.Key);
                 selectedLocations.AddRange(otherSelectedLocations);
             }
