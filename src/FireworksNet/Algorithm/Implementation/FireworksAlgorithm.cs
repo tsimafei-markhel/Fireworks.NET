@@ -62,7 +62,7 @@ namespace FireworksNet.Algorithm.Implementation
                 ExplosionSparksNumberUpperBound = settings.ExplosionSparksNumberUpperBound,
                 ExplosionSparksMaximumAmplitude = settings.ExplosionSparksMaximumAmplitude,
                 SpecificSparksPerExplosionNumber = settings.SpecificSparksPerExplosionNumber
-            }; // TODO: AutoMapper or something like this can be used here.
+            };
             this.exploder = new Exploder(exploderSettings);
 
             this.stepNumber = 0;

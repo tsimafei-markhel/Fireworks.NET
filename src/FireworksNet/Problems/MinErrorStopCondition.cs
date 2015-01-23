@@ -8,7 +8,7 @@ namespace FireworksNet.Problems
 {
     public class MinErrorStopCondition : IStopCondition
     {
-        private readonly Double[] knownBest;
+        private readonly Double[] knownBest; // TODO: Solution here...
 		private readonly Func<IEnumerable<Firework>, Firework> bestFireworkSelector;
 		private readonly IDistance distanceCalculator;
 		private readonly Double minError;
