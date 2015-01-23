@@ -5,11 +5,11 @@ namespace FireworksNet.Model
 {
 	public abstract class Explosion
 	{
-        public Int32 StepNumber { get; private set; }
+        public int StepNumber { get; private set; }
 
-        public IDictionary<FireworkType, Int32> SparkCounts { get; private set; }
+        public IDictionary<FireworkType, int> SparkCounts { get; private set; }
 
-		protected Explosion(Int32 stepNumber, IDictionary<FireworkType, Int32> sparkCounts)
+        protected Explosion(int stepNumber, IDictionary<FireworkType, int> sparkCounts)
 		{
             if (stepNumber < 0)
             {

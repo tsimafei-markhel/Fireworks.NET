@@ -11,9 +11,9 @@ namespace FireworksNet.Problems
         private readonly Solution knownSolution;
 		private readonly Func<IEnumerable<Firework>, Firework> bestFireworkSelector;
 		private readonly IDistance distanceCalculator;
-		private readonly Double minError;
+        private readonly double minError;
 
-		public MinErrorStopCondition(Solution knownSolution, Func<IEnumerable<Firework>, Firework> bestFireworkSelector, IDistance distanceCalculator, Double minError)
+        public MinErrorStopCondition(Solution knownSolution, Func<IEnumerable<Firework>, Firework> bestFireworkSelector, IDistance distanceCalculator, double minError)
 		{
 			if (knownSolution == null)
 			{
@@ -30,7 +30,7 @@ namespace FireworksNet.Problems
 				throw new ArgumentNullException("distanceCalculator");
 			}
 
-			if (Double.IsNaN(minError) || Double.IsInfinity(minError))
+            if (double.IsNaN(minError) || double.IsInfinity(minError))
 			{
 				throw new ArgumentOutOfRangeException("knownBest");
 			}
@@ -46,7 +46,7 @@ namespace FireworksNet.Problems
 		{
         }
 
-        public virtual Boolean ShouldStop(IEnumerable<Firework> currentFireworks)
+        public virtual bool ShouldStop(IEnumerable<Firework> currentFireworks)
         {
 			if (currentFireworks == null)
 			{
@@ -54,7 +54,7 @@ namespace FireworksNet.Problems
 			}
 
 			Firework bestFirework = bestFireworkSelector(currentFireworks);
-            Double error = distanceCalculator.Calculate(bestFirework, knownSolution);
+            double error = distanceCalculator.Calculate(bestFirework, knownSolution);
 
             return error.IsLessOrEqual(minError);
         }

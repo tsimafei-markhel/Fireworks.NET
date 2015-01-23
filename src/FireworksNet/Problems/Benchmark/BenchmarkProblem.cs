@@ -8,7 +8,7 @@ namespace FireworksNet.Problems.Benchmark
     {
 		public Solution KnownSolution { get; private set; }
 
-        public BenchmarkProblem(IEnumerable<Dimension> dimensions, IDictionary<Dimension, Range> initialDimensionRanges, Func<IDictionary<Dimension, Double>, Double> targetFunction, Solution knownSolution, IStopCondition stopCondition, ProblemTarget target)
+        public BenchmarkProblem(IEnumerable<Dimension> dimensions, IDictionary<Dimension, Range> initialDimensionRanges, Func<IDictionary<Dimension, double>, double> targetFunction, Solution knownSolution, IStopCondition stopCondition, ProblemTarget target)
             : base(dimensions, initialDimensionRanges, targetFunction, stopCondition, target)
         {
 			if (knownSolution == null)
@@ -26,12 +26,12 @@ namespace FireworksNet.Problems.Benchmark
             this.KnownSolution = knownSolution;
         }
 
-		public BenchmarkProblem(IEnumerable<Dimension> dimensions, Func<IDictionary<Dimension, Double>, Double> targetFunction, Solution knownSolution, IStopCondition stopCondition, ProblemTarget target)
+        public BenchmarkProblem(IEnumerable<Dimension> dimensions, Func<IDictionary<Dimension, double>, double> targetFunction, Solution knownSolution, IStopCondition stopCondition, ProblemTarget target)
             : this(dimensions, null, targetFunction, knownSolution, stopCondition, target)
         {
         }
 
-		public BenchmarkProblem(IEnumerable<Dimension> dimensions, Func<IDictionary<Dimension, Double>, Double> targetFunction, Solution knownSolution, IStopCondition stopCondition)
+        public BenchmarkProblem(IEnumerable<Dimension> dimensions, Func<IDictionary<Dimension, double>, double> targetFunction, Solution knownSolution, IStopCondition stopCondition)
             : this(dimensions, null, targetFunction, knownSolution, stopCondition, ProblemTarget.Minimum)
         {
         }

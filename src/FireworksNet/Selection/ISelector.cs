@@ -7,6 +7,6 @@ namespace FireworksNet.Selection
 	public interface ISelector
 	{
 		IEnumerable<Firework> Select(IEnumerable<Firework> from);
-		IEnumerable<Firework> Select(IEnumerable<Firework> from, Int32 numberToSelect);
+        IEnumerable<Firework> Select(IEnumerable<Firework> from, int numberToSelect);
 	}
 }

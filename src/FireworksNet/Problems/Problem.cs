@@ -8,7 +8,7 @@ namespace FireworksNet.Problems
 {
     public class Problem
     {
-        private readonly Func<IDictionary<Dimension, Double>, Double> targetFunction;
+        private readonly Func<IDictionary<Dimension, double>, double> targetFunction;
 
         public event EventHandler<QualityCalculatingEventArgs> QualityCalculating;
 
@@ -26,7 +26,7 @@ namespace FireworksNet.Problems
 
 		public ProblemTarget Target { get; private set; }
 
-        public Problem(IEnumerable<Dimension> dimensions, IDictionary<Dimension, Range> initialDimensionRanges, Func<IDictionary<Dimension, Double>, Double> targetFunction, IStopCondition stopCondition, ProblemTarget target)
+        public Problem(IEnumerable<Dimension> dimensions, IDictionary<Dimension, Range> initialDimensionRanges, Func<IDictionary<Dimension, double>, double> targetFunction, IStopCondition stopCondition, ProblemTarget target)
         {
             if (dimensions == null)
             {
@@ -56,17 +56,17 @@ namespace FireworksNet.Problems
             this.Target = target;
         }
 
-        public Problem(IEnumerable<Dimension> dimensions, Func<IDictionary<Dimension, Double>, Double> targetFunction, IStopCondition stopCondition, ProblemTarget target)
+        public Problem(IEnumerable<Dimension> dimensions, Func<IDictionary<Dimension, double>, double> targetFunction, IStopCondition stopCondition, ProblemTarget target)
             : this(dimensions, null, targetFunction, stopCondition, target)
         {
         }
 
-        public Problem(IEnumerable<Dimension> dimensions, Func<IDictionary<Dimension, Double>, Double> targetFunction, IStopCondition stopCondition)
+        public Problem(IEnumerable<Dimension> dimensions, Func<IDictionary<Dimension, double>, double> targetFunction, IStopCondition stopCondition)
             : this(dimensions, null, targetFunction, stopCondition, ProblemTarget.Minimum)
         {
         }
 
-        public virtual Double CalculateQuality(IDictionary<Dimension, Double> coordinateValues)
+        public virtual double CalculateQuality(IDictionary<Dimension, double> coordinateValues)
         {
             OnQualityCalculating(new QualityCalculatingEventArgs(coordinateValues));
             double result = targetFunction(coordinateValues);
@@ -141,9 +141,9 @@ namespace FireworksNet.Problems
 
 	public class QualityCalculatingEventArgs : EventArgs
 	{
-		public IDictionary<Dimension, Double> CoordinateValues { get; private set; }
+        public IDictionary<Dimension, double> CoordinateValues { get; private set; }
 
-		public QualityCalculatingEventArgs(IDictionary<Dimension, Double> coordinateValues)
+        public QualityCalculatingEventArgs(IDictionary<Dimension, double> coordinateValues)
 		{
 			CoordinateValues = coordinateValues;
 		}
@@ -151,9 +151,9 @@ namespace FireworksNet.Problems
 
 	public class QualityCalculatedEventArgs : QualityCalculatingEventArgs
 	{
-		public Double Quality { get; private set; }
+        public double Quality { get; private set; }
 
-		public QualityCalculatedEventArgs(IDictionary<Dimension, Double> coordinateValues, Double quality)
+        public QualityCalculatedEventArgs(IDictionary<Dimension, double> coordinateValues, double quality)
 			: base(coordinateValues)
 		{
 			Quality = quality;

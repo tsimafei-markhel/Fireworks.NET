@@ -5,8 +5,8 @@ namespace FireworksNet.Model
 {
 	public class InitialExplosion : Explosion
 	{
-        public InitialExplosion(Int32 stepNumber, Int32 initialSparksCount)
-            : base(stepNumber, new Dictionary<FireworkType, Int32>() { { FireworkType.Initial, initialSparksCount } })
+        public InitialExplosion(int stepNumber, int initialSparksCount)
+            : base(stepNumber, new Dictionary<FireworkType, int>() { { FireworkType.Initial, initialSparksCount } })
 		{
             if (initialSparksCount < 0)
             {
@@ -14,7 +14,7 @@ namespace FireworksNet.Model
             }
 		}
 
-        public InitialExplosion(Int32 initialSparksCount)
+        public InitialExplosion(int initialSparksCount)
             : this(0, initialSparksCount)
         {
         }

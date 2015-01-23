@@ -21,7 +21,7 @@ namespace FireworksNet.Distances
 			this.dimensions = dimensions;
 		}
 
-		public Double Calculate(Double[] first, Double[] second)
+        public double Calculate(double[] first, double[] second)
 		{
 			if (first == null)
 			{
@@ -38,7 +38,7 @@ namespace FireworksNet.Distances
 			return Distance.Euclidean(first, second);
 		}
 
-		public Double Calculate(Solution first, Solution second)
+        public double Calculate(Solution first, Solution second)
 		{
 			if (first == null)
 			{
@@ -65,7 +65,7 @@ namespace FireworksNet.Distances
 			return Calculate(firstCoordinates, secondCoordinates);
 		}
 
-		public Double Calculate(Solution first, Double[] second)
+        public double Calculate(Solution first, double[] second)
         {
 			if (first == null)
 			{
@@ -84,7 +84,7 @@ namespace FireworksNet.Distances
             return Calculate(firstCoordinates, second);
         }
 
-		private Double[] GetCoordinates(Solution firework)
+        private double[] GetCoordinates(Solution firework)
 		{
 			System.Diagnostics.Debug.Assert(dimensions != null, "Dimension collection is null");
 			System.Diagnostics.Debug.Assert(firework != null, "Solution is null");
@@ -105,7 +105,7 @@ namespace FireworksNet.Distances
 			return coordinates;
 		}
 
-		private void GetCoordinates(Solution first, Solution second, out Double[] firstCoordinates, out Double[] secondCoordinates)
+        private void GetCoordinates(Solution first, Solution second, out double[] firstCoordinates, out double[] secondCoordinates)
 		{
 			System.Diagnostics.Debug.Assert(dimensions != null, "Dimension collection is null");
 			System.Diagnostics.Debug.Assert(first != null, "First solution is null");

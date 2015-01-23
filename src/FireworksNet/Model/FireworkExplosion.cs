@@ -7,9 +7,9 @@ namespace FireworksNet.Model
 	{
 		public Firework ParentFirework { get; private set; }
 
-        public Double Amplitude { get; private set; }
+        public double Amplitude { get; private set; }
 
-		public FireworkExplosion(Firework parentFirework, Int32 stepNumber, Double amplitude, IDictionary<FireworkType, Int32> sparkCounts)
+        public FireworkExplosion(Firework parentFirework, int stepNumber, double amplitude, IDictionary<FireworkType, int> sparkCounts)
             : base(stepNumber, sparkCounts)
 		{
 			if (parentFirework == null)
@@ -17,7 +17,7 @@ namespace FireworksNet.Model
 				throw new ArgumentNullException("parentFirework");
 			}
 
-			if (Double.IsNaN(amplitude) || Double.IsInfinity(amplitude))
+            if (double.IsNaN(amplitude) || double.IsInfinity(amplitude))
 			{
 				throw new ArgumentOutOfRangeException("amplitude");
 			}

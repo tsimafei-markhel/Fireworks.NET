@@ -13,22 +13,22 @@ namespace FireworksNet.Explode
         /// <summary>
         /// Minimum allowed explosion sparks number (not rounded).
         /// </summary>
-        private readonly Double minAllowedExplosionSparksNumberExact;
+        private readonly double minAllowedExplosionSparksNumberExact;
 
         /// <summary>
         /// Maximum allowed explosion sparks number (not rounded).
         /// </summary>
-        private readonly Double maxAllowedExplosionSparksNumberExact;
+        private readonly double maxAllowedExplosionSparksNumberExact;
 
         /// <summary>
         /// Minimum allowed explosion sparks number (rounded).
         /// </summary>
-        private readonly Int32 minAllowedExplosionSparksNumber;
+        private readonly int minAllowedExplosionSparksNumber;
 
         /// <summary>
         /// Maximum allowed explosion sparks number (rounded).
         /// </summary>
-        private readonly Int32 maxAllowedExplosionSparksNumber;
+        private readonly int maxAllowedExplosionSparksNumber;
 
         public Exploder(ExploderSettings settings)
         {
@@ -45,7 +45,7 @@ namespace FireworksNet.Explode
             this.maxAllowedExplosionSparksNumber = (int)Math.Round(this.maxAllowedExplosionSparksNumberExact, MidpointRounding.AwayFromZero);
         }
 
-        public virtual Explosion Explode(Firework epicenter, IEnumerable<Double> currentFireworkQualities, Int32 currentStepNumber)
+        public virtual Explosion Explode(Firework epicenter, IEnumerable<double> currentFireworkQualities, int currentStepNumber)
         {
             if (epicenter == null)
             {
@@ -78,14 +78,14 @@ namespace FireworksNet.Explode
             return new FireworkExplosion(epicenter, currentStepNumber, amplitude, sparkCounts);
         }
 
-        protected virtual Double CalculateAmplitude(Firework epicenter, IEnumerable<Double> currentFireworkQualities)
+        protected virtual double CalculateAmplitude(Firework epicenter, IEnumerable<double> currentFireworkQualities)
         {
-            // Using Aggregate() here because Min() won't use my Double extensions
+            // Using Aggregate() here because Min() won't use my double extensions
             double minFireworkQuality = currentFireworkQualities.Aggregate((agg, next) => next.IsLess(agg) ? next : agg);
             return settings.ExplosionSparksMaximumAmplitude * (epicenter.Quality - minFireworkQuality + double.Epsilon) / (currentFireworkQualities.Sum(fq => fq - minFireworkQuality) + double.Epsilon);
         }
 
-        protected virtual Int32 CalculateExplosionSparksNumber(Firework epicenter, IEnumerable<Double> currentFireworkQualities)
+        protected virtual int CalculateExplosionSparksNumber(Firework epicenter, IEnumerable<double> currentFireworkQualities)
         {
             double explosionSparksNumberExact = CalculateExplosionSparksNumberExact(epicenter, currentFireworkQualities);
 
@@ -103,14 +103,14 @@ namespace FireworksNet.Explode
             }
         }
 
-        protected virtual Int32 CalculateSpecificSparksNumber(Firework epicenter, IEnumerable<Double> currentFireworkQualities)
+        protected virtual int CalculateSpecificSparksNumber(Firework epicenter, IEnumerable<double> currentFireworkQualities)
         {
             return settings.SpecificSparksPerExplosionNumber;
         }
 
-        private Double CalculateExplosionSparksNumberExact(Firework epicenter, IEnumerable<Double> currentFireworkQualities)
+        private double CalculateExplosionSparksNumberExact(Firework epicenter, IEnumerable<double> currentFireworkQualities)
         {
-            // Using Aggregate() here because Max() won't use my Double extensions
+            // Using Aggregate() here because Max() won't use my double extensions
             double maxFireworkQuality = currentFireworkQualities.Aggregate((agg, next) => next.IsGreater(agg) ? next : agg);
             return settings.ExplosionSparksNumberModifier * (maxFireworkQuality - epicenter.Quality + double.Epsilon) / (currentFireworkQualities.Sum(fq => maxFireworkQuality - fq) + double.Epsilon);
         }

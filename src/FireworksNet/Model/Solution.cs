@@ -12,12 +12,12 @@ namespace FireworksNet.Model
         /// <summary>
         /// Gets solution coordinates in problem space.
         /// </summary>
-		public IDictionary<Dimension, Double> Coordinates { get; private set; }
+        public IDictionary<Dimension, double> Coordinates { get; private set; }
 
         /// <summary>
         /// Gets or sets solution quality (value of target function).
         /// </summary>
-		public Double Quality { get; set; }
+        public double Quality { get; set; }
 
         /// <summary>
         /// Initializes a new instance of <see cref="Solution"/> with
@@ -25,9 +25,9 @@ namespace FireworksNet.Model
         /// </summary>
         /// <param name="coordinates">Solution coordinates in problem space.</param>
         /// <param name="quality">Solution quality (value of target function).</param>
-		public Solution(IDictionary<Dimension, Double> coordinates, Double quality)
+        public Solution(IDictionary<Dimension, double> coordinates, double quality)
 		{
-			Coordinates = coordinates == null ? null : new Dictionary<Dimension, Double>(coordinates);
+            Coordinates = coordinates == null ? null : new Dictionary<Dimension, double>(coordinates);
 			Quality = quality;
 		}
 
@@ -36,9 +36,9 @@ namespace FireworksNet.Model
         /// defined coordinates.
         /// </summary>
         /// <param name="coordinates">Solution coordinates in problem space.</param>
-        /// <remarks><see cref="Quality"/> is set to <see cref="Double.NaN"/>.</remarks>
-		public Solution(IDictionary<Dimension, Double> coordinates)
-			: this(coordinates, Double.NaN)
+        /// <remarks><see cref="Quality"/> is set to <see cref="double.NaN"/>.</remarks>
+        public Solution(IDictionary<Dimension, double> coordinates)
+            : this(coordinates, double.NaN)
 		{
 		}
 
@@ -48,7 +48,7 @@ namespace FireworksNet.Model
         /// </summary>
         /// <param name="quality">Solution quality (value of target function).</param>
         /// <remarks><see cref="Coordinates"/> is set to <c>null</c>.</remarks>
-		public Solution(Double quality)
+        public Solution(double quality)
 			: this(null, quality)
 		{
 		}

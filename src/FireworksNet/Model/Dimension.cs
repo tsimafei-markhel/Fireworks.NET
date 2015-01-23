@@ -3,7 +3,7 @@
 namespace FireworksNet.Model
 {
 	/// <summary>
-	/// Represents a continuous variable that can take any <see cref="Double"/> value
+    /// Represents a continuous variable that can take any <see cref="double"/> value
 	/// within specified <see cref="Range"/>.
 	/// </summary>
 	/// <remarks>Immutable.</remarks>
@@ -36,7 +36,7 @@ namespace FireworksNet.Model
 		/// <param name="valueToCheck">Value to be checked.</param>
 		/// <returns><c>true</c> if <paramref name="valueToCheck"/> can be used as a value
 		/// of this parameter; otherwise <c>false</c>.</returns>
-		public Boolean IsValueInBounds(Double valueToCheck)
+        public bool IsValueInBounds(double valueToCheck)
 		{
 			return VariationRange.IsInRange(valueToCheck);
 		}

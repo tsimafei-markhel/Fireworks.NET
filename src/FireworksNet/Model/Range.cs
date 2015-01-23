@@ -20,40 +20,40 @@ namespace FireworksNet.Model
 		/// <summary>
 		/// Gets lower boundary of the <see cref="Range"/>.
 		/// </summary>
-		public Double Minimum { get; private set; }
+        public double Minimum { get; private set; }
 
 		/// <summary>
 		/// Gets upper boundary of the <see cref="Range"/>.
 		/// </summary>
-		public Double Maximum { get; private set; }
+        public double Maximum { get; private set; }
 
 		/// <summary>
 		/// Gets <see cref="Range"/> length. Always positive.
 		/// </summary>
 		/// <remarks><see cref="Range.Length"/> = <see cref="Math.Abs"/>(
 		/// <see cref="Range.Maximum"/> - <see cref="Range.Minimum"/>).</remarks>
-		public Double Length { get; private set; }
+        public double Length { get; private set; }
 
 		/// <summary>
 		/// Gets whether a lower boundary of <see cref="Range"/> is open 
 		/// (i.e. minimum possible value is exclusive) or closed
 		/// (i.e. minimum possible value is inclusive).
 		/// </summary>
-		public Boolean IsMinimumOpen { get; private set; }
+        public bool IsMinimumOpen { get; private set; }
 
 		/// <summary>
 		/// Gets whether an upper boundary of <see cref="Range"/> is open 
 		/// (i.e. maximum possible value is exclusive) or closed
 		/// (i.e. maximum possible value is inclusive).
 		/// </summary>
-		public Boolean IsMaximumOpen { get; private set; }
+        public bool IsMaximumOpen { get; private set; }
 
 		/// <summary>
 		/// Gets whether <see cref="Range"/> is open. <c>true</c> if both 
 		/// <see cref="Range.IsMinimumOpen"/> and <see cref="Range.IsMaximumOpen"/>
 		/// are <c>true</c>.
 		/// </summary>
-		public Boolean IsOpen { get; private set; }
+        public bool IsOpen { get; private set; }
 
 		/// <summary>
 		/// Initializes new instance of <see cref="Range"/>.
@@ -63,23 +63,23 @@ namespace FireworksNet.Model
 		/// <param name="maximum">Upper boundary.</param>
 		/// <param name="isMaximumOpen">Whether upper boundary is open (exclusive) or not.</param>
 		/// <exception cref="ArgumentOutOfRangeException">If <paramref name="minimum"/> or
-		/// <paramref name="maximum"/> is <see cref="Double.NaN"/>. If <paramref name="minimum"/>
+        /// <paramref name="maximum"/> is <see cref="double.NaN"/>. If <paramref name="minimum"/>
 		/// is greater than <paramref name="maximum"/>.</exception>
-		/// <remarks><see cref="Double.NegativeInfinity"/> and <see cref="Double.PositiveInfinity"/>
+        /// <remarks><see cref="double.NegativeInfinity"/> and <see cref="double.PositiveInfinity"/>
 		/// boundaries will be always open (exclusive).</remarks>
 		public Range(
-			Double minimum,
-			Boolean isMinimumOpen,
-			Double maximum,
-			Boolean isMaximumOpen)
+            double minimum,
+            bool isMinimumOpen,
+            double maximum,
+            bool isMaximumOpen)
 		{
 			ValidateBoundaries(minimum, maximum);
 
 			Minimum = minimum;
 			Maximum = maximum;
 			Length = Math.Abs(Maximum - Minimum);
-			IsMinimumOpen = Double.IsNegativeInfinity(Minimum) ? true : isMinimumOpen;
-			IsMaximumOpen = Double.IsPositiveInfinity(Maximum) ? true : isMaximumOpen;
+            IsMinimumOpen = double.IsNegativeInfinity(Minimum) ? true : isMinimumOpen;
+            IsMaximumOpen = double.IsPositiveInfinity(Maximum) ? true : isMaximumOpen;
 			IsOpen = IsMinimumOpen && IsMaximumOpen;
 
 			cachedStringFormat = (IsMinimumOpen ? "(" : "[") + "{1}, {2}" + (IsMaximumOpen ? ")" : "]");
@@ -92,11 +92,11 @@ namespace FireworksNet.Model
 		/// <param name="minimum">Lower boundary.</param>
 		/// <param name="maximum">Upper boundary.</param>
 		/// <exception cref="ArgumentOutOfRangeException">If <paramref name="minimum"/> or
-		/// <paramref name="maximum"/> is <see cref="Double.NaN"/>. If <paramref name="minimum"/>
+        /// <paramref name="maximum"/> is <see cref="double.NaN"/>. If <paramref name="minimum"/>
 		/// is greater than <paramref name="maximum"/>.</exception>
 		public Range(
-			Double minimum,
-			Double maximum)
+            double minimum,
+            double maximum)
 			: this(minimum, false, maximum, false)
 		{
 		}
@@ -107,7 +107,7 @@ namespace FireworksNet.Model
 		/// <param name="value">Value that needs to be tested.</param>
 		/// <returns><c>true</c> if <paramref name="value"/> belongs to the <see cref="Range"/>;
 		/// otherwise <c>false</c>.</returns>
-		public Boolean IsInRange(Double value)
+        public bool IsInRange(double value)
 		{
 			if (value.IsLess(Minimum) || value.IsGreater(Maximum))
 			{
@@ -119,13 +119,13 @@ namespace FireworksNet.Model
 				return true;
 			}
 
-			Boolean isMinEdge = value.IsEqual(Minimum);
+            bool isMinEdge = value.IsEqual(Minimum);
 			if (IsMinimumOpen && isMinEdge)
 			{
 				return false;
 			}
 
-            Boolean isMaxEdge = value.IsEqual(Maximum);
+            bool isMaxEdge = value.IsEqual(Maximum);
 			if (IsMaximumOpen && isMaxEdge)
 			{
 				return false;
@@ -141,7 +141,7 @@ namespace FireworksNet.Model
 		/// <returns><c>true</c> if both <see cref="Range.Minimum"/> and <see cref="Range.Maximum"/>
 		/// of <paramref name="otherRange"/> belong to the <see cref="Range"/>;
 		/// otherwise <c>false</c>.</returns>
-		public Boolean IsInRange(Range otherRange)
+        public bool IsInRange(Range otherRange)
 		{
 			return IsInRange(otherRange.Minimum) && IsInRange(otherRange.Maximum);
 		}
@@ -150,9 +150,9 @@ namespace FireworksNet.Model
 
 		/// <summary>
 		/// Converts <see cref="Range"/> value to string with desired <paramref name="format"/> 
-		/// for <see cref="Double"/> to <see cref="String"/> conversion.
+        /// for <see cref="double"/> to <see cref="String"/> conversion.
 		/// </summary>
-		/// <param name="format"><see cref="Double"/> to <see cref="String"/> format.</param>
+        /// <param name="format"><see cref="double"/> to <see cref="String"/> format.</param>
 		/// <returns>String representation of this <see cref="Range"/> instance. Boundaries
 		/// are formatted with <paramref name="format"/>.</returns>
 		public String ToString(String format)
@@ -187,9 +187,9 @@ namespace FireworksNet.Model
 
 		/// <summary>
 		/// Converts <see cref="Range"/> value to string with desired <paramref name="format"/> 
-		/// for <see cref="Double"/> to <see cref="String"/> conversion and <see cref="CultureInfo.Invariant"/>.
+        /// for <see cref="double"/> to <see cref="String"/> conversion and <see cref="CultureInfo.Invariant"/>.
 		/// </summary>
-		/// <param name="format"><see cref="Double"/> to <see cref="String"/> format.</param>
+        /// <param name="format"><see cref="double"/> to <see cref="String"/> format.</param>
 		/// <returns>String representation of this <see cref="Range"/> instance. Boundaries
 		/// are formatted with <paramref name="format"/> - for <see cref="CultureInfo.Invariant"/>.</returns>
 		public String ToStringInvariant(String format)
@@ -211,11 +211,11 @@ namespace FireworksNet.Model
 		/// <paramref name="mean"/> - <paramref name="deviationValue"/> and its
 		/// maximum is <paramref name="mean"/> + <paramref name="deviationValue"/>.</returns>
 		/// <exception cref="ArgumentOutOfRangeException">If <paramref name="mean"/> 
-		/// or <paramref name="deviationValue"/> is <see cref="Double.NaN"/>. If 
+        /// or <paramref name="deviationValue"/> is <see cref="double.NaN"/>. If 
 		/// <paramref name="mean"/> or <paramref name="deviationValue"/> is 
-		/// <see cref="Double.NegativeInfinity"/> or <see cref="Double.PositiveInfinity"/>.
+        /// <see cref="double.NegativeInfinity"/> or <see cref="double.PositiveInfinity"/>.
 		/// If <paramref name="deviationValue"/> is less than zero.</exception>
-		public static Range Create(Double mean, Double deviationValue)
+        public static Range Create(double mean, double deviationValue)
 		{
 			return Create(mean, deviationValue, false, false);
 		}
@@ -232,17 +232,17 @@ namespace FireworksNet.Model
 		/// <paramref name="mean"/> - <paramref name="deviationValue"/> and its
 		/// maximum is <paramref name="mean"/> + <paramref name="deviationValue"/>.</returns>
 		/// <exception cref="ArgumentOutOfRangeException">If <paramref name="mean"/> or 
-		/// <paramref name="deviationValue"/> is <see cref="Double.NaN"/>. If 
+        /// <paramref name="deviationValue"/> is <see cref="double.NaN"/>. If 
 		/// <paramref name="mean"/> or <paramref name="deviationValue"/> is 
-		/// <see cref="Double.NegativeInfinity"/> or <see cref="Double.PositiveInfinity"/>.
+        /// <see cref="double.NegativeInfinity"/> or <see cref="double.PositiveInfinity"/>.
 		/// If <paramref name="deviationValue"/> is less than zero.</exception>
-		public static Range Create(Double mean, Double deviationValue, Boolean isMinimumOpen, Boolean isMaximumOpen)
+        public static Range Create(double mean, double deviationValue, bool isMinimumOpen, bool isMaximumOpen)
 		{
 			ValidateMean(mean);
 			ValidateDeviationValue(deviationValue);
 
-			Double min = mean - deviationValue;
-			Double max = mean + deviationValue;
+            double min = mean - deviationValue;
+            double max = mean + deviationValue;
 
 			return new Range(min, isMinimumOpen, max, isMaximumOpen);
 		}
@@ -258,10 +258,10 @@ namespace FireworksNet.Model
 		/// <returns>New instance of <see cref="Invariant"/> which is <paramref name="mean"/>
 		/// +- <paramref name="deviationPercent"/> * <paramref name="mean"/>.</returns>
 		/// <exception cref="ArgumentOutOfRangeException">If <paramref name="mean"/> is 
-		/// <see cref="Double.NaN"/>. If <paramref name="mean"/> is <see cref="Double.NegativeInfinity"/>
-		/// or <see cref="Double.PositiveInfinity"/>. If <paramref name="deviationPercent"/> is less than zero.
+        /// <see cref="double.NaN"/>. If <paramref name="mean"/> is <see cref="double.NegativeInfinity"/>
+        /// or <see cref="double.PositiveInfinity"/>. If <paramref name="deviationPercent"/> is less than zero.
 		/// </exception>
-		public static Range Create(Double mean, Int32 deviationPercent)
+        public static Range Create(double mean, int deviationPercent)
 		{
 			return Create(mean, deviationPercent, false, false);
 		}
@@ -278,18 +278,18 @@ namespace FireworksNet.Model
 		/// <param name="isMaximumOpen">Whether upper boundary is open (exclusive) or not.</param>
 		/// <returns>New instance of <see cref="Invariant"/> which is <paramref name="mean"/>
 		/// +- <paramref name="deviationPercent"/> * <paramref name="mean"/>.</returns>
-		/// <exception cref="ArgumentException">If <paramref name="mean"/> is <see cref="Double.NaN"/>.</exception>
+        /// <exception cref="ArgumentException">If <paramref name="mean"/> is <see cref="double.NaN"/>.</exception>
 		/// <exception cref="ArgumentOutOfRangeException">If <paramref name="mean"/> is
-		/// <see cref="Double.NegativeInfinity"/> or <see cref="Double.PositiveInfinity"/>.
+        /// <see cref="double.NegativeInfinity"/> or <see cref="double.PositiveInfinity"/>.
 		/// If <paramref name="deviationPercent"/> is less than zero.</exception>
-		public static Range Create(Double mean, Int32 deviationPercent, Boolean isMinimumOpen, Boolean isMaximumOpen)
+        public static Range Create(double mean, int deviationPercent, bool isMinimumOpen, bool isMaximumOpen)
 		{
 			ValidateMean(mean);
 			ValidateDeviationPercent(deviationPercent);
 
-			Double min = Double.NaN;
-			Double max = Double.NaN;
-			Double deviationValue = deviationPercent / 100.0;
+            double min = double.NaN;
+            double max = double.NaN;
+            double deviationValue = deviationPercent / 100.0;
 
             if (mean.IsGreaterOrEqual(0.0))
 			{
@@ -322,17 +322,17 @@ namespace FireworksNet.Model
 		/// <paramref name="maxRestriction"/>).</returns>
 		/// <exception cref="ArgumentOutOfRangeException">If <paramref name="mean"/> or 
 		/// <paramref name="deviationValue"/> or <paramref name="minRestriction"/> or 
-		/// <paramref name="maxRestriction"/> is <see cref="Double.NaN"/>. If 
+        /// <paramref name="maxRestriction"/> is <see cref="double.NaN"/>. If 
 		/// <paramref name="mean"/> or <paramref name="deviationValue"/> is 
-		/// <see cref="Double.NegativeInfinity"/> or <see cref="Double.PositiveInfinity"/>.
+        /// <see cref="double.NegativeInfinity"/> or <see cref="double.PositiveInfinity"/>.
 		/// If <paramref name="deviationValue"/> is less than zero.
 		/// If <paramref name="minRestriction"/> is greater than <paramref name="maxRestriction"/>.
 		/// </exception>
 		public static Range CreateWithRestrictions(
-			Double mean,
-			Double deviationValue,
-			Double minRestriction,
-			Double maxRestriction)
+            double mean,
+            double deviationValue,
+            double minRestriction,
+            double maxRestriction)
 		{
 			return CreateWithRestrictions(mean, deviationValue, minRestriction, maxRestriction, false, false);
 		}
@@ -356,30 +356,30 @@ namespace FireworksNet.Model
 		/// <paramref name="maxRestriction"/>).</returns>
 		/// <exception cref="ArgumentOutOfRangeException">If <paramref name="mean"/> or 
 		/// <paramref name="deviationValue"/> or <paramref name="minRestriction"/> or 
-		/// <paramref name="maxRestriction"/> is <see cref="Double.NaN"/>. If <paramref name="mean"/>
-		/// or <paramref name="deviationValue"/> is <see cref="Double.NegativeInfinity"/> or
-		/// <see cref="Double.PositiveInfinity"/>. If <paramref name="deviationValue"/> is
+        /// <paramref name="maxRestriction"/> is <see cref="double.NaN"/>. If <paramref name="mean"/>
+        /// or <paramref name="deviationValue"/> is <see cref="double.NegativeInfinity"/> or
+        /// <see cref="double.PositiveInfinity"/>. If <paramref name="deviationValue"/> is
 		/// less than zero. If <paramref name="minRestriction"/> is greater than
 		/// <paramref name="maxRestriction"/>.</exception>
 		public static Range CreateWithRestrictions(
-			Double mean,
-			Double deviationValue,
-			Double minRestriction,
-			Double maxRestriction,
-			Boolean isMinimumOpen,
-			Boolean isMaximumOpen)
+            double mean,
+            double deviationValue,
+            double minRestriction,
+            double maxRestriction,
+            bool isMinimumOpen,
+            bool isMaximumOpen)
 		{
 			ValidateMean(mean);
 			ValidateDeviationValue(deviationValue);
 			ValidateBoundaries(minRestriction, maxRestriction);
 
-			Double min = mean - deviationValue;
+            double min = mean - deviationValue;
             if (min.IsLess(minRestriction))
 			{
 				min = minRestriction;
 			}
 
-			Double max = mean + deviationValue;
+            double max = mean + deviationValue;
             if (max.IsGreater(maxRestriction))
 			{
 				max = maxRestriction;
@@ -407,15 +407,15 @@ namespace FireworksNet.Model
 		/// in the result.</returns>
 		/// <exception cref="ArgumentOutOfRangeException">If <paramref name="mean"/> or 
 		/// <paramref name="minRestriction"/> or <paramref name="maxRestriction"/> is 
-		/// <see cref="Double.NaN"/>. If <paramref name="mean"/> is <see cref="Double.NegativeInfinity"/>
-		/// or <see cref="Double.PositiveInfinity"/>. If <paramref name="deviationPercent"/> is less than 
+        /// <see cref="double.NaN"/>. If <paramref name="mean"/> is <see cref="double.NegativeInfinity"/>
+        /// or <see cref="double.PositiveInfinity"/>. If <paramref name="deviationPercent"/> is less than 
 		/// zero. If <paramref name="minRestriction"/> is greater than <paramref name="maxRestriction"/>.
 		/// </exception>
 		public static Range CreateWithRestrictions(
-			Double mean,
-			Int32 deviationPercent,
-			Double minRestriction,
-			Double maxRestriction)
+            double mean,
+            int deviationPercent,
+            double minRestriction,
+            double maxRestriction)
 		{
 			return CreateWithRestrictions(mean, deviationPercent, minRestriction, maxRestriction, false, false);
 		}
@@ -441,25 +441,25 @@ namespace FireworksNet.Model
 		/// in the result.</returns>
 		/// <exception cref="ArgumentOutOfRangeException">If <paramref name="mean"/> or 
 		/// <paramref name="minRestriction"/> or <paramref name="maxRestriction"/> is 
-		/// <see cref="Double.NaN"/>. If <paramref name="mean"/> is <see cref="Double.NegativeInfinity"/>
-		/// or <see cref="Double.PositiveInfinity"/>. If <paramref name="deviationPercent"/> 
+        /// <see cref="double.NaN"/>. If <paramref name="mean"/> is <see cref="double.NegativeInfinity"/>
+        /// or <see cref="double.PositiveInfinity"/>. If <paramref name="deviationPercent"/> 
 		/// is less than zero. If <paramref name="minRestriction"/> is greater than <paramref name="maxRestriction"/>.
 		/// </exception>
 		public static Range CreateWithRestrictions(
-			Double mean,
-			Int32 deviationPercent,
-			Double minRestriction,
-			Double maxRestriction,
-			Boolean isMinimumOpen,
-			Boolean isMaximumOpen)
+            double mean,
+            int deviationPercent,
+            double minRestriction,
+            double maxRestriction,
+            bool isMinimumOpen,
+            bool isMaximumOpen)
 		{
 			ValidateMean(mean);
 			ValidateDeviationPercent(deviationPercent);
 			ValidateBoundaries(minRestriction, maxRestriction);
 
-			Double min = Double.NaN;
-			Double max = Double.NaN;
-			Double deviationValue = deviationPercent / 100.0;
+            double min = double.NaN;
+            double max = double.NaN;
+            double deviationValue = deviationPercent / 100.0;
 
             if (mean.IsGreaterOrEqual(0.0))
 			{
@@ -495,17 +495,17 @@ namespace FireworksNet.Model
 		/// <param name="mean">Mean (middle) value of the <see cref="Range"/>
 		/// that needs to be validated.</param>
 		/// <exception cref="ArgumentOutOfRangeException">If <paramref name="mean"/> is
-		/// <see cref="Double.NaN"/>. If <paramref name="mean"/> is 
-		/// <see cref="Double.NegativeInfinity"/> or <see cref="Double.PositiveInfinity"/>.
+        /// <see cref="double.NaN"/>. If <paramref name="mean"/> is 
+        /// <see cref="double.NegativeInfinity"/> or <see cref="double.PositiveInfinity"/>.
 		/// </exception>
-		private static void ValidateMean(Double mean)
+        private static void ValidateMean(double mean)
 		{
-			if (Double.IsNaN(mean))
+            if (double.IsNaN(mean))
 			{
 				throw new ArgumentOutOfRangeException("mean");
 			}
 
-			if (Double.IsInfinity(mean))
+            if (double.IsInfinity(mean))
 			{
 				throw new ArgumentOutOfRangeException("mean");
 			}
@@ -517,17 +517,17 @@ namespace FireworksNet.Model
 		/// <param name="deviationValue">Deviation value of the <see cref="Range"/>
 		/// that needs to be validated.</param>
 		/// <exception cref="ArgumentOutOfRangeException">If <paramref name="deviationValue"/>
-		/// is <see cref="Double.NaN"/>. If <paramref name="deviationValue"/>
-		/// is <see cref="Double.NegativeInfinity"/> or <see cref="Double.PositiveInfinity"/>
+        /// is <see cref="double.NaN"/>. If <paramref name="deviationValue"/>
+        /// is <see cref="double.NegativeInfinity"/> or <see cref="double.PositiveInfinity"/>
 		/// or is less than zero.</exception>
-		private static void ValidateDeviationValue(Double deviationValue)
+        private static void ValidateDeviationValue(double deviationValue)
 		{
-			if (Double.IsNaN(deviationValue))
+            if (double.IsNaN(deviationValue))
 			{
 				throw new ArgumentOutOfRangeException("deviationValue");
 			}
 
-			if (Double.IsInfinity(deviationValue))
+            if (double.IsInfinity(deviationValue))
 			{
 				throw new ArgumentOutOfRangeException("deviationValue");
 			}
@@ -545,7 +545,7 @@ namespace FireworksNet.Model
 		/// that needs to be validated.</param>
 		/// <exception cref="ArgumentOutOfRangeException">If <paramref name="deviationPercent"/>
 		/// is less than zero.</exception>
-		private static void ValidateDeviationPercent(Int32 deviationPercent)
+        private static void ValidateDeviationPercent(int deviationPercent)
 		{
 			if (deviationPercent < 0)
 			{
@@ -561,17 +561,17 @@ namespace FireworksNet.Model
 		/// <param name="maximum">Upper boundary of the <see cref="Range"/>
 		/// that needs to be validated.</param>
 		/// <exception cref="ArgumentOutOfRangeException">If <paramref name="minimum"/>
-		/// or <paramref name="maximum"/> is <see cref="Double.NaN"/>. If 
+        /// or <paramref name="maximum"/> is <see cref="double.NaN"/>. If 
 		/// <paramref name="minimum"/> is greater than <paramref name="maximum"/>.
 		/// </exception>
-		private static void ValidateBoundaries(Double minimum, Double maximum)
+        private static void ValidateBoundaries(double minimum, double maximum)
 		{
-			if (Double.IsNaN(minimum))
+            if (double.IsNaN(minimum))
 			{
 				throw new ArgumentOutOfRangeException("minimum");
 			}
 
-			if (Double.IsNaN(maximum))
+            if (double.IsNaN(maximum))
 			{
 				throw new ArgumentOutOfRangeException("maximum");
 			}
@@ -592,7 +592,7 @@ namespace FireworksNet.Model
 		/// <param name="obj">The <see cref="Range"/> object to compare with the current one.</param>
 		/// <returns><c>true</c> if the specified <see cref="Range"/> is equal to the current one;
 		/// otherwise <c>false</c>.</returns>
-		public override Boolean Equals(Object obj)
+        public override bool Equals(object obj)
 		{
             return Equals(obj as Range);
 		}
@@ -601,12 +601,12 @@ namespace FireworksNet.Model
 		/// Serves as a hash function for a particular type.
 		/// </summary>
 		/// <returns>A hash code for the current <see cref="Range"/>.</returns>
-		public override Int32 GetHashCode()
+        public override int GetHashCode()
 		{
 			// http://stackoverflow.com/questions/263400/what-is-the-best-algorithm-for-an-overridden-system-object-gethashcode
 			unchecked
 			{
-				Int32 hash = 17;
+                int hash = 17;
 				hash = hash * 29 + Minimum.GetHashCode();
 				hash = hash * 29 + Maximum.GetHashCode();
 				hash = hash * 29 + IsMinimumOpen.GetHashCode();
@@ -636,7 +636,7 @@ namespace FireworksNet.Model
 		/// <param name="right">Second instance of <see cref="Range"/>.</param>
 		/// <returns><c>true</c> if <paramref name="left"/> value is equal to the <paramref name="right"/> 
 		/// value; otherwise <c>false</c>.</returns>
-		public static Boolean operator ==(Range left, Range right)
+        public static bool operator ==(Range left, Range right)
 		{
             if (object.ReferenceEquals((object)left, (object)null))
             {
@@ -653,7 +653,7 @@ namespace FireworksNet.Model
 		/// <param name="right">Second instance of <see cref="Range"/>.</param>
 		/// <returns><c>true</c> if <paramref name="left"/> value is not equal to the <paramref name="right"/> 
 		/// value; otherwise <c>false</c>.</returns>
-		public static Boolean operator !=(Range left, Range right)
+        public static bool operator !=(Range left, Range right)
 		{
             if (object.ReferenceEquals((object)left, (object)null))
             {
@@ -672,7 +672,7 @@ namespace FireworksNet.Model
 		/// </summary>
 		/// <param name="other">An object to compare with this object.</param>
 		/// <returns><c>true</c> if the current object is equal to the other parameter; otherwise <c>false</c>.</returns>
-		public Boolean Equals(Range other)
+        public bool Equals(Range other)
 		{
             if (object.ReferenceEquals((object)other, (object)null))
             {

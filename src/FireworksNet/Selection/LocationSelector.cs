@@ -11,9 +11,9 @@ namespace FireworksNet.Selection
 	{
 		private readonly IDistance distanceCalculator;
 		private readonly Func<IEnumerable<Firework>, Firework> bestFireworkSelector;
-		private readonly Int32 locationsNumber;
+        private readonly int locationsNumber;
 
-		public LocationSelector(IDistance distanceCalculator, Func<IEnumerable<Firework>, Firework> bestFireworkSelector, Int32 locationsNumber)
+        public LocationSelector(IDistance distanceCalculator, Func<IEnumerable<Firework>, Firework> bestFireworkSelector, int locationsNumber)
 		{
 			if (distanceCalculator == null)
 			{
@@ -46,7 +46,7 @@ namespace FireworksNet.Selection
 		}
 
 		// Always returns new collection
-		public virtual IEnumerable<Firework> Select(IEnumerable<Firework> from, Int32 numberToSelect)
+        public virtual IEnumerable<Firework> Select(IEnumerable<Firework> from, int numberToSelect)
 		{
 			if (from == null)
 			{
@@ -83,13 +83,13 @@ namespace FireworksNet.Selection
             if (numberToSelect > 1)
             {
                 // 2. Calculate distances between all fireworks
-                IDictionary<Firework, Double> distances = CalculateDistances(from);
+                IDictionary<Firework, double> distances = CalculateDistances(from);
 
                 // 3. Calculate probabilities for each firework
-                IDictionary<Firework, Double> probabilities = CalculateProbabilities(distances);
+                IDictionary<Firework, double> probabilities = CalculateProbabilities(distances);
 
                 // 4. Select desiredLocationsNumber - 1 of fireworks based on the probabilities
-                IOrderedEnumerable<KeyValuePair<Firework, Double>> sortedProbabilities = probabilities.OrderByDescending(p => p.Value, new DoubleExtensions.DoubleExtensionComparer());
+                IOrderedEnumerable<KeyValuePair<Firework, double>> sortedProbabilities = probabilities.OrderByDescending(p => p.Value, new DoubleExtensions.DoubleExtensionComparer());
                 IEnumerable<Firework> otherSelectedLocations = sortedProbabilities.Where(sp => sp.Key != bestFirework).Take(numberToSelect - 1).Select(sp => sp.Key);
                 selectedLocations.AddRange(otherSelectedLocations);
             }
@@ -97,7 +97,7 @@ namespace FireworksNet.Selection
 			return selectedLocations;
 		}
 
-		protected virtual IDictionary<Firework, Double> CalculateDistances(IEnumerable<Firework> allCurrentFireworks)
+        protected virtual IDictionary<Firework, double> CalculateDistances(IEnumerable<Firework> allCurrentFireworks)
 		{
 			Dictionary<Firework, double> distances = new Dictionary<Firework, double>(allCurrentFireworks.Count());
 			foreach (Firework firework in allCurrentFireworks)
@@ -112,7 +112,7 @@ namespace FireworksNet.Selection
 			return distances;
 		}
 
-		protected virtual IDictionary<Firework, Double> CalculateProbabilities(IDictionary<Firework, Double> distances)
+        protected virtual IDictionary<Firework, double> CalculateProbabilities(IDictionary<Firework, double> distances)
 		{
 			Dictionary<Firework, double> probabilities = new Dictionary<Firework, double>(distances.Count());
 			double distancesSum = distances.Values.Sum();

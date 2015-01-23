@@ -9,10 +9,10 @@ namespace FireworksNet.Model
 
 		public FireworkType Type { get; private set; }
 
-		public Int32 BirthStepNumber { get; private set; }
+        public int BirthStepNumber { get; private set; }
 
-		public Firework(FireworkType type, Int32 birthStepNumber, IDictionary<Dimension, Double> coordinates)
-			: base(coordinates, Double.NaN)
+        public Firework(FireworkType type, int birthStepNumber, IDictionary<Dimension, double> coordinates)
+            : base(coordinates, double.NaN)
 		{
 			if (birthStepNumber < 0)
 			{
@@ -29,8 +29,8 @@ namespace FireworksNet.Model
 			BirthStepNumber = birthStepNumber;
 		}
 
-		public Firework(FireworkType type, Int32 birthStepNumber)
-			: this(type, birthStepNumber, new Dictionary<Dimension, Double>())
+        public Firework(FireworkType type, int birthStepNumber)
+            : this(type, birthStepNumber, new Dictionary<Dimension, double>())
 		{
 		}
 	}

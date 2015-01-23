@@ -6,6 +6,6 @@ namespace FireworksNet.Explode
 {
     public interface IExploder
     {
-        Explosion Explode(Firework epicenter, IEnumerable<Double> currentFireworkQualities, Int32 currentStepNumber);
+        Explosion Explode(Firework epicenter, IEnumerable<double> currentFireworkQualities, int currentStepNumber);
     }
 }

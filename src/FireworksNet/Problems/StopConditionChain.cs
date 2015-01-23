@@ -58,7 +58,7 @@ namespace FireworksNet.Problems
             return AddStopCondition(anotherStopCondition, AggregationOperator.Or);
         }
 
-        public Boolean ShouldStop(IEnumerable<Firework> currentFireworks)
+        public bool ShouldStop(IEnumerable<Firework> currentFireworks)
         {
             switch (aggregationMode)
             {

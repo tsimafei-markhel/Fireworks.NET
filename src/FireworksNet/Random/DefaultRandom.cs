@@ -17,29 +17,29 @@ namespace FireworksNet.Random
             randomizer = new SystemRandomSource();
         }
 
-        public DefaultRandom(Int32 seed)
+        public DefaultRandom(int seed)
             : this(seed, true)
         {
         }
 
-        public DefaultRandom(Int32 seed, Boolean threadSafe)
+        public DefaultRandom(int seed, bool threadSafe)
         {
             randomizer = new SystemRandomSource(seed, threadSafe);
         }
 
         #region System.Random overrides
 
-        public override Int32 Next()
+        public override int Next()
         {
             return randomizer.Next();
         }
 
-        public override Int32 Next(Int32 maxValue)
+        public override int Next(int maxValue)
         {
             return randomizer.Next(maxValue);
         }
 
-        public override Int32 Next(Int32 minValue, Int32 maxValue)
+        public override int Next(int minValue, int maxValue)
         {
             return randomizer.Next(minValue, maxValue);
         }
@@ -49,7 +49,7 @@ namespace FireworksNet.Random
             randomizer.NextBytes(buffer);
         }
 
-        public override Double NextDouble()
+        public override double NextDouble()
         {
             return randomizer.NextDouble();
         }

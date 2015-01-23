@@ -6,6 +6,6 @@ namespace FireworksNet.Problems
 {
     public interface IStopCondition
     {
-        Boolean ShouldStop(IEnumerable<Firework> currentFireworks);
+        bool ShouldStop(IEnumerable<Firework> currentFireworks);
     }
 }

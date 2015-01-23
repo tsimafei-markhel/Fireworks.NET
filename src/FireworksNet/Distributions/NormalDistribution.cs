@@ -8,7 +8,7 @@ namespace FireworksNet.Distributions
     {
         private readonly Normal internalNormal;
 
-        public NormalDistribution(Double mean, Double stddev)
+        public NormalDistribution(double mean, double stddev)
         {
             internalNormal = new Normal(mean, stddev);
         }
@@ -20,7 +20,7 @@ namespace FireworksNet.Distributions
             return internalNormal.Sample();
         }
 
-        public IEnumerable<Double> Samples()
+        public IEnumerable<double> Samples()
         {
             System.Diagnostics.Debug.Assert(internalNormal != null, "Internal distribution implementation is null");
 

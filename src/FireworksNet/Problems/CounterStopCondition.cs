@@ -8,10 +8,10 @@ namespace FireworksNet.Problems
 	// Counts something; stops when count exceeds some threshold
 	public class CounterStopCondition : IStopCondition
 	{
-		protected readonly Int32 threshold;
-		private Int32 count;
+        protected readonly int threshold;
+        private int count;
 
-		public CounterStopCondition(Int32 threshold)
+        public CounterStopCondition(int threshold)
         {
 			if (threshold < 0)
             {
@@ -22,12 +22,12 @@ namespace FireworksNet.Problems
 			this.count = 0;
         }
 
-        public virtual Boolean ShouldStop(IEnumerable<Firework> currentFireworks)
+        public virtual bool ShouldStop(IEnumerable<Firework> currentFireworks)
         {
 			return count >= threshold;
         }
 
-		public virtual void IncreaseCounter(Object sender, Object e)
+        public virtual void IncreaseCounter(object sender, object e)
 		{
 			Interlocked.Increment(ref count);
 		}
