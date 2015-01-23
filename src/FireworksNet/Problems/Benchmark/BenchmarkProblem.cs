@@ -21,8 +21,6 @@ namespace FireworksNet.Problems.Benchmark
 				// We have neither coordinates of a known solution nor its quality.
 				// Therefore, such known solution is useless.
 				throw new ArgumentException(string.Empty, "knownSolution");
-
-				// TODO: Check all Argument... exceptions for correctness or parameters (e.g. param name is passed instead of message or vice versa etc.)
 			}
 
             this.KnownSolution = knownSolution;
