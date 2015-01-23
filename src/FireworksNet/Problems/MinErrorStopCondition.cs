@@ -8,16 +8,16 @@ namespace FireworksNet.Problems
 {
     public class MinErrorStopCondition : IStopCondition
     {
-        private readonly Double[] knownBest; // TODO: Solution here...
+        private readonly Solution knownSolution;
 		private readonly Func<IEnumerable<Firework>, Firework> bestFireworkSelector;
 		private readonly IDistance distanceCalculator;
 		private readonly Double minError;
 
-		public MinErrorStopCondition(Double[] knownBest, Func<IEnumerable<Firework>, Firework> bestFireworkSelector, IDistance distanceCalculator, Double minError)
+		public MinErrorStopCondition(Solution knownSolution, Func<IEnumerable<Firework>, Firework> bestFireworkSelector, IDistance distanceCalculator, Double minError)
 		{
-			if (knownBest == null)
+			if (knownSolution == null)
 			{
-				throw new ArgumentNullException("knownBest");
+				throw new ArgumentNullException("knownSolution");
 			}
 
 			if (bestFireworkSelector == null)
@@ -35,26 +35,26 @@ namespace FireworksNet.Problems
 				throw new ArgumentOutOfRangeException("knownBest");
 			}
 
-			this.knownBest = knownBest;
+			this.knownSolution = knownSolution;
 			this.bestFireworkSelector = bestFireworkSelector;
 			this.distanceCalculator = distanceCalculator;
 			this.minError = minError;
 		}
 
-		public MinErrorStopCondition(Double[] knownBest, Func<IEnumerable<Firework>, Firework> bestFireworkSelector, IDistance distanceCalculator)
-			: this(knownBest, bestFireworkSelector, distanceCalculator, double.Epsilon)
+		public MinErrorStopCondition(Solution knownSolution, Func<IEnumerable<Firework>, Firework> bestFireworkSelector, IDistance distanceCalculator)
+			: this(knownSolution, bestFireworkSelector, distanceCalculator, double.Epsilon)
 		{
         }
 
-        public Boolean ShouldStop(IEnumerable<Firework> currentFireworks)
+        public virtual Boolean ShouldStop(IEnumerable<Firework> currentFireworks)
         {
 			if (currentFireworks == null)
 			{
 				throw new ArgumentNullException("currentFireworks");
 			}
 
-			Firework bestFirework = bestFireworkSelector(currentFireworks); // TODO: Looking for best existing firework on each call may be inefficient...
-            Double error = distanceCalculator.Calculate(bestFirework, knownBest);
+			Firework bestFirework = bestFireworkSelector(currentFireworks);
+            Double error = distanceCalculator.Calculate(bestFirework, knownSolution);
 
             return error.IsLessOrEqual(minError);
         }
