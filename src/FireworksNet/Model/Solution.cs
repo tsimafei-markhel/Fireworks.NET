@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace FireworksNet.Model
 {
-	public class Solution
+	public class Solution // TODO : IEquatable<Solution>
 	{
 		public IDictionary<Dimension, Double> Coordinates { get; private set; }
 

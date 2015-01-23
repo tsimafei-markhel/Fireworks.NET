@@ -36,7 +36,7 @@ namespace FireworksNet.Distances
 			return Distance.Euclidean(first, second);
 		}
 
-		public Double Calculate(Firework first, Firework second)
+		public Double Calculate(Solution first, Solution second)
 		{
 			if (first == null)
 			{
@@ -60,7 +60,7 @@ namespace FireworksNet.Distances
 			return Calculate(firstCoordinates, secondCoordinates);
 		}
 
-        public Double Calculate(Firework first, Double[] second)
+		public Double Calculate(Solution first, Double[] second)
         {
 			if (first == null)
 			{
@@ -75,11 +75,11 @@ namespace FireworksNet.Distances
 			return Calculate(GetCoordinates(first), second);
         }
 
-		private Double[] GetCoordinates(Firework firework)
+		private Double[] GetCoordinates(Solution firework)
 		{
 			System.Diagnostics.Debug.Assert(dimensions != null, "Dimension collection is null");
-			System.Diagnostics.Debug.Assert(firework != null, "Firework is null");
-			System.Diagnostics.Debug.Assert(firework.Coordinates != null, "Firework coordinate collection is null");
+			System.Diagnostics.Debug.Assert(firework != null, "Solution is null");
+			System.Diagnostics.Debug.Assert(firework.Coordinates != null, "Solution coordinate collection is null");
 
 			double[] coordinates = new double[dimensions.Count()];
 
@@ -96,13 +96,13 @@ namespace FireworksNet.Distances
 			return coordinates;
 		}
 
-		private void GetCoordinates(Firework firstFirework, Firework secondFirework, out Double[] firstCoordinates, out Double[] secondCoordinates)
+		private void GetCoordinates(Solution first, Solution second, out Double[] firstCoordinates, out Double[] secondCoordinates)
 		{
 			System.Diagnostics.Debug.Assert(dimensions != null, "Dimension collection is null");
-			System.Diagnostics.Debug.Assert(firstFirework != null, "First firework is null");
-			System.Diagnostics.Debug.Assert(secondFirework != null, "Second firework is null");
-			System.Diagnostics.Debug.Assert(firstFirework.Coordinates != null, "First firework coordinate collection is null");
-			System.Diagnostics.Debug.Assert(secondFirework.Coordinates != null, "Second firework coordinate collection is null");
+			System.Diagnostics.Debug.Assert(first != null, "First solution is null");
+			System.Diagnostics.Debug.Assert(second != null, "Second solution is null");
+			System.Diagnostics.Debug.Assert(first.Coordinates != null, "First solution coordinate collection is null");
+			System.Diagnostics.Debug.Assert(second.Coordinates != null, "Second solution coordinate collection is null");
 
 			firstCoordinates = new double[dimensions.Count()];
 			secondCoordinates = new double[dimensions.Count()];
@@ -112,8 +112,8 @@ namespace FireworksNet.Distances
 			{
 				System.Diagnostics.Debug.Assert(dimension != null, "Dimension is null");
 
-				firstCoordinates[dimensionCounter] = firstFirework.Coordinates[dimension];
-				secondCoordinates[dimensionCounter] = secondFirework.Coordinates[dimension];
+				firstCoordinates[dimensionCounter] = first.Coordinates[dimension];
+				secondCoordinates[dimensionCounter] = second.Coordinates[dimension];
 
 				dimensionCounter++;
 			}

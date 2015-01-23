@@ -6,7 +6,7 @@ namespace FireworksNet.Distances
 	public interface IDistance
 	{
 		Double Calculate(Double[] first, Double[] second);
-		Double Calculate(Firework first, Firework second);
-        Double Calculate(Firework first, Double[] second);
+		Double Calculate(Solution first, Solution second);
+		Double Calculate(Solution first, Double[] second);
 	}
 }
