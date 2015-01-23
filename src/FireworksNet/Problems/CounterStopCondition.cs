@@ -8,7 +8,7 @@ namespace FireworksNet.Problems
 	// Counts something; stops when count exceeds some threshold
 	public class CounterStopCondition : IStopCondition
 	{
-		private readonly Int32 threshold;
+		protected readonly Int32 threshold;
 		private Int32 count;
 
 		public CounterStopCondition(Int32 threshold)
