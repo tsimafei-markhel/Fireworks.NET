@@ -44,6 +44,7 @@ namespace FireworksNet.Selection
 			return Select(from, locationsNumber);
 		}
 
+		// Always returns new collection
 		public virtual IEnumerable<Firework> Select(IEnumerable<Firework> from, Int32 numberToSelect)
 		{
 			if (from == null)
@@ -58,12 +59,14 @@ namespace FireworksNet.Selection
 
 			if (numberToSelect > from.Count())
 			{
-				throw new ArgumentOutOfRangeException("numberToSelect"); // TODO: Or just return as much as we have?..
+				// At some point, we may need to return just as much as we have
+				// instead of throwing an exception.
+				throw new ArgumentOutOfRangeException("numberToSelect");
 			}
 
 			if (numberToSelect == from.Count())
 			{
-				return from; // TODO: Or make a copy?..
+				return new List<Firework>(from);
 			}
 
 			List<Firework> selectedLocations = new List<Firework>(numberToSelect);
