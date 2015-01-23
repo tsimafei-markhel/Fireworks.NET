@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace FireworksNet.Algorithm.Implementation
 {
     /// <summary>

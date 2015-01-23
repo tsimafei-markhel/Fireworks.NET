@@ -1,5 +1,4 @@
-﻿using System;
-using FireworksNet.Model;
+﻿using FireworksNet.Model;
 
 namespace FireworksNet.Distances
 {

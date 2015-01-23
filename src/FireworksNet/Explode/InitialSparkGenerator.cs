@@ -38,16 +38,24 @@ namespace FireworksNet.Explode
 
         protected override Firework CreateSparkTyped(InitialExplosion explosion)
 		{
+            System.Diagnostics.Debug.Assert(randomizer != null, "Randomizer is null");
+
 			Firework spark = new Firework(GeneratedSparkType, 0);
 			foreach (Dimension dimension in dimensions)
 			{
+                System.Diagnostics.Debug.Assert(dimension != null, "Dimension is null");
+
                 Range dimensionRange = initialDimensionRanges[dimension];
+
+                System.Diagnostics.Debug.Assert(dimensionRange != null, "Initial dimension range is null");
+
                 spark.Coordinates[dimension] = randomizer.NextDouble(dimensionRange);
 			}
 
 			return spark;
 		}
 
+        // TODO: Not sure if this method should be in this class. Maybe caller code has to decide how to setup initialDimensionRanges?
         private static IDictionary<Dimension, Range> SetInitialDimensionRanges(IEnumerable<Dimension> dimensions, IDictionary<Dimension, Range> initialDimensionRanges)
         {
             if (initialDimensionRanges != null)
@@ -60,6 +68,9 @@ namespace FireworksNet.Explode
                 Dictionary<Dimension, Range> dimensionRanges = new Dictionary<Dimension, Range>(dimensions.Count());
                 foreach (Dimension dimension in dimensions)
                 {
+                    System.Diagnostics.Debug.Assert(dimension != null, "Dimension is null");
+                    System.Diagnostics.Debug.Assert(dimension.VariationRange != null, "Dimension variation range is null");
+
                     dimensionRanges.Add(dimension, dimension.VariationRange);
                 }
 
