@@ -5,6 +5,8 @@ using FireworksNet.Model;
 
 namespace FireworksNet.Problems.Benchmark
 {
+	// TODO: Need to rework this to get rid of Lazy<T>. Each problem - separate class. Allow to pass IStopCondition to ctor.
+
 	/// <summary>
 	/// Stores various benchmark problems that can be used to test algorithm and its efficiency.
 	/// </summary>
