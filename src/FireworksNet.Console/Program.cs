@@ -21,6 +21,13 @@ namespace FireworksNet.Console
 
 			FireworksAlgorithm fwa = new FireworksAlgorithm(Sphere2010.Create(), fwaSettings);
 			Solution solution = fwa.Solve();
+
+			// TODO: Ideas for 'usage examples':
+			//       1. Simple run: alg settings, one of the benchmark problems, get the solution
+			//       2. Define user problem
+			//       3. Override stop condition
+			//       4. Composite stop condition
+			//       5. Capture states after each step
 		}
 	}
 }

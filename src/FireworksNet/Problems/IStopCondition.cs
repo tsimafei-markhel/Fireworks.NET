@@ -5,6 +5,6 @@ namespace FireworksNet.Problems
 {
     public interface IStopCondition
     {
-        bool ShouldStop(IEnumerable<Firework> currentFireworks);
+        bool ShouldStop(IEnumerable<Firework> currentFireworks); // TODO: Replace arg with AlgorithmState
     }
 }

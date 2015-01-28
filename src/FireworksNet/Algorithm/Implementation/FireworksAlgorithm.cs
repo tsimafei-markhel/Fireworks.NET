@@ -27,7 +27,6 @@ namespace FireworksNet.Algorithm.Implementation
 		private readonly ISelector locationSelector;
         private readonly ExploderSettings exploderSettings;
         private readonly IExploder exploder;
-        private int stepNumber;
 
         public Problem ProblemToSolve { get; private set; }
 
@@ -64,45 +63,70 @@ namespace FireworksNet.Algorithm.Implementation
                 SpecificSparksPerExplosionNumber = settings.SpecificSparksPerExplosionNumber
             };
             this.exploder = new Exploder(exploderSettings);
-
-            this.stepNumber = 0;
         }
 
         public Solution Solve()
         {
-            stepNumber = 0;
-
             InitialExplosion initialExplosion = new InitialExplosion(Settings.LocationsNumber);
             IEnumerable<Firework> fireworks = initialSparkGenerator.CreateSparks(initialExplosion);
 
             CalculateQualities(fireworks);
 
+			AlgorithmState state = new AlgorithmState()
+			{
+				BestSolution = ProblemToSolve.GetBest(fireworks),
+				Fireworks = fireworks,
+				StepNumber = 0
+			};
+
             while (!ProblemToSolve.StopCondition.ShouldStop(fireworks))
             {
-                fireworks = MakeStep(fireworks);
-                stepNumber++;
+				MakeStep(ref state);
             }
 
-            return ProblemToSolve.GetBest(fireworks);
+			return state.BestSolution;
         }
 
-        // Does not change state of this instance - TODO: poor design?
-        public IEnumerable<Firework> MakeStep(IEnumerable<Firework> currentFireworks)
+		public AlgorithmState MakeStep(AlgorithmState currentState)
+		{
+			if (currentState == null)
+			{
+				throw new ArgumentNullException("currentState");
+			}
+
+			AlgorithmState newState = new AlgorithmState()
+			{
+				BestSolution = currentState.BestSolution,
+				Fireworks = currentState.Fireworks,
+				StepNumber = currentState.StepNumber
+			};
+
+			MakeStep(ref newState);
+
+			return newState;
+		}
+
+		public void MakeStep(ref AlgorithmState state)
         {
-            if (currentFireworks == null)
+            if (state == null)
             {
-                throw new ArgumentNullException("currentFireworks");
+				throw new ArgumentNullException("state");
             }
 
-            IEnumerable<double> fireworkQualities = currentFireworks.Select(fw => fw.Quality);
+			// Need to increase step number first. Otherwise, we'll get
+			// BirthStepNumber for 1st generation fireworks == 0 just like
+			// that of initial fireworks.
+			state.StepNumber++;
+
+            IEnumerable<double> fireworkQualities = state.Fireworks.Select(fw => fw.Quality);
 
             IEnumerable<Firework> explosionSparks = new List<Firework>();
             IEnumerable<Firework> specificSparks = new List<Firework>(Settings.SpecificSparksNumber);
             IEnumerable<int> specificSparkParentIndices = randomizer.NextInt32s(Settings.SpecificSparksNumber, 0, Settings.LocationsNumber);
             int currentFirework = 0;
-            foreach (Firework firework in currentFireworks)
+            foreach (Firework firework in state.Fireworks)
             {
-                Explosion explosion = exploder.Explode(firework, fireworkQualities, stepNumber);
+				Explosion explosion = exploder.Explode(firework, fireworkQualities, state.StepNumber);
                 explosionSparks = explosionSparks.Concat(explosionSparkGenerator.CreateSparks(explosion));
                 if (specificSparkParentIndices.Contains(currentFirework))
                 {
@@ -115,8 +139,11 @@ namespace FireworksNet.Algorithm.Implementation
             CalculateQualities(explosionSparks);
             CalculateQualities(specificSparks);
 
-            IEnumerable<Firework> allFireworks = currentFireworks.Concat(explosionSparks.Concat(specificSparks));
-            return locationSelector.Select(allFireworks);
+            IEnumerable<Firework> allFireworks = state.Fireworks.Concat(explosionSparks.Concat(specificSparks));
+            IEnumerable<Firework> selectedFireworks = locationSelector.Select(allFireworks);
+
+			state.Fireworks = selectedFireworks;
+			state.BestSolution = ProblemToSolve.GetBest(selectedFireworks);
         }
 
         private void CalculateQualities(IEnumerable<Firework> fireworks)
