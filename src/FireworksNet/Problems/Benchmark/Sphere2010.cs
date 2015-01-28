@@ -18,6 +18,7 @@ namespace FireworksNet.Problems.Benchmark
 		private const double maxInitialDimensionValue = 50.0;
 		private const double knownBestQuality = 0.0;
 		private const ProblemTarget problemTarget = ProblemTarget.Minimum;
+		private const int maxQualityFuncCalculations = 10000;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Sphere2010"/> class.
@@ -41,8 +42,11 @@ namespace FireworksNet.Problems.Benchmark
 		/// Sphere test function, as used in 2010 paper.</returns>
 		public static Sphere2010 Create()
 		{
-			// TODO: In 2010 paper, stop condition was not number of steps
-			return Create(new StepCounterStopCondition(10));
+			CounterStopCondition countQualityFuncCalculations = new CounterStopCondition(maxQualityFuncCalculations);
+			Sphere2010 problem = Create(countQualityFuncCalculations);
+			problem.QualityCalculated += countQualityFuncCalculations.IncreaseCounter;
+
+			return problem;
 		}
 
 		/// <summary>
