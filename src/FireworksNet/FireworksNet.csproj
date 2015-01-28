@@ -70,6 +70,7 @@
     <Compile Include="Extensions\DoubleExtensions.cs" />
     <Compile Include="Algorithm\Implementation\FireworksAlgorithm.cs" />
     <Compile Include="Algorithm\IFireworksAlgorithm.cs" />
+    <Compile Include="Model\AlgorithmState.cs" />
     <Compile Include="Model\FireworkExplosion.cs" />
     <Compile Include="Model\InitialExplosion.cs" />
     <Compile Include="Model\Explosion.cs" />
