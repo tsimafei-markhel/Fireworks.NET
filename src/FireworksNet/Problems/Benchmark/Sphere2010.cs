@@ -30,7 +30,7 @@ namespace FireworksNet.Problems.Benchmark
 		/// <param name="knownSolution">Known solution.</param>
 		/// <param name="stopCondition">Algorithm stop condition.</param>
 		/// <param name="target">Problem target.</param>
-		private Sphere2010(IEnumerable<Dimension> dimensions, IDictionary<Dimension, Range> initialDimensionRanges, Func<IDictionary<Dimension, double>, double> targetFunction, Solution knownSolution, IStopCondition stopCondition, ProblemTarget target)
+		private Sphere2010(IList<Dimension> dimensions, IDictionary<Dimension, Range> initialDimensionRanges, Func<IDictionary<Dimension, double>, double> targetFunction, Solution knownSolution, IStopCondition stopCondition, ProblemTarget target)
 			: base(dimensions, initialDimensionRanges, targetFunction, knownSolution, stopCondition, target)
 		{
 		}

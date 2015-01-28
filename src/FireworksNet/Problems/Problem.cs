@@ -18,7 +18,7 @@ namespace FireworksNet.Problems
 
 		public event EventHandler<BestFireworkFoundEventArgs> BestFireworkFound;
 
-        public IEnumerable<Dimension> Dimensions { get; private set; }
+        public IList<Dimension> Dimensions { get; private set; }
 
 		public IDictionary<Dimension, Range> InitialDimensionRanges { get; private set; }
 
@@ -26,7 +26,7 @@ namespace FireworksNet.Problems
 
 		public ProblemTarget Target { get; private set; }
 
-        public Problem(IEnumerable<Dimension> dimensions, IDictionary<Dimension, Range> initialDimensionRanges, Func<IDictionary<Dimension, double>, double> targetFunction, IStopCondition stopCondition, ProblemTarget target)
+		public Problem(IList<Dimension> dimensions, IDictionary<Dimension, Range> initialDimensionRanges, Func<IDictionary<Dimension, double>, double> targetFunction, IStopCondition stopCondition, ProblemTarget target)
         {
             if (dimensions == null)
             {
@@ -56,12 +56,12 @@ namespace FireworksNet.Problems
             this.Target = target;
         }
 
-        public Problem(IEnumerable<Dimension> dimensions, Func<IDictionary<Dimension, double>, double> targetFunction, IStopCondition stopCondition, ProblemTarget target)
+		public Problem(IList<Dimension> dimensions, Func<IDictionary<Dimension, double>, double> targetFunction, IStopCondition stopCondition, ProblemTarget target)
             : this(dimensions, null, targetFunction, stopCondition, target)
         {
         }
 
-        public Problem(IEnumerable<Dimension> dimensions, Func<IDictionary<Dimension, double>, double> targetFunction, IStopCondition stopCondition)
+		public Problem(IList<Dimension> dimensions, Func<IDictionary<Dimension, double>, double> targetFunction, IStopCondition stopCondition)
             : this(dimensions, null, targetFunction, stopCondition, ProblemTarget.Minimum)
         {
         }
