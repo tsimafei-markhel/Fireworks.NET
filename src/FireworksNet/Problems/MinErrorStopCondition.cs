@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using FireworksNet.Distances;
 using FireworksNet.Extensions;
 using FireworksNet.Model;
@@ -9,20 +8,14 @@ namespace FireworksNet.Problems
     public class MinErrorStopCondition : IStopCondition
     {
         private readonly Solution knownSolution;
-		private readonly Func<IEnumerable<Firework>, Firework> bestFireworkSelector;
 		private readonly IDistance distanceCalculator;
         private readonly double minError;
 
-        public MinErrorStopCondition(Solution knownSolution, Func<IEnumerable<Firework>, Firework> bestFireworkSelector, IDistance distanceCalculator, double minError)
+        public MinErrorStopCondition(Solution knownSolution, IDistance distanceCalculator, double minError)
 		{
 			if (knownSolution == null)
 			{
 				throw new ArgumentNullException("knownSolution");
-			}
-
-			if (bestFireworkSelector == null)
-			{
-				throw new ArgumentNullException("bestFireworkSelector");
 			}
 
 			if (distanceCalculator == null)
@@ -36,26 +29,23 @@ namespace FireworksNet.Problems
 			}
 
 			this.knownSolution = knownSolution;
-			this.bestFireworkSelector = bestFireworkSelector;
 			this.distanceCalculator = distanceCalculator;
 			this.minError = minError;
 		}
 
-		public MinErrorStopCondition(Solution knownSolution, Func<IEnumerable<Firework>, Firework> bestFireworkSelector, IDistance distanceCalculator)
-			: this(knownSolution, bestFireworkSelector, distanceCalculator, double.Epsilon)
+		public MinErrorStopCondition(Solution knownSolution, IDistance distanceCalculator)
+			: this(knownSolution, distanceCalculator, double.Epsilon)
 		{
         }
 
-        public virtual bool ShouldStop(IEnumerable<Firework> currentFireworks)
+        public virtual bool ShouldStop(AlgorithmState state)
         {
-			if (currentFireworks == null)
+			if (state == null)
 			{
-				throw new ArgumentNullException("currentFireworks");
+				throw new ArgumentNullException("state");
 			}
 
-			Firework bestFirework = bestFireworkSelector(currentFireworks);
-            double error = distanceCalculator.Calculate(bestFirework, knownSolution);
-
+            double error = distanceCalculator.Calculate(state.BestSolution, knownSolution);
             return error.IsLessOrEqual(minError);
         }
     }

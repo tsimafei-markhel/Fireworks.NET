@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using FireworksNet.Model;
 
 namespace FireworksNet.Problems
@@ -12,15 +10,20 @@ namespace FireworksNet.Problems
         {
         }
 
-        public override bool ShouldStop(IEnumerable<Firework> currentFireworks)
+        public override bool ShouldStop(AlgorithmState state)
         {
-            if (currentFireworks == null)
-            {
-                throw new ArgumentNullException("currentFireworks");
-            }
+			bool shouldStop = base.ShouldStop(state);
+			if (!shouldStop)
+			{
+				if (state == null)
+				{
+					throw new ArgumentNullException("state");
+				}
 
-            int maxCurrentStep = currentFireworks.Max(fw => fw.BirthStepNumber);
-            return base.ShouldStop(currentFireworks) || (maxCurrentStep >= threshold);
+				shouldStop = state.StepNumber >= threshold;
+			}
+
+			return shouldStop;
         }
     }
 }

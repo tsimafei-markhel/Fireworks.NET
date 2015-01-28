@@ -79,7 +79,7 @@ namespace FireworksNet.Algorithm.Implementation
 				StepNumber = 0
 			};
 
-            while (!ProblemToSolve.StopCondition.ShouldStop(fireworks))
+            while (!ProblemToSolve.StopCondition.ShouldStop(state))
             {
 				MakeStep(ref state);
             }

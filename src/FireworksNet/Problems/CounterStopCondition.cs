@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using FireworksNet.Model;
 
@@ -22,7 +21,7 @@ namespace FireworksNet.Problems
 			this.count = 0;
         }
 
-        public virtual bool ShouldStop(IEnumerable<Firework> currentFireworks)
+        public virtual bool ShouldStop(AlgorithmState state)
         {
 			return count >= threshold;
         }

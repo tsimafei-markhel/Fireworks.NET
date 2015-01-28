@@ -58,14 +58,14 @@ namespace FireworksNet.Problems
             return AddStopCondition(anotherStopCondition, AggregationOperator.Or);
         }
 
-        public bool ShouldStop(IEnumerable<Firework> currentFireworks)
+        public bool ShouldStop(AlgorithmState state)
         {
             switch (aggregationMode)
             {
                 case AggregationOperator.And:
                     foreach (IStopCondition stopCondition in stopConditions)
                     {
-                        if (!stopCondition.ShouldStop(currentFireworks))
+						if (!stopCondition.ShouldStop(state))
                         {
                             return false;
                         }
@@ -76,7 +76,7 @@ namespace FireworksNet.Problems
                 case AggregationOperator.Or:
                     foreach (IStopCondition stopCondition in stopConditions)
                     {
-                        if (stopCondition.ShouldStop(currentFireworks))
+						if (stopCondition.ShouldStop(state))
                         {
                             return true;
                         }
