@@ -78,5 +78,14 @@ namespace FireworksNet.Model
 				bestSolution = value;
 			}
 		}
+
+		/// <summary>
+		/// Creates a shallow copy of the object.
+		/// </summary>
+		/// <returns>Shallow copy of this object.</returns>
+		public AlgorithmState ShallowCopy()
+		{
+			return (AlgorithmState)MemberwiseClone();
+		}
 	}
 }
