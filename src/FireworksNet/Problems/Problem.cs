@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using FireworksNet.Extensions;
 using FireworksNet.Model;
@@ -20,23 +21,41 @@ namespace FireworksNet.Problems
 
         public IList<Dimension> Dimensions { get; private set; }
 
-		public IDictionary<Dimension, Range> InitialDimensionRanges { get; private set; }
+		public IDictionary<Dimension, Range> InitialRanges { get; private set; }
 
 		public IStopCondition StopCondition { get; private set; }
 
 		public ProblemTarget Target { get; private set; }
 
-		public Problem(IList<Dimension> dimensions, IDictionary<Dimension, Range> initialDimensionRanges, Func<IDictionary<Dimension, double>, double> targetFunction, IStopCondition stopCondition, ProblemTarget target)
+		public Problem(IList<Dimension> dimensions, IDictionary<Dimension, Range> initialRanges, Func<IDictionary<Dimension, double>, double> targetFunction, IStopCondition stopCondition, ProblemTarget target)
         {
             if (dimensions == null)
             {
                 throw new ArgumentNullException("dimensions");
             }
 
-            if (dimensions.Count() == 0)
-            {
-                throw new ArgumentException(string.Empty, "dimensions");
-            }
+			if (dimensions.Count == 0)
+			{
+				throw new ArgumentException(string.Empty, "dimensions");
+			}
+
+			if (initialRanges == null)
+			{
+				throw new ArgumentNullException("initialRanges");
+			}
+
+			if (initialRanges.Count != dimensions.Count)
+			{
+				throw new ArgumentException(string.Empty, "initialRanges");
+			}
+
+			foreach(Dimension dimension in dimensions)
+			{
+				if (!initialRanges.ContainsKey(dimension))
+				{
+					throw new ArgumentException(string.Empty, "initialRanges");
+				}
+			}
 
             if (targetFunction == null)
             {
@@ -49,25 +68,31 @@ namespace FireworksNet.Problems
             }
 
             this.Dimensions = dimensions;
-            // TODO: Need validation to make sure dimensions and initialDimensionRanges contain the same Dimension instances
-            this.InitialDimensionRanges = initialDimensionRanges;
+			this.InitialRanges = initialRanges;
             this.targetFunction = targetFunction;
             this.StopCondition = stopCondition;
             this.Target = target;
         }
 
 		public Problem(IList<Dimension> dimensions, Func<IDictionary<Dimension, double>, double> targetFunction, IStopCondition stopCondition, ProblemTarget target)
-            : this(dimensions, null, targetFunction, stopCondition, target)
+			: this(dimensions, CreateDefaultInitialRanges(dimensions), targetFunction, stopCondition, target)
         {
         }
 
 		public Problem(IList<Dimension> dimensions, Func<IDictionary<Dimension, double>, double> targetFunction, IStopCondition stopCondition)
-            : this(dimensions, null, targetFunction, stopCondition, ProblemTarget.Minimum)
+			: this(dimensions, CreateDefaultInitialRanges(dimensions), targetFunction, stopCondition, ProblemTarget.Minimum)
         {
         }
 
         public virtual double CalculateQuality(IDictionary<Dimension, double> coordinateValues)
         {
+			if (coordinateValues == null)
+			{
+				throw new ArgumentNullException("coordinateValues");
+			}
+
+			Debug.Assert(targetFunction != null, "Target function is null");
+
             OnQualityCalculating(new QualityCalculatingEventArgs(coordinateValues));
             double result = targetFunction(coordinateValues);
             OnQualityCalculated(new QualityCalculatedEventArgs(coordinateValues, result));
@@ -76,6 +101,11 @@ namespace FireworksNet.Problems
 
         public virtual Firework GetBest(IEnumerable<Firework> fireworks)
         {
+			if (fireworks == null)
+			{
+				throw new ArgumentNullException("fireworks");
+			}
+
 			OnBestFireworkFinding(new BestFireworkFindingEventArgs(fireworks));
 
 			Firework bestFirework = null;
@@ -92,13 +122,38 @@ namespace FireworksNet.Problems
 			return bestFirework;
         }
 
+		public static IDictionary<Dimension, Range> CreateDefaultInitialRanges(IList<Dimension> dimensions)
+		{
+			if (dimensions == null)
+			{
+				throw new ArgumentNullException("dimensions");
+			}
+
+			Dictionary<Dimension, Range> initialRanges = new Dictionary<Dimension, Range>(dimensions.Count);
+			foreach (Dimension dimension in dimensions)
+			{
+				Debug.Assert(dimension != null, "Dimension is null");
+				Debug.Assert(dimension.VariationRange != null, "Dimension variation range is null");
+
+				initialRanges.Add(dimension, dimension.VariationRange);
+			}
+
+			return initialRanges;
+		}
+
 		protected virtual Firework GetLessQualityFirework(Firework currentMin, Firework candidate)
 		{
+			Debug.Assert(currentMin != null, "Current minimum is null");
+			Debug.Assert(candidate != null, "Candidate for minimum is null");
+
 			return candidate.Quality.IsLess(currentMin.Quality) ? candidate : currentMin;
 		}
 
 		protected virtual Firework GetGreaterQualityFirework(Firework currentMax, Firework candidate)
 		{
+			Debug.Assert(currentMax != null, "Current maximum is null");
+			Debug.Assert(candidate != null, "Candidate for maximum is null");
+
 			return candidate.Quality.IsGreater(currentMax.Quality) ? candidate : currentMax;
 		}
 
