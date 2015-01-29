@@ -5,6 +5,8 @@ namespace FireworksNet.Model
 {
 	public abstract class Explosion
 	{
+		// TODO: Add Id?..
+
         public int StepNumber { get; private set; }
 
         public IDictionary<FireworkType, int> SparkCounts { get; private set; }

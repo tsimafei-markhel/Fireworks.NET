@@ -9,6 +9,8 @@ namespace FireworksNet.Model
 	/// <remarks>This class is not thread-safe.</remarks>
 	public class AlgorithmState
 	{
+		// TODO: Add Id?..
+
 		private IEnumerable<Firework> fireworks;
 		private int stepNumber;
 		private Solution bestSolution;
