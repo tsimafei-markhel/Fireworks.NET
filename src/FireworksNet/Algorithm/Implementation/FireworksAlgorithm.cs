@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using FireworksNet.Distances;
 using FireworksNet.Distributions;
@@ -49,7 +50,7 @@ namespace FireworksNet.Algorithm.Implementation
 
             this.randomizer = new DefaultRandom();
             this.distribution = new NormalDistribution(normalDistributionMean, normalDistributionStdDev);
-            this.initialSparkGenerator = new InitialSparkGenerator(problem.Dimensions, problem.InitialDimensionRanges, this.randomizer);
+            this.initialSparkGenerator = new InitialSparkGenerator(problem.Dimensions, problem.InitialRanges, this.randomizer);
             this.explosionSparkGenerator = new ExplosionSparkGenerator(problem.Dimensions, this.randomizer);
             this.specificSparkGenerator = new GaussianSparkGenerator(problem.Dimensions, this.distribution, this.randomizer);
             this.distanceCalculator = new EuclideanDistance(problem.Dimensions);
@@ -143,14 +144,14 @@ namespace FireworksNet.Algorithm.Implementation
 
         private void CalculateQualities(IEnumerable<Firework> fireworks)
         {
-            System.Diagnostics.Debug.Assert(fireworks != null, "Collection of fireworks to calculate qualities for is null");
-            System.Diagnostics.Debug.Assert(ProblemToSolve != null, "Problem is null");
+            Debug.Assert(fireworks != null, "Collection of fireworks to calculate qualities for is null");
+            Debug.Assert(ProblemToSolve != null, "Problem is null");
 
             foreach (Firework firework in fireworks)
             {
-                System.Diagnostics.Debug.Assert(firework != null, "Firework to calculate quality for is null");
-                System.Diagnostics.Debug.Assert(double.IsNaN(firework.Quality), "Excessive quality calculation");
-                System.Diagnostics.Debug.Assert(firework.Coordinates != null, "Firework coordinates collection is null");
+                Debug.Assert(firework != null, "Firework to calculate quality for is null");
+                Debug.Assert(double.IsNaN(firework.Quality), "Excessive quality calculation");
+                Debug.Assert(firework.Coordinates != null, "Firework coordinates collection is null");
 
                 firework.Quality = ProblemToSolve.CalculateQuality(firework.Coordinates);
             }

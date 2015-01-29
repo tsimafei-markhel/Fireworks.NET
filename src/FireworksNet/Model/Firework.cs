@@ -5,7 +5,7 @@ namespace FireworksNet.Model
 {
 	public class Firework : Solution
 	{
-		public String Id { get; private set; }
+		public String Id { get; private set; } // TODO: Hide Id type behind some TId, like in Opt?..
 
 		public FireworkType Type { get; private set; }
 

@@ -9,6 +9,8 @@ namespace FireworksNet.Model
 	/// <remarks>Immutable.</remarks>
 	public class Dimension
 	{
+		// TODO: Add Id?..
+
 		/// <summary>
 		/// Gets <see cref="Range"/> instance identifying minimal and maximal possible
 		/// values for this dimension. Range ends are always closed.

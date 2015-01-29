@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using FireworksNet.Model;
 using MathNet.Numerics;
@@ -33,7 +34,10 @@ namespace FireworksNet.Distances
 				throw new ArgumentNullException("second");
 			}
 
-            System.Diagnostics.Debug.Assert(first.Length == second.Length, "First and Second coordinate collections have different dimensionality");
+			if (first.Length != second.Length)
+			{
+				throw new ArgumentException(string.Empty, "second");
+			}
 
 			return Distance.Euclidean(first, second);
 		}
@@ -59,8 +63,8 @@ namespace FireworksNet.Distances
 			double[] secondCoordinates;
 			GetCoordinates(first, second, out firstCoordinates, out secondCoordinates);
 
-            System.Diagnostics.Debug.Assert(firstCoordinates != null, "First coordinate collection is null");
-            System.Diagnostics.Debug.Assert(secondCoordinates != null, "Second coordinate collection is null");
+            Debug.Assert(firstCoordinates != null, "First coordinate collection is null");
+            Debug.Assert(secondCoordinates != null, "Second coordinate collection is null");
 
 			return Calculate(firstCoordinates, secondCoordinates);
 		}
@@ -79,26 +83,26 @@ namespace FireworksNet.Distances
 
             double[] firstCoordinates = GetCoordinates(first);
 
-            System.Diagnostics.Debug.Assert(firstCoordinates != null, "First coordinate collection is null");
+            Debug.Assert(firstCoordinates != null, "First coordinate collection is null");
+			Debug.Assert(firstCoordinates.Length == second.Length, "First and Second coordinate collections have different length");
 
             return Calculate(firstCoordinates, second);
         }
 
-        private double[] GetCoordinates(Solution firework)
+        private double[] GetCoordinates(Solution solution)
 		{
-			System.Diagnostics.Debug.Assert(dimensions != null, "Dimension collection is null");
-			System.Diagnostics.Debug.Assert(firework != null, "Solution is null");
-			System.Diagnostics.Debug.Assert(firework.Coordinates != null, "Solution coordinate collection is null");
+			Debug.Assert(dimensions != null, "Dimension collection is null");
+			Debug.Assert(solution != null, "Solution is null");
+			Debug.Assert(solution.Coordinates != null, "Solution coordinate collection is null");
 
 			double[] coordinates = new double[dimensions.Count()];
 
 			int dimensionCounter = 0;
 			foreach (Dimension dimension in dimensions)
 			{
-				System.Diagnostics.Debug.Assert(dimension != null, "Dimension is null");
+				Debug.Assert(dimension != null, "Dimension is null");
 
-				coordinates[dimensionCounter] = firework.Coordinates[dimension];
-
+				coordinates[dimensionCounter] = solution.Coordinates[dimension];
 				dimensionCounter++;
 			}
 
@@ -107,11 +111,11 @@ namespace FireworksNet.Distances
 
         private void GetCoordinates(Solution first, Solution second, out double[] firstCoordinates, out double[] secondCoordinates)
 		{
-			System.Diagnostics.Debug.Assert(dimensions != null, "Dimension collection is null");
-			System.Diagnostics.Debug.Assert(first != null, "First solution is null");
-			System.Diagnostics.Debug.Assert(second != null, "Second solution is null");
-			System.Diagnostics.Debug.Assert(first.Coordinates != null, "First solution coordinate collection is null");
-			System.Diagnostics.Debug.Assert(second.Coordinates != null, "Second solution coordinate collection is null");
+			Debug.Assert(dimensions != null, "Dimension collection is null");
+			Debug.Assert(first != null, "First solution is null");
+			Debug.Assert(second != null, "Second solution is null");
+			Debug.Assert(first.Coordinates != null, "First solution coordinate collection is null");
+			Debug.Assert(second.Coordinates != null, "Second solution coordinate collection is null");
 
 			firstCoordinates = new double[dimensions.Count()];
 			secondCoordinates = new double[dimensions.Count()];
@@ -119,7 +123,7 @@ namespace FireworksNet.Distances
 			int dimensionCounter = 0;
 			foreach (Dimension dimension in dimensions)
 			{
-				System.Diagnostics.Debug.Assert(dimension != null, "Dimension is null");
+				Debug.Assert(dimension != null, "Dimension is null");
 
 				firstCoordinates[dimensionCounter] = first.Coordinates[dimension];
 				secondCoordinates[dimensionCounter] = second.Coordinates[dimension];

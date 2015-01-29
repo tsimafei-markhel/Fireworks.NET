@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using FireworksNet.Extensions;
 using FireworksNet.Model;
 
@@ -13,9 +14,12 @@ namespace FireworksNet.Explode
 		private readonly IEnumerable<Dimension> dimensions;
 		private readonly System.Random randomizer;
 
+		private const double offsetDisplacementRandomMin = -1.0;
+		private const double offsetDisplacementRandomMax = 1.0;
+
         public override FireworkType GeneratedSparkType { get { return FireworkType.ExplosionSpark; } }
 
-        public ExplosionSparkGenerator(IEnumerable<Dimension> dimensions, System.Random randomizer)
+		public ExplosionSparkGenerator(IEnumerable<Dimension> dimensions, System.Random randomizer)
 		{
 			if (dimensions == null)
 			{
@@ -33,11 +37,22 @@ namespace FireworksNet.Explode
 
         protected override Firework CreateSparkTyped(FireworkExplosion explosion)
 		{
+			Debug.Assert(explosion != null, "Explosion is null");
+			Debug.Assert(explosion.ParentFirework != null, "Explosion parent firework is null");
+			Debug.Assert(explosion.ParentFirework.Coordinates != null, "Explosion parent firework coordinate collection is null");
+			Debug.Assert(randomizer != null, "Randomizer is null");
+			Debug.Assert(dimensions != null, "Dimension collection is null");
+
 			Firework spark = new Firework(GeneratedSparkType, explosion.StepNumber, explosion.ParentFirework.Coordinates);
 
-			double offsetDisplacement = explosion.Amplitude * randomizer.NextDouble(-1.0, 1.0);
+			Debug.Assert(spark.Coordinates != null, "Spark coordinate collection is null");
+
+			double offsetDisplacement = explosion.Amplitude * randomizer.NextDouble(offsetDisplacementRandomMin, offsetDisplacementRandomMax);
 			foreach (Dimension dimension in dimensions)
 			{
+				Debug.Assert(dimension != null, "Dimension is null");
+				Debug.Assert(dimension.VariationRange != null, "Dimension variation range is null");
+
                 if ((int)Math.Round(randomizer.NextDouble(0.0, 1.0), MidpointRounding.AwayFromZero) == 1) // Coin flip
 				{
 					spark.Coordinates[dimension] += offsetDisplacement;

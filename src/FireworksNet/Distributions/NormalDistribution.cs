@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using MathNet.Numerics.Distributions;
 
 namespace FireworksNet.Distributions
@@ -14,14 +15,14 @@ namespace FireworksNet.Distributions
 
         public double Sample()
         {
-            System.Diagnostics.Debug.Assert(internalNormal != null, "Internal distribution implementation is null");
+            Debug.Assert(internalNormal != null, "Internal distribution implementation is null");
 
             return internalNormal.Sample();
         }
 
         public IEnumerable<double> Samples()
         {
-            System.Diagnostics.Debug.Assert(internalNormal != null, "Internal distribution implementation is null");
+            Debug.Assert(internalNormal != null, "Internal distribution implementation is null");
 
             return internalNormal.Samples();
         }
