@@ -15,7 +15,7 @@ using FireworksNet.StopConditions;
 namespace FireworksNet.Algorithm.Implementation
 {
     // Per 2010 paper
-    public sealed class FireworksAlgorithm : IFireworksAlgorithm
+    public sealed class FireworksAlgorithm : IFireworksAlgorithm // TODO: , IStepperFireworksAlgorithm
     {
         private const double normalDistributionMean = 1.0;
         private const double normalDistributionStdDev = 1.0;
@@ -38,7 +38,7 @@ namespace FireworksNet.Algorithm.Implementation
 		public IStopCondition StopCondition { get; private set; }
 
         public FireworksAlgorithmSettings Settings { get; private set; }
-        
+
         public FireworksAlgorithm(Problem problem, IStopCondition stopCondition, FireworksAlgorithmSettings settings)
         {
             if (problem == null)
