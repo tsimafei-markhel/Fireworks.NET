@@ -20,7 +20,7 @@ namespace FireworksNet.StopConditions
 					throw new ArgumentNullException("state");
 				}
 
-				shouldStop = state.StepNumber >= threshold;
+				shouldStop = state.StepNumber >= Threshold;
 			}
 
 			return shouldStop;

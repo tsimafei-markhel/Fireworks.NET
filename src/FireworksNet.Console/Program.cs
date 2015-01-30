@@ -14,7 +14,7 @@ namespace FireworksNet.Console
 
 			// 2. Setup algorithm stop condition
 			CounterStopCondition stopCondition = new CounterStopCondition(10000);
-			problem.QualityCalculated += stopCondition.IncreaseCounter;
+			problem.QualityCalculated += stopCondition.IncrementCounter;
 
 			// 3. Initialize algorithm run settings
 			FireworksAlgorithmSettings settings = new FireworksAlgorithmSettings()
