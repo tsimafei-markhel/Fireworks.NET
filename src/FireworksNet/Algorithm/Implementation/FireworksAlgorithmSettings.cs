@@ -5,7 +5,7 @@ namespace FireworksNet.Algorithm.Implementation
     /// Stores user-defined constants that control algorithm run.
     /// </summary>
     /// <remarks>Uses notation described in 2010 paper.</remarks>
-    public class FireworksAlgorithmSettings
+    public sealed class FireworksAlgorithmSettings
     {
         /// <summary>
         /// n - Number of fireworks (initial or selected on each step).

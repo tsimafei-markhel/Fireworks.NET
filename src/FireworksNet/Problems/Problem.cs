@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using FireworksNet.Extensions;
 using FireworksNet.Model;
-using FireworksNet.StopConditions;
 
 namespace FireworksNet.Problems
 {
@@ -24,11 +23,9 @@ namespace FireworksNet.Problems
 
 		public IDictionary<Dimension, Range> InitialRanges { get; private set; }
 
-		public IStopCondition StopCondition { get; private set; }
-
 		public ProblemTarget Target { get; private set; }
 
-		public Problem(IList<Dimension> dimensions, IDictionary<Dimension, Range> initialRanges, Func<IDictionary<Dimension, double>, double> targetFunction, IStopCondition stopCondition, ProblemTarget target)
+		public Problem(IList<Dimension> dimensions, IDictionary<Dimension, Range> initialRanges, Func<IDictionary<Dimension, double>, double> targetFunction, ProblemTarget target)
         {
             if (dimensions == null)
             {
@@ -63,25 +60,19 @@ namespace FireworksNet.Problems
                 throw new ArgumentNullException("targetFunction");
             }
 
-            if (stopCondition == null)
-            {
-                throw new ArgumentNullException("stopCondition");
-            }
-
             this.Dimensions = dimensions;
 			this.InitialRanges = initialRanges;
             this.targetFunction = targetFunction;
-            this.StopCondition = stopCondition;
             this.Target = target;
         }
 
-		public Problem(IList<Dimension> dimensions, Func<IDictionary<Dimension, double>, double> targetFunction, IStopCondition stopCondition, ProblemTarget target)
-			: this(dimensions, CreateDefaultInitialRanges(dimensions), targetFunction, stopCondition, target)
+		public Problem(IList<Dimension> dimensions, Func<IDictionary<Dimension, double>, double> targetFunction, ProblemTarget target)
+			: this(dimensions, CreateDefaultInitialRanges(dimensions), targetFunction, target)
         {
         }
 
-		public Problem(IList<Dimension> dimensions, Func<IDictionary<Dimension, double>, double> targetFunction, IStopCondition stopCondition)
-			: this(dimensions, CreateDefaultInitialRanges(dimensions), targetFunction, stopCondition, ProblemTarget.Minimum)
+		public Problem(IList<Dimension> dimensions, Func<IDictionary<Dimension, double>, double> targetFunction)
+			: this(dimensions, CreateDefaultInitialRanges(dimensions), targetFunction, ProblemTarget.Minimum)
         {
         }
 

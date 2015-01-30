@@ -10,6 +10,7 @@ using FireworksNet.Model;
 using FireworksNet.Problems;
 using FireworksNet.Random;
 using FireworksNet.Selection;
+using FireworksNet.StopConditions;
 
 namespace FireworksNet.Algorithm.Implementation
 {
@@ -31,9 +32,14 @@ namespace FireworksNet.Algorithm.Implementation
 
         public Problem ProblemToSolve { get; private set; }
 
+		/// <summary>
+		/// Gets or sets the stop condition that algorithm has to use.
+		/// </summary>
+		public IStopCondition StopCondition { get; private set; }
+
         public FireworksAlgorithmSettings Settings { get; private set; }
         
-        public FireworksAlgorithm(Problem problem, FireworksAlgorithmSettings settings)
+        public FireworksAlgorithm(Problem problem, IStopCondition stopCondition, FireworksAlgorithmSettings settings)
         {
             if (problem == null)
             {
@@ -45,7 +51,13 @@ namespace FireworksNet.Algorithm.Implementation
                 throw new ArgumentNullException("settings");
             }
 
+			if (stopCondition == null)
+			{
+				throw new ArgumentNullException("stopCondition");
+			}
+
             this.ProblemToSolve = problem;
+			this.StopCondition = stopCondition;
             this.Settings = settings;
 
             this.randomizer = new DefaultRandom();
@@ -80,7 +92,7 @@ namespace FireworksNet.Algorithm.Implementation
 				StepNumber = 0
 			};
 
-            while (!ProblemToSolve.StopCondition.ShouldStop(state))
+            while (!StopCondition.ShouldStop(state))
             {
 				MakeStep(ref state);
             }

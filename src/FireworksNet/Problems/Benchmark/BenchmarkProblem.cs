@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using FireworksNet.Model;
-using FireworksNet.StopConditions;
 
 namespace FireworksNet.Problems.Benchmark
 {
@@ -9,8 +8,8 @@ namespace FireworksNet.Problems.Benchmark
     {
 		public Solution KnownSolution { get; private set; }
 
-		public BenchmarkProblem(IList<Dimension> dimensions, IDictionary<Dimension, Range> initialDimensionRanges, Func<IDictionary<Dimension, double>, double> targetFunction, Solution knownSolution, IStopCondition stopCondition, ProblemTarget target)
-            : base(dimensions, initialDimensionRanges, targetFunction, stopCondition, target)
+		public BenchmarkProblem(IList<Dimension> dimensions, IDictionary<Dimension, Range> initialDimensionRanges, Func<IDictionary<Dimension, double>, double> targetFunction, Solution knownSolution, ProblemTarget target)
+            : base(dimensions, initialDimensionRanges, targetFunction, target)
         {
 			if (knownSolution == null)
             {
@@ -27,13 +26,13 @@ namespace FireworksNet.Problems.Benchmark
             this.KnownSolution = knownSolution;
         }
 
-		public BenchmarkProblem(IList<Dimension> dimensions, Func<IDictionary<Dimension, double>, double> targetFunction, Solution knownSolution, IStopCondition stopCondition, ProblemTarget target)
-            : this(dimensions, null, targetFunction, knownSolution, stopCondition, target)
+		public BenchmarkProblem(IList<Dimension> dimensions, Func<IDictionary<Dimension, double>, double> targetFunction, Solution knownSolution, ProblemTarget target)
+            : this(dimensions, null, targetFunction, knownSolution, target)
         {
         }
 
-		public BenchmarkProblem(IList<Dimension> dimensions, Func<IDictionary<Dimension, double>, double> targetFunction, Solution knownSolution, IStopCondition stopCondition)
-            : this(dimensions, null, targetFunction, knownSolution, stopCondition, ProblemTarget.Minimum)
+		public BenchmarkProblem(IList<Dimension> dimensions, Func<IDictionary<Dimension, double>, double> targetFunction, Solution knownSolution)
+            : this(dimensions, null, targetFunction, knownSolution, ProblemTarget.Minimum)
         {
         }
     }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using FireworksNet.Model;
-using FireworksNet.StopConditions;
 
 namespace FireworksNet.Problems.Benchmark
 {
@@ -31,8 +30,8 @@ namespace FireworksNet.Problems.Benchmark
 		/// <param name="knownSolution">Known solution.</param>
 		/// <param name="stopCondition">Algorithm stop condition.</param>
 		/// <param name="target">Problem target.</param>
-		private Sphere2010(IList<Dimension> dimensions, IDictionary<Dimension, Range> initialDimensionRanges, Func<IDictionary<Dimension, double>, double> targetFunction, Solution knownSolution, IStopCondition stopCondition, ProblemTarget target)
-			: base(dimensions, initialDimensionRanges, targetFunction, knownSolution, stopCondition, target)
+		private Sphere2010(IList<Dimension> dimensions, IDictionary<Dimension, Range> initialDimensionRanges, Func<IDictionary<Dimension, double>, double> targetFunction, Solution knownSolution, ProblemTarget target)
+			: base(dimensions, initialDimensionRanges, targetFunction, knownSolution, target)
 		{
 		}
 
@@ -43,30 +42,6 @@ namespace FireworksNet.Problems.Benchmark
 		/// Sphere test function, as used in 2010 paper.</returns>
 		public static Sphere2010 Create()
 		{
-			CounterStopCondition countQualityFuncCalculations = new CounterStopCondition(maxQualityFuncCalculations);
-			Sphere2010 problem = Create(countQualityFuncCalculations);
-			problem.QualityCalculated += countQualityFuncCalculations.IncreaseCounter;
-
-			return problem;
-		}
-
-		/// <summary>
-		/// Initializes a new instance of <see cref="Sphere2010"/> class with
-		/// specified stop condition.
-		/// </summary>
-		/// <param name="stopCondition">Algorithm stop condition.</param>
-		/// <returns><see cref="Sphere2010"/> instance that represents
-		/// Sphere test function, as used in 2010 paper, with specified
-		/// stop condition.</returns>
-		/// <exception cref="System.ArgumentNullException"> if <paramref name="stopCondition"/>
-		/// is null.</exception>
-		public static Sphere2010 Create(IStopCondition stopCondition)
-		{
-			if (stopCondition == null)
-			{
-				throw new ArgumentNullException("stopCondition");
-			}
-
 			Dimension[] dimensions = new Dimension[dimensionality];
 			IDictionary<Dimension, Range> initialDimensionRanges = new Dictionary<Dimension, Range>(dimensionality);
 			for (int i = 0; i < dimensionality; i++)
@@ -82,7 +57,7 @@ namespace FireworksNet.Problems.Benchmark
 				}
 			);
 
-			return new Sphere2010(dimensions, initialDimensionRanges, func, new Solution(knownBestQuality), stopCondition, problemTarget);
+			return new Sphere2010(dimensions, initialDimensionRanges, func, new Solution(knownBestQuality), problemTarget);
 		}
 	}
 }
