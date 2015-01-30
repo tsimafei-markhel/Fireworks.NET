@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using FireworksNet.Model;
 
-namespace FireworksNet.Problems
+namespace FireworksNet.StopConditions
 {
     // Conditions can be either all AND or all OR, cannot mix them
     // Works in short circuit manner

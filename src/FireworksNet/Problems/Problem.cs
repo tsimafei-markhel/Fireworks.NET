@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using FireworksNet.Extensions;
 using FireworksNet.Model;
+using FireworksNet.StopConditions;
 
 namespace FireworksNet.Problems
 {

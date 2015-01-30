@@ -1,6 +1,6 @@
 ﻿using FireworksNet.Model;
 
-namespace FireworksNet.Problems
+namespace FireworksNet.StopConditions
 {
     public interface IStopCondition
     {

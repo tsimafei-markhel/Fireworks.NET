@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FireworksNet.Model;
+using FireworksNet.StopConditions;
 
 namespace FireworksNet.Problems.Benchmark
 {

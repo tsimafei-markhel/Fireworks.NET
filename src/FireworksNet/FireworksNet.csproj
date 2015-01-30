@@ -79,12 +79,12 @@
     <Compile Include="Model\FireworkType.cs" />
     <Compile Include="Model\Solution.cs" />
     <Compile Include="Problems\Benchmark\Sphere2010.cs" />
-    <Compile Include="Problems\CounterStopCondition.cs" />
-    <Compile Include="Problems\MinErrorStopCondition.cs" />
+    <Compile Include="StopConditions\CounterStopCondition.cs" />
+    <Compile Include="StopConditions\MinErrorStopCondition.cs" />
     <Compile Include="Problems\ProblemTarget.cs" />
-    <Compile Include="Problems\StopConditionChain.cs" />
-    <Compile Include="Problems\IStopCondition.cs" />
-    <Compile Include="Problems\StepCounterStopCondition.cs" />
+    <Compile Include="StopConditions\StopConditionChain.cs" />
+    <Compile Include="StopConditions\IStopCondition.cs" />
+    <Compile Include="StopConditions\StepCounterStopCondition.cs" />
     <Compile Include="Problems\Benchmark\BenchmarkProblem.cs" />
     <Compile Include="Problems\Problem.cs" />
     <Compile Include="Random\DefaultRandom.cs" />

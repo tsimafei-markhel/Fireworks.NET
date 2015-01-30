@@ -3,7 +3,7 @@ using FireworksNet.Distances;
 using FireworksNet.Extensions;
 using FireworksNet.Model;
 
-namespace FireworksNet.Problems
+namespace FireworksNet.StopConditions
 {
     public class MinErrorStopCondition : IStopCondition
     {

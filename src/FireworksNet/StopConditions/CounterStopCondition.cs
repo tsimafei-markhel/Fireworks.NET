@@ -2,7 +2,7 @@
 using System.Threading;
 using FireworksNet.Model;
 
-namespace FireworksNet.Problems
+namespace FireworksNet.StopConditions
 {
 	// Counts something; stops when count exceeds some threshold
 	public class CounterStopCondition : IStopCondition

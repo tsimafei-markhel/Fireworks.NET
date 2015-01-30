@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FireworksNet.Model;
+using FireworksNet.StopConditions;
 
 namespace FireworksNet.Problems.Benchmark
 {

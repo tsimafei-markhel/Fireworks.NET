@@ -1,7 +1,7 @@
 ﻿using System;
 using FireworksNet.Model;
 
-namespace FireworksNet.Problems
+namespace FireworksNet.StopConditions
 {
     public class StepCounterStopCondition : CounterStopCondition
     {
