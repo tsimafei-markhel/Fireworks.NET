@@ -9,7 +9,10 @@ namespace FireworksNet.Model
 	/// <remarks>Immutable.</remarks>
 	public class Dimension
 	{
-		// TODO: Add Id?..
+        /// <summary>
+        /// Gets a unique identifier of this <see cref="Dimension"/>.
+        /// </summary>
+        public TId Id { get; private set; }
 
 		/// <summary>
 		/// Gets <see cref="Range"/> instance identifying minimal and maximal possible
@@ -29,7 +32,8 @@ namespace FireworksNet.Model
                 throw new ArgumentNullException("variationRange");
             }
 
-			VariationRange = variationRange;
+            this.Id = new TId();
+			this.VariationRange = variationRange;
 		}
 
 		/// <summary>
