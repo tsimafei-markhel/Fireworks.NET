@@ -107,7 +107,12 @@ namespace FireworksNet.Algorithm.Implementation
 				throw new ArgumentNullException("currentState");
 			}
 
-			AlgorithmState newState = currentState.ShallowCopy();
+            AlgorithmState newState = new AlgorithmState()
+            {
+                BestSolution = currentState.BestSolution,
+                Fireworks = currentState.Fireworks,
+                StepNumber = currentState.StepNumber
+            };
 
 			MakeStep(ref newState);
 

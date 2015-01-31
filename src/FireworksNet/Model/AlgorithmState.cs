@@ -9,11 +9,21 @@ namespace FireworksNet.Model
 	/// <remarks>This class is not thread-safe.</remarks>
 	public class AlgorithmState
 	{
-		// TODO: Add Id?..
-
+        private readonly TId id = new TId();
 		private IEnumerable<Firework> fireworks;
 		private int stepNumber;
 		private Solution bestSolution;
+
+        /// <summary>
+        /// Gets unique state identifier.
+        /// </summary>
+        public TId Id
+        {
+            get
+            {
+                return id;
+            }
+        }
 
 		/// <summary>
 		/// Gets or sets a collection of current fireworks.
@@ -79,15 +89,6 @@ namespace FireworksNet.Model
 
 				bestSolution = value;
 			}
-		}
-
-		/// <summary>
-		/// Creates a shallow copy of the object.
-		/// </summary>
-		/// <returns>Shallow copy of this object.</returns>
-		public AlgorithmState ShallowCopy()
-		{
-			return (AlgorithmState)MemberwiseClone();
 		}
 	}
 }

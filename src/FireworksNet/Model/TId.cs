@@ -30,14 +30,6 @@ namespace FireworksNet.Model
         }
 
         /// <summary>
-        /// Creates a shallow copy of this instance.
-        /// </summary>
-        public TId ShallowCopy()
-        {
-            return (TId)MemberwiseClone();
-        }
-
-        /// <summary>
         /// Creates new instance of <see cref="TId"/> and initializes it with <paramref name="value"/>.
         /// </summary>
         /// <param name="value">String representation of Id to parse.</param>
