@@ -5,7 +5,10 @@ namespace FireworksNet.Model
 {
 	public abstract class Explosion
 	{
-		// TODO: Add Id?..
+        /// <summary>
+        /// Gets a unique identifier of this <see cref="Explosion"/>.
+        /// </summary>
+        public TId Id { get; private set; }
 
         public int StepNumber { get; private set; }
 
@@ -23,8 +26,9 @@ namespace FireworksNet.Model
 				throw new ArgumentNullException("sparkCounts");
 			}
 
-			StepNumber = stepNumber;
-			SparkCounts = sparkCounts;
+            this.Id = new TId();
+			this.StepNumber = stepNumber;
+            this.SparkCounts = sparkCounts;
 		}
 	}
 }
