@@ -5,7 +5,7 @@ namespace FireworksNet.Model
 {
 	public class Firework : Solution
 	{
-		public String Id { get; private set; } // TODO: Hide Id type behind some TId, like in Opt?..
+		public TId Id { get; private set; }
 
 		public FireworkType Type { get; private set; }
 
@@ -24,9 +24,9 @@ namespace FireworksNet.Model
 				throw new ArgumentNullException("coordinates");
 			}
 
-			Id = Guid.NewGuid().ToString();
-			Type = type;
-			BirthStepNumber = birthStepNumber;
+            this.Id = new TId();
+			this.Type = type;
+			this.BirthStepNumber = birthStepNumber;
 		}
 
         public Firework(FireworkType type, int birthStepNumber)
