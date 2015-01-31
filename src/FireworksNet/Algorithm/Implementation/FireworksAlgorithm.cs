@@ -56,6 +56,8 @@ namespace FireworksNet.Algorithm.Implementation
 				throw new ArgumentNullException("stopCondition");
 			}
 
+            // TODO: Always use 'this' to access members of the current instance. Move this rule to code convention.
+
             this.ProblemToSolve = problem;
 			this.StopCondition = stopCondition;
             this.Settings = settings;
