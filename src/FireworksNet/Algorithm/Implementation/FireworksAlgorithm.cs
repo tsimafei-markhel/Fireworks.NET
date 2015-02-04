@@ -85,10 +85,19 @@ namespace FireworksNet.Algorithm.Implementation
         public Solution Solve()
         {
             AlgorithmState state = GetInitialState();
+
+            Debug.Assert(state != null, "Initial state is null");
+
             while (!ShouldStop(state))
             {
+                Debug.Assert(state != null, "Current state is null");
+
 				MakeStep(ref state);
+
+                Debug.Assert(state != null, "Current state is null");
             }
+
+            Debug.Assert(state != null, "Final state is null");
 
             return GetSolution(state);
         }
@@ -99,8 +108,17 @@ namespace FireworksNet.Algorithm.Implementation
 
         public AlgorithmState GetInitialState()
         {
+            Debug.Assert(Settings != null, "Settings is null");
+            Debug.Assert(initialSparkGenerator != null, "Initial spark generator is null");
+            Debug.Assert(ProblemToSolve != null, "Problem to solve is null");
+
             InitialExplosion initialExplosion = new InitialExplosion(Settings.LocationsNumber);
+
+            Debug.Assert(initialExplosion != null, "Initial explosion is null");
+
             IEnumerable<Firework> fireworks = initialSparkGenerator.CreateSparks(initialExplosion);
+
+            Debug.Assert(fireworks != null, "Initial firework collection is null");
 
             CalculateQualities(fireworks);
 
@@ -112,32 +130,46 @@ namespace FireworksNet.Algorithm.Implementation
             };
         }
 
-        public AlgorithmState MakeStep(AlgorithmState currentState)
+        public AlgorithmState MakeStep(AlgorithmState state)
         {
-            if (currentState == null)
+            if (state == null)
             {
-                throw new ArgumentNullException("currentState");
+                throw new ArgumentNullException("state");
             }
 
             AlgorithmState newState = new AlgorithmState()
             {
-                BestSolution = currentState.BestSolution,
-                Fireworks = currentState.Fireworks,
-                StepNumber = currentState.StepNumber
+                BestSolution = state.BestSolution,
+                Fireworks = state.Fireworks,
+                StepNumber = state.StepNumber
             };
 
             MakeStep(ref newState);
+
+            Debug.Assert(newState != null, "New state is null");
 
             return newState;
         }
 
         public Solution GetSolution(AlgorithmState state)
         {
+            if (state == null)
+            {
+                throw new ArgumentNullException("state");
+            }
+
             return state.BestSolution;
         }
 
         public bool ShouldStop(AlgorithmState state)
         {
+            if (state == null)
+            {
+                throw new ArgumentNullException("state");
+            }
+
+            Debug.Assert(StopCondition != null, "Stop condition is null");
+
             return StopCondition.ShouldStop(state);
         }
 
@@ -145,6 +177,8 @@ namespace FireworksNet.Algorithm.Implementation
 
         private void MakeStep(ref AlgorithmState state)
         {
+            // TODO: Add asserts here
+
             if (state == null)
             {
 				throw new ArgumentNullException("state");
@@ -191,7 +225,7 @@ namespace FireworksNet.Algorithm.Implementation
             foreach (Firework firework in fireworks)
             {
                 Debug.Assert(firework != null, "Firework to calculate quality for is null");
-                Debug.Assert(double.IsNaN(firework.Quality), "Excessive quality calculation");
+                Debug.Assert(double.IsNaN(firework.Quality), "Excessive quality calculation"); // If quality is not NaN, it most likely has been already calculated
                 Debug.Assert(firework.Coordinates != null, "Firework coordinates collection is null");
 
                 firework.Quality = ProblemToSolve.CalculateQuality(firework.Coordinates);
