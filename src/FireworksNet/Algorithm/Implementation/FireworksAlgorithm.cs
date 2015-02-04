@@ -85,7 +85,7 @@ namespace FireworksNet.Algorithm.Implementation
         public Solution Solve()
         {
             AlgorithmState state = GetInitialState();
-            while (!StopCondition.ShouldStop(state))
+            while (!ShouldStop(state))
             {
 				MakeStep(ref state);
             }
