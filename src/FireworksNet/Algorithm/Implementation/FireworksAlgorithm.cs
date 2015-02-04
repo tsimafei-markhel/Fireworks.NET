@@ -15,7 +15,7 @@ using FireworksNet.StopConditions;
 namespace FireworksNet.Algorithm.Implementation
 {
     // Per 2010 paper
-    public sealed class FireworksAlgorithm : IFireworksAlgorithm // TODO: , IStepperFireworksAlgorithm
+    public sealed class FireworksAlgorithm : IFireworksAlgorithm, IStepperFireworksAlgorithm
     {
         private const double normalDistributionMean = 1.0;
         private const double normalDistributionStdDev = 1.0;
@@ -80,34 +80,44 @@ namespace FireworksNet.Algorithm.Implementation
             this.exploder = new Exploder(exploderSettings);
         }
 
+        #region IFireworksAlgorithm methods
+
         public Solution Solve()
+        {
+            AlgorithmState state = GetInitialState();
+            while (!StopCondition.ShouldStop(state))
+            {
+				MakeStep(ref state);
+            }
+
+            return GetSolution(state);
+        }
+
+        #endregion
+
+        #region IStepperFireworksAlgorithm methods
+
+        public AlgorithmState GetInitialState()
         {
             InitialExplosion initialExplosion = new InitialExplosion(Settings.LocationsNumber);
             IEnumerable<Firework> fireworks = initialSparkGenerator.CreateSparks(initialExplosion);
 
             CalculateQualities(fireworks);
 
-			AlgorithmState state = new AlgorithmState()
-			{
-				BestSolution = ProblemToSolve.GetBest(fireworks),
-				Fireworks = fireworks,
-				StepNumber = 0
-			};
-
-            while (!StopCondition.ShouldStop(state))
+            return new AlgorithmState()
             {
-				MakeStep(ref state);
-            }
-
-			return state.BestSolution;
+                BestSolution = ProblemToSolve.GetBest(fireworks),
+                Fireworks = fireworks,
+                StepNumber = 0
+            };
         }
 
-		public AlgorithmState MakeStep(AlgorithmState currentState)
-		{
-			if (currentState == null)
-			{
-				throw new ArgumentNullException("currentState");
-			}
+        public AlgorithmState MakeStep(AlgorithmState currentState)
+        {
+            if (currentState == null)
+            {
+                throw new ArgumentNullException("currentState");
+            }
 
             AlgorithmState newState = new AlgorithmState()
             {
@@ -116,12 +126,24 @@ namespace FireworksNet.Algorithm.Implementation
                 StepNumber = currentState.StepNumber
             };
 
-			MakeStep(ref newState);
+            MakeStep(ref newState);
 
-			return newState;
-		}
+            return newState;
+        }
 
-		public void MakeStep(ref AlgorithmState state)
+        public Solution GetSolution(AlgorithmState state)
+        {
+            return state.BestSolution;
+        }
+
+        public bool ShouldStop(AlgorithmState state)
+        {
+            return StopCondition.ShouldStop(state);
+        }
+
+        #endregion
+
+        private void MakeStep(ref AlgorithmState state)
         {
             if (state == null)
             {
