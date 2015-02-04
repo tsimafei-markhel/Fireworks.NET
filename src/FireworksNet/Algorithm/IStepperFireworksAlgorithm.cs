@@ -6,12 +6,13 @@ namespace FireworksNet.Algorithm
 	{
 		AlgorithmState GetInitialState();
 
-		/// <remarks>This method is should not modify <paramref name="state"/>.</remarks>
+		/// <remarks>This method should not modify <paramref name="state"/>.</remarks>
 		AlgorithmState MakeStep(AlgorithmState state);
 
-		bool ShouldStop();
+        /// <remarks>This method should not modify <paramref name="state"/>.</remarks>
+        bool ShouldStop(AlgorithmState state);
 
-		/// <remarks>This method is should not modify <paramref name="state"/>.</remarks>
+		/// <remarks>This method should not modify <paramref name="state"/>.</remarks>
 		Solution GetSolution(AlgorithmState state);
 	}
 }
