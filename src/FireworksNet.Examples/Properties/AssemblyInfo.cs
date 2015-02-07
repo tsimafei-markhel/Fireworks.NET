@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("FireworksNet.Console")]
-[assembly: AssemblyDescription("Console client for Fireworks.NET")]
+[assembly: AssemblyTitle("FireworksNet.Examples")]
+[assembly: AssemblyDescription("Usage examples for Fireworks.NET")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Tsimafei Markhel")]
-[assembly: AssemblyProduct("FireworksNet.Console")]
+[assembly: AssemblyProduct("FireworksNet.Examples")]
 [assembly: AssemblyCopyright("Copyright © Tsimafei Markhel 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

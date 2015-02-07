@@ -3,7 +3,7 @@ using FireworksNet.Model;
 using FireworksNet.Problems.Benchmark;
 using FireworksNet.StopConditions;
 
-namespace FireworksNet.Console
+namespace FireworksNet.Examples
 {
 	public class Program
 	{
