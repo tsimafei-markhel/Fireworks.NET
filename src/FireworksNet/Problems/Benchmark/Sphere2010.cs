@@ -44,10 +44,12 @@ namespace FireworksNet.Problems.Benchmark
 		{
 			Dimension[] dimensions = new Dimension[dimensionality];
 			IDictionary<Dimension, Range> initialDimensionRanges = new Dictionary<Dimension, Range>(dimensionality);
+            IDictionary<Dimension, double> knownBestCoordinates = new Dictionary<Dimension, double>(dimensionality);
 			for (int i = 0; i < dimensionality; i++)
 			{
 				dimensions[i] = new Dimension(new Range(minDimensionValue, maxDimensionValue));
 				initialDimensionRanges.Add(dimensions[i], new Range(minInitialDimensionValue, maxInitialDimensionValue));
+                knownBestCoordinates.Add(dimensions[i], 0.0);
 			}
 
 			Func<IDictionary<Dimension, double>, double> func = new Func<IDictionary<Dimension, double>, double>(
@@ -57,7 +59,7 @@ namespace FireworksNet.Problems.Benchmark
 				}
 			);
 
-			return new Sphere2010(dimensions, initialDimensionRanges, func, new Solution(knownBestQuality), problemTarget);
+			return new Sphere2010(dimensions, initialDimensionRanges, func, new Solution(knownBestCoordinates, knownBestQuality), problemTarget);
 		}
 	}
 }
