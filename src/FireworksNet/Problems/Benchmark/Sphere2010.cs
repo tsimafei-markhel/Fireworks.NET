@@ -18,7 +18,6 @@ namespace FireworksNet.Problems.Benchmark
 		private const double maxInitialDimensionValue = 50.0;
 		private const double knownBestQuality = 0.0;
 		private const ProblemTarget problemTarget = ProblemTarget.Minimum;
-		private const int maxQualityFuncCalculations = 10000;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Sphere2010"/> class.
