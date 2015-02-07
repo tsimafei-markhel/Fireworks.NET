@@ -38,7 +38,7 @@ namespace FireworksNet.Problems.Benchmark
 		/// Initializes a new instance of <see cref="Rosenbrock2010"/> class.
 		/// </summary>
 		/// <returns><see cref="Rosenbrock2010"/> instance that represents
-		/// Sphere test function, as used in 2010 paper.</returns>
+        /// Rosenbrock test function, as used in 2010 paper.</returns>
 		public static Rosenbrock2010 Create()
 		{
             Dimension[] dimensions = new Dimension[dimensionality];
