@@ -11,7 +11,7 @@ namespace FireworksNet.Explode
         public virtual IEnumerable<Firework> CreateSparks(Explosion explosion)
         {
             int desiredNumberOfSparks;
-            if (!explosion.SparkCounts.TryGetValue(GeneratedSparkType, out desiredNumberOfSparks))
+            if (!explosion.SparkCounts.TryGetValue(this.GeneratedSparkType, out desiredNumberOfSparks))
             {
                 return new List<Firework>();
             }
@@ -25,7 +25,7 @@ namespace FireworksNet.Explode
             List<Firework> sparks = new List<Firework>(desiredNumberOfSparks);
             for (int i = 0; i < desiredNumberOfSparks; i++)
             {
-                sparks.Add(CreateSparkTyped(typedExplosion));
+                sparks.Add(this.CreateSparkTyped(typedExplosion));
             }
 
             return sparks;
@@ -39,7 +39,7 @@ namespace FireworksNet.Explode
                 throw new InvalidOperationException();
             }
 
-            return CreateSparkTyped(typedExplosion);
+            return this.CreateSparkTyped(typedExplosion);
         }
 
         protected abstract Firework CreateSparkTyped(T explosion);
