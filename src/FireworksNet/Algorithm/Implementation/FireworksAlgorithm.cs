@@ -26,16 +26,16 @@ namespace FireworksNet.Algorithm.Implementation
         private readonly ISparkGenerator explosionSparkGenerator;
         private readonly ISparkGenerator specificSparkGenerator;
         private readonly IDistance distanceCalculator;
-		private readonly ISelector locationSelector;
+        private readonly ISelector locationSelector;
         private readonly ExploderSettings exploderSettings;
         private readonly IExploder exploder;
 
         public Problem ProblemToSolve { get; private set; }
 
-		/// <summary>
-		/// Gets or sets the stop condition that algorithm has to use.
-		/// </summary>
-		public IStopCondition StopCondition { get; private set; }
+        /// <summary>
+        /// Gets or sets the stop condition that algorithm has to use.
+        /// </summary>
+        public IStopCondition StopCondition { get; private set; }
 
         public FireworksAlgorithmSettings Settings { get; private set; }
 
@@ -51,24 +51,22 @@ namespace FireworksNet.Algorithm.Implementation
                 throw new ArgumentNullException("settings");
             }
 
-			if (stopCondition == null)
-			{
-				throw new ArgumentNullException("stopCondition");
-			}
-
-            // TODO: Always use 'this' to access members of the current instance. Move this rule to code convention.
+            if (stopCondition == null)
+            {
+                throw new ArgumentNullException("stopCondition");
+            }
 
             this.ProblemToSolve = problem;
-			this.StopCondition = stopCondition;
+            this.StopCondition = stopCondition;
             this.Settings = settings;
 
             this.randomizer = new DefaultRandom();
-            this.distribution = new NormalDistribution(normalDistributionMean, normalDistributionStdDev);
+            this.distribution = new NormalDistribution(FireworksAlgorithm.normalDistributionMean, FireworksAlgorithm.normalDistributionStdDev);
             this.initialSparkGenerator = new InitialSparkGenerator(problem.Dimensions, problem.InitialRanges, this.randomizer);
             this.explosionSparkGenerator = new ExplosionSparkGenerator(problem.Dimensions, this.randomizer);
             this.specificSparkGenerator = new GaussianSparkGenerator(problem.Dimensions, this.distribution, this.randomizer);
             this.distanceCalculator = new EuclideanDistance(problem.Dimensions);
-			this.locationSelector = new LocationSelector(this.distanceCalculator, new Func<IEnumerable<Firework>, Firework>(problem.GetBest), Settings.LocationsNumber);
+            this.locationSelector = new LocationSelector(this.distanceCalculator, new Func<IEnumerable<Firework>, Firework>(problem.GetBest), this.Settings.LocationsNumber);
             this.exploderSettings = new ExploderSettings()
             {
                 ExplosionSparksNumberModifier = settings.ExplosionSparksNumberModifier,
@@ -77,29 +75,29 @@ namespace FireworksNet.Algorithm.Implementation
                 ExplosionSparksMaximumAmplitude = settings.ExplosionSparksMaximumAmplitude,
                 SpecificSparksPerExplosionNumber = settings.SpecificSparksPerExplosionNumber
             };
-            this.exploder = new Exploder(exploderSettings);
+            this.exploder = new Exploder(this.exploderSettings);
         }
 
         #region IFireworksAlgorithm methods
 
         public Solution Solve()
         {
-            AlgorithmState state = GetInitialState();
+            AlgorithmState state = this.GetInitialState();
 
             Debug.Assert(state != null, "Initial state is null");
 
-            while (!ShouldStop(state))
+            while (!this.ShouldStop(state))
             {
                 Debug.Assert(state != null, "Current state is null");
 
-				MakeStep(ref state);
+                this.MakeStep(ref state);
 
                 Debug.Assert(state != null, "Current state is null");
             }
 
             Debug.Assert(state != null, "Final state is null");
 
-            return GetSolution(state);
+            return this.GetSolution(state);
         }
 
         #endregion
@@ -108,23 +106,23 @@ namespace FireworksNet.Algorithm.Implementation
 
         public AlgorithmState GetInitialState()
         {
-            Debug.Assert(Settings != null, "Settings is null");
-            Debug.Assert(initialSparkGenerator != null, "Initial spark generator is null");
-            Debug.Assert(ProblemToSolve != null, "Problem to solve is null");
+            Debug.Assert(this.Settings != null, "Settings is null");
+            Debug.Assert(this.initialSparkGenerator != null, "Initial spark generator is null");
+            Debug.Assert(this.ProblemToSolve != null, "Problem to solve is null");
 
-            InitialExplosion initialExplosion = new InitialExplosion(Settings.LocationsNumber);
+            InitialExplosion initialExplosion = new InitialExplosion(this.Settings.LocationsNumber);
 
             Debug.Assert(initialExplosion != null, "Initial explosion is null");
 
-            IEnumerable<Firework> fireworks = initialSparkGenerator.CreateSparks(initialExplosion);
+            IEnumerable<Firework> fireworks = this.initialSparkGenerator.CreateSparks(initialExplosion);
 
             Debug.Assert(fireworks != null, "Initial firework collection is null");
 
-            CalculateQualities(fireworks);
+            this.CalculateQualities(fireworks);
 
             return new AlgorithmState()
             {
-                BestSolution = ProblemToSolve.GetBest(fireworks),
+                BestSolution = this.ProblemToSolve.GetBest(fireworks),
                 Fireworks = fireworks,
                 StepNumber = 0
             };
@@ -144,7 +142,7 @@ namespace FireworksNet.Algorithm.Implementation
                 StepNumber = state.StepNumber
             };
 
-            MakeStep(ref newState);
+            this.MakeStep(ref newState);
 
             Debug.Assert(newState != null, "New state is null");
 
@@ -168,9 +166,9 @@ namespace FireworksNet.Algorithm.Implementation
                 throw new ArgumentNullException("state");
             }
 
-            Debug.Assert(StopCondition != null, "Stop condition is null");
+            Debug.Assert(this.StopCondition != null, "Stop condition is null");
 
-            return StopCondition.ShouldStop(state);
+            return this.StopCondition.ShouldStop(state);
         }
 
         #endregion
@@ -181,46 +179,46 @@ namespace FireworksNet.Algorithm.Implementation
 
             if (state == null)
             {
-				throw new ArgumentNullException("state");
+                throw new ArgumentNullException("state");
             }
 
-			// Need to increase step number first. Otherwise, we'll get
-			// BirthStepNumber for 1st generation fireworks == 0 just like
-			// that of initial fireworks.
-			state.StepNumber++;
+            // Need to increase step number first. Otherwise, we'll get
+            // BirthStepNumber for 1st generation fireworks == 0 just like
+            // that of initial fireworks.
+            state.StepNumber++;
 
             IEnumerable<double> fireworkQualities = state.Fireworks.Select(fw => fw.Quality);
 
             IEnumerable<Firework> explosionSparks = new List<Firework>();
-            IEnumerable<Firework> specificSparks = new List<Firework>(Settings.SpecificSparksNumber);
-            IEnumerable<int> specificSparkParentIndices = randomizer.NextInt32s(Settings.SpecificSparksNumber, 0, Settings.LocationsNumber);
+            IEnumerable<Firework> specificSparks = new List<Firework>(this.Settings.SpecificSparksNumber);
+            IEnumerable<int> specificSparkParentIndices = this.randomizer.NextInt32s(this.Settings.SpecificSparksNumber, 0, this.Settings.LocationsNumber);
             int currentFirework = 0;
             foreach (Firework firework in state.Fireworks)
             {
-				Explosion explosion = exploder.Explode(firework, fireworkQualities, state.StepNumber);
-                explosionSparks = explosionSparks.Concat(explosionSparkGenerator.CreateSparks(explosion));
+                Explosion explosion = this.exploder.Explode(firework, fireworkQualities, state.StepNumber);
+                explosionSparks = explosionSparks.Concat(this.explosionSparkGenerator.CreateSparks(explosion));
                 if (specificSparkParentIndices.Contains(currentFirework))
                 {
-                    specificSparks = specificSparks.Concat(specificSparkGenerator.CreateSparks(explosion));
+                    specificSparks = specificSparks.Concat(this.specificSparkGenerator.CreateSparks(explosion));
                 }
 
                 currentFirework++;
             }
 
-            CalculateQualities(explosionSparks);
-            CalculateQualities(specificSparks);
+            this.CalculateQualities(explosionSparks);
+            this.CalculateQualities(specificSparks);
 
             IEnumerable<Firework> allFireworks = state.Fireworks.Concat(explosionSparks.Concat(specificSparks));
-            IEnumerable<Firework> selectedFireworks = locationSelector.Select(allFireworks);
+            IEnumerable<Firework> selectedFireworks = this.locationSelector.Select(allFireworks);
 
-			state.Fireworks = selectedFireworks;
-			state.BestSolution = ProblemToSolve.GetBest(selectedFireworks);
+            state.Fireworks = selectedFireworks;
+            state.BestSolution = this.ProblemToSolve.GetBest(selectedFireworks);
         }
 
         private void CalculateQualities(IEnumerable<Firework> fireworks)
         {
             Debug.Assert(fireworks != null, "Collection of fireworks to calculate qualities for is null");
-            Debug.Assert(ProblemToSolve != null, "Problem is null");
+            Debug.Assert(this.ProblemToSolve != null, "Problem is null");
 
             foreach (Firework firework in fireworks)
             {
@@ -228,7 +226,7 @@ namespace FireworksNet.Algorithm.Implementation
                 Debug.Assert(double.IsNaN(firework.Quality), "Excessive quality calculation"); // If quality is not NaN, it most likely has been already calculated
                 Debug.Assert(firework.Coordinates != null, "Firework coordinates collection is null");
 
-                firework.Quality = ProblemToSolve.CalculateQuality(firework.Coordinates);
+                firework.Quality = this.ProblemToSolve.CalculateQuality(firework.Coordinates);
             }
         }
     }

@@ -143,7 +143,7 @@ namespace FireworksNet.Model
 				return true;
 			}
 
-			return (Coordinates.Equals(other.Coordinates)) && // TODO: How dictionaries will be compared?.. By reference, I guess. Is that what I want?
+			return (Coordinates.Equals(other.Coordinates)) && // TODO: Need to compare dictionaries contents, not references.
 				   (Quality.IsEqual(other.Quality));
 		}
 
