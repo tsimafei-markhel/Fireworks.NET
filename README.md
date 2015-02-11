@@ -21,3 +21,7 @@ Implementation is based on the following papers that can be found by the [link](
 
 ##License
 The project is released under the terms of the MIT license. See [LICENSE](LICENSE) file for the complete text.
+
+##Contribution
+###Coding Guidelines
+Please refer to the [CodingGuidelines.md](CodingGuidelines.md) file for the code style guidelines.
