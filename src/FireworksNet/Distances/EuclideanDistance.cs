@@ -4,31 +4,31 @@ using FireworksNet.Model;
 
 namespace FireworksNet.Distances
 {
-	public class EuclideanDistance : Distance
-	{
-		public EuclideanDistance(IEnumerable<Dimension> dimensions)
-			: base(dimensions)
-		{
-		}
+    public class EuclideanDistance : Distance
+    {
+        public EuclideanDistance(IEnumerable<Dimension> dimensions)
+            : base(dimensions)
+        {
+        }
 
         public override double Calculate(double[] first, double[] second)
-		{
-			if (first == null)
-			{
-				throw new ArgumentNullException("first");
-			}
+        {
+            if (first == null)
+            {
+                throw new ArgumentNullException("first");
+            }
 
-			if (second == null)
-			{
-				throw new ArgumentNullException("second");
-			}
+            if (second == null)
+            {
+                throw new ArgumentNullException("second");
+            }
 
-			if (first.Length != second.Length)
-			{
-				throw new ArgumentException(string.Empty, "second");
-			}
+            if (first.Length != second.Length)
+            {
+                throw new ArgumentException(string.Empty, "second");
+            }
 
-			return MathNet.Numerics.Distance.Euclidean(first, second);
-		}
+            return MathNet.Numerics.Distance.Euclidean(first, second);
+        }
     }
 }
