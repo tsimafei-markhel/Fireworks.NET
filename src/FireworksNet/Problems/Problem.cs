@@ -15,45 +15,45 @@ namespace FireworksNet.Problems
 
         public event EventHandler<QualityCalculatedEventArgs> QualityCalculated;
 
-		public event EventHandler<BestFireworkFindingEventArgs> BestFireworkFinding;
+        public event EventHandler<BestFireworkFindingEventArgs> BestFireworkFinding;
 
-		public event EventHandler<BestFireworkFoundEventArgs> BestFireworkFound;
+        public event EventHandler<BestFireworkFoundEventArgs> BestFireworkFound;
 
         public IList<Dimension> Dimensions { get; private set; }
 
-		public IDictionary<Dimension, Range> InitialRanges { get; private set; }
+        public IDictionary<Dimension, Range> InitialRanges { get; private set; }
 
-		public ProblemTarget Target { get; private set; }
+        public ProblemTarget Target { get; private set; }
 
-		public Problem(IList<Dimension> dimensions, IDictionary<Dimension, Range> initialRanges, Func<IDictionary<Dimension, double>, double> targetFunction, ProblemTarget target)
+        public Problem(IList<Dimension> dimensions, IDictionary<Dimension, Range> initialRanges, Func<IDictionary<Dimension, double>, double> targetFunction, ProblemTarget target)
         {
             if (dimensions == null)
             {
                 throw new ArgumentNullException("dimensions");
             }
 
-			if (dimensions.Count == 0)
-			{
-				throw new ArgumentException(string.Empty, "dimensions");
-			}
+            if (dimensions.Count == 0)
+            {
+                throw new ArgumentException(string.Empty, "dimensions");
+            }
 
-			if (initialRanges == null)
-			{
-				throw new ArgumentNullException("initialRanges");
-			}
+            if (initialRanges == null)
+            {
+                throw new ArgumentNullException("initialRanges");
+            }
 
-			if (initialRanges.Count != dimensions.Count)
-			{
-				throw new ArgumentException(string.Empty, "initialRanges");
-			}
+            if (initialRanges.Count != dimensions.Count)
+            {
+                throw new ArgumentException(string.Empty, "initialRanges");
+            }
 
-			foreach(Dimension dimension in dimensions)
-			{
-				if (!initialRanges.ContainsKey(dimension))
-				{
-					throw new ArgumentException(string.Empty, "initialRanges");
-				}
-			}
+            foreach(Dimension dimension in dimensions)
+            {
+                if (!initialRanges.ContainsKey(dimension))
+                {
+                    throw new ArgumentException(string.Empty, "initialRanges");
+                }
+            }
 
             if (targetFunction == null)
             {
@@ -61,97 +61,97 @@ namespace FireworksNet.Problems
             }
 
             this.Dimensions = dimensions;
-			this.InitialRanges = initialRanges;
+            this.InitialRanges = initialRanges;
             this.targetFunction = targetFunction;
             this.Target = target;
         }
 
-		public Problem(IList<Dimension> dimensions, Func<IDictionary<Dimension, double>, double> targetFunction, ProblemTarget target)
-			: this(dimensions, CreateDefaultInitialRanges(dimensions), targetFunction, target)
+        public Problem(IList<Dimension> dimensions, Func<IDictionary<Dimension, double>, double> targetFunction, ProblemTarget target)
+            : this(dimensions, Problem.CreateDefaultInitialRanges(dimensions), targetFunction, target)
         {
         }
 
-		public Problem(IList<Dimension> dimensions, Func<IDictionary<Dimension, double>, double> targetFunction)
-			: this(dimensions, CreateDefaultInitialRanges(dimensions), targetFunction, ProblemTarget.Minimum)
+        public Problem(IList<Dimension> dimensions, Func<IDictionary<Dimension, double>, double> targetFunction)
+            : this(dimensions, Problem.CreateDefaultInitialRanges(dimensions), targetFunction, ProblemTarget.Minimum)
         {
         }
 
         public virtual double CalculateQuality(IDictionary<Dimension, double> coordinateValues)
         {
-			if (coordinateValues == null)
-			{
-				throw new ArgumentNullException("coordinateValues");
-			}
+            if (coordinateValues == null)
+            {
+                throw new ArgumentNullException("coordinateValues");
+            }
 
-			Debug.Assert(targetFunction != null, "Target function is null");
+            Debug.Assert(this.targetFunction != null, "Target function is null");
 
-            OnQualityCalculating(new QualityCalculatingEventArgs(coordinateValues));
-            double result = targetFunction(coordinateValues);
-            OnQualityCalculated(new QualityCalculatedEventArgs(coordinateValues, result));
+            this.OnQualityCalculating(new QualityCalculatingEventArgs(coordinateValues));
+            double result = this.targetFunction(coordinateValues);
+            this.OnQualityCalculated(new QualityCalculatedEventArgs(coordinateValues, result));
             return result;
         }
 
         public virtual Firework GetBest(IEnumerable<Firework> fireworks)
         {
-			if (fireworks == null)
-			{
-				throw new ArgumentNullException("fireworks");
-			}
-
-			OnBestFireworkFinding(new BestFireworkFindingEventArgs(fireworks));
-
-			Firework bestFirework = null;
-            if (Target == ProblemTarget.Minimum)
+            if (fireworks == null)
             {
-				bestFirework = fireworks.Aggregate(GetLessQualityFirework);
+                throw new ArgumentNullException("fireworks");
+            }
+
+            this.OnBestFireworkFinding(new BestFireworkFindingEventArgs(fireworks));
+
+            Firework bestFirework = null;
+            if (this.Target == ProblemTarget.Minimum)
+            {
+                bestFirework = fireworks.Aggregate(this.GetLessQualityFirework);
             }
             else
             {
-				bestFirework = fireworks.Aggregate(GetGreaterQualityFirework);
+                bestFirework = fireworks.Aggregate(this.GetGreaterQualityFirework);
             }
 
-			OnBestFireworkFound(new BestFireworkFoundEventArgs(fireworks, bestFirework));
-			return bestFirework;
+            this.OnBestFireworkFound(new BestFireworkFoundEventArgs(fireworks, bestFirework));
+            return bestFirework;
         }
 
-		public static IDictionary<Dimension, Range> CreateDefaultInitialRanges(IList<Dimension> dimensions)
-		{
-			if (dimensions == null)
-			{
-				throw new ArgumentNullException("dimensions");
-			}
+        public static IDictionary<Dimension, Range> CreateDefaultInitialRanges(IList<Dimension> dimensions)
+        {
+            if (dimensions == null)
+            {
+                throw new ArgumentNullException("dimensions");
+            }
 
-			Dictionary<Dimension, Range> initialRanges = new Dictionary<Dimension, Range>(dimensions.Count);
-			foreach (Dimension dimension in dimensions)
-			{
-				Debug.Assert(dimension != null, "Dimension is null");
-				Debug.Assert(dimension.VariationRange != null, "Dimension variation range is null");
+            Dictionary<Dimension, Range> initialRanges = new Dictionary<Dimension, Range>(dimensions.Count);
+            foreach (Dimension dimension in dimensions)
+            {
+                Debug.Assert(dimension != null, "Dimension is null");
+                Debug.Assert(dimension.VariationRange != null, "Dimension variation range is null");
 
-				initialRanges.Add(dimension, dimension.VariationRange);
-			}
+                initialRanges.Add(dimension, dimension.VariationRange);
+            }
 
-			return initialRanges;
-		}
+            return initialRanges;
+        }
 
-		protected virtual Firework GetLessQualityFirework(Firework currentMin, Firework candidate)
-		{
-			Debug.Assert(currentMin != null, "Current minimum is null");
-			Debug.Assert(candidate != null, "Candidate for minimum is null");
+        protected virtual Firework GetLessQualityFirework(Firework currentMin, Firework candidate)
+        {
+            Debug.Assert(currentMin != null, "Current minimum is null");
+            Debug.Assert(candidate != null, "Candidate for minimum is null");
 
-			return candidate.Quality.IsLess(currentMin.Quality) ? candidate : currentMin;
-		}
+            return candidate.Quality.IsLess(currentMin.Quality) ? candidate : currentMin;
+        }
 
-		protected virtual Firework GetGreaterQualityFirework(Firework currentMax, Firework candidate)
-		{
-			Debug.Assert(currentMax != null, "Current maximum is null");
-			Debug.Assert(candidate != null, "Candidate for maximum is null");
+        protected virtual Firework GetGreaterQualityFirework(Firework currentMax, Firework candidate)
+        {
+            Debug.Assert(currentMax != null, "Current maximum is null");
+            Debug.Assert(candidate != null, "Candidate for maximum is null");
 
-			return candidate.Quality.IsGreater(currentMax.Quality) ? candidate : currentMax;
-		}
+            return candidate.Quality.IsGreater(currentMax.Quality) ? candidate : currentMax;
+        }
 
         protected virtual void OnQualityCalculating(QualityCalculatingEventArgs eventArgs)
         {
-            EventHandler<QualityCalculatingEventArgs> handler = QualityCalculating;
+            EventHandler<QualityCalculatingEventArgs> handler = this.QualityCalculating;
             if (handler != null)
             {
                 handler(this, eventArgs);
@@ -160,72 +160,72 @@ namespace FireworksNet.Problems
 
         protected virtual void OnQualityCalculated(QualityCalculatedEventArgs eventArgs)
         {
-            EventHandler<QualityCalculatedEventArgs> handler = QualityCalculated;
+            EventHandler<QualityCalculatedEventArgs> handler = this.QualityCalculated;
             if (handler != null)
             {
                 handler(this, eventArgs);
             }
         }
 
-		protected virtual void OnBestFireworkFinding(BestFireworkFindingEventArgs eventArgs)
-		{
-			EventHandler<BestFireworkFindingEventArgs> handler = BestFireworkFinding;
-			if (handler != null)
-			{
-				handler(this, eventArgs);
-			}
-		}
+        protected virtual void OnBestFireworkFinding(BestFireworkFindingEventArgs eventArgs)
+        {
+            EventHandler<BestFireworkFindingEventArgs> handler = this.BestFireworkFinding;
+            if (handler != null)
+            {
+                handler(this, eventArgs);
+            }
+        }
 
-		protected virtual void OnBestFireworkFound(BestFireworkFoundEventArgs eventArgs)
-		{
-			EventHandler<BestFireworkFoundEventArgs> handler = BestFireworkFound;
-			if (handler != null)
-			{
-				handler(this, eventArgs);
-			}
-		}
+        protected virtual void OnBestFireworkFound(BestFireworkFoundEventArgs eventArgs)
+        {
+            EventHandler<BestFireworkFoundEventArgs> handler = this.BestFireworkFound;
+            if (handler != null)
+            {
+                handler(this, eventArgs);
+            }
+        }
     }
 
-	public class QualityCalculatingEventArgs : EventArgs
-	{
+    public class QualityCalculatingEventArgs : EventArgs
+    {
         public IDictionary<Dimension, double> CoordinateValues { get; private set; }
 
         public QualityCalculatingEventArgs(IDictionary<Dimension, double> coordinateValues)
-		{
-			CoordinateValues = coordinateValues;
-		}
-	}
+        {
+            this.CoordinateValues = coordinateValues;
+        }
+    }
 
-	public class QualityCalculatedEventArgs : QualityCalculatingEventArgs
-	{
+    public class QualityCalculatedEventArgs : QualityCalculatingEventArgs
+    {
         public double Quality { get; private set; }
 
         public QualityCalculatedEventArgs(IDictionary<Dimension, double> coordinateValues, double quality)
-			: base(coordinateValues)
-		{
-			Quality = quality;
-		}
-	}
+            : base(coordinateValues)
+        {
+            this.Quality = quality;
+        }
+    }
 
-	public class BestFireworkFindingEventArgs : EventArgs
-	{
-		public IEnumerable<Firework> FireworksToCheck { get; private set; }
+    public class BestFireworkFindingEventArgs : EventArgs
+    {
+        public IEnumerable<Firework> FireworksToCheck { get; private set; }
 
-		public BestFireworkFindingEventArgs(IEnumerable<Firework> fireworksToCheck)
-		{
-			FireworksToCheck = fireworksToCheck;
-		}
-	}
+        public BestFireworkFindingEventArgs(IEnumerable<Firework> fireworksToCheck)
+        {
+            this.FireworksToCheck = fireworksToCheck;
+        }
+    }
 
-	public class BestFireworkFoundEventArgs : EventArgs
-	{
-		public IEnumerable<Firework> FireworksToCheck { get; private set; }
-		public Firework BestFirework { get; private set; }
+    public class BestFireworkFoundEventArgs : EventArgs
+    {
+        public IEnumerable<Firework> FireworksToCheck { get; private set; }
+        public Firework BestFirework { get; private set; }
 
-		public BestFireworkFoundEventArgs(IEnumerable<Firework> fireworksToCheck, Firework bestFirework)
-		{
-			FireworksToCheck = fireworksToCheck;
-			BestFirework = bestFirework;
-		}
-	}
+        public BestFireworkFoundEventArgs(IEnumerable<Firework> fireworksToCheck, Firework bestFirework)
+        {
+            this.FireworksToCheck = fireworksToCheck;
+            this.BestFirework = bestFirework;
+        }
+    }
 }
