@@ -10,21 +10,21 @@ namespace FireworksNet.Distributions
 
         public NormalDistribution(double mean, double stddev)
         {
-            internalNormal = new Normal(mean, stddev);
+            this.internalNormal = new Normal(mean, stddev);
         }
 
         public double Sample()
         {
-            Debug.Assert(internalNormal != null, "Internal distribution implementation is null");
+            Debug.Assert(this.internalNormal != null, "Internal distribution implementation is null");
 
-            return internalNormal.Sample();
+            return this.internalNormal.Sample();
         }
 
         public IEnumerable<double> Samples()
         {
-            Debug.Assert(internalNormal != null, "Internal distribution implementation is null");
+            Debug.Assert(this.internalNormal != null, "Internal distribution implementation is null");
 
-            return internalNormal.Samples();
+            return this.internalNormal.Samples();
         }
     }
 }
