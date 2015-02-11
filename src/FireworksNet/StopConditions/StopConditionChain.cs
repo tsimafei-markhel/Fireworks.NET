@@ -17,12 +17,12 @@ namespace FireworksNet.StopConditions
 
         private readonly IList<IStopCondition> stopConditions;
 
-        private AggregationOperator aggregationMode;
+        private StopConditionChain.AggregationOperator aggregationMode;
 
         private StopConditionChain()
         {
-            stopConditions = new List<IStopCondition>();
-            aggregationMode = AggregationOperator.None;
+            this.stopConditions = new List<IStopCondition>();
+            this.aggregationMode = StopConditionChain.AggregationOperator.None;
         }
 
         public static StopConditionChain From(IStopCondition firstStopCondition)
@@ -45,7 +45,7 @@ namespace FireworksNet.StopConditions
                 throw new ArgumentNullException("anotherStopCondition");
             }
 
-            return AddStopCondition(anotherStopCondition, AggregationOperator.And);
+            return this.AddStopCondition(anotherStopCondition, StopConditionChain.AggregationOperator.And);
         }
 
         public StopConditionChain Or(IStopCondition anotherStopCondition)
@@ -55,17 +55,17 @@ namespace FireworksNet.StopConditions
                 throw new ArgumentNullException("anotherStopCondition");
             }
 
-            return AddStopCondition(anotherStopCondition, AggregationOperator.Or);
+            return this.AddStopCondition(anotherStopCondition, StopConditionChain.AggregationOperator.Or);
         }
 
         public bool ShouldStop(AlgorithmState state)
         {
-            switch (aggregationMode)
+            switch (this.aggregationMode)
             {
-                case AggregationOperator.And:
-                    foreach (IStopCondition stopCondition in stopConditions)
+                case StopConditionChain.AggregationOperator.And:
+                    foreach (IStopCondition stopCondition in this.stopConditions)
                     {
-						if (!stopCondition.ShouldStop(state))
+                        if (!stopCondition.ShouldStop(state))
                         {
                             return false;
                         }
@@ -73,10 +73,10 @@ namespace FireworksNet.StopConditions
                     
                     return true;
 
-                case AggregationOperator.Or:
-                    foreach (IStopCondition stopCondition in stopConditions)
+                case StopConditionChain.AggregationOperator.Or:
+                    foreach (IStopCondition stopCondition in this.stopConditions)
                     {
-						if (stopCondition.ShouldStop(state))
+                        if (stopCondition.ShouldStop(state))
                         {
                             return true;
                         }
@@ -89,24 +89,24 @@ namespace FireworksNet.StopConditions
             }
         }
 
-        private StopConditionChain AddStopCondition(IStopCondition anotherStopCondition, AggregationOperator mode)
+        private StopConditionChain AddStopCondition(IStopCondition anotherStopCondition, StopConditionChain.AggregationOperator mode)
         {
-            if (mode == AggregationOperator.None)
+            if (mode == StopConditionChain.AggregationOperator.None)
             {
                 throw new ArgumentOutOfRangeException("mode");
             }
 
-            if (aggregationMode == AggregationOperator.None)
+            if (this.aggregationMode == StopConditionChain.AggregationOperator.None)
             {
-                aggregationMode = mode;
+                this.aggregationMode = mode;
             }
 
-            if (aggregationMode != mode)
+            if (this.aggregationMode != mode)
             {
                 throw new InvalidOperationException();
             }
 
-            stopConditions.Add(anotherStopCondition);
+            this.stopConditions.Add(anotherStopCondition);
             return this;
         }
     }

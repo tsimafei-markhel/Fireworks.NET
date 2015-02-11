@@ -24,12 +24,12 @@ namespace FireworksNet.StopConditions
 
         public virtual bool ShouldStop(AlgorithmState state)
         {
-            return count >= Threshold;
+            return this.count >= this.Threshold;
         }
 
         public virtual void IncrementCounter(object sender, object e)
         {
-            Interlocked.Increment(ref count);
+            Interlocked.Increment(ref this.count);
         }
     }
 }
