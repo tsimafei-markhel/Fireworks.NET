@@ -3,27 +3,27 @@ using System.Collections.Generic;
 
 namespace FireworksNet.Model
 {
-	public class FireworkExplosion : Explosion
-	{
-		public Firework ParentFirework { get; private set; }
+    public class FireworkExplosion : Explosion
+    {
+        public Firework ParentFirework { get; private set; }
 
         public double Amplitude { get; private set; }
 
         public FireworkExplosion(Firework parentFirework, int stepNumber, double amplitude, IDictionary<FireworkType, int> sparkCounts)
             : base(stepNumber, sparkCounts)
-		{
-			if (parentFirework == null)
-			{
-				throw new ArgumentNullException("parentFirework");
-			}
+        {
+            if (parentFirework == null)
+            {
+                throw new ArgumentNullException("parentFirework");
+            }
 
             if (double.IsNaN(amplitude) || double.IsInfinity(amplitude))
-			{
-				throw new ArgumentOutOfRangeException("amplitude");
-			}
+            {
+                throw new ArgumentOutOfRangeException("amplitude");
+            }
 
-			ParentFirework = parentFirework;
-            Amplitude = amplitude;
-		}
-	}
+            this.ParentFirework = parentFirework;
+            this.Amplitude = amplitude;
+        }
+    }
 }

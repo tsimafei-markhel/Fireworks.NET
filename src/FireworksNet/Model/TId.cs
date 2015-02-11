@@ -18,7 +18,7 @@ namespace FireworksNet.Model
         /// </summary>
         private TId(Guid idValue)
         {
-            value = idValue;
+            this.value = idValue;
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace FireworksNet.Model
                 return true;
             }
 
-            return value.Equals(other.value);
+            return this.value.Equals(other.value);
         }
 
         #endregion
@@ -73,7 +73,7 @@ namespace FireworksNet.Model
         /// otherwise <c>false</c>.</returns>
         public override bool Equals(object obj)
         {
-            return Equals(obj as TId);
+            return this.Equals(obj as TId);
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace FireworksNet.Model
         /// <returns>A hash code for the current <see cref="TId"/>.</returns>
         public override int GetHashCode()
         {
-            return value.GetHashCode();
+            return this.value.GetHashCode();
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace FireworksNet.Model
         /// <returns>A string that represents the current <see cref="TId"/> instance.</returns>
         public override string ToString()
         {
-            return value.ToString();
+            return this.value.ToString();
         }
 
         #endregion
@@ -153,7 +153,7 @@ namespace FireworksNet.Model
         /// <returns><see cref="TId"/> value.</returns>
         public static explicit operator TId(string value)
         {
-            return Parse(value);
+            return TId.Parse(value);
         }
 
         #endregion

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 namespace FireworksNet.Model
 {
-	public abstract class Explosion
-	{
+    public abstract class Explosion
+    {
         /// <summary>
         /// Gets a unique identifier of this <see cref="Explosion"/>.
         /// </summary>
@@ -15,20 +15,20 @@ namespace FireworksNet.Model
         public IDictionary<FireworkType, int> SparkCounts { get; private set; }
 
         protected Explosion(int stepNumber, IDictionary<FireworkType, int> sparkCounts)
-		{
+        {
             if (stepNumber < 0)
             {
                 throw new ArgumentOutOfRangeException("stepNumber");
             }
             
-			if (sparkCounts == null)
-			{
-				throw new ArgumentNullException("sparkCounts");
-			}
+            if (sparkCounts == null)
+            {
+                throw new ArgumentNullException("sparkCounts");
+            }
 
             this.Id = new TId();
-			this.StepNumber = stepNumber;
+            this.StepNumber = stepNumber;
             this.SparkCounts = sparkCounts;
-		}
-	}
+        }
+    }
 }
