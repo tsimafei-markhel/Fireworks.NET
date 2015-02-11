@@ -14,7 +14,7 @@ namespace FireworksNet.Random
 
         public DefaultRandom()
         {
-            randomizer = new SystemRandomSource();
+            this.randomizer = new SystemRandomSource();
         }
 
         public DefaultRandom(int seed)
@@ -24,34 +24,34 @@ namespace FireworksNet.Random
 
         public DefaultRandom(int seed, bool threadSafe)
         {
-            randomizer = new SystemRandomSource(seed, threadSafe);
+            this.randomizer = new SystemRandomSource(seed, threadSafe);
         }
 
         #region System.Random overrides
 
         public override int Next()
         {
-            return randomizer.Next();
+            return this.randomizer.Next();
         }
 
         public override int Next(int maxValue)
         {
-            return randomizer.Next(maxValue);
+            return this.randomizer.Next(maxValue);
         }
 
         public override int Next(int minValue, int maxValue)
         {
-            return randomizer.Next(minValue, maxValue);
+            return this.randomizer.Next(minValue, maxValue);
         }
 
         public override void NextBytes(Byte[] buffer)
         {
-            randomizer.NextBytes(buffer);
+            this.randomizer.NextBytes(buffer);
         }
 
         public override double NextDouble()
         {
-            return randomizer.NextDouble();
+            return this.randomizer.NextDouble();
         }
 
         #endregion
