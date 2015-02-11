@@ -16,7 +16,7 @@ namespace FireworksNet.Extensions
         /// <param name="maxExclusive">Upper bound, exclusive.</param>
         public static double NextDouble(this System.Random random, double minInclusive, double maxExclusive)
         {
-            return NextDoubleInternal(random, minInclusive, maxExclusive - minInclusive);
+            return RandomExtensions.NextDoubleInternal(random, minInclusive, maxExclusive - minInclusive);
         }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace FireworksNet.Extensions
         /// <param name="allowedRange">A range that will contain generated number.</param>
         /// <remarks>
         /// <see cref="Range.Maximum"/> is excluded even if <see cref="allowedRange.IsMaximumOpen"/>
-		/// is set to <c>false</c> (i.e. upper bound is exclusive).
+        /// is set to <c>false</c> (i.e. upper bound is exclusive).
         /// </remarks>
         public static double NextDouble(this System.Random random, Range allowedRange)
         {
@@ -34,7 +34,7 @@ namespace FireworksNet.Extensions
             double correctValue;
             do
             {
-                correctValue = NextDoubleInternal(random, allowedRange.Minimum, allowedRange.Length);
+                correctValue = RandomExtensions.NextDoubleInternal(random, allowedRange.Minimum, allowedRange.Length);
 
                 // 1. 'Is generated value within a range' check is missed intentionally.
                 // 2. Even though upper bound is always exclusive, second check should stay here.
