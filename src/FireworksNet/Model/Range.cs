@@ -56,7 +56,7 @@ namespace FireworksNet.Model
         public bool IsOpen { get; private set; }
 
         /// <summary>
-        /// Initializes new instance of <see cref="Range"/>.
+        /// Initializes a new instance of <see cref="Range"/>.
         /// </summary>
         /// <param name="minimum">Lower boundary.</param>
         /// <param name="isMinimumOpen">Whether lower boundary is open (exclusive) or not.</param>
@@ -86,7 +86,7 @@ namespace FireworksNet.Model
         }
 
         /// <summary>
-        /// Initializes new instance of <see cref="Range"/> which is
+        /// Initializes a new instance of <see cref="Range"/> which is
         /// closed (inclusive) from both sides.
         /// </summary>
         /// <param name="minimum">Lower boundary.</param>

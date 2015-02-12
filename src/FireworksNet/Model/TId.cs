@@ -14,7 +14,7 @@ namespace FireworksNet.Model
         private readonly Guid value;
 
         /// <summary>
-        /// Initializes new instance of <see cref="TId"/> class.
+        /// Initializes a new instance of <see cref="TId"/> class.
         /// </summary>
         private TId(Guid idValue)
         {
@@ -22,7 +22,7 @@ namespace FireworksNet.Model
         }
 
         /// <summary>
-        /// Initializes new instance of <see cref="TId"/> class.
+        /// Initializes a new instance of <see cref="TId"/> class.
         /// </summary>
         public TId()
             : this(Guid.NewGuid())
