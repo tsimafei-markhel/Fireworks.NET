@@ -7,7 +7,7 @@ namespace FireworksNet.Model
     /// Stores current algorithm state.
     /// </summary>
     /// <remarks>This class is not thread-safe.</remarks>
-    public class AlgorithmState
+    public class AlgorithmState // TODO: : IEquatable<AlgorithmState>
     {
         private readonly TId id = new TId();
         private IEnumerable<Firework> fireworks;
