@@ -55,12 +55,11 @@ namespace FireworksNet.Problems.Benchmark
                 {
                     double sum = 0.0;
                     double product = 1.0;
-                    int index = 1;
-                    foreach (double value in c.Values)
+                    for (int i = 0; i < Griewank2010.dimensionality; i++)
                     {
+                        double value = c[dimensions[i]];
                         sum += Math.Pow(value, 2.0);
-                        product *= Math.Cos(value) / Math.Sqrt(index);
-                        index++;
+                        product *= Math.Cos(value) / Math.Sqrt(i);
                     }
 
                     return 1.0 + sum / 4000.0 - product;
