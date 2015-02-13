@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using FireworksNet.Model;
 
 namespace FireworksNet.Problems.Benchmark
