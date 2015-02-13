@@ -82,6 +82,7 @@
     <Compile Include="Model\TId.cs" />
     <Compile Include="Problems\Benchmark\Rosenbrock2010.cs" />
     <Compile Include="Problems\Benchmark\Rastrigrin2010.cs" />
+    <Compile Include="Problems\Benchmark\Griewank2010.cs" />
     <Compile Include="Problems\Benchmark\Sphere2010.cs" />
     <Compile Include="StopConditions\CounterStopCondition.cs" />
     <Compile Include="StopConditions\MinErrorStopCondition.cs" />
