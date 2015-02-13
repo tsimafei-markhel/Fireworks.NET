@@ -55,7 +55,7 @@ namespace FireworksNet.Problems.Benchmark
                 {
                     double sum = 0.0;
                     double product = 1.0;
-                    for (int i = 0; i < Griewank2010.dimensionality; i++)
+                    for (int i = 1; i <= Griewank2010.dimensionality; i++)
                     {
                         double value = c[dimensions[i]];
                         sum += Math.Pow(value, 2.0);
