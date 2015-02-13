@@ -80,6 +80,7 @@
     <Compile Include="Model\FireworkType.cs" />
     <Compile Include="Model\Solution.cs" />
     <Compile Include="Model\TId.cs" />
+    <Compile Include="Problems\Benchmark\Tablet2010.cs" />
     <Compile Include="Problems\Benchmark\Cigar2010.cs" />
     <Compile Include="Problems\Benchmark\Rosenbrock2010.cs" />
     <Compile Include="Problems\Benchmark\Rastrigrin2010.cs" />
