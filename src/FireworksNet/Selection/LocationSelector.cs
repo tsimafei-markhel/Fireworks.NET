@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using FireworksNet.Distances;
 using FireworksNet.Extensions;
@@ -76,6 +77,8 @@ namespace FireworksNet.Selection
                 return selectedLocations;
             }
 
+            Debug.Assert(this.bestFireworkSelector != null, "Best firework selector is null");
+
             // 1. Find a firework with best quality - it will be kept anyways
             Firework bestFirework = this.bestFireworkSelector(from);
             selectedLocations.Add(bestFirework);
@@ -84,13 +87,19 @@ namespace FireworksNet.Selection
             {
                 // 2. Calculate distances between all fireworks
                 IDictionary<Firework, double> distances = this.CalculateDistances(from);
+                Debug.Assert(distances != null, "Distance collection is null");
 
                 // 3. Calculate probabilities for each firework
                 IDictionary<Firework, double> probabilities = this.CalculateProbabilities(distances);
+                Debug.Assert(probabilities != null, "Probability collection is null");
 
                 // 4. Select desiredLocationsNumber - 1 of fireworks based on the probabilities
                 IOrderedEnumerable<KeyValuePair<Firework, double>> sortedProbabilities = probabilities.OrderByDescending(p => p.Value, new DoubleExtensions.DoubleExtensionComparer());
+                Debug.Assert(sortedProbabilities != null, "Sorted probabilities collection is null");
+
                 IEnumerable<Firework> otherSelectedLocations = sortedProbabilities.Where(sp => sp.Key != bestFirework).Take(numberToSelect - 1).Select(sp => sp.Key);
+                Debug.Assert(otherSelectedLocations != null, "Other selected locations collection is null");
+
                 selectedLocations.AddRange(otherSelectedLocations);
             }
 
@@ -99,12 +108,25 @@ namespace FireworksNet.Selection
 
         protected virtual IDictionary<Firework, double> CalculateDistances(IEnumerable<Firework> allCurrentFireworks)
         {
+            // TODO: Maybe there is more efficient way to calc distance between each and each points?
+
+            if (allCurrentFireworks == null)
+            {
+                throw new ArgumentNullException("allCurrentFireworks");
+            }
+
+            Debug.Assert(this.distanceCalculator != null, "Distance calculator is null");
+
             Dictionary<Firework, double> distances = new Dictionary<Firework, double>(allCurrentFireworks.Count());
             foreach (Firework firework in allCurrentFireworks)
             {
+                Debug.Assert(firework != null, "Firework is null");
+
                 distances.Add(firework, 0.0);
                 foreach (Firework otherFirework in allCurrentFireworks)
                 {
+                    Debug.Assert(otherFirework != null, "Other firework is null");
+
                     distances[firework] += this.distanceCalculator.Calculate(firework, otherFirework);
                 }
             }
@@ -114,10 +136,19 @@ namespace FireworksNet.Selection
 
         protected virtual IDictionary<Firework, double> CalculateProbabilities(IDictionary<Firework, double> distances)
         {
+            if (distances == null)
+            {
+                throw new ArgumentNullException("distances");
+            }
+
             Dictionary<Firework, double> probabilities = new Dictionary<Firework, double>(distances.Count());
             double distancesSum = distances.Values.Sum();
+            Debug.Assert(!distancesSum.IsEqual(0.0), "Distances sum is 0");
+
             foreach (KeyValuePair<Firework, double> distance in distances)
             {
+                Debug.Assert(distance.Key != null, "Firework is null");
+
                 double probability = distance.Value / distancesSum;
                 probabilities.Add(distance.Key, probability);
             }
