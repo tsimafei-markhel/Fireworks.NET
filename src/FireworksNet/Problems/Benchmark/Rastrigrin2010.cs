@@ -8,7 +8,7 @@ namespace FireworksNet.Problems.Benchmark
     /// <summary>
     /// Represents Rastrigrin test function, as used in 2010 paper.
     /// </summary>
-    /// <remarks>http://en.wikipedia.org/wiki/Test_functions_for_optimization</remarks>
+    /// <remarks>http://en.wikipedia.org/wiki/Rastrigin_function</remarks>
     public sealed class Rastrigrin2010 : BenchmarkProblem
     {
         private const int dimensionality = 30;
