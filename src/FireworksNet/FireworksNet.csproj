@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{030C2E45-DCEA-44DE-A90A-61C4092D3406}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FireworksNet</RootNamespace>
+    <AssemblyName>FireworksNet</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>FireworksNet.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>FireworksNet.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\Release\FireworksNet.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MathNet.Numerics">
+      <HintPath>..\packages\MathNet.Numerics.3.3.0\lib\net40\MathNet.Numerics.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Algorithm\IStepperFireworksAlgorithm.cs" />
+    <Compile Include="Distances\DistanceBase.cs" />
+    <Compile Include="Extensions\RandomExtensions.cs" />
+    <Compile Include="Algorithm\Implementation\FireworksAlgorithmSettings.cs" />
+    <Compile Include="Distances\EuclideanDistance.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Distances\IDistance.cs" />
+    <Compile Include="Distributions\IContinuousDistribution.cs" />
+    <Compile Include="Distributions\NormalDistribution.cs" />
+    <Compile Include="Explode\Exploder.cs" />
+    <Compile Include="Explode\ExploderSettings.cs" />
+    <Compile Include="Explode\ExplosionSparkGenerator.cs" />
+    <Compile Include="Explode\GaussianSparkGenerator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Explode\IExploder.cs" />
+    <Compile Include="Explode\InitialSparkGenerator.cs" />
+    <Compile Include="Explode\ISparkGenerator.cs" />
+    <Compile Include="Explode\SparkGeneratorBase.cs" />
+    <Compile Include="Extensions\DoubleExtensions.cs" />
+    <Compile Include="Algorithm\Implementation\FireworksAlgorithm.cs" />
+    <Compile Include="Algorithm\IFireworksAlgorithm.cs" />
+    <Compile Include="Model\AlgorithmState.cs" />
+    <Compile Include="Model\FireworkExplosion.cs" />
+    <Compile Include="Model\InitialExplosion.cs" />
+    <Compile Include="Model\ExplosionBase.cs" />
+    <Compile Include="Model\Firework.cs" />
+    <Compile Include="Model\FireworkType.cs" />
+    <Compile Include="Model\Solution.cs" />
+    <Compile Include="Model\TId.cs" />
+    <Compile Include="Problems\Benchmark\Ackley.cs" />
+    <Compile Include="Problems\Benchmark\Tablet.cs" />
+    <Compile Include="Problems\Benchmark\Cigar.cs" />
+    <Compile Include="Problems\Benchmark\Rosenbrock.cs" />
+    <Compile Include="Problems\Benchmark\Rastrigrin.cs" />
+    <Compile Include="Problems\Benchmark\Griewank.cs" />
+    <Compile Include="Problems\Benchmark\Ellipse.cs" />
+    <Compile Include="Problems\Benchmark\Sphere.cs" />
+    <Compile Include="StopConditions\CounterStopCondition.cs" />
+    <Compile Include="StopConditions\MinErrorStopCondition.cs" />
+    <Compile Include="Problems\ProblemTarget.cs" />
+    <Compile Include="StopConditions\StopConditionChain.cs" />
+    <Compile Include="StopConditions\IStopCondition.cs" />
+    <Compile Include="StopConditions\StepCounterStopCondition.cs" />
+    <Compile Include="Problems\Benchmark\BenchmarkProblem.cs" />
+    <Compile Include="Problems\Problem.cs" />
+    <Compile Include="Random\DefaultRandom.cs" />
+    <Compile Include="Model\Dimension.cs" />
+    <Compile Include="Model\Range.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Selection\ISelector.cs" />
+    <Compile Include="Selection\LocationSelector.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FireworksNet.ruleset" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
