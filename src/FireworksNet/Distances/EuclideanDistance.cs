@@ -4,7 +4,7 @@ using FireworksNet.Model;
 
 namespace FireworksNet.Distances
 {
-    public class EuclideanDistance : Distance
+    public class EuclideanDistance : DistanceBase
     {
         public EuclideanDistance(IEnumerable<Dimension> dimensions)
             : base(dimensions)

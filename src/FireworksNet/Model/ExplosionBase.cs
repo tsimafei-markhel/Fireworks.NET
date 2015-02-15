@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace FireworksNet.Model
 {
-    public abstract class Explosion
+    public abstract class ExplosionBase
     {
         /// <summary>
-        /// Gets a unique identifier of this <see cref="Explosion"/>.
+        /// Gets a unique identifier of this <see cref="ExplosionBase"/>.
         /// </summary>
         public TId Id { get; private set; }
 
@@ -14,7 +14,7 @@ namespace FireworksNet.Model
 
         public IDictionary<FireworkType, int> SparkCounts { get; private set; }
 
-        protected Explosion(int stepNumber, IDictionary<FireworkType, int> sparkCounts)
+        protected ExplosionBase(int stepNumber, IDictionary<FireworkType, int> sparkCounts)
         {
             if (stepNumber < 0)
             {

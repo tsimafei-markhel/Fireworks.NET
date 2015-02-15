@@ -50,7 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithm\IStepperFireworksAlgorithm.cs" />
-    <Compile Include="Distances\Distance.cs" />
+    <Compile Include="Distances\DistanceBase.cs" />
     <Compile Include="Extensions\RandomExtensions.cs" />
     <Compile Include="Algorithm\Implementation\FireworksAlgorithmSettings.cs" />
     <Compile Include="Distances\EuclideanDistance.cs">
@@ -68,26 +68,26 @@
     <Compile Include="Explode\IExploder.cs" />
     <Compile Include="Explode\InitialSparkGenerator.cs" />
     <Compile Include="Explode\ISparkGenerator.cs" />
-    <Compile Include="Explode\SparkGenerator.cs" />
+    <Compile Include="Explode\SparkGeneratorBase.cs" />
     <Compile Include="Extensions\DoubleExtensions.cs" />
     <Compile Include="Algorithm\Implementation\FireworksAlgorithm.cs" />
     <Compile Include="Algorithm\IFireworksAlgorithm.cs" />
     <Compile Include="Model\AlgorithmState.cs" />
     <Compile Include="Model\FireworkExplosion.cs" />
     <Compile Include="Model\InitialExplosion.cs" />
-    <Compile Include="Model\Explosion.cs" />
+    <Compile Include="Model\ExplosionBase.cs" />
     <Compile Include="Model\Firework.cs" />
     <Compile Include="Model\FireworkType.cs" />
     <Compile Include="Model\Solution.cs" />
     <Compile Include="Model\TId.cs" />
-    <Compile Include="Problems\Benchmark\Ackley2010.cs" />
-    <Compile Include="Problems\Benchmark\Tablet2010.cs" />
-    <Compile Include="Problems\Benchmark\Cigar2010.cs" />
-    <Compile Include="Problems\Benchmark\Rosenbrock2010.cs" />
-    <Compile Include="Problems\Benchmark\Rastrigrin2010.cs" />
-    <Compile Include="Problems\Benchmark\Griewank2010.cs" />
-    <Compile Include="Problems\Benchmark\Ellipse2010.cs" />
-    <Compile Include="Problems\Benchmark\Sphere2010.cs" />
+    <Compile Include="Problems\Benchmark\Ackley.cs" />
+    <Compile Include="Problems\Benchmark\Tablet.cs" />
+    <Compile Include="Problems\Benchmark\Cigar.cs" />
+    <Compile Include="Problems\Benchmark\Rosenbrock.cs" />
+    <Compile Include="Problems\Benchmark\Rastrigrin.cs" />
+    <Compile Include="Problems\Benchmark\Griewank.cs" />
+    <Compile Include="Problems\Benchmark\Ellipse.cs" />
+    <Compile Include="Problems\Benchmark\Sphere.cs" />
     <Compile Include="StopConditions\CounterStopCondition.cs" />
     <Compile Include="StopConditions\MinErrorStopCondition.cs" />
     <Compile Include="Problems\ProblemTarget.cs" />

@@ -45,7 +45,7 @@ namespace FireworksNet.Explode
             this.maxAllowedExplosionSparksNumber = (int)Math.Round(this.maxAllowedExplosionSparksNumberExact, MidpointRounding.AwayFromZero);
         }
 
-        public virtual Explosion Explode(Firework epicenter, IEnumerable<double> currentFireworkQualities, int currentStepNumber)
+        public virtual ExplosionBase Explode(Firework epicenter, IEnumerable<double> currentFireworkQualities, int currentStepNumber)
         {
             if (epicenter == null)
             {

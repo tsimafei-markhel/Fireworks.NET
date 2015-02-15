@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace FireworksNet.Model
 {
-    public class FireworkExplosion : Explosion
+    public class FireworkExplosion : ExplosionBase
     {
         public Firework ParentFirework { get; private set; }
 

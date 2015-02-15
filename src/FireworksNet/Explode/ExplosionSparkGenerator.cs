@@ -9,7 +9,7 @@ namespace FireworksNet.Explode
     /// <summary>
     /// Conventional Explosion spark generator, as described in 2010 paper.
     /// </summary>
-    public class ExplosionSparkGenerator : SparkGenerator<FireworkExplosion>
+    public class ExplosionSparkGenerator : SparkGeneratorBase<FireworkExplosion>
     {
         private readonly IEnumerable<Dimension> dimensions;
         private readonly System.Random randomizer;

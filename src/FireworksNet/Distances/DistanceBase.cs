@@ -6,11 +6,25 @@ using FireworksNet.Model;
 
 namespace FireworksNet.Distances
 {
-    public abstract class Distance : IDistance
+    /// <summary>
+    /// Base class for distance calculators.
+    /// </summary>
+    public abstract class DistanceBase : IDistance
     {
+        /// <summary>
+        /// A collection of <see cref="Dimension"/>s - needed for 
+        /// <see cref="Solution"/>-to-<see cref="Double"/>-array conversion.
+        /// </summary>
         private readonly IEnumerable<Dimension> dimensions;
 
-        protected Distance(IEnumerable<Dimension> dimensions)
+        /// <summary>
+        /// Initializes a new instance of <see cref="DistanceBase"/> with
+        /// defined collection of <see cref="Dimension"/>s.
+        /// </summary>
+        /// <param name="dimensions">The collection of <see cref="Dimension"/>s
+        /// - needed for <see cref="Solution"/>-to-<see cref="Double"/>-array
+        /// conversion.</param>
+        protected DistanceBase(IEnumerable<Dimension> dimensions)
         {
             if (dimensions == null)
             {
@@ -20,8 +34,24 @@ namespace FireworksNet.Distances
             this.dimensions = dimensions;
         }
 
+        /// <summary>
+        /// Calculates distance between two entities. Entities coordinates 
+        /// are represented by <paramref name="first"/> and <paramref name="second"/>.
+        /// </summary>
+        /// <param name="first">The first entity.</param>
+        /// <param name="second">The second entity.</param>
+        /// <returns>The distance between <paramref name="first"/> and 
+        /// <paramref name="second"/>.</returns>
         public abstract double Calculate(double[] first, double[] second);
 
+        /// <summary>
+        /// Calculates distance between two <see cref="Solution"/>s. Solution coordinates 
+        /// are to be stored in <paramref name="first"/> and <paramref name="second"/>.
+        /// </summary>
+        /// <param name="first">The first solution.</param>
+        /// <param name="second">The second solution.</param>
+        /// <returns>The distance between <paramref name="first"/> and 
+        /// <paramref name="second"/>.</returns>
         public virtual double Calculate(Solution first, Solution second)
         {
             if (first == null)
@@ -49,6 +79,14 @@ namespace FireworksNet.Distances
             return this.Calculate(firstCoordinates, secondCoordinates);
         }
 
+        /// <summary>
+        /// Calculates distance between a solution and an entity. Entity coordinates 
+        /// are represented by <paramref name="first"/> and <paramref name="second"/>.
+        /// </summary>
+        /// <param name="first">The solution.</param>
+        /// <param name="second">The entity.</param>
+        /// <returns>The distance between <paramref name="first"/> and 
+        /// <paramref name="second"/>.</returns>
         public virtual double Calculate(Solution first, double[] second)
         {
             if (first == null)
@@ -69,6 +107,12 @@ namespace FireworksNet.Distances
             return this.Calculate(firstCoordinates, second);
         }
 
+        /// <summary>
+        /// Converts <paramref name="solution"/> to <see cref="Double"/> array.
+        /// </summary>
+        /// <param name="solution">The <see cref="Solution"/> instance to be converted.</param>
+        /// <returns><see cref="Double"/> array that corresponds to the coordinates
+        /// of <paramref name="soultion"/>.</returns>
         protected virtual double[] GetCoordinates(Solution solution)
         {
             Debug.Assert(this.dimensions != null, "Dimension collection is null");
@@ -89,6 +133,16 @@ namespace FireworksNet.Distances
             return coordinates;
         }
 
+        /// <summary>
+        /// Converts <paramref name="first"/> and <paramref name="second"/> to
+        /// <see cref="Double"/> arrays.
+        /// </summary>
+        /// <param name="first">The first <see cref="Solution"/> instance to be converted.</param>
+        /// <param name="second">The second <see cref="Solution"/> instance to be converted.</param>
+        /// <param name="firstCoordinates">The <see cref="Double"/> array that corresponds to the 
+        /// <paramref name="first"/> solution.</param>
+        /// <param name="secondCoordinates">The <see cref="Double"/> array that corresponds to the 
+        /// <paramref name="second"/> solution.</param>
         protected virtual void GetCoordinates(Solution first, Solution second, out double[] firstCoordinates, out double[] secondCoordinates)
         {
             Debug.Assert(this.dimensions != null, "Dimension collection is null");

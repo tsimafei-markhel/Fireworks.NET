@@ -10,7 +10,7 @@ namespace FireworksNet.Explode
     /// <summary>
     /// Conventional Gaussian spark generator, as described in 2010 paper.
     /// </summary>
-    public class GaussianSparkGenerator : SparkGenerator<FireworkExplosion>
+    public class GaussianSparkGenerator : SparkGeneratorBase<FireworkExplosion>
     {
         private readonly IEnumerable<Dimension> dimensions;
         private readonly IContinuousDistribution distribution;

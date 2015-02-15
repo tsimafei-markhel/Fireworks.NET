@@ -4,11 +4,11 @@ using FireworksNet.Model;
 
 namespace FireworksNet.Explode
 {
-    public abstract class SparkGenerator<T> : ISparkGenerator where T : Explosion
+    public abstract class SparkGeneratorBase<T> : ISparkGenerator where T : ExplosionBase
     {
         public abstract FireworkType GeneratedSparkType { get; }
 
-        public virtual IEnumerable<Firework> CreateSparks(Explosion explosion)
+        public virtual IEnumerable<Firework> CreateSparks(ExplosionBase explosion)
         {
             int desiredNumberOfSparks;
             if (!explosion.SparkCounts.TryGetValue(this.GeneratedSparkType, out desiredNumberOfSparks))
@@ -31,7 +31,7 @@ namespace FireworksNet.Explode
             return sparks;
         }
 
-        public virtual Firework CreateSpark(Explosion explosion)
+        public virtual Firework CreateSpark(ExplosionBase explosion)
         {
             T typedExplosion = explosion as T;
             if (typedExplosion == null)

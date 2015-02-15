@@ -16,6 +16,6 @@ namespace FireworksNet.Explode
         /// at the moment of explosion.</param>
         /// <param name="currentStepNumber">The current step number.</param>
         /// <returns>New explosion.</returns>
-        Explosion Explode(Firework epicenter, IEnumerable<double> currentFireworkQualities, int currentStepNumber);
+        ExplosionBase Explode(Firework epicenter, IEnumerable<double> currentFireworkQualities, int currentStepNumber);
     }
 }

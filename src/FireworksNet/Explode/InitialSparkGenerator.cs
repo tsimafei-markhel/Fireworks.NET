@@ -6,7 +6,7 @@ using FireworksNet.Model;
 
 namespace FireworksNet.Explode
 {
-    public class InitialSparkGenerator : SparkGenerator<InitialExplosion>
+    public class InitialSparkGenerator : SparkGeneratorBase<InitialExplosion>
     {
         private readonly IEnumerable<Dimension> dimensions;
         private readonly IDictionary<Dimension, Range> initialRanges;

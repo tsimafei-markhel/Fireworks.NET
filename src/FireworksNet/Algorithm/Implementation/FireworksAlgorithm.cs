@@ -271,7 +271,7 @@ namespace FireworksNet.Algorithm.Implementation
             {
                 Debug.Assert(firework != null, "Firework is null");
 
-                Explosion explosion = this.exploder.Explode(firework, fireworkQualities, state.StepNumber);
+                ExplosionBase explosion = this.exploder.Explode(firework, fireworkQualities, state.StepNumber);
                 Debug.Assert(explosion != null, "Explosion is null");
 
                 IEnumerable<Firework> fireworkExplosionSparks = this.explosionSparkGenerator.CreateSparks(explosion);

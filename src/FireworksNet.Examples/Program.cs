@@ -10,7 +10,7 @@ namespace FireworksNet.Examples
         private static void Main(string[] args)
         {
             // 1. Define a problem to solve
-            Sphere2010 problem = Sphere2010.Create();
+            Sphere problem = Sphere.Create();
 
             // 2. Setup algorithm stop condition
             CounterStopCondition stopCondition = new CounterStopCondition(10000);

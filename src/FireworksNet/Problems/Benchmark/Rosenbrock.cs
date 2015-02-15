@@ -8,7 +8,7 @@ namespace FireworksNet.Problems.Benchmark
     /// Represents Rosenbrock test function, as used in 2010 paper.
     /// </summary>
     /// <remarks>http://en.wikipedia.org/wiki/Test_functions_for_optimization</remarks>
-    public sealed class Rosenbrock2010 : BenchmarkProblem
+    public sealed class Rosenbrock : BenchmarkProblem
     {
         private const int dimensionality = 30;
         private const double minDimensionValue = -100.0;
@@ -19,7 +19,7 @@ namespace FireworksNet.Problems.Benchmark
         private const ProblemTarget problemTarget = ProblemTarget.Minimum;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Rosenbrock2010"/> class.
+        /// Initializes a new instance of the <see cref="Rosenbrock"/> class.
         /// </summary>
         /// <param name="dimensions">Dimensions of the problem.</param>
         /// <param name="initialDimensionRanges">Initial dimension ranges, to be used to 
@@ -28,25 +28,25 @@ namespace FireworksNet.Problems.Benchmark
         /// <param name="knownSolution">Known solution.</param>
         /// <param name="stopCondition">Algorithm stop condition.</param>
         /// <param name="target">Problem target.</param>
-        private Rosenbrock2010(IList<Dimension> dimensions, IDictionary<Dimension, Range> initialDimensionRanges, Func<IDictionary<Dimension, double>, double> targetFunction, Solution knownSolution, ProblemTarget target)
+        private Rosenbrock(IList<Dimension> dimensions, IDictionary<Dimension, Range> initialDimensionRanges, Func<IDictionary<Dimension, double>, double> targetFunction, Solution knownSolution, ProblemTarget target)
             : base(dimensions, initialDimensionRanges, targetFunction, knownSolution, target)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="Rosenbrock2010"/> class.
+        /// Initializes a new instance of <see cref="Rosenbrock"/> class.
         /// </summary>
-        /// <returns><see cref="Rosenbrock2010"/> instance that represents
+        /// <returns><see cref="Rosenbrock"/> instance that represents
         /// Rosenbrock test function, as used in 2010 paper.</returns>
-        public static Rosenbrock2010 Create()
+        public static Rosenbrock Create()
         {
-            Dimension[] dimensions = new Dimension[Rosenbrock2010.dimensionality];
-            IDictionary<Dimension, Range> initialDimensionRanges = new Dictionary<Dimension, Range>(Rosenbrock2010.dimensionality);
-            IDictionary<Dimension, double> knownBestCoordinates = new Dictionary<Dimension, double>(Rosenbrock2010.dimensionality);
-            for (int i = 0; i < Rosenbrock2010.dimensionality; i++)
+            Dimension[] dimensions = new Dimension[Rosenbrock.dimensionality];
+            IDictionary<Dimension, Range> initialDimensionRanges = new Dictionary<Dimension, Range>(Rosenbrock.dimensionality);
+            IDictionary<Dimension, double> knownBestCoordinates = new Dictionary<Dimension, double>(Rosenbrock.dimensionality);
+            for (int i = 0; i < Rosenbrock.dimensionality; i++)
             {
-                dimensions[i] = new Dimension(new Range(Rosenbrock2010.minDimensionValue, Rosenbrock2010.maxDimensionValue));
-                initialDimensionRanges.Add(dimensions[i], new Range(Rosenbrock2010.minInitialDimensionValue, Rosenbrock2010.maxInitialDimensionValue));
+                dimensions[i] = new Dimension(new Range(Rosenbrock.minDimensionValue, Rosenbrock.maxDimensionValue));
+                initialDimensionRanges.Add(dimensions[i], new Range(Rosenbrock.minInitialDimensionValue, Rosenbrock.maxInitialDimensionValue));
                 knownBestCoordinates.Add(dimensions[i], 0.0);
             }
 
@@ -54,7 +54,7 @@ namespace FireworksNet.Problems.Benchmark
                 (c) =>
                 {
                     double value = 0.0;
-                    for (int i = 0; i < Rosenbrock2010.dimensionality - 1; i++)
+                    for (int i = 0; i < Rosenbrock.dimensionality - 1; i++)
                     {
                         double dimensionCoordinate = c[dimensions[i]];
                         double nextDimensionCoordinate = c[dimensions[i + 1]];
@@ -65,7 +65,7 @@ namespace FireworksNet.Problems.Benchmark
                 }
             );
 
-            return new Rosenbrock2010(dimensions, initialDimensionRanges, func, new Solution(knownBestCoordinates, Rosenbrock2010.knownBestQuality), Rosenbrock2010.problemTarget);
+            return new Rosenbrock(dimensions, initialDimensionRanges, func, new Solution(knownBestCoordinates, Rosenbrock.knownBestQuality), Rosenbrock.problemTarget);
         }
     }
 }
