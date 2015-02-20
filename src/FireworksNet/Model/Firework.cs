@@ -3,14 +3,38 @@ using System.Collections.Generic;
 
 namespace FireworksNet.Model
 {
+    /// <summary>
+    /// Represents a single firework.
+    /// </summary>
     public class Firework : Solution
     {
+        /// <summary>
+        /// Gets a unique identifier of this <see cref="Firework"/>.
+        /// </summary>
         public TId Id { get; private set; }
 
+        /// <summary>
+        /// Gets the type of the firework (or spark this firework
+        /// has been originated from).
+        /// </summary>
         public FireworkType Type { get; private set; }
 
+        /// <summary>
+        /// Gets the number of step this firework was created at.
+        /// </summary>
         public int BirthStepNumber { get; private set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Firework"/> class.
+        /// </summary>
+        /// <param name="type">The type of the firework (or spark this firework
+        /// has been originated from).</param>
+        /// <param name="birthStepNumber">The number of step this firework was created at.</param>
+        /// <param name="coordinates">The firework coordinates.</param>
+        /// <exception cref="System.ArgumentOutOfRangeException"> if <paramref name="birthStepNumber"/>
+        /// is less than zero.</exception>
+        /// <exception cref="System.ArgumentNullException"> if <paramref name="coordinates"/>
+        /// is <c>null</c>.</exception>
         public Firework(FireworkType type, int birthStepNumber, IDictionary<Dimension, double> coordinates)
             : base(coordinates, double.NaN)
         {
@@ -29,6 +53,12 @@ namespace FireworksNet.Model
             this.BirthStepNumber = birthStepNumber;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Firework"/> class.
+        /// </summary>
+        /// <param name="type">The type of the firework (or spark this firework
+        /// has been originated from).</param>
+        /// <param name="birthStepNumber">The number of step this firework was created at.</param>
         public Firework(FireworkType type, int birthStepNumber)
             : this(type, birthStepNumber, new Dictionary<Dimension, double>())
         {
