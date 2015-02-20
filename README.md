@@ -22,6 +22,17 @@ Implementation is based on the following papers that can be found by the [link](
 ##License
 The project is released under the terms of the MIT license. See [LICENSE](LICENSE) file for the complete text.
 
+##Dependencies and Third-Party Libraries
+FireworksNet:
+- [Math.NET Numerics 3.5.0](https://www.nuget.org/packages/MathNet.Numerics/3.5.0)
+
+FireworksNet.Tests:
+- [xUnit.net 2.0.0-rc2-build2857](https://www.nuget.org/packages/xunit/2.0.0-rc2-build2857)
+- [xUnit.net [Visual Studio Runner] 2.0.0-rc2-build1043](https://www.nuget.org/packages/xunit.runner.visualstudio/2.0.0-rc2-build1043)
+- [NSubstitute 1.8.1](https://www.nuget.org/packages/NSubstitute/)
+
+**Note** NuGet packages are not committed to the repository, you need to use Package Restore to get them before the build.
+
 ##Contribution
 ###Coding Guidelines
 Please refer to the [CodingGuidelines.md](CodingGuidelines.md) file for the code style guidelines.
