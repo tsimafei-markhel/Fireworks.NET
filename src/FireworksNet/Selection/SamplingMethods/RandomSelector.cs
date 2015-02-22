@@ -27,7 +27,7 @@ namespace FireworksNet.Selection.SamplingMethods
 
             if (samplingNumber < 0)
             {
-                throw new ArgumentOutOfRangeException("locationsNumber");
+                throw new ArgumentOutOfRangeException("samplingNumber");
             }
 
             this.samplingNumber = samplingNumber;
