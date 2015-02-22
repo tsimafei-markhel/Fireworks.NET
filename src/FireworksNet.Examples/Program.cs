@@ -33,7 +33,6 @@ namespace FireworksNet.Examples
 
             // 5. Finally, find a solution
             Solution solution = fwa2010.Solve();
-
             // TODO: Ideas for 'usage examples':
             //       1. Simple run: alg settings, one of the benchmark problems, get the solution
             //       2. Define user problem

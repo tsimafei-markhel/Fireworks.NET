@@ -88,6 +88,8 @@
     <Compile Include="Problems\Benchmark\Griewank.cs" />
     <Compile Include="Problems\Benchmark\Ellipse.cs" />
     <Compile Include="Problems\Benchmark\Sphere.cs" />
+    <Compile Include="Selection\SamplingMethods\BestSelector.cs" />
+    <Compile Include="Selection\SamplingMethods\RandomSelector.cs" />
     <Compile Include="StopConditions\CounterStopCondition.cs" />
     <Compile Include="StopConditions\MinErrorStopCondition.cs" />
     <Compile Include="Problems\ProblemTarget.cs" />
