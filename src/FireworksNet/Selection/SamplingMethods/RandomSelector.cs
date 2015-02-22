@@ -59,8 +59,6 @@ namespace FireworksNet.Selection.SamplingMethods
 
             if (numberToSelect > from.Count())
             {
-                // At some point, we may need to return just as much as we have
-                // instead of throwing an exception.
                 throw new ArgumentOutOfRangeException("numberToSelect");
             }
 
@@ -86,10 +84,10 @@ namespace FireworksNet.Selection.SamplingMethods
                 // 2. Find fireworks by generated numbers
                 foreach (int number in generatedNumber)
                 {
-                    Firework location = from.ElementAt(number);
-                    Debug.Assert(location != null, "Location in null");
+                    Firework firework = from.ElementAt(number);
+                    Debug.Assert(firework != null, "Firework in null");
 
-                    selectedLocations.Add(location);
+                    selectedLocations.Add(firework);
                 }           
             }
 

@@ -72,7 +72,7 @@ namespace FireworksNet.Selection.SamplingMethods
 
             if (numberToSelect >= 1)
             {
-                // Find number of fireworks with best quality based on samling number
+                // Find number of fireworks with best quality based on sampling number
                 IList<Firework> qualityLocations = this.CalculateQualities(from, numberToSelect);
                 bestFireworks.AddRange(qualityLocations);
             }
