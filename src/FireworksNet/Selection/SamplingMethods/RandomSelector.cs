@@ -87,6 +87,8 @@ namespace FireworksNet.Selection.SamplingMethods
                 foreach (int number in generatedNumber)
                 {
                     Firework location = from.ElementAt(number);
+                    Debug.Assert(location != null, "Location in null");
+
                     selectedLocations.Add(location);
                 }           
             }
