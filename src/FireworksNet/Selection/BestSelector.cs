@@ -87,24 +87,17 @@ namespace FireworksNet.Selection
                 throw new ArgumentNullException("allCurrentFireworks");
             }
 
-            IList<Firework> currentFireworks = this.CopyFireworksCollection(allCurrentFireworks);           
+            List<Firework> currentFireworks = new List<Firework>(allCurrentFireworks);
 
             List<Firework> qualityLocations = new List<Firework>(numberToSelect);
             for (int i = 0; i < numberToSelect; i++)
             {
                 Firework firework = this.bestFireworkSelector(currentFireworks);
+                
                 qualityLocations.Add(firework);
                 currentFireworks.Remove(firework);
             }
             return qualityLocations;
-        }
-
-        protected virtual IList<Firework> CopyFireworksCollection(IEnumerable<Firework> currentFireworks)
-        {
-            List<Firework> copyCurrentFireworks = new List<Firework>(currentFireworks.Count());
-            copyCurrentFireworks.AddRange(currentFireworks);
-
-            return copyCurrentFireworks;
         }
     }
 }
