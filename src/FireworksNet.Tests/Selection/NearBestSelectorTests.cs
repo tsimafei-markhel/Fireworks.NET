@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using FireworksNet.Distances;
-using Xunit;
-using NSubstitute;
+﻿using System.Collections.Generic;
 using FireworksNet.Model;
 using FireworksNet.Selection;
+using FireworksNet.Distances;
+using Xunit;
 
 namespace FireworksNet.Tests.Selection
 {

@@ -1,10 +1,8 @@
-﻿using Xunit;
-using NSubstitute;
-using FireworksNet.Selection;
-using System.Collections.Generic;
-using FireworksNet.Model;
-using System.Collections;
+﻿using System.Collections.Generic;
 using System.Linq;
+using FireworksNet.Model;
+using FireworksNet.Selection;
+using Xunit;
 
 namespace FireworksNet.Tests.Selection
 {

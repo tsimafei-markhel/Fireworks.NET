@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
 using FireworksNet.Model;
-using FireworksNet.Random;
 using FireworksNet.Extensions;
 
 namespace FireworksNet.Selection
@@ -87,4 +86,3 @@ namespace FireworksNet.Selection
         }     
     }
 }
-
