@@ -54,18 +54,14 @@
     <Compile Include="Distances\DistanceBase.cs" />
     <Compile Include="Extensions\RandomExtensions.cs" />
     <Compile Include="Algorithm\Implementation\FireworksAlgorithmSettings.cs" />
-    <Compile Include="Distances\EuclideanDistance.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Distances\EuclideanDistance.cs" />
     <Compile Include="Distances\IDistance.cs" />
     <Compile Include="Distributions\IContinuousDistribution.cs" />
     <Compile Include="Distributions\NormalDistribution.cs" />
     <Compile Include="Explode\Exploder.cs" />
     <Compile Include="Explode\ExploderSettings.cs" />
     <Compile Include="Explode\ExplosionSparkGenerator.cs" />
-    <Compile Include="Explode\GaussianSparkGenerator.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Explode\GaussianSparkGenerator.cs" />
     <Compile Include="Explode\IExploder.cs" />
     <Compile Include="Explode\InitialSparkGenerator.cs" />
     <Compile Include="Explode\ISparkGenerator.cs" />
@@ -89,6 +85,7 @@
     <Compile Include="Problems\Benchmark\Griewank.cs" />
     <Compile Include="Problems\Benchmark\Ellipse.cs" />
     <Compile Include="Problems\Benchmark\Sphere.cs" />
+    <Compile Include="Selection\BestAndRandomSelector.cs" />
     <Compile Include="StopConditions\CounterStopCondition.cs" />
     <Compile Include="StopConditions\MinErrorStopCondition.cs" />
     <Compile Include="Problems\ProblemTarget.cs" />
