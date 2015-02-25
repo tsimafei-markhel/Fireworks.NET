@@ -83,7 +83,7 @@ namespace FireworksNet.Algorithm.Implementation
             this.explosionSparkGenerator = new ExplosionSparkGenerator(problem.Dimensions, this.randomizer);
             this.specificSparkGenerator = new GaussianSparkGenerator(problem.Dimensions, this.distribution, this.randomizer);
             this.distanceCalculator = new EuclideanDistance(problem.Dimensions);
-            this.locationSelector = new LocationSelector(this.distanceCalculator, new Func<IEnumerable<Firework>, Firework>(problem.GetBest), this.Settings.LocationsNumber);
+            this.locationSelector = new DistanceBasedSelector(this.distanceCalculator, new Func<IEnumerable<Firework>, Firework>(problem.GetBest), this.Settings.LocationsNumber);
             this.exploderSettings = new ExploderSettings()
             {
                 ExplosionSparksNumberModifier = settings.ExplosionSparksNumberModifier,
