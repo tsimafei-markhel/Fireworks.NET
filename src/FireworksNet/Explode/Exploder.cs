@@ -67,15 +67,11 @@ namespace FireworksNet.Explode
                 throw new ArgumentOutOfRangeException("currentStepNumber");
             }
 
-            // TODO: Need further decomposition:
-            //       - SparksCountCalculator
-            //       - AmplitudeCalculator
-
             double amplitude = this.CalculateAmplitude(epicenter, currentFireworkQualities);
             IDictionary<FireworkType, int> sparkCounts = new Dictionary<FireworkType, int>()
             {
-                { FireworkType.ExplosionSpark, this.CalculateExplosionSparksNumber(epicenter, currentFireworkQualities) },
-                { FireworkType.SpecificSpark, this.CalculateSpecificSparksNumber(epicenter, currentFireworkQualities) }
+                { FireworkType.ExplosionSpark, this.CountExplosionSparks(epicenter, currentFireworkQualities) },
+                { FireworkType.SpecificSpark, this.CountSpecificSparks(epicenter, currentFireworkQualities) }
             };
 
             return new FireworkExplosion(epicenter, currentStepNumber, amplitude, sparkCounts);
@@ -88,10 +84,9 @@ namespace FireworksNet.Explode
             return this.settings.ExplosionSparksMaximumAmplitude * (epicenter.Quality - minFireworkQuality + double.Epsilon) / (currentFireworkQualities.Sum(fq => fq - minFireworkQuality) + double.Epsilon);
         }
 
-        protected virtual int CalculateExplosionSparksNumber(Firework epicenter, IEnumerable<double> currentFireworkQualities)
+        protected virtual int CountExplosionSparks(Firework epicenter, IEnumerable<double> currentFireworkQualities)
         {
-            double explosionSparksNumberExact = this.CalculateExplosionSparksNumberExact(epicenter, currentFireworkQualities);
-
+            double explosionSparksNumberExact = this.CountExplosionSparksExact(epicenter, currentFireworkQualities);
             if (explosionSparksNumberExact.IsLess(this.minAllowedExplosionSparksNumberExact))
             {
                 return this.minAllowedExplosionSparksNumber;
@@ -106,12 +101,12 @@ namespace FireworksNet.Explode
             }
         }
 
-        protected virtual int CalculateSpecificSparksNumber(Firework epicenter, IEnumerable<double> currentFireworkQualities)
+        protected virtual int CountSpecificSparks(Firework epicenter, IEnumerable<double> currentFireworkQualities)
         {
             return this.settings.SpecificSparksPerExplosionNumber;
         }
 
-        private double CalculateExplosionSparksNumberExact(Firework epicenter, IEnumerable<double> currentFireworkQualities)
+        private double CountExplosionSparksExact(Firework epicenter, IEnumerable<double> currentFireworkQualities)
         {
             // Using Aggregate() here because Max() won't use my double extensions
             double maxFireworkQuality = currentFireworkQualities.Aggregate((agg, next) => next.IsGreater(agg) ? next : agg);

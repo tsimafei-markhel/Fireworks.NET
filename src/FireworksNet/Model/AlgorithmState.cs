@@ -50,7 +50,7 @@ namespace FireworksNet.Model
         /// <summary>
         /// Gets or sets the step number.
         /// </summary>
-        /// <exception cref="System.ArgumentOutOfRangeException"> if value is less than 0.</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException"> if value is less than zero.</exception>
         public int StepNumber
         {
             get

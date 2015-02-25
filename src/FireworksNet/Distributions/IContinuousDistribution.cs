@@ -6,7 +6,7 @@ namespace FireworksNet.Distributions
     /// Continuous Univariate Probability Distribution.
     /// </summary>
     public interface IContinuousDistribution
-    {  
+    {
         /// <summary>
         /// Draws a random sample from the distribution.
         /// </summary>
