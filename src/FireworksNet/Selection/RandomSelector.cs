@@ -24,8 +24,8 @@ namespace FireworksNet.Selection
                 throw new ArgumentOutOfRangeException("samplingNumber");
             }
 
-            this.samplingNumber = samplingNumber;
             this.randomizer = randomizer;
+            this.samplingNumber = samplingNumber;            
         }
 
         public RandomSelector(System.Random randomizer)
@@ -69,17 +69,22 @@ namespace FireworksNet.Selection
             if (numberToSelect >= 1)
             {
                 // 1. Generate number of fireworks using random
-                IEnumerable<int> generatedNumber = this.randomizer.NextInt32s(numberToSelect, 0, from.Count() - 1);
-                Debug.Assert(generatedNumber != null, "Generated numbers collection is null");
+                IEnumerable<int> selectedFireworkIndices = this.randomizer.NextInt32s(numberToSelect, 0, from.Count());
+                Debug.Assert(selectedFireworkIndices != null, "Generated numbers collection is null");
 
                 // 2. Find fireworks by generated numbers
-                foreach (int number in generatedNumber)
+                int currentFirework = 0;
+                foreach(Firework firework in from)
                 {
-                    Firework firework = from.ElementAt(number);
                     Debug.Assert(firework != null, "Firework in null");
 
-                    selectedLocations.Add(firework);
-                }           
+                    if (selectedFireworkIndices.Contains(currentFirework))
+                    {
+                        selectedLocations.Add(firework);
+                    }
+
+                    currentFirework++;
+                }     
             }
 
             return selectedLocations;

@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using FireworksNet.Model;
-using FireworksNet.Selection;
+﻿using System;
+using System.Collections.Generic;
 using Xunit;
+using FireworksNet.Selection;
+using FireworksNet.Model;
 
 namespace FireworksNet.Tests.Selection
 {
@@ -11,20 +11,27 @@ namespace FireworksNet.Tests.Selection
         [Fact]
         public void Select_Equal()
         {
-            BestSelector bestSelector = new BestSelector(this.GetBest, DataTestSelector.SamplingNumber);
-            Assert.Equal(DataTestSelector.BestFireworks, bestSelector.Select(DataTestSelector.Fireworks, DataTestSelector.SamplingNumber));
+            int samplingNumber = SelectorTestsHelper.SamplingNumber;
+            Func<IEnumerable<Firework>, Firework> getBest = SelectorTestsHelper.GetBest;
+            IEnumerable<Firework> expectedFireworks = SelectorTestsHelper.BestFireworks;
+            BestSelector bestSelector = new BestSelector(getBest, samplingNumber);
+
+            IEnumerable<Firework> resultingFireworks = bestSelector.Select(SelectorTestsHelper.Fireworks);
+
+            Assert.Equal(expectedFireworks, resultingFireworks);
         }
 
         [Fact]
         public void Select_NonEqual()
         {
-            BestSelector bestSelector = new BestSelector(this.GetBest, DataTestSelector.SamplingNumber);
-            Assert.NotEqual(DataTestSelector.NonBestFireworks, bestSelector.Select(DataTestSelector.Fireworks, DataTestSelector.SamplingNumber));
-        }
+            int samplingNumber = SelectorTestsHelper.SamplingNumber;
+            Func<IEnumerable<Firework>, Firework> getBest = SelectorTestsHelper.GetBest;
+            IEnumerable<Firework> expectedFireworks = SelectorTestsHelper.NonBestFireworks;
+            BestSelector bestSelector = new BestSelector(getBest, samplingNumber);
 
-        private Firework GetBest(IEnumerable<Firework> fireworks)
-        {
-            return fireworks.First<Firework>();
+            IEnumerable<Firework> resultingFireworks = bestSelector.Select(SelectorTestsHelper.Fireworks);
+
+            Assert.NotEqual(expectedFireworks, resultingFireworks);
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FireworksNet.Model;
 using System.Diagnostics;
+using FireworksNet.Model;
 
 namespace FireworksNet.Selection
 {
@@ -13,14 +13,14 @@ namespace FireworksNet.Selection
 
         public BestSelector(Func<IEnumerable<Firework>, Firework> bestFireworkSelector, int samplingNumber)
         {
-            if (samplingNumber < 0)
-            {
-                throw new ArgumentOutOfRangeException("samplingNumber");
-            }
-
             if (bestFireworkSelector == null)
             {
                 throw new ArgumentNullException("bestFireworkSelector");
+            }
+
+            if (samplingNumber < 0)
+            {
+                throw new ArgumentOutOfRangeException("samplingNumber");
             }
 
             this.bestFireworkSelector = bestFireworkSelector;
@@ -70,31 +70,18 @@ namespace FireworksNet.Selection
             if (numberToSelect >= 1)
             {
                 // Find number of fireworks with best quality based on sampling number
-                IList<Firework> qualityLocations = this.SelectBestFireworks(from, numberToSelect);
-                bestFireworks.AddRange(qualityLocations);
+                List<Firework> currentFireworks = new List<Firework>(from);
+
+                for (int i = 0; i < numberToSelect; i++)
+                {
+                    Firework bestFirework = this.bestFireworkSelector(currentFireworks);
+
+                    bestFireworks.Add(bestFirework);
+                    currentFireworks.Remove(bestFirework);
+                }
             }
 
             return bestFireworks;
-        }
-
-        protected virtual IList<Firework> SelectBestFireworks(IEnumerable<Firework> allCurrentFireworks, int numberToSelect)
-        {
-            if (allCurrentFireworks == null)
-            {
-                throw new ArgumentNullException("allCurrentFireworks");
-            }
-
-            List<Firework> currentFireworks = new List<Firework>(allCurrentFireworks);
-
-            List<Firework> qualityLocations = new List<Firework>(numberToSelect);
-            for (int i = 0; i < numberToSelect; i++)
-            {
-                Firework firework = this.bestFireworkSelector(currentFireworks);
-                
-                qualityLocations.Add(firework);
-                currentFireworks.Remove(firework);
-            }
-            return qualityLocations;
         }
     }
 }

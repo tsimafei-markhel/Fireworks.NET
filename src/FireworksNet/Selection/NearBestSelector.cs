@@ -31,9 +31,9 @@ namespace FireworksNet.Selection
                 throw new ArgumentOutOfRangeException("samplingNumber");
             }
 
-            this.samplingNumber = samplingNumber;
             this.distanceCalculator = distanceCalculator;
             this.bestFireworkSelector = bestFireworkSelector;
+            this.samplingNumber = samplingNumber;
         }
 
         public NearBestSelector(IDistance distanceCalculator, Func<IEnumerable<Firework>, Firework> bestFireworkSelector)
@@ -72,12 +72,12 @@ namespace FireworksNet.Selection
             if (numberToSelect == 0)
             {
                 return selectedLocations;
-            }
-
-            Debug.Assert(this.bestFireworkSelector != null, "Best firework selector is null");
+            }         
 
             if (numberToSelect >= 1)
             {
+                Debug.Assert(this.bestFireworkSelector != null, "Best firework selector is null");
+
                 // 1. Find a firework with best quality
                 Firework bestFirework = this.bestFireworkSelector(from);
 
@@ -117,8 +117,6 @@ namespace FireworksNet.Selection
             {
                 Debug.Assert(firework != null, "Firework is null");
 
-                // Select the nearest individual to the best indivdidual
-                // whitout best individual
                 if (firework != bestFirework)
                 {
                     double distance = this.distanceCalculator.Calculate(bestFirework, firework);
