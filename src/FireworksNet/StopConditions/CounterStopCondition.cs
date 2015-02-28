@@ -27,9 +27,14 @@ namespace FireworksNet.StopConditions
             return this.count >= this.Threshold;
         }
 
-        public virtual void IncrementCounter(object sender, object e)
+        public virtual void IncrementCounter()
         {
             Interlocked.Increment(ref this.count);
+        }
+
+        public virtual void IncrementCounter(object sender, object e)
+        {
+            IncrementCounter();
         }
     }
 }
