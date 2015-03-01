@@ -8,7 +8,6 @@ namespace FireworksNet.Tests.Selection
     {
         private static double intervalLowerLimit = 0;
         private static double intervalUpperLimit = 10.0;
-        private static int countFireworks = 10;
 
         public static IEnumerable<Firework> Fireworks { get; set; }
 
@@ -62,9 +61,12 @@ namespace FireworksNet.Tests.Selection
 
         public static int SamplingNumber { get; set; }
 
+        public static int CountFireworks { get; set; }
+
         static SelectorTestsHelper()
         {
             SamplingNumber = 3;
+            CountFireworks = 10;
             FormFireworks();
         }
 
@@ -80,7 +82,7 @@ namespace FireworksNet.Tests.Selection
             List<Firework> fireworks = new List<Firework>();
             IDictionary<Dimension, double> coordinates;
 
-            for (int i = 1; i < countFireworks + 1; i++)
+            for (int i = 1; i < CountFireworks + 1; i++)
             {
                 coordinates = new Dictionary<Dimension, double>();
                 coordinates.Add(new Dimension(range), i);
