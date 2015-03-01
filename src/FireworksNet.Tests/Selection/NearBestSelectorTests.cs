@@ -10,45 +10,46 @@ namespace FireworksNet.Tests.Selection
 {
     public class NearBestSelectorTests
     {
-        [Fact]
-        public void Select_Equal()
-        {
-            int samplingNumber = SelectorTestsHelper.SamplingNumber;
-            IDistance distanceCalculator = Substitute.For<IDistance>();
-            Func<IEnumerable<Firework>, Firework> getBest = SelectorTestsHelper.GetBest;
-            Firework bestFirework = SelectorTestsHelper.FirstBestFirework;
-            NearBestSelector selector = new NearBestSelector(distanceCalculator, getBest, samplingNumber);
-            List<Firework> fireworks = new List<Firework>(SelectorTestsHelper.Fireworks);
-            IEnumerable<Firework> expectedFireworks = SelectorTestsHelper.NearBestFireworks;
+        private int samplingNumber;
+        private IDistance distanceCalculator;
+        private Func<IEnumerable<Firework>, Firework> getBest;
+        private Firework bestFirework;
+        private List<Firework> allFireworks;
 
+        public NearBestSelectorTests()
+        {
+            this.samplingNumber = SelectorTestsHelper.SamplingNumber;
+            this.getBest = SelectorTestsHelper.GetBest;
+            this.bestFirework = SelectorTestsHelper.FirstBestFirework;            
+            this.allFireworks = new List<Firework>(SelectorTestsHelper.Fireworks);
+            this.distanceCalculator = Substitute.For<IDistance>();
             for (int i = 1; i < 10; i++)
             {
-                distanceCalculator.Calculate(bestFirework, fireworks[i]).Returns(i);
+                this.distanceCalculator.Calculate(this.bestFirework, this.allFireworks[i]).Returns(i);
             }
+        }
 
-            IEnumerable<Firework> resultingFireworks = selector.Select(fireworks);
+        [Fact]
+        public void Select_Equal()
+        {                     
+            NearBestSelector selector = new NearBestSelector(this.distanceCalculator, this.getBest, this.samplingNumber);
+            IEnumerable<Firework> expectedFireworks = SelectorTestsHelper.NearBestFireworks;
 
+            IEnumerable<Firework> resultingFireworks = selector.Select(allFireworks);
+
+            Assert.NotSame(expectedFireworks, resultingFireworks);
             Assert.Equal(expectedFireworks, resultingFireworks);
         }
 
         [Fact]
         public void Select_NonEqual()
         {
-            int samplingNumber = SelectorTestsHelper.SamplingNumber;
-            IDistance distanceCalculator = Substitute.For<IDistance>();
-            Func<IEnumerable<Firework>, Firework> getBest = SelectorTestsHelper.GetBest;
-            Firework bestFirework = SelectorTestsHelper.FirstBestFirework;
-            NearBestSelector selector = new NearBestSelector(distanceCalculator, getBest, samplingNumber);
-            List<Firework> fireworks = new List<Firework>(SelectorTestsHelper.Fireworks);
+            NearBestSelector selector = new NearBestSelector(this.distanceCalculator, this.getBest, this.samplingNumber);
             IEnumerable<Firework> expectedFireworks = SelectorTestsHelper.NonNearBestFirework;
 
-            for (int i = 1; i < 10; i++)
-            {
-                distanceCalculator.Calculate(bestFirework, fireworks[i]).Returns(i);
-            }
+            IEnumerable<Firework> resultingFireworks = selector.Select(allFireworks);
 
-            IEnumerable<Firework> resultingFireworks = selector.Select(fireworks);
-
+            Assert.NotSame(expectedFireworks, resultingFireworks);
             Assert.NotEqual(expectedFireworks, resultingFireworks);
         }
     }

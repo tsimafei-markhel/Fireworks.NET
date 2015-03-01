@@ -8,28 +8,45 @@ namespace FireworksNet.Tests.Selection
 {
     public class RandomSelectorTests
     {
-        [Theory]
-        [InlineData("Equal", 2)]
-        [InlineData("NonEqual", 3)]
-        public void Select_Test(string typeTest, int numberLastFireworks)
+        private int samplingNumber;
+
+        public RandomSelectorTests()
         {
-            int samplingNumber = SelectorTestsHelper.SamplingNumber;
+            this.samplingNumber = SelectorTestsHelper.SamplingNumber;
+        }
+
+        [Fact]
+        public void Select_Equal()
+        {
             System.Random randomizer = Substitute.For<System.Random>();
-            randomizer.Next(0, 10).Returns(0, 1, numberLastFireworks);
-            IEnumerable<Firework> expectedFireworks = SelectorTestsHelper.RandomFireworks;
+            randomizer.Next(0, 10).Returns(0, 1, 2);
             RandomSelector selector = new RandomSelector(randomizer, samplingNumber);
-                              
+            IEnumerable<Firework> expectedFireworks = SelectorTestsHelper.RandomFireworks;
+
             IEnumerable<Firework> resultingFireworks = selector.Select(SelectorTestsHelper.Fireworks);
 
-            if (typeTest == "Equal")
-            {
-                Assert.Equal(expectedFireworks, resultingFireworks);
-            }
-            
-            if (typeTest == "NonEqual")
-            {
-                Assert.NotEqual(expectedFireworks, resultingFireworks);
-            }            
+            Assert.NotSame(expectedFireworks, resultingFireworks);
+            Assert.Equal(expectedFireworks, resultingFireworks);
+        }
+
+        [Fact]
+        public void Select_NonEqual()
+        {
+            System.Random randomizer = Substitute.For<System.Random>();
+            randomizer.Next(0, 10).Returns(0, 1, 3);
+            RandomSelector selector = new RandomSelector(randomizer, samplingNumber);
+            IEnumerable<Firework> expectedFireworks = SelectorTestsHelper.RandomFireworks;
+
+            IEnumerable<Firework> resultingFireworks = selector.Select(SelectorTestsHelper.Fireworks);
+
+            Assert.NotSame(expectedFireworks, resultingFireworks);
+            Assert.NotEqual(expectedFireworks, resultingFireworks);
+        }
+
+        [Fact]
+        public void Select_NullFireworksCollection_ExceptionThrown()
+        {
+
         }
     }
 }

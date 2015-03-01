@@ -8,29 +8,36 @@ namespace FireworksNet.Tests.Selection
 {
     public class BestSelectorTests
     {
-        [Fact]
-        public void Select_Equal()
+        private int samplingNumber;
+        private Func<IEnumerable<Firework>, Firework> getBest;
+        private BestSelector bestSelector;
+
+        public BestSelectorTests()
         {
-            int samplingNumber = SelectorTestsHelper.SamplingNumber;
-            Func<IEnumerable<Firework>, Firework> getBest = SelectorTestsHelper.GetBest;
+            this.samplingNumber = SelectorTestsHelper.SamplingNumber;
+            this.getBest = SelectorTestsHelper.GetBest;
+            this.bestSelector = new BestSelector(this.getBest, this.samplingNumber);
+        }
+
+        [Fact]
+        public void Select_Missing2ndParam_ReturnsEqualFreworks()
+        {            
             IEnumerable<Firework> expectedFireworks = SelectorTestsHelper.BestFireworks;
-            BestSelector bestSelector = new BestSelector(getBest, samplingNumber);
 
             IEnumerable<Firework> resultingFireworks = bestSelector.Select(SelectorTestsHelper.Fireworks);
 
+            Assert.NotSame(expectedFireworks, resultingFireworks);
             Assert.Equal(expectedFireworks, resultingFireworks);
         }
 
         [Fact]
         public void Select_NonEqual()
-        {
-            int samplingNumber = SelectorTestsHelper.SamplingNumber;
-            Func<IEnumerable<Firework>, Firework> getBest = SelectorTestsHelper.GetBest;
+        {            
             IEnumerable<Firework> expectedFireworks = SelectorTestsHelper.NonBestFireworks;
-            BestSelector bestSelector = new BestSelector(getBest, samplingNumber);
 
             IEnumerable<Firework> resultingFireworks = bestSelector.Select(SelectorTestsHelper.Fireworks);
 
+            Assert.NotSame(expectedFireworks, resultingFireworks);
             Assert.NotEqual(expectedFireworks, resultingFireworks);
         }
     }

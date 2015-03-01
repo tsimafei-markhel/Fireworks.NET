@@ -85,13 +85,10 @@
     <Compile Include="Problems\Benchmark\Griewank.cs" />
     <Compile Include="Problems\Benchmark\Ellipse.cs" />
     <Compile Include="Problems\Benchmark\Sphere.cs" />
-<<<<<<< HEAD
     <Compile Include="Selection\BestSelector.cs" />
     <Compile Include="Selection\NearBestSelector.cs" />
     <Compile Include="Selection\RandomSelector.cs" />
-=======
     <Compile Include="Selection\BestAndRandomSelector.cs" />
->>>>>>> 1ad24c9857eddbeef4220a4f5f7bfc6839dc500f
     <Compile Include="StopConditions\CounterStopCondition.cs" />
     <Compile Include="StopConditions\MinErrorStopCondition.cs" />
     <Compile Include="Problems\ProblemTarget.cs" />

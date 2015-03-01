@@ -6,12 +6,11 @@ namespace FireworksNet.Tests.Selection
 {
     public static class SelectorTestsHelper
     {
-        private static double lowerLimitInteral = 0;
-        private static double upperLimitInterval = 10;
+        private static double intervalLowerLimit = 0;
+        private static double intervalUpperLimit = 10.0;
         private static int countFireworks = 10;
 
-        public static IEnumerable<Firework> Fireworks
-        { get; set; }
+        public static IEnumerable<Firework> Fireworks { get; set; }
 
         public static IEnumerable<Firework> NearBestFireworks
         {
@@ -59,10 +58,9 @@ namespace FireworksNet.Tests.Selection
             {
                 return Fireworks.OrderBy(fr => fr.Quality).First<Firework>();
             }
-        }     
+        }
 
-        public static int SamplingNumber
-        { get; set; }
+        public static int SamplingNumber { get; set; }
 
         static SelectorTestsHelper()
         {
@@ -75,9 +73,10 @@ namespace FireworksNet.Tests.Selection
             return fireworks.OrderBy(fr => fr.Quality).First<Firework>();
         }
 
+        //TODO: lazy initialization collection of fireworks
         private static void FormFireworks()
         {
-            Range range = new Range(lowerLimitInteral, upperLimitInterval);
+            Range range = new Range(intervalLowerLimit, intervalUpperLimit);
             List<Firework> fireworks = new List<Firework>();
             IDictionary<Dimension, double> coordinates;
 
@@ -89,7 +88,7 @@ namespace FireworksNet.Tests.Selection
                 Firework firework = new Firework(FireworkType.Initial, 0, coordinates);
                 firework.Quality = i;
                 fireworks.Add(firework);
-            }
+            }            
 
             Fireworks = fireworks;
         }
