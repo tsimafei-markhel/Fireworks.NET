@@ -34,5 +34,5 @@ FireworksNet.Tests:
 **Note** NuGet packages are not committed to the repository, you need to use Package Restore to get them before the build.
 
 ##Contribution
-###Coding Guidelines
-Please refer to the [CodingGuidelines.md](CodingGuidelines.md) file for the code style guidelines.
+###Programming Guidelines
+Please refer to the [programming-guidelines.md](programming-guidelines.md) file for the code style and other guidelines.
