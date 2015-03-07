@@ -86,6 +86,7 @@
     <Compile Include="Problems\Benchmark\Ellipse.cs" />
     <Compile Include="Problems\Benchmark\Sphere.cs" />
     <Compile Include="Selection\BestAndRandomSelector.cs" />
+    <Compile Include="Selection\SelectorBase.cs" />
     <Compile Include="StopConditions\CounterStopCondition.cs" />
     <Compile Include="StopConditions\MinErrorStopCondition.cs" />
     <Compile Include="Problems\ProblemTarget.cs" />
