@@ -4,6 +4,9 @@ using FireworksNet.Model;
 
 namespace FireworksNet.Selection
 {
+    /// <summary>
+    /// Base class for selectors.
+    /// </summary>
     public abstract class SelectorBase : ISelector
     {
         protected readonly int locationsNumber;
