@@ -11,11 +11,10 @@ namespace FireworksNet.Selection
     /// Selects <see cref="Firework"/>s that will stay around for the next step:
     /// takes the best <see cref="Firework"/> and randomly chooses others, per 2012 paper.
     /// </summary>
-    public class BestAndRandomSelector : ISelector
+    public class BestAndRandomSelector : SelectorBase
     {
         private readonly System.Random randomizer;
         private readonly Func<IEnumerable<Firework>, Firework> bestFireworkSelector;
-        private readonly int locationsNumber;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BestAndRandomSelector"/> class.
@@ -27,9 +26,8 @@ namespace FireworksNet.Selection
         /// <exception cref="System.ArgumentNullException"> if <paramref name="randomizer"/>
         /// or <paramref name="bestFireworkSelector"/> is <c>null</c>.
         /// </exception>
-        /// <exception cref="System.ArgumentOutOfRangeException"> if <paramref name="locationsNumber"/>
-        /// is less than zero.</exception>
         public BestAndRandomSelector(System.Random randomizer, Func<IEnumerable<Firework>, Firework> bestFireworkSelector, int locationsNumber)
+            : base(locationsNumber)
         {
             if (randomizer == null)
             {
@@ -41,12 +39,6 @@ namespace FireworksNet.Selection
                 throw new ArgumentNullException("bestFireworkSelector");
             }
 
-            if (locationsNumber < 0)
-            {
-                throw new ArgumentOutOfRangeException("locationsNumber");
-            }
-
-            this.locationsNumber = locationsNumber;
             this.randomizer = randomizer;
             this.bestFireworkSelector = bestFireworkSelector;
         }
@@ -62,20 +54,6 @@ namespace FireworksNet.Selection
         public BestAndRandomSelector(System.Random randomizer, Func<IEnumerable<Firework>, Firework> bestFireworkSelector)
             : this(randomizer, bestFireworkSelector, 0)
         {
-        }
-
-        /// <summary>
-        /// Selects some predefined number of <see cref="Firework"/>s from
-        /// the <paramref name="from"/> collection.
-        /// </summary>
-        /// <param name="from">A collection to select <see cref="Firework"/>s
-        /// from.</param>
-        /// <returns>
-        /// A subset of <see cref="Firework"/>s.
-        /// </returns>
-        public virtual IEnumerable<Firework> Select(IEnumerable<Firework> from)
-        {
-            return this.Select(from, this.locationsNumber);
         }
 
         /// <summary>
@@ -95,7 +73,7 @@ namespace FireworksNet.Selection
         /// <exception cref="System.ArgumentOutOfRangeException"> if <paramref name="numberToSelect"/>
         /// is less than zero or greater than the number of elements in <paramref name="from"/>.
         /// </exception>
-        public virtual IEnumerable<Firework> Select(IEnumerable<Firework> from, int numberToSelect)
+        public override IEnumerable<Firework> Select(IEnumerable<Firework> from, int numberToSelect)
         {
             if (from == null)
             {

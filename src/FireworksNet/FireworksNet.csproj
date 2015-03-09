@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Algorithm\IStepperFireworksAlgorithm.cs" />
     <Compile Include="Distances\DistanceBase.cs" />
+    <Compile Include="Distributions\ContinuousUniformDistribution.cs" />
     <Compile Include="Extensions\RandomExtensions.cs" />
     <Compile Include="Algorithm\Implementation\FireworksAlgorithmSettings.cs" />
     <Compile Include="Distances\EuclideanDistance.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="Selection\NearBestSelector.cs" />
     <Compile Include="Selection\RandomSelector.cs" />
     <Compile Include="Selection\BestAndRandomSelector.cs" />
+    <Compile Include="Selection\SelectorBase.cs" />
     <Compile Include="StopConditions\CounterStopCondition.cs" />
     <Compile Include="StopConditions\MinErrorStopCondition.cs" />
     <Compile Include="Problems\ProblemTarget.cs" />

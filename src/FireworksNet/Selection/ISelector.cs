@@ -28,5 +28,23 @@ namespace FireworksNet.Selection
         /// to select.</param>
         /// <returns>A subset of <see cref="Firework"/>s.</returns>
         IEnumerable<Firework> Select(IEnumerable<Firework> from, int numberToSelect);
+
+        /// <summary>
+        /// Selects some predefined number of <see cref="Firework"/>s from
+        /// the <paramref name="from"/> parameters.
+        /// </summary>
+        /// <param name="from"><see cref="Firework"/>s to select from.</param>
+        /// <returns>A subset of <see cref="Firework"/>s.</returns>
+        IEnumerable<Firework> Select(params Firework[] from);
+
+        /// <summary>
+        /// Selects <paramref name="numberToSelect"/> <see cref="Firework"/>s from
+        /// the <paramref name="from"/>.
+        /// </summary>
+        /// <param name="numberToSelect">The number of <see cref="Firework"/>s
+        /// to select.</param>
+        /// <param name="from"><see cref="Firework"/>s to select from.</param>
+        /// <returns>A subset of <see cref="Firework"/>s.</returns>
+        IEnumerable<Firework> Select(int numberToSelect, params Firework[] from);
     }
 }

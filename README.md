@@ -3,7 +3,7 @@ Fireworks.NET
 
 [![Build status](https://ci.appveyor.com/api/projects/status/em6rtw0cj5lre0k4?svg=true)](https://ci.appveyor.com/project/tsimafei-markhel/fireworks)
 
-Fireworks.NET is a .NET implementation of [Fireworks Algorithm for Optimization](http://www.cil.pku.edu.cn/research/fa/) (FWA) and its variations.
+Fireworks.NET is a .NET implementation of swarm intelligence [Fireworks Algorithm for Optimization](http://www.cil.pku.edu.cn/research/fa/) (FWA) and its variations.
 
 ###Project Purpose
 This project is aimed at creating a set of .NET "building blocks" for FWA - and build some variations of FWA from these "blocks".
@@ -34,5 +34,5 @@ FireworksNet.Tests:
 **Note** NuGet packages are not committed to the repository, you need to use Package Restore to get them before the build.
 
 ##Contribution
-###Coding Guidelines
-Please refer to the [CodingGuidelines.md](CodingGuidelines.md) file for the code style guidelines.
+###Programming Guidelines
+Please refer to the [programming-guidelines.md](programming-guidelines.md) file for the code style and other guidelines.
