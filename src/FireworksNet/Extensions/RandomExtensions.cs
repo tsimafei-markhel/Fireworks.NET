@@ -159,9 +159,26 @@ namespace FireworksNet.Extensions
         /// <param name="minInclusive">Lower bound, inclusive.</param>
         /// <param name="intervalLength">The length of the range that has to contain generated number.</param>
         /// <returns>A random <see cref="double"/> within specified range.</returns>
+        /// <exception cref="System.ArgumentNullException">if <paramref name="random"/> is <c>null</c>.</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">if <paramref name="minInclusive"/> or
+        /// <paramref name="intervalLength"/> is NaN or Infinity.</exception>
         private static double NextDoubleInternal(System.Random random, double minInclusive, double intervalLength)
         {
-            // TODO: Add input validation
+            if (random == null)
+            {
+                throw new ArgumentNullException("random");
+            }
+
+            if (double.IsNaN(minInclusive) || double.IsInfinity(minInclusive))
+            {
+                throw new ArgumentOutOfRangeException("minInclusive");
+            }
+
+            if (double.IsNaN(intervalLength) || double.IsInfinity(intervalLength))
+            {
+                throw new ArgumentOutOfRangeException("intervalLength");
+            }
+
             return minInclusive + random.NextDouble() * intervalLength;
         }
     }
