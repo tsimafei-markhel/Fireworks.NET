@@ -1,4 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RuleSet Name="FireworksNet Rule Set" Description=" " ToolsVersion="12.0">
   <Include Path="minimumrecommendedrules.ruleset" Action="Default" />
+  <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
+    <Rule Id="CA1000" Action="Warning" />
+    <Rule Id="CA1012" Action="Warning" />
+    <Rule Id="CA1013" Action="Warning" />
+    <Rule Id="CA1018" Action="Warning" />
+    <Rule Id="CA1023" Action="Warning" />
+    <Rule Id="CA1024" Action="Warning" />
+    <Rule Id="CA1026" Action="Warning" />
+    <Rule Id="CA1027" Action="Warning" />
+    <Rule Id="CA1028" Action="Warning" />
+    <Rule Id="CA1031" Action="Warning" />
+    <Rule Id="CA1032" Action="Warning" />
+    <Rule Id="CA1034" Action="Warning" />
+    <Rule Id="CA1036" Action="Warning" />
+    <Rule Id="CA1040" Action="Warning" />
+    <Rule Id="CA1041" Action="Warning" />
+    <Rule Id="CA1044" Action="Warning" />
+    <Rule Id="CA1047" Action="Warning" />
+    <Rule Id="CA1048" Action="Warning" />
+    <Rule Id="CA1050" Action="Warning" />
+    <Rule Id="CA1051" Action="Warning" />
+    <Rule Id="CA1058" Action="Warning" />
+    <Rule Id="CA1064" Action="Warning" />
+  </Rules>
 </RuleSet>

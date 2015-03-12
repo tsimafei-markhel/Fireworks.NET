@@ -121,7 +121,7 @@ namespace FireworksNet.Selection
                 Debug.Assert(probabilities != null, "Probability collection is null");
 
                 // 4. Select desiredLocationsNumber - 1 of fireworks based on the probabilities
-                IOrderedEnumerable<KeyValuePair<Firework, double>> sortedProbabilities = probabilities.OrderByDescending(p => p.Value, new DoubleExtensions.DoubleExtensionComparer());
+                IOrderedEnumerable<KeyValuePair<Firework, double>> sortedProbabilities = probabilities.OrderByDescending(p => p.Value, new DoubleExtensionComparer());
                 Debug.Assert(sortedProbabilities != null, "Sorted probabilities collection is null");
 
                 IEnumerable<Firework> otherSelectedLocations = sortedProbabilities.Where(sp => sp.Key != bestFirework).Take(numberToSelect - 1).Select(sp => sp.Key);

@@ -9,7 +9,10 @@ namespace FireworksNet.Selection
     /// </summary>
     public abstract class SelectorBase : ISelector
     {
-        protected readonly int locationsNumber;
+        /// <summary>
+        /// Gets the number of locations that has to be selected.
+        /// </summary>
+        protected int LocationsNumber { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SelectorBase"/> class.
@@ -24,7 +27,7 @@ namespace FireworksNet.Selection
                 throw new ArgumentOutOfRangeException("locationsNumber");
             }
 
-            this.locationsNumber = locationsNumber;
+            this.LocationsNumber = locationsNumber;
         }
 
         /// <summary>
@@ -48,7 +51,7 @@ namespace FireworksNet.Selection
         /// </returns>
         public virtual IEnumerable<Firework> Select(IEnumerable<Firework> from)
         {
-            return this.Select(from, this.locationsNumber);
+            return this.Select(from, this.LocationsNumber);
         }
 
         /// <summary>

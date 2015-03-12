@@ -104,7 +104,7 @@ namespace FireworksNet.Algorithm.Implementation
         /// best solution found during the algorithm run.</returns>
         public Solution Solve()
         {
-            AlgorithmState state = this.GetInitialState();
+            AlgorithmState state = this.CreateInitialState();
 
             Debug.Assert(state != null, "Initial state is null");
 
@@ -127,11 +127,13 @@ namespace FireworksNet.Algorithm.Implementation
         #region IStepperFireworksAlgorithm methods
 
         /// <summary>
-        /// Gets the initial algorithm state (before the run starts).
+        /// Creates the initial algorithm state (before the run starts).
         /// </summary>
         /// <returns><see cref="AlgorithmState"/> instance that represents
         /// initial state (before the run starts).</returns>
-        public AlgorithmState GetInitialState()
+        /// <remarks>On each call re-creates the initial state (i.e. returns 
+        /// new object each time).</remarks>
+        public AlgorithmState CreateInitialState()
         {
             Debug.Assert(this.Settings != null, "Settings is null");
             Debug.Assert(this.initialSparkGenerator != null, "Initial spark generator is null");

@@ -8,11 +8,11 @@ namespace FireworksNet.Algorithm
     public interface IStepperFireworksAlgorithm : IFireworksAlgorithm
     {
         /// <summary>
-        /// Gets the initial algorithm state (before the run starts).
+        /// Creates the initial algorithm state (before the run starts).
         /// </summary>
         /// <returns><see cref="AlgorithmState"/> instance that represents
         /// initial state (before the run starts).</returns>
-        AlgorithmState GetInitialState();
+        AlgorithmState CreateInitialState();
 
         /// <summary>
         /// Represents one iteration of the algorithm.
