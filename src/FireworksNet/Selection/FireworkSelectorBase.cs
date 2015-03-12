@@ -7,7 +7,7 @@ namespace FireworksNet.Selection
     /// <summary>
     /// Base class for selectors.
     /// </summary>
-    public abstract class SelectorBase : ISelector
+    public abstract class FireworkSelectorBase : IFireworkSelector
     {
         /// <summary>
         /// Gets the number of locations that has to be selected.
@@ -15,12 +15,12 @@ namespace FireworksNet.Selection
         protected int LocationsNumber { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SelectorBase"/> class.
+        /// Initializes a new instance of the <see cref="FireworkSelectorBase"/> class.
         /// </summary>
         /// <param name="locationsNumber">The number of <see cref="Firework"/>s to be selected.</param>
         /// <exception cref="System.ArgumentOutOfRangeException"> if <paramref name="locationsNumber"/>
         /// is less than zero.</exception>
-        protected SelectorBase(int locationsNumber)
+        protected FireworkSelectorBase(int locationsNumber)
         {
             if (locationsNumber < 0)
             {
@@ -31,11 +31,11 @@ namespace FireworksNet.Selection
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SelectorBase"/> class.
+        /// Initializes a new instance of the <see cref="FireworkSelectorBase"/> class.
         /// </summary>
         /// <remarks>It is assumed that number of <see cref="Firework"/>s to be selected
         /// differs from step to step and hence is passed to the <c>Select</c> method.</remarks>
-        protected SelectorBase()
+        protected FireworkSelectorBase()
             : this(0)
         {
         }
@@ -49,9 +49,9 @@ namespace FireworksNet.Selection
         /// <returns>
         /// A subset of <see cref="Firework"/>s.
         /// </returns>
-        public virtual IEnumerable<Firework> Select(IEnumerable<Firework> from)
+        public virtual IEnumerable<Firework> SelectFireworks(IEnumerable<Firework> from)
         {
-            return this.Select(from, this.LocationsNumber);
+            return this.SelectFireworks(from, this.LocationsNumber);
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace FireworksNet.Selection
         /// <returns>
         /// A subset of <see cref="Firework"/>s.
         /// </returns>
-        public abstract IEnumerable<Firework> Select(IEnumerable<Firework> from, int numberToSelect);
+        public abstract IEnumerable<Firework> SelectFireworks(IEnumerable<Firework> from, int numberToSelect);
 
         /// <summary>
         /// Selects some predefined number of <see cref="Firework"/>s from
@@ -74,9 +74,9 @@ namespace FireworksNet.Selection
         /// </summary>
         /// <param name="from"><see cref="Firework"/>s to select from.</param>
         /// <returns>A subset of <see cref="Firework"/>s.</returns>
-        public virtual IEnumerable<Firework> Select(params Firework[] from)
+        public virtual IEnumerable<Firework> SelectFireworks(params Firework[] from)
         {
-            return this.Select(from);
+            return this.SelectFireworks(from);
         }
 
         /// <summary>
@@ -87,9 +87,9 @@ namespace FireworksNet.Selection
         /// to select.</param>
         /// <param name="from"><see cref="Firework"/>s to select from.</param>
         /// <returns>A subset of <see cref="Firework"/>s.</returns>
-        public virtual IEnumerable<Firework> Select(int numberToSelect, params Firework[] from)
+        public virtual IEnumerable<Firework> SelectFireworks(int numberToSelect, params Firework[] from)
         {
-            return this.Select(from, numberToSelect);
+            return this.SelectFireworks(from, numberToSelect);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using FireworksNet.Model;
 
@@ -63,6 +64,7 @@ namespace FireworksNet.Extensions
         /// is less than zero. Or if <paramref name="neededValuesNumber"/> &gt; <paramref name="maxExclusive"/> 
         /// - <paramref name="minInclusive"/>. Or if <paramref name="maxExclusive"/> is less or equal to
         /// <paramref name="minInclusive"/>.</exception>
+        [SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "s", Justification = "Lowercase 's' is used here intentionally to create plural form.")]
         public static IEnumerable<int> NextInt32s(this System.Random random, int neededValuesNumber, int minInclusive, int maxExclusive)
         {
             if (random == null)
@@ -108,6 +110,7 @@ namespace FireworksNet.Extensions
         /// - <paramref name="minInclusive"/>. Or if <paramref name="maxExclusive"/> is less or equal to
         /// <paramref name="minInclusive"/>.</exception>
         /// <remarks>http://codereview.stackexchange.com/questions/61338/generate-random-numbers-without-repetitions</remarks>
+        [SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "s", Justification = "Lowercase 's' is used here intentionally to create plural form.")]
         public static IEnumerable<int> NextUniqueInt32s(this System.Random random, int neededValuesNumber, int minInclusive, int maxExclusive)
         {
             if (random == null)

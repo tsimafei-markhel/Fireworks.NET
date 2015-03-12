@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<Dictionary>
+    <Words>
+        <Recognized>
+            <Word>Griewank</Word>
+            <Word>Rastrigrin</Word>
+            <Word>Rosenbrock</Word>
+        </Recognized>
+        <Compound>
+            <Term CompoundAlternate="LessOr">Lessor</Term>
+        </Compound>
+    </Words>
+</Dictionary>

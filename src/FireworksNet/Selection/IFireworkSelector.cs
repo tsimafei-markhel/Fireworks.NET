@@ -7,7 +7,7 @@ namespace FireworksNet.Selection
     /// Contains logic for selecting a subset of <see cref="Firework"/>s
     /// from a given set according to some rule.
     /// </summary>
-    public interface ISelector
+    public interface IFireworkSelector
     {
         /// <summary>
         /// Selects some predefined number of <see cref="Firework"/>s from
@@ -16,7 +16,7 @@ namespace FireworksNet.Selection
         /// <param name="from">A collection to select <see cref="Firework"/>s
         /// from.</param>
         /// <returns>A subset of <see cref="Firework"/>s.</returns>
-        IEnumerable<Firework> Select(IEnumerable<Firework> from);
+        IEnumerable<Firework> SelectFireworks(IEnumerable<Firework> from);
 
         /// <summary>
         /// Selects <paramref name="numberToSelect"/> <see cref="Firework"/>s from
@@ -27,7 +27,7 @@ namespace FireworksNet.Selection
         /// <param name="numberToSelect">The number of <see cref="Firework"/>s
         /// to select.</param>
         /// <returns>A subset of <see cref="Firework"/>s.</returns>
-        IEnumerable<Firework> Select(IEnumerable<Firework> from, int numberToSelect);
+        IEnumerable<Firework> SelectFireworks(IEnumerable<Firework> from, int numberToSelect);
 
         /// <summary>
         /// Selects some predefined number of <see cref="Firework"/>s from
@@ -35,7 +35,7 @@ namespace FireworksNet.Selection
         /// </summary>
         /// <param name="from"><see cref="Firework"/>s to select from.</param>
         /// <returns>A subset of <see cref="Firework"/>s.</returns>
-        IEnumerable<Firework> Select(params Firework[] from);
+        IEnumerable<Firework> SelectFireworks(params Firework[] from);
 
         /// <summary>
         /// Selects <paramref name="numberToSelect"/> <see cref="Firework"/>s from
@@ -45,6 +45,6 @@ namespace FireworksNet.Selection
         /// to select.</param>
         /// <param name="from"><see cref="Firework"/>s to select from.</param>
         /// <returns>A subset of <see cref="Firework"/>s.</returns>
-        IEnumerable<Firework> Select(int numberToSelect, params Firework[] from);
+        IEnumerable<Firework> SelectFireworks(int numberToSelect, params Firework[] from);
     }
 }

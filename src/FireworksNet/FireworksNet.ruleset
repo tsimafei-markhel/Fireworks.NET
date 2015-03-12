@@ -32,5 +32,25 @@
     <Rule Id="CA1502" Action="Warning" />
     <Rule Id="CA1504" Action="Warning" />
     <Rule Id="CA1505" Action="Warning" />
+    <Rule Id="CA1700" Action="Warning" />
+    <Rule Id="CA1702" Action="Warning" />
+    <Rule Id="CA1704" Action="Warning" />
+    <Rule Id="CA1707" Action="Warning" />
+    <Rule Id="CA1708" Action="Warning" />
+    <Rule Id="CA1709" Action="Warning" />
+    <Rule Id="CA1710" Action="Warning" />
+    <Rule Id="CA1711" Action="Warning" />
+    <Rule Id="CA1712" Action="Warning" />
+    <Rule Id="CA1713" Action="Warning" />
+    <Rule Id="CA1714" Action="Warning" />
+    <Rule Id="CA1715" Action="Warning" />
+    <Rule Id="CA1716" Action="Warning" />
+    <Rule Id="CA1717" Action="Warning" />
+    <Rule Id="CA1721" Action="Warning" />
+    <Rule Id="CA1722" Action="Warning" />
+    <Rule Id="CA1724" Action="Warning" />
+    <Rule Id="CA1725" Action="Warning" />
+    <Rule Id="CA1726" Action="Warning" />
+    <Rule Id="CA2204" Action="Warning" />
   </Rules>
 </RuleSet>

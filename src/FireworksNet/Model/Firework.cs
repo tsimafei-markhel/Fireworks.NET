@@ -17,7 +17,7 @@ namespace FireworksNet.Model
         /// Gets the type of the firework (or spark this firework
         /// has been originated from).
         /// </summary>
-        public FireworkType Type { get; private set; }
+        public FireworkType FireworkType { get; private set; }
 
         /// <summary>
         /// Gets the number of step this firework was created at.
@@ -27,7 +27,7 @@ namespace FireworksNet.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Firework"/> class.
         /// </summary>
-        /// <param name="type">The type of the firework (or spark this firework
+        /// <param name="fireworkType">The type of the firework (or spark this firework
         /// has been originated from).</param>
         /// <param name="birthStepNumber">The number of step this firework was created at.</param>
         /// <param name="coordinates">The firework coordinates.</param>
@@ -35,7 +35,7 @@ namespace FireworksNet.Model
         /// is less than zero.</exception>
         /// <exception cref="System.ArgumentNullException"> if <paramref name="coordinates"/>
         /// is <c>null</c>.</exception>
-        public Firework(FireworkType type, int birthStepNumber, IDictionary<Dimension, double> coordinates)
+        public Firework(FireworkType fireworkType, int birthStepNumber, IDictionary<Dimension, double> coordinates)
             : base(coordinates, double.NaN)
         {
             if (birthStepNumber < 0)
@@ -49,18 +49,18 @@ namespace FireworksNet.Model
             }
 
             this.Id = new TId();
-            this.Type = type;
+            this.FireworkType = fireworkType;
             this.BirthStepNumber = birthStepNumber;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Firework"/> class.
         /// </summary>
-        /// <param name="type">The type of the firework (or spark this firework
+        /// <param name="fireworkType">The type of the firework (or spark this firework
         /// has been originated from).</param>
         /// <param name="birthStepNumber">The number of step this firework was created at.</param>
-        public Firework(FireworkType type, int birthStepNumber)
-            : this(type, birthStepNumber, new Dictionary<Dimension, double>())
+        public Firework(FireworkType fireworkType, int birthStepNumber)
+            : this(fireworkType, birthStepNumber, new Dictionary<Dimension, double>())
         {
         }
     }

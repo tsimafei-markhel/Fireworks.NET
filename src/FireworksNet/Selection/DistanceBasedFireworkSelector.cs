@@ -12,13 +12,13 @@ namespace FireworksNet.Selection
     /// Selects <see cref="Firework"/>s that will stay around for the next step
     /// based on the distance between the <see cref="Firework"/>s, per 2010 paper.
     /// </summary>
-    public class DistanceBasedSelector : SelectorBase
+    public class DistanceBasedFireworkSelector : FireworkSelectorBase
     {
         private readonly IDistance distanceCalculator;
         private readonly Func<IEnumerable<Firework>, Firework> bestFireworkSelector;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DistanceBasedSelector"/> class.
+        /// Initializes a new instance of the <see cref="DistanceBasedFireworkSelector"/> class.
         /// </summary>
         /// <param name="distanceCalculator">The distance calculator.</param>
         /// <param name="bestFireworkSelector">The function that can be used to select 
@@ -27,7 +27,7 @@ namespace FireworksNet.Selection
         /// <exception cref="System.ArgumentNullException"> if <paramref name="distanceCalculator"/>
         /// or <paramref name="bestFireworkSelector"/> is <c>null</c>.
         /// </exception>
-        public DistanceBasedSelector(IDistance distanceCalculator, Func<IEnumerable<Firework>, Firework> bestFireworkSelector, int locationsNumber)
+        public DistanceBasedFireworkSelector(IDistance distanceCalculator, Func<IEnumerable<Firework>, Firework> bestFireworkSelector, int locationsNumber)
             : base(locationsNumber)
         {
             if (distanceCalculator == null)
@@ -45,14 +45,14 @@ namespace FireworksNet.Selection
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DistanceBasedSelector"/> class.
+        /// Initializes a new instance of the <see cref="DistanceBasedFireworkSelector"/> class.
         /// </summary>
         /// <param name="distanceCalculator">The distance calculator.</param>
         /// <param name="bestFireworkSelector">The function that can be used to select 
         /// best <see cref="Firework"/>.</param>
         /// <remarks>It is assumed that number of <see cref="Firework"/>s to be selected
         /// differs from step to step and hence is passed to the <c>Select</c> method.</remarks>
-        public DistanceBasedSelector(IDistance distanceCalculator, Func<IEnumerable<Firework>, Firework> bestFireworkSelector)
+        public DistanceBasedFireworkSelector(IDistance distanceCalculator, Func<IEnumerable<Firework>, Firework> bestFireworkSelector)
             : this(distanceCalculator, bestFireworkSelector, 0)
         {
         }
@@ -74,7 +74,7 @@ namespace FireworksNet.Selection
         /// <exception cref="System.ArgumentOutOfRangeException"> if <paramref name="numberToSelect"/>
         /// is less than zero or greater than the number of elements in <paramref name="from"/>.
         /// </exception>
-        public override IEnumerable<Firework> Select(IEnumerable<Firework> from, int numberToSelect)
+        public override IEnumerable<Firework> SelectFireworks(IEnumerable<Firework> from, int numberToSelect)
         {
             if (from == null)
             {

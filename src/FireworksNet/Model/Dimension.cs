@@ -42,7 +42,7 @@ namespace FireworksNet.Model
         /// <param name="valueToCheck">Value to be checked.</param>
         /// <returns><c>true</c> if <paramref name="valueToCheck"/> can be used as a value
         /// of this parameter; otherwise <c>false</c>.</returns>
-        public bool IsValueInBounds(double valueToCheck)
+        public bool IsValueInRange(double valueToCheck)
         {
             return this.VariationRange.IsInRange(valueToCheck);
         }
