@@ -63,6 +63,9 @@
     <Rule Id="CA1822" Action="Warning" />
     <Rule Id="CA1823" Action="Warning" />
     <Rule Id="CA1903" Action="Warning" />
+    <Rule Id="CA2001" Action="Warning" />
+    <Rule Id="CA2003" Action="Warning" />
+    <Rule Id="CA2004" Action="Warning" />
     <Rule Id="CA2204" Action="Warning" />
   </Rules>
 </RuleSet>
