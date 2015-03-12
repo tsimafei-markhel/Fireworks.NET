@@ -25,7 +25,7 @@ namespace FireworksNet.StopConditions
 
             if (double.IsNaN(minError) || double.IsInfinity(minError))
             {
-                throw new ArgumentOutOfRangeException("knownBest");
+                throw new ArgumentOutOfRangeException("minError");
             }
 
             this.knownSolution = knownSolution;

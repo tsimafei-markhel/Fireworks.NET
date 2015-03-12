@@ -150,7 +150,7 @@ namespace FireworksNet.Selection
 
             if (fireworks == null)
             {
-                throw new ArgumentNullException("allCurrentFireworks");
+                throw new ArgumentNullException("fireworks");
             }
 
             Debug.Assert(this.distanceCalculator != null, "Distance calculator is null");
