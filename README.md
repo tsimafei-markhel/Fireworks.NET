@@ -27,8 +27,8 @@ FireworksNet:
 - [Math.NET Numerics 3.5.0](https://www.nuget.org/packages/MathNet.Numerics/3.5.0)
 
 FireworksNet.Tests:
-- [xUnit.net 2.0.0-rc2-build2857](https://www.nuget.org/packages/xunit/2.0.0-rc2-build2857)
-- [xUnit.net [Visual Studio Runner] 2.0.0-rc2-build1043](https://www.nuget.org/packages/xunit.runner.visualstudio/2.0.0-rc2-build1043)
+- [xUnit.net 2.0.0-rc4-build2924](https://www.nuget.org/packages/xunit/2.0.0-rc4-build2924)
+- [xUnit.net [Runner: Visual Studio] 2.0.0-rc4-build1049](https://www.nuget.org/packages/xunit.runner.visualstudio/2.0.0-rc4-build1049)
 - [NSubstitute 1.8.1](https://www.nuget.org/packages/NSubstitute/)
 
 **Note** NuGet packages are not committed to the repository, you need to use Package Restore to get them before the build.

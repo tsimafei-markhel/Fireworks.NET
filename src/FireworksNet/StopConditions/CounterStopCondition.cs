@@ -32,7 +32,7 @@ namespace FireworksNet.StopConditions
             Interlocked.Increment(ref this.count);
         }
 
-        public virtual void IncrementCounter(object sender, object e)
+        public virtual void IncrementCounter(object sender, object eventArgs)
         {
             IncrementCounter();
         }

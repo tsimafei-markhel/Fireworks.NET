@@ -57,7 +57,7 @@ namespace FireworksNet.Explode
                 if ((int)Math.Round(this.randomizer.NextDouble(0.0, 1.0), MidpointRounding.AwayFromZero) == 1) // Coin flip
                 {
                     spark.Coordinates[dimension] += offsetDisplacement;
-                    if (!dimension.IsValueInBounds(spark.Coordinates[dimension]))
+                    if (!dimension.IsValueInRange(spark.Coordinates[dimension]))
                     {
                         spark.Coordinates[dimension] = dimension.VariationRange.Minimum + Math.Abs(spark.Coordinates[dimension]) % dimension.VariationRange.Length;
                     }

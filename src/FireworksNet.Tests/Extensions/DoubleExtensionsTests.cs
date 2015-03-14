@@ -3,6 +3,7 @@ using FireworksNet.Extensions;
 
 namespace FireworksNet.Tests.Extensions
 {
+    // TODO: Rename tests according to the programming-guidelines.md.
     public class DoubleExtensionsTests
     {
         [Fact]

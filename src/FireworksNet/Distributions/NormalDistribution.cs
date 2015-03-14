@@ -15,10 +15,10 @@ namespace FireworksNet.Distributions
         /// Initializes a new instance of the <see cref="NormalDistribution"/> class.
         /// </summary>
         /// <param name="mean">The mean.</param>
-        /// <param name="stddev">The standard deviation.</param>
-        public NormalDistribution(double mean, double stddev)
+        /// <param name="standardDeviation">The standard deviation.</param>
+        public NormalDistribution(double mean, double standardDeviation)
         {
-            this.internalNormal = new Normal(mean, stddev);
+            this.internalNormal = new Normal(mean, standardDeviation);
         }
 
         /// <summary>
