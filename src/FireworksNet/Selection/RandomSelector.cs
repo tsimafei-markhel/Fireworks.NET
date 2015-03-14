@@ -7,7 +7,7 @@ using FireworksNet.Extensions;
 
 namespace FireworksNet.Selection
 {
-    public class RandomSelector : ISelector
+    public class RandomSelector : SelectorBase
     {
         private readonly System.Random randomizer;
         private readonly int samplingNumber;
@@ -33,12 +33,12 @@ namespace FireworksNet.Selection
         {
         }
 
-        public virtual IEnumerable<Firework> Select(IEnumerable<Firework> from)
+        public override IEnumerable<Firework> Select(IEnumerable<Firework> from)
         {
             return this.Select(from, this.samplingNumber);
         }
 
-        public virtual IEnumerable<Firework> Select(IEnumerable<Firework> from, int numberToSelect)
+        public override IEnumerable<Firework> Select(IEnumerable<Firework> from, int numberToSelect)
         {
             if (from == null)
             {

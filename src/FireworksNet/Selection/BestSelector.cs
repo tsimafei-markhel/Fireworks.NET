@@ -6,7 +6,7 @@ using FireworksNet.Model;
 
 namespace FireworksNet.Selection
 {
-    public class BestSelector : ISelector
+    public class BestSelector : SelectorBase
     {
         private readonly Func<IEnumerable<Firework>, Firework> bestFireworkSelector;
         private readonly int samplingNumber;
@@ -32,12 +32,12 @@ namespace FireworksNet.Selection
         {
         }
 
-        public virtual IEnumerable<Firework> Select(IEnumerable<Firework> from)
+        public override IEnumerable<Firework> Select(IEnumerable<Firework> from)
         {
             return this.Select(from, this.samplingNumber);
         }
 
-        public virtual IEnumerable<Firework> Select(IEnumerable<Firework> from, int numberToSelect)
+        public override IEnumerable<Firework> Select(IEnumerable<Firework> from, int numberToSelect)
         {
             if (from == null)
             {

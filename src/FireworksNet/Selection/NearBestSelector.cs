@@ -8,7 +8,7 @@ using FireworksNet.Model;
 
 namespace FireworksNet.Selection
 {
-    public class NearBestSelector : ISelector
+    public class NearBestSelector : SelectorBase
     {
         private readonly IDistance distanceCalculator;
         private readonly Func<IEnumerable<Firework>, Firework> bestFireworkSelector;
@@ -41,12 +41,12 @@ namespace FireworksNet.Selection
         {
         }
 
-        public virtual IEnumerable<Firework> Select(IEnumerable<Firework> from)
+        public override IEnumerable<Firework> Select(IEnumerable<Firework> from)
         {
             return this.Select(from, this.samplingNumber);
         }
 
-        public virtual IEnumerable<Firework> Select(IEnumerable<Firework> from, int numberToSelect)
+        public override IEnumerable<Firework> Select(IEnumerable<Firework> from, int numberToSelect)
         {
             if (from == null)
             {
