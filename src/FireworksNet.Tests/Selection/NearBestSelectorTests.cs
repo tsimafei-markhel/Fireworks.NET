@@ -32,7 +32,7 @@ namespace FireworksNet.Tests.Selection
         [Fact]
         public void Select_Equal()
         {                     
-            NearBestSelector selector = new NearBestSelector(this.distanceCalculator, this.getBest, this.samplingNumber);
+            NearBestFireworkSelector selector = new NearBestFireworkSelector(this.distanceCalculator, this.getBest, this.samplingNumber);
             IEnumerable<Firework> expectedFireworks = SelectorTestsHelper.NearBestFireworks;
 
             IEnumerable<Firework> resultingFireworks = selector.Select(allFireworks);
@@ -44,7 +44,7 @@ namespace FireworksNet.Tests.Selection
         [Fact]
         public void Select_NonEqual()
         {
-            NearBestSelector selector = new NearBestSelector(this.distanceCalculator, this.getBest, this.samplingNumber);
+            NearBestFireworkSelector selector = new NearBestFireworkSelector(this.distanceCalculator, this.getBest, this.samplingNumber);
             IEnumerable<Firework> expectedFireworks = SelectorTestsHelper.NonNearBestFirework;
 
             IEnumerable<Firework> resultingFireworks = selector.Select(allFireworks);

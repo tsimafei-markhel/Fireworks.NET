@@ -12,7 +12,7 @@ namespace FireworksNet.Tests.Selection
         private readonly int countFireworks;
         private readonly Func<IEnumerable<Firework>, Firework> getBest;
         private readonly IEnumerable<Firework> allFireworks;
-        private readonly BestSelector bestSelector;
+        private readonly BestFireworkSelector bestSelector;
 
         public BestSelectorTests()
         {
@@ -20,7 +20,7 @@ namespace FireworksNet.Tests.Selection
             this.countFireworks = SelectorTestsHelper.CountFireworks;
             this.getBest = SelectorTestsHelper.GetBest;
             this.allFireworks = SelectorTestsHelper.Fireworks;
-            this.bestSelector = new BestSelector(this.getBest, this.samplingNumber);
+            this.bestSelector = new BestFireworkSelector(this.getBest, this.samplingNumber);
         }
 
         [Fact]
