@@ -17,7 +17,7 @@ namespace FireworksNet.Model
         /// Gets the amplitude of an explosion.
         /// </summary>
         public double Amplitude { get; private set; }
-
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="FireworkExplosion"/> class.
         /// </summary>

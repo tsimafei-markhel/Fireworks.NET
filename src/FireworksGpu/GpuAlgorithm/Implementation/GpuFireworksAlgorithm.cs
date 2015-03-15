@@ -4,8 +4,10 @@ using FireworksNet.StopConditions;
 using FireworksNet.Model;
 using FireworksNet.Explode;
 using FireworksNet.Distributions;
+
 using FireworksGpu.GpuExplode;
 using FireworksGpu.GpuAlgorithm.Implementation;
+using System.Diagnostics;
 
 namespace FireworksGpu.GpuAlgorithm
 {
@@ -14,15 +16,16 @@ namespace FireworksGpu.GpuAlgorithm
     /// </summary>
     public class GpuFireworksAlgorithm : IFireworksAlgorithm, IStepperFireworksAlgorithm
     {
+        private readonly System.Random generator;
+
+        private IContinuousDistribution distribution;
+        private IExploder exploder;
+        private ISparkGenerator armSparkGenerator;
+        private AlgorithmState state;
+
         public Problem ProblemToSolve { private set; get; }
         public IStopCondition StopCondition { private set; get; }
         public GpuFireworksAlgorithmSettings Settings { private set; get; }
-
-        private IContinuousDistribution distribution;
-
-        private ISparkGenerator initialSparkGenerator;
-        private ISparkGenerator exlosionSparkGenerator;
-        private ISparkGenerator specificSparkGenerator;
 
         /// <summary>
         /// Create instance of GpuFireworksAlgorithm
@@ -40,41 +43,61 @@ namespace FireworksGpu.GpuAlgorithm
             StopCondition = stopCondition;
             Settings = settings;
 
+            generator = new FireworksNet.Random.DefaultRandom();
             distribution = new ContinuousUniformDistribution(settings.Amplitude - settings.Delta, settings.Amplitude + settings.Delta);
+
+            state = CreateInitialState();
+
+            armSparkGenerator = new GpuAttractRepulseSparkGenerator(state, problem.Dimensions, distribution, generator);
+            exploder = new GpuExploder(new GpuExplodeSettings()
+            {                
+                FixedQuantitySparks = settings.FixedQuantitySparks,
+                Amplitude = settings.Amplitude
+            });
         }
 
+        public Solution GetSolution(AlgorithmState state)
+        {
+            if (state == null) { throw new System.ArgumentNullException("algorithm state cannot be null"); }
+
+            return state.BestSolution;
+        }
+
+        public bool ShouldStop(AlgorithmState state)
+        {
+            if (state == null) { throw new System.ArgumentNullException("state cannot be null"); }
+
+            return StopCondition.ShouldStop(state);
+        }
 
         public Solution Solve()
         {
-            AlgorithmState state = CreateInitialState();
-            
-            
-
-            throw new System.NotImplementedException();
+            // TODO
+            throw new System.NotImplementedException("Solve()");
         }
 
         public AlgorithmState CreateInitialState()
         {
-            // TODO
-            throw new System.NotImplementedException();
+            Debug.Assert(ProblemToSolve != null, "problem to solve cannot be null");
+            Debug.Assert(Settings != null, "settings of algorithm connot be null");
+            Debug.Assert(generator != null, "generator cannot be null");
+
+            InitialExplosion explosion = new InitialExplosion(Settings.FixedQuantitySparks);
+            InitialSparkGenerator sparkGenerator = new InitialSparkGenerator(ProblemToSolve.Dimensions, generator);
+            AlgorithmState state = new AlgorithmState();
+
+            state.Fireworks = sparkGenerator.CreateSparks(explosion);
+            Debug.Assert(state.Fireworks != null, "state.fireworks cannot be null");
+            state.BestSolution = ProblemToSolve.GetBest(state.Fireworks);
+            state.StepNumber = 0;
+
+            return state;
         }
 
         public AlgorithmState MakeStep(AlgorithmState state)
         {
             // TODO
             throw new System.NotImplementedException();
-        }
-
-        public bool ShouldStop(AlgorithmState state)
-        {
-            // TODO
-            throw new System.NotImplementedException();
-        }
-
-        public Solution GetSolution(AlgorithmState state)
-        {
-            // TODO
-            throw new System.NotImplementedException();
-        }
+        }        
     }
 }

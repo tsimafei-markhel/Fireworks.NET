@@ -14,6 +14,10 @@ namespace FireworksGpu.GpuExplode
         /// </summary>
         public int FixedQuantitySparks { set; get; }
 
-
+        /// <summary>
+        /// A - Maximum explosion amplitude. 
+        /// A recommended take 1. 
+        /// </summary>
+        public double Amplitude { get; set; }      
     }
 }
