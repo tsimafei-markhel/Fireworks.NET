@@ -1,4 +1,7 @@
-﻿using FireworksNet.Algorithm;
+﻿using System.Diagnostics;
+using System.Collections.Generic;
+
+using FireworksNet.Algorithm;
 using FireworksNet.Problems;
 using FireworksNet.StopConditions;
 using FireworksNet.Model;
@@ -7,7 +10,6 @@ using FireworksNet.Distributions;
 
 using FireworksGpu.GpuExplode;
 using FireworksGpu.GpuAlgorithm.Implementation;
-using System.Diagnostics;
 
 namespace FireworksGpu.GpuAlgorithm
 {
@@ -46,7 +48,7 @@ namespace FireworksGpu.GpuAlgorithm
             generator = new FireworksNet.Random.DefaultRandom();
             distribution = new ContinuousUniformDistribution(settings.Amplitude - settings.Delta, settings.Amplitude + settings.Delta);
 
-            state = CreateInitialState();
+            state = CreateInitialState();// order necessary: invoke before inialize armSparkGenerator!
 
             armSparkGenerator = new GpuAttractRepulseSparkGenerator(state, problem.Dimensions, distribution, generator);
             exploder = new GpuExploder(new GpuExplodeSettings()
@@ -54,6 +56,18 @@ namespace FireworksGpu.GpuAlgorithm
                 FixedQuantitySparks = settings.FixedQuantitySparks,
                 Amplitude = settings.Amplitude
             });
+        }
+
+        public Solution Solve()
+        {
+            // TODO
+            throw new System.NotImplementedException("Solve()");
+        }
+
+        public AlgorithmState MakeStep(AlgorithmState state)
+        {
+            // TODO
+            throw new System.NotImplementedException();
         }
 
         public Solution GetSolution(AlgorithmState state)
@@ -68,13 +82,7 @@ namespace FireworksGpu.GpuAlgorithm
             if (state == null) { throw new System.ArgumentNullException("state cannot be null"); }
 
             return StopCondition.ShouldStop(state);
-        }
-
-        public Solution Solve()
-        {
-            // TODO
-            throw new System.NotImplementedException("Solve()");
-        }
+        }         
 
         public AlgorithmState CreateInitialState()
         {
@@ -91,13 +99,17 @@ namespace FireworksGpu.GpuAlgorithm
             state.BestSolution = ProblemToSolve.GetBest(state.Fireworks);
             state.StepNumber = 0;
 
+            CalculateQualities(state.Fireworks);
+
             return state;
         }
 
-        public AlgorithmState MakeStep(AlgorithmState state)
+        private void CalculateQualities(IEnumerable<Firework> sparks)
         {
-            // TODO
-            throw new System.NotImplementedException();
-        }        
+            foreach (Firework spark in sparks)
+            {
+               spark.Quality = ProblemToSolve.CalculateQuality(spark.Coordinates);
+            }
+        }
     }
 }
