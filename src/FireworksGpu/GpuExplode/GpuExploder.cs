@@ -11,15 +11,14 @@ namespace FireworksGpu.GpuExplode
         /// </summary>
         private readonly GpuExplodeSettings settings;
 
+        public GpuExploder(GpuExplodeSettings settings)
+        {
+            if (settings == null) { throw new System.ArgumentNullException("gpu explode settings"); }
+        }
+
         public ExplosionBase Explode(Firework epicenter, IEnumerable<double> currentFireworkQualities, int currentStepNumber)
         {
-            
             // TODO
-            
-            IEnumerable<FireworkType, int> sparks = new IEnumerable<FireworkType,int>()
-            {
-
-            }
 
             return null;
         }

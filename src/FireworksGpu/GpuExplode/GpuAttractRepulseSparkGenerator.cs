@@ -14,7 +14,7 @@ namespace FireworksGpu.GpuExplode
     public class GpuAttractRepulseSparkGenerator : SparkGeneratorBase<FireworkExplosion>
     {        
         private readonly System.Random generator;
-
+        private readonly AlgorithmState state;
         private readonly IEnumerable<Dimension> dimensions;
         private readonly IContinuousDistribution distribution;
 
@@ -24,14 +24,17 @@ namespace FireworksGpu.GpuExplode
         /// Create instance of GpuAttractRepulseSparkGenerator
         /// </summary>
         /// <param name="dimensions">dimenstion of research space</param>
+        /// <param name="state">represent current state of algorithm</param>
         /// <param name="distribution">uniform distribution</param>
         /// <param name="generator">generator for coin flip</param>
-        public GpuAttractRepulseSparkGenerator(IEnumerable<Dimension> dimensions, IContinuousDistribution distribution, System.Random generator)
+        public GpuAttractRepulseSparkGenerator(AlgorithmState state, IEnumerable<Dimension> dimensions, IContinuousDistribution distribution, System.Random generator)
         {
+            if (state == null) { throw new System.ArgumentNullException("algorithm state"); }
             if (dimensions == null) { throw new System.ArgumentNullException("dimentions"); }
             if (distribution == null) { throw new System.ArgumentNullException("distribution"); }
             if (generator == null) { throw new System.ArgumentNullException("generator"); }
 
+            this.state = state;
             this.dimensions = dimensions;
             this.distribution = distribution;
             this.generator = generator;
@@ -56,7 +59,7 @@ namespace FireworksGpu.GpuExplode
 
                 if (generator.NextDouble(0.0, 1.0) < 0.5) // coin flip
                 {
-                    spark.Coordinates[dimension] *= scalingFactor;
+                    spark.Coordinates[dimension] += (spark.Coordinates[dimension] - state.BestSolution.Coordinates[dimension]) * scalingFactor;
                     if (!dimension.IsValueInRange(spark.Coordinates[dimension]))
                     {
                         spark.Coordinates[dimension] = dimension.VariationRange.Minimum + Math.Abs(spark.Coordinates[dimension]) % dimension.VariationRange.Length;
