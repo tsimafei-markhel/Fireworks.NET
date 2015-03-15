@@ -11,7 +11,7 @@ namespace FireworksNet.Selection
     /// <summary>
     /// Selects <see cref="Firework"/>s that will stay around for the next step
     /// based on the distance between the best <see cref="Firework"/> and each other 
-    /// <see cref="Firework"/>s, per 2010 paper.
+    /// <see cref="Firework"/>s, per 2012 paper.
     /// </summary>
     public class NearBestFireworkSelector : FireworkSelectorBase
     {

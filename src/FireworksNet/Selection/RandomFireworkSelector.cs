@@ -9,7 +9,7 @@ namespace FireworksNet.Selection
 {
     /// <summary>
     /// Selects <see cref="Firework"/>s that will stay around for the next step:
-    /// randomly chooses the <see cref="Firework"/>s, per 2010 paper.
+    /// randomly chooses the <see cref="Firework"/>s, per 2012 paper.
     /// </summary>
     public class RandomFireworkSelector : FireworkSelectorBase
     {
