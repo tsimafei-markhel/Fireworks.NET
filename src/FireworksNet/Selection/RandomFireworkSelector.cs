@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Linq;
-using System.Diagnostics;
 using System.Collections.Generic;
-using FireworksNet.Model;
+using System.Diagnostics;
+using System.Linq;
 using FireworksNet.Extensions;
+using FireworksNet.Model;
 
 namespace FireworksNet.Selection
 {
@@ -28,10 +28,10 @@ namespace FireworksNet.Selection
         {
             if (randomizer == null)
             {
-                throw new ArgumentNullException("randomzier");
+                throw new ArgumentNullException("randomizer");
             }
 
-            this.randomizer = randomizer;      
+            this.randomizer = randomizer;
         }
 
         /// <summary>
@@ -108,10 +108,10 @@ namespace FireworksNet.Selection
                     }
 
                     currentFirework++;
-                }     
+                }
             }
 
             return selectedLocations;
-        }     
+        }
     }
 }
