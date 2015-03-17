@@ -10,7 +10,7 @@ namespace FireworksNet.Selection
 {
     /// <summary>
     /// Selects <see cref="Firework"/>s that will stay around for the next step
-    /// based on the distance between the best <see cref="Firework"/> and each other 
+    /// based on the distance between the best <see cref="Firework"/> and each other
     /// <see cref="Firework"/>s, per 2012 paper.
     /// </summary>
     public class NearBestFireworkSelector : FireworkSelectorBase
@@ -98,12 +98,7 @@ namespace FireworksNet.Selection
             }
 
             List<Firework> selectedLocations = new List<Firework>(numberToSelect);
-            if (numberToSelect == 0)
-            {
-                return selectedLocations;
-            }         
-
-            if (numberToSelect >= 1)
+            if (numberToSelect > 0)
             {
                 Debug.Assert(this.bestFireworkSelector != null, "Best firework selector is null");
 
@@ -131,21 +126,27 @@ namespace FireworksNet.Selection
         /// Calculates the distances between each <see cref="Firework"/> and best 
         /// <see cref="Firework"/>.
         /// </summary>
-        /// <param name="allCurrentFireworks">The collection of <see cref="Firework"/>s to calculate
+        /// <param name="fireworks">The collection of <see cref="Firework"/>s to calculate
         /// distances between.</param>
         /// <param name="bestFirework">The best <see cref="Firework"/> to calculate
         /// distances between.</param>
         /// <returns>A map. Key is a <see cref="Firework"/>. Value is a distance
         /// between that <see cref="Firework"/> and the best <see cref="Firework"/>.
         /// </returns>
-        /// <exception cref="System.ArgumentNullException"> if <paramref name="allCurrentFireworks"/> and 
+        /// <exception cref="System.ArgumentNullException"> if <paramref name="fireworks"/> or 
         /// <paramref name="bestFirework"/> is <c>null</c>.
+        /// <exception cref="System.ArgumentException"> if <paramref name="fireworks"/> is empty.
         /// </exception>
-        protected virtual IDictionary<Firework, double> CalculateDistances(IEnumerable<Firework> allCurrentFireworks, Firework bestFirework)
+        protected virtual IDictionary<Firework, double> CalculateDistances(IEnumerable<Firework> fireworks, Firework bestFirework)
         {
-            if (allCurrentFireworks == null)
+            if (fireworks == null)
             {
-                throw new ArgumentNullException("allCurrentFireworks");
+                throw new ArgumentNullException("fireworks");
+            }
+
+            if (fireworks.Count() == 0)
+            {
+                throw new ArgumentException(string.Empty, "fireworks");
             }
 
             if (bestFirework == null)
@@ -155,8 +156,8 @@ namespace FireworksNet.Selection
 
             Debug.Assert(this.distanceCalculator != null, "Distance calculator is null");
 
-            Dictionary<Firework, double> distances = new Dictionary<Firework, double>(allCurrentFireworks.Count() - 1);
-            foreach (Firework firework in allCurrentFireworks)
+            Dictionary<Firework, double> distances = new Dictionary<Firework, double>(fireworks.Count() - 1);
+            foreach (Firework firework in fireworks)
             {
                 Debug.Assert(firework != null, "Firework is null");
 
@@ -164,7 +165,7 @@ namespace FireworksNet.Selection
                 {
                     double distance = this.distanceCalculator.Calculate(bestFirework, firework);
                     distances.Add(firework, distance);
-                }                               
+                }
             }
 
             return distances;
