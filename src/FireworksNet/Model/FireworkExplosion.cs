@@ -9,7 +9,7 @@ namespace FireworksNet.Model
     public class FireworkExplosion : ExplosionBase
     {
         /// <summary>
-        /// Gets the firework that has exploded (epicenter of an explosion).
+        /// Gets the firework that has exploded (center of an explosion).
         /// </summary>
         public Firework ParentFirework { get; private set; }
 
@@ -21,7 +21,7 @@ namespace FireworksNet.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="FireworkExplosion"/> class.
         /// </summary>
-        /// <param name="parentFirework">The firework that has exploded (epicenter of an
+        /// <param name="parentFirework">The firework that has exploded (focus of an
         /// explosion).</param>
         /// <param name="stepNumber">The number of step this explosion took place at.</param>
         /// <param name="amplitude">The amplitude of an explosion.</param>

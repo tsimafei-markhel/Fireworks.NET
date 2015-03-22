@@ -91,6 +91,9 @@
     <Compile Include="Problems\Benchmark\Griewank.cs" />
     <Compile Include="Problems\Benchmark\Ellipse.cs" />
     <Compile Include="Problems\Benchmark\Sphere.cs" />
+    <Compile Include="Selection\BestFireworkSelector.cs" />
+    <Compile Include="Selection\NearBestFireworkSelector.cs" />
+    <Compile Include="Selection\RandomFireworkSelector.cs" />
     <Compile Include="Selection\BestAndRandomFireworkSelector.cs" />
     <Compile Include="Selection\FireworkSelectorBase.cs" />
     <Compile Include="StopConditions\CounterStopCondition.cs" />
