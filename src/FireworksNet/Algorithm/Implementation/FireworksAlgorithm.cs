@@ -175,6 +175,7 @@ namespace FireworksNet.Algorithm.Implementation
 
             AlgorithmState newState = new AlgorithmState()
             {
+                // TODO: Add copy constructor
                 BestSolution = state.BestSolution,
                 Fireworks = state.Fireworks,
                 StepNumber = state.StepNumber

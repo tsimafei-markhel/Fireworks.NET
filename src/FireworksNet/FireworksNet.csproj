@@ -70,6 +70,11 @@
     <Compile Include="Extensions\DoubleExtensions.cs" />
     <Compile Include="Algorithm\Implementation\FireworksAlgorithm.cs" />
     <Compile Include="Algorithm\IFireworksAlgorithm.cs" />
+    <Compile Include="ParallelAlgorithm\Implementation\ParallelFireworksAlgorithm.cs" />
+    <Compile Include="ParallelAlgorithm\Implementation\ParallelFireworksAlgorithmSettings.cs" />
+    <Compile Include="ParallelExplode\AttractRepulseSparkGenerator.cs" />
+    <Compile Include="ParallelExplode\ParallelExploder.cs" />
+    <Compile Include="ParallelExplode\ParallelExploderSettings.cs" />
     <Compile Include="Model\AlgorithmState.cs" />
     <Compile Include="Model\FireworkExplosion.cs" />
     <Compile Include="Model\InitialExplosion.cs" />

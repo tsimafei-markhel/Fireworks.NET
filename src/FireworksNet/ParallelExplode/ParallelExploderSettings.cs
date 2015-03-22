@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FireworksGpu.GpuExplode
+namespace FireworksNet.ParallelExplode
 {
-    public class GpuExplodeSettings
+    public class ParallelExploderSettings
     {
         /// <summary>
         /// m - Fixed quantity of spark, which generates each firework.

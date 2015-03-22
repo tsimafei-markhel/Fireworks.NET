@@ -2,19 +2,22 @@
 using FireworksNet.Explode;
 using FireworksNet.Model;
 
-namespace FireworksGpu.GpuExplode
+namespace FireworksNet.ParallelExplode
 {
-    public class GpuExploder : IExploder
+    /// <summary>
+    /// Represent exploder for gpu based implementation of Fireworks algorithm
+    /// </summary>
+    public class ParallelExploder : IExploder
     {       
-        private readonly GpuExplodeSettings settings;
+        private readonly ParallelExploderSettings settings;
 
         /// <summary>
-        /// Create instance of GpuExploder
+        /// Create instance of ParallelExploder
         /// </summary>
-        /// <param name="settings">settings for GpuExploder</param>
-        public GpuExploder(GpuExplodeSettings settings)
+        /// <param name="settings">settings for ParallelExploder</param>
+        public ParallelExploder(ParallelExploderSettings settings)
         {
-            if (settings == null) { throw new System.ArgumentNullException("gpu explode settings"); }
+            if (settings == null) { throw new System.ArgumentNullException("parallel explode settings"); }
         }
 
         public ExplosionBase Explode(Firework epicenter, IEnumerable<double> currentFireworkQualities, int currentStepNumber)

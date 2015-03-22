@@ -7,11 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FireworksNet.Examples", "Fi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FireworksNet.Tests", "FireworksNet.Tests\FireworksNet.Tests.csproj", "{1062194B-270F-4EF1-8264-2BE98FEC3EA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FireworksGpu", "FireworksGpu\FireworksGpu.csproj", "{1D69B78E-BDCF-4EF5-A340-671ADED25D66}"
-	ProjectSection(ProjectDependencies) = postProject
-		{030C2E45-DCEA-44DE-A90A-61C4092D3406} = {030C2E45-DCEA-44DE-A90A-61C4092D3406}
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,10 +25,6 @@ Global
 		{1062194B-270F-4EF1-8264-2BE98FEC3EA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1062194B-270F-4EF1-8264-2BE98FEC3EA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1062194B-270F-4EF1-8264-2BE98FEC3EA9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1D69B78E-BDCF-4EF5-A340-671ADED25D66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1D69B78E-BDCF-4EF5-A340-671ADED25D66}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1D69B78E-BDCF-4EF5-A340-671ADED25D66}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1D69B78E-BDCF-4EF5-A340-671ADED25D66}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
