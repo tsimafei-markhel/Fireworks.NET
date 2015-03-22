@@ -25,16 +25,36 @@ namespace FireworksNet.Algorithm
         private IFireworkMutator attractRepulseSparkMutator;
         private AlgorithmState state;
 
+        /// <summary>
+        /// Gets the problem to be solved by the algorithm.
+        /// </summary>
         public Problem ProblemToSolve { private set; get; }
-        public IStopCondition StopCondition { private set; get; }
-        public ParallelFireworksAlgorithmSettings Settings { private set; get; }
 
         /// <summary>
-        /// Create instance of GpuFireworksAlgorithm
+        /// Gets the stop condition for the algorithm.
         /// </summary>
-        /// <param name="problem">problem to solve</param>
-        /// <param name="stopCondition">terminate condition</param>
-        /// <param name="settings">setting of algorithm</param>
+        public IStopCondition StopCondition { private set; get; }
+
+        /// <summary>
+        /// Gets the algorithm settings.
+        /// </summary>
+        public ParallelFireworksAlgorithmSettings Settings { private set; get; }
+
+
+        /// <summary>
+        /// Represent best solution in now.
+        /// </summary>
+        private Solution bestSolution;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ParallelFireworksAlgorithm"/> class.
+        /// </summary>
+        /// <param name="problem">The problem to be solved by the algorithm.</param>
+        /// <param name="stopCondition">The stop condition for the algorithm.</param>
+        /// <param name="settings">The algorithm settings.</param>
+        /// <exception cref="System.ArgumentNullException"> if <paramref name="problem"/>
+        /// or <paramref name="stopCondition"/> or <paramref name="settings"/> is 
+        /// <c>null</c>.</exception>
         public ParallelFireworksAlgorithm(Problem problem, IStopCondition stopCondition, ParallelFireworksAlgorithmSettings settings)
         {
             if (problem == null) { throw new System.ArgumentNullException("problem to solve"); }
@@ -45,13 +65,14 @@ namespace FireworksNet.Algorithm
             StopCondition = stopCondition;
             Settings = settings;
 
-            randomizer = new FireworksNet.Random.DefaultRandom();
-            distribution = new ContinuousUniformDistribution(settings.Amplitude - settings.Delta, settings.Amplitude + settings.Delta);
+            this.randomizer = new FireworksNet.Random.DefaultRandom();
+            this.distribution = new ContinuousUniformDistribution(settings.Amplitude - settings.Delta, settings.Amplitude + settings.Delta);
 
-            state = CreateInitialState();// order necessary: invoke before inialize armSparkGenerator!
+            this.state = CreateInitialState();// order necessary: invoke before inialize armSparkGenerator!
+            this.bestSolution = state.BestSolution;
 
-            attractRepulseSparkMutator = new AttractRepulseSparkMutator(problem.Dimensions, distribution, randomizer);
-            exploder = new ParallelExploder(new ParallelExploderSettings()
+            this.attractRepulseSparkMutator = new AttractRepulseSparkMutator(ref bestSolution, problem.Dimensions, distribution, randomizer);
+            this.exploder = new ParallelExploder(new ParallelExploderSettings()
             {                
                 FixedQuantitySparks = settings.FixedQuantitySparks,
                 Amplitude = settings.Amplitude

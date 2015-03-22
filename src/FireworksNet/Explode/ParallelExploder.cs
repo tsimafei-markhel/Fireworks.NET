@@ -8,7 +8,7 @@ namespace FireworksNet.ParallelExplode
     /// Represent exploder for gpu based implementation of Fireworks algorithm
     /// </summary>
     public class ParallelExploder : IExploder
-    {       
+    {
         private readonly ParallelExploderSettings settings;
 
         /// <summary>
@@ -18,6 +18,8 @@ namespace FireworksNet.ParallelExplode
         public ParallelExploder(ParallelExploderSettings settings)
         {
             if (settings == null) { throw new System.ArgumentNullException("parallel explode settings"); }
+
+            this.settings = settings;
         }
 
         public ExplosionBase Explode(Firework epicenter, IEnumerable<double> currentFireworkQualities, int currentStepNumber)
@@ -28,11 +30,11 @@ namespace FireworksNet.ParallelExplode
 
             IDictionary<FireworkType, int> sparks = new Dictionary<FireworkType, int>()
             {
-                {FireworkType.ExplosionSpark, settings.FixedQuantitySparks},
-                {FireworkType.SpecificSpark, settings.FixedQuantitySparks}
+                {FireworkType.ExplosionSpark, this.settings.FixedQuantitySparks},
+                {FireworkType.SpecificSpark, this.settings.FixedQuantitySparks}
             };
 
-            return new FireworkExplosion(epicenter, currentStepNumber, settings.Amplitude, sparks);
+            return new FireworkExplosion(epicenter, currentStepNumber, this.settings.Amplitude, sparks);
         }
     }
 }

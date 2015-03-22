@@ -270,6 +270,7 @@ namespace FireworksNet.Algorithm.Implementation
             IEnumerable<Firework> specificSparks = new List<Firework>(this.Settings.SpecificSparksNumber);
             IEnumerable<int> specificSparkParentIndices = this.randomizer.NextUniqueInt32s(this.Settings.SpecificSparksNumber, 0, this.Settings.LocationsNumber);
             int currentFirework = 0;
+            
             foreach (Firework firework in state.Fireworks)
             {
                 Debug.Assert(firework != null, "Firework is null");

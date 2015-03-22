@@ -1,4 +1,5 @@
 ﻿using FireworksNet.Distributions;
+using FireworksNet.Explode;
 using FireworksNet.Model;
 using System.Collections.Generic;
 namespace FireworksNet.ParallelExplode
@@ -6,17 +7,19 @@ namespace FireworksNet.ParallelExplode
     /// <summary>
     /// Wrapper for AttractRepulseSparkGenerator
     /// </summary>
-    public class AttractRepulseSparkMutator : AttractRepulseSparkGenerator, IFireworkMutator
+    public class AttractRepulseSparkMutator : IFireworkMutator
     {
-        public AttractRepulseSparkMutator(IEnumerable<Dimension> dimensions, IContinuousDistribution distribution, System.Random randomizer)
-          : base(dimensions, distribution, randomizer)
-        {            
+        private ISparkGenerator attractRepulseSparkGenerator;
+
+        public AttractRepulseSparkMutator(ref Solution bestSolution, IEnumerable<Dimension> dimensions, IContinuousDistribution distribution, System.Random randomizer)
+        {
+            this.attractRepulseSparkGenerator = new AttractRepulseSparkGenerator(ref bestSolution, dimensions, distribution, randomizer);
         } 
 
-        public void MutateFirework(ref Model.Firework bestFirework, FireworkExplosion explosion)
+        public void MutateFirework(ref Firework fireWorkToMutate, FireworkExplosion explosion)
         {
-            BestSolution = bestFirework;
-            CreateSparks(explosion);
+            // ??????????????
+            attractRepulseSparkGenerator.CreateSparks(explosion);
         }
     }
 }
