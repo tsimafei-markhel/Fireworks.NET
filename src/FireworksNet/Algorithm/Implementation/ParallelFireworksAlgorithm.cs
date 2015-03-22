@@ -55,7 +55,7 @@ namespace FireworksNet.Algorithm
             {                
                 FixedQuantitySparks = settings.FixedQuantitySparks,
                 Amplitude = settings.Amplitude
-            });
+            });            
         }
 
         public Solution Solve()
