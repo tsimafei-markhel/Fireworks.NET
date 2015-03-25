@@ -44,11 +44,32 @@ namespace FireworksNet
             }
 
             //12. Obtain a spark from approximated curves by Elite Strategy
-            foreach (KeyValuePair<Dimension, Func<double, double>> data in fitnessLandscapes)
+
+            Dictionary<Dimension, double> coordinates = new Dictionary<Dimension, double>();
+
+            if (order == 1)
             {
-                double lowerBound = data.Key.VariationRange.Minimum;
-                double upperBound = data.Key.VariationRange.Maximum;
-                double x = Brent.FindRoot(data.Value, lowerBound, upperBound);
+                foreach (KeyValuePair<Dimension, Func<double, double>> data in fitnessLandscapes)
+                {
+                    /*
+                    double lowerBound = data.Key.VariationRange.Minimum;
+                    double upperBound = data.Key.VariationRange.Maximum;
+                    double midPoint = (upperBound - lowerBound) / 2 + lowerBound;
+                    coordinates[data.Key] = midPoint;
+                    */
+                }
+            }
+
+            if (order == 2)
+            {
+                foreach (KeyValuePair<Dimension, Func<double, double>> data in fitnessLandscapes)
+                {
+                    double lowerBound = data.Key.VariationRange.Minimum;
+                    double upperBound = data.Key.VariationRange.Maximum;
+                    Func<double, double> derivative = Differentiate.FirstDerivativeFunc(data.Value);
+                    double x = Brent.FindRoot(derivative, lowerBound, upperBound);
+                    coordinates[data.Key] = x;
+                }
             }
 
             return null;
