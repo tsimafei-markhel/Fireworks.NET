@@ -8,6 +8,36 @@ using MathNet.Numerics.RootFinding;
 
 namespace FireworksNet
 {
+    /// <summary>
+    /// Approximation by polynomial function.
+    /// </summary>
+    public interface IPolynomial
+    {
+        /// <summary>
+        /// Approximates fitness landscape.
+        /// </summary>
+        /// <param name="fireworkQualities">The qualities of fireworks.</param>
+        /// <param name="fireworkCoordinates">The coordinates of fireworks in 
+        /// the current one dimensional search space.</param>
+        /// <returns>Approximated polynomial.</returns>
+        Func<double, double> Approximate(double[] fireworkQualities, double[] fireworkCoordinates);
+    }
+
+    /// <summary>
+    /// Selects an elite point from approximated curves by Elite Strategy.
+    /// </summary>
+    public interface IElitePointSelector
+    {
+        /// <summary>
+        /// Selects an elite point by using polynomial function.
+        /// </summary>
+        /// <param name="polynomialFunc">The polynomial of 1st or 2nd order.</param>
+        /// <param name="lowerBound">The lowet bound.</param>
+        /// <param name="upperBound">The upper bound.</param>
+        /// <returns>Elite point.</returns>
+        double SelectElitePoint(Func<double, double> polynomialFunc, double lowerBound, double upperBound);
+    }
+
     public class TempEliteStrategy
     {
         public Firework GetFirework(Problem problem, IEnumerable<Firework> from, int order)
