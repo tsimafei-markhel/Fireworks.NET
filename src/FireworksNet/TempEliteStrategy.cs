@@ -38,6 +38,56 @@ namespace FireworksNet
         double SelectElitePoint(Func<double, double> polynomialFunc, double lowerBound, double upperBound);
     }
 
+    public class FirstOrderPolynomial : IPolynomial
+    {
+        private readonly int order;
+
+        public FirstOrderPolynomial()
+        {
+            this.order = 1;
+        }
+
+        public virtual Func<double, double> Approximate(double[] fireworkQualities, double[] fireworkCoordinates)
+        {
+            if (fireworkQualities == null)
+            {
+                throw new ArgumentNullException("fireworkQualities");
+            }
+
+            if (fireworkCoordinates == null)
+            {
+                throw new ArgumentNullException("fireworkCoordinates");
+            }
+
+            return Fit.PolynomialFunc(fireworkQualities, fireworkCoordinates, this.order, DirectRegressionMethod.QR);
+        }
+    }
+
+    public class SecondOrderPolynomial : IPolynomial
+    {
+        private readonly int order;
+
+        public SecondOrderPolynomial()
+        {
+            this.order = 2;
+        }
+
+        public virtual Func<double, double> Approximate(double[] fireworkQualities, double[] fireworkCoordinates)
+        {
+            if (fireworkQualities == null)
+            {
+                throw new ArgumentNullException("fireworkQualities");
+            }
+
+            if (fireworkCoordinates == null)
+            {
+                throw new ArgumentNullException("fireworkCoordinates");
+            }
+
+            return Fit.PolynomialFunc(fireworkQualities, fireworkCoordinates, this.order, DirectRegressionMethod.QR);
+        }
+    }
+
     public class TempEliteStrategy
     {
         public Firework GetFirework(Problem problem, IEnumerable<Firework> from, int order)
