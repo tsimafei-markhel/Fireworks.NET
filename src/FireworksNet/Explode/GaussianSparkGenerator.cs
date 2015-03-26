@@ -78,7 +78,7 @@ namespace FireworksNet.Explode
                 Debug.Assert(dimension.VariationRange != null, "Dimension variation range is null");
                 Debug.Assert(!dimension.VariationRange.Length.IsEqual(0.0), "Dimension variation range length is 0");
 
-                if ((int)Math.Round(this.randomizer.NextDouble(0.0, 1.0), MidpointRounding.AwayFromZero) == 1) // Coin flip
+                if (this.randomizer.NextBoolean()) // Coin flip
                 {
                     spark.Coordinates[dimension] *= offsetDisplacement;
                     if (!dimension.IsValueInRange(spark.Coordinates[dimension]))
