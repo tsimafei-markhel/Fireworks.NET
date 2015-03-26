@@ -31,8 +31,8 @@ namespace FireworksNet.StopConditions
                 throw new ArgumentOutOfRangeException("threshold");
             }
 
-            this.Threshold = threshold;
             this.count = 0;
+            this.Threshold = threshold;
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace FireworksNet.StopConditions
         /// <param name="eventArgs">The event arguments.</param>
         public virtual void IncrementCounter(object sender, object eventArgs)
         {
-            IncrementCounter();
+            this.IncrementCounter();
         }
     }
 }

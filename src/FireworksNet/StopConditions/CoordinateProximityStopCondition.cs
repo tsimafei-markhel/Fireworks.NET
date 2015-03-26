@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using FireworksNet.Distances;
 using FireworksNet.Extensions;
 using FireworksNet.Model;
@@ -71,7 +72,17 @@ namespace FireworksNet.StopConditions
                 throw new ArgumentNullException("state");
             }
 
+            Debug.Assert(this.DistanceCalculator != null, "Distance calculator is null");
+            Debug.Assert(state.BestSolution != null, "State best solution is null");
+            Debug.Assert(this.Expectation != null, "Expectation is null");
+            Debug.Assert(!double.IsNaN(this.DistanceThreshold), "Distance threshold is NaN");
+            Debug.Assert(!double.IsInfinity(this.DistanceThreshold), "Distance threshold is Infinity");
+
             double distance = this.DistanceCalculator.Calculate(state.BestSolution, this.Expectation);
+
+            Debug.Assert(!double.IsNaN(distance), "Distance is NaN");
+            Debug.Assert(!double.IsInfinity(distance), "Distance is Infinity");
+
             return distance.IsLessOrEqual(this.DistanceThreshold);
         }
     }

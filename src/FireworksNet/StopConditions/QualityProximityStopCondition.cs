@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using FireworksNet.Extensions;
 using FireworksNet.Model;
 
@@ -56,7 +57,16 @@ namespace FireworksNet.StopConditions
                 throw new ArgumentNullException("state");
             }
 
+            Debug.Assert(state.BestSolution != null, "State best solution is null");
+            Debug.Assert(this.Expectation != null, "Expectation is null");
+            Debug.Assert(!double.IsNaN(this.QualityThreshold), "Quality threshold is NaN");
+            Debug.Assert(!double.IsInfinity(this.QualityThreshold), "Quality threshold is Infinity");
+
             double qualityProximity = Math.Abs(state.BestSolution.Quality - Expectation.Quality);
+
+            Debug.Assert(!double.IsNaN(qualityProximity), "Quality proximity is NaN");
+            Debug.Assert(!double.IsInfinity(qualityProximity), "Quality proximity is Infinity");
+
             return qualityProximity.IsLessOrEqual(this.QualityThreshold);
         }
     }
