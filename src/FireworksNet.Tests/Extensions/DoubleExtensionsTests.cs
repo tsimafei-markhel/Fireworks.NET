@@ -5,123 +5,82 @@ namespace FireworksNet.Tests.Extensions
 {
     public class DoubleExtensionsTests
     {
-        #region IsEqual
+        private const double lesserValue = 10.05D;
+        private const double greaterValue = 11.984D;
 
-        [Fact]
-        public static void IsEqual_PassedEqualArgs_ReturnsTrue()
+        [Theory]
+        [InlineData(lesserValue, greaterValue, false)]
+        [InlineData(lesserValue, lesserValue, true)]
+        public void IsEqual_PassedDifferentArgs_ReturnsExpected(double firstValue, double secondValue, bool expected)
         {
-            Assert.True((10.0).IsEqual(10.0));
+            Assert.Equal(expected, firstValue.IsEqual(secondValue));
+        }
+
+        [Theory]
+        [InlineData(lesserValue, greaterValue, true)]
+        [InlineData(lesserValue, lesserValue, false)]
+        [InlineData(greaterValue, lesserValue, false)]
+        public void IsLess_PassedDifferentArgs_ReturnsExpected(double firstValue, double secondValue, bool expected)
+        {
+            Assert.Equal(expected, firstValue.IsLess(secondValue));
+        }
+
+        [Theory]
+        [InlineData(lesserValue, greaterValue, true)]
+        [InlineData(lesserValue, lesserValue, true)]
+        [InlineData(greaterValue, lesserValue, false)]
+        public void IsLessOrEqual_PassedDifferentArgs_ReturnsExpected(double firstValue, double secondValue, bool expected)
+        {
+            Assert.Equal(expected, firstValue.IsLessOrEqual(secondValue));
+        }
+
+        [Theory]
+        [InlineData(lesserValue, greaterValue, false)]
+        [InlineData(lesserValue, lesserValue, false)]
+        [InlineData(greaterValue, lesserValue, true)]
+        public void IsGreater_PassedDifferentArgs_ReturnsExpected(double firstValue, double secondValue, bool expected)
+        {
+            Assert.Equal(expected, firstValue.IsGreater(secondValue));
+        }
+
+        [Theory]
+        [InlineData(lesserValue, greaterValue, false)]
+        [InlineData(lesserValue, lesserValue, true)]
+        [InlineData(greaterValue, lesserValue, true)]
+        public void IsGreaterOrEqual_PassedDifferentArgs_ReturnsExpected(double firstValue, double secondValue, bool expected)
+        {
+            Assert.Equal(expected, firstValue.IsGreaterOrEqual(secondValue));
         }
 
         [Fact]
-        public static void IsEqual_PassedNonEqualArgs_ReturnsFalse()
+        public void ToStringInvariant_PassedDouble_ReturnsValidString()
         {
-            Assert.False((10.0).IsEqual(-56.9));
-        }
-
-        #endregion
-
-        #region IsLess
-
-        [Fact]
-        public static void IsLess_Passed1stArgLessThan2nd_ReturnsTrue()
-        {
-            Assert.True((10.0).IsLess(11.0));
-        }
-
-        [Fact]
-        public static void IsLess_Passed1stArgEqualTo2nd_ReturnsFalse()
-        {
-            Assert.False((10.0).IsLess(10.0));
-        }
-
-        [Fact]
-        public static void IsLess_Passed1stArgGreaterThan2nd_ReturnsFalse()
-        {
-            Assert.False((11.0).IsLess(10.0));
-        }
-
-        #endregion
-
-        #region IsLessOrEqual
-
-        [Fact]
-        public static void IsLessOrEqual_Passed1stArgLessThan2nd_ReturnsTrue()
-        {
-            Assert.True((10.0).IsLessOrEqual(11.0));
-        }
-
-        [Fact]
-        public static void IsLessOrEqual_Passed1stArgEqualTo2nd_ReturnsTrue()
-        {
-            Assert.True((10.0).IsLessOrEqual(10.0));
-        }
-
-        [Fact]
-        public static void IsLessOrEqual_Passed1stArgGreaterThan2nd_ReturnsFalse()
-        {
-            Assert.False((11.0).IsLessOrEqual(10.0));
-        }
-
-        #endregion
-
-        #region IsGreater
-
-        [Fact]
-        public static void IsGreater_Passed1stArgLessThan2nd_ReturnsFalse()
-        {
-            Assert.False((10.0).IsGreater(11.0));
-        }
-
-        [Fact]
-        public static void IsGreater_Passed1stArgEqualTo2nd_ReturnsFalse()
-        {
-            Assert.False((10.0).IsGreater(10.0));
-        }
-
-        [Fact]
-        public static void IsGreater_Passed1stArgGreaterThan2nd_ReturnsTrue()
-        {
-            Assert.True((11.0).IsGreater(10.0));
-        }
-
-        #endregion
-
-        #region IsGreaterOrEqual
-
-        [Fact]
-        public static void IsGreaterOrEqual_Passed1stArgLessThan2nd_ReturnsFalse()
-        {
-            Assert.False((10.0).IsGreaterOrEqual(11.0));
-        }
-
-        [Fact]
-        public static void IsGreaterOrEqual_Passed1stArgEqualTo2nd_ReturnsTrue()
-        {
-            Assert.True((10.0).IsGreaterOrEqual(10.0));
-        }
-
-        [Fact]
-        public static void IsGreaterOrEqual_Passed1stArgGreaterThan2nd_ReturnsTrue()
-        {
-            Assert.True((11.0).IsGreaterOrEqual(10.0));
-        }
-
-        #endregion
-
-        #region ToStringInvariant
-
-        [Fact]
-        public static void ToStringInvariant_PassedDouble_ReturnsValidString()
-        {
-            double value = 10.05;
             string expectedValueString = "10.05";
 
-            string valueString = value.ToStringInvariant();
+            string valueString = lesserValue.ToStringInvariant();
 
             Assert.Equal(expectedValueString, valueString);
         }
+    }
 
-        #endregion
+    public class DoubleExtensionComparerTests
+    {
+        private readonly DoubleExtensionComparer comparer;
+        private const double lesserValue = 10.05D;
+        private const double greaterValue = 11.984D;
+
+        public DoubleExtensionComparerTests()
+        {
+            this.comparer = new DoubleExtensionComparer();
+        }
+
+        [Theory]
+        [InlineData(lesserValue, greaterValue, -1)]
+        [InlineData(lesserValue, lesserValue, 0)]
+        [InlineData(greaterValue, lesserValue, 1)]
+        public void Compare_PassedDifferentArgs_ReturnsExpected(double firstValue, double secondValue, int expected)
+        {
+            Assert.Equal(expected, this.comparer.Compare(firstValue, secondValue));
+        }
     }
 }
