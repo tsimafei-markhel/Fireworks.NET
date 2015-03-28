@@ -4,8 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FireworksNet.ParallelExplode
+namespace FireworksNet.Explode
 {
+    /// <summary>
+    /// Stores user-defined constants that control algorithm run.
+    /// </summary>
+    /// <remarks>Uses original notation from paper</remarks>
     public class ParallelExploderSettings
     {
         /// <summary>

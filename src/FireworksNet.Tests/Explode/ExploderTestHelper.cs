@@ -26,7 +26,7 @@ namespace FireworksNet.Tests.Explode
         /// <summary>
         /// Return firework for explosion. By default this first firework.
         /// </summary>
-        public static Firework Epicentr
+        public static Firework Epicenter
         {
             get { return Fireworks.First(); }
         }

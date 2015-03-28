@@ -4,7 +4,7 @@
     /// Stores user-defined constants that control algorithm run.
     /// </summary>
     /// <remarks>Uses original notation from paper</remarks>
-    public sealed class ParallelFireworksAlgorithmSettings
+    public class ParallelFireworksAlgorithmSettings
     {
         /// <summary>
         /// m - Fixed quantity of spark, which generates each firework.

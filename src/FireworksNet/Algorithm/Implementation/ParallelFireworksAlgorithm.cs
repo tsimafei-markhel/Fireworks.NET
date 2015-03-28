@@ -8,18 +8,17 @@ using FireworksNet.Model;
 using FireworksNet.Explode;
 using FireworksNet.Distributions;
 
-using FireworksNet.ParallelExplode;
+using FireworksNet.Explode;
 using FireworksNet.Algorithm.Implementation;
 
 namespace FireworksNet.Algorithm
 {
     /// <summary>
-    /// Fireworks algorithm implementation based on gpu
+    /// Fireworks algorithm implementation based on gpu, as described in 2013 paper.
     /// </summary>
     public class ParallelFireworksAlgorithm : IFireworksAlgorithm, IStepperFireworksAlgorithm
     {
         private readonly System.Random randomizer;
-
         private IContinuousDistribution distribution;
         private IExploder exploder;
         private IFireworkMutator attractRepulseSparkMutator;
@@ -57,9 +56,20 @@ namespace FireworksNet.Algorithm
         /// <c>null</c>.</exception>
         public ParallelFireworksAlgorithm(Problem problem, IStopCondition stopCondition, ParallelFireworksAlgorithmSettings settings)
         {
-            if (problem == null) { throw new System.ArgumentNullException("problem to solve"); }
-            if (stopCondition == null) { throw new System.ArgumentNullException("stop condition"); }
-            if (settings == null) { throw new System.ArgumentNullException("algorithm settings"); }
+            if (problem == null) 
+            { 
+                throw new System.ArgumentNullException("problem to solve"); 
+            }
+            
+            if (stopCondition == null) 
+            { 
+                throw new System.ArgumentNullException("stop condition"); 
+            }
+            
+            if (settings == null) 
+            { 
+                throw new System.ArgumentNullException("algorithm settings"); 
+            }
 
             ProblemToSolve = problem;
             StopCondition = stopCondition;
@@ -68,7 +78,7 @@ namespace FireworksNet.Algorithm
             this.randomizer = new FireworksNet.Random.DefaultRandom();
             this.distribution = new ContinuousUniformDistribution(settings.Amplitude - settings.Delta, settings.Amplitude + settings.Delta);
 
-            this.state = CreateInitialState();// order necessary: invoke before inialize armSparkGenerator!
+            this.state = CreateInitialState();// order necessary: invoke before initialize AttractRepulseSparkGenerator!
             this.bestSolution = state.BestSolution;
 
             this.attractRepulseSparkMutator = new AttractRepulseSparkMutator(ref bestSolution, problem.Dimensions, distribution, randomizer);
@@ -76,7 +86,7 @@ namespace FireworksNet.Algorithm
             {                
                 FixedQuantitySparks = settings.FixedQuantitySparks,
                 Amplitude = settings.Amplitude
-            });            
+            });                       
         }
 
         public Solution Solve()
@@ -93,30 +103,36 @@ namespace FireworksNet.Algorithm
 
         public Solution GetSolution(AlgorithmState state)
         {
-            if (state == null) { throw new System.ArgumentNullException("algorithm state cannot be null"); }
+            if (state == null) 
+            { 
+                throw new System.ArgumentNullException("algorithm state"); 
+            }
 
             return state.BestSolution;
         }
 
         public bool ShouldStop(AlgorithmState state)
         {
-            if (state == null) { throw new System.ArgumentNullException("state cannot be null"); }
+            if (state == null) 
+            { 
+                throw new System.ArgumentNullException("state"); 
+            }
 
             return StopCondition.ShouldStop(state);
         }         
 
         public AlgorithmState CreateInitialState()
         {
-            Debug.Assert(ProblemToSolve != null, "problem to solve cannot be null");
-            Debug.Assert(Settings != null, "settings of algorithm connot be null");
-            Debug.Assert(randomizer != null, "generator cannot be null");
+            Debug.Assert(ProblemToSolve != null, "Problem to solve cannot be null");
+            Debug.Assert(Settings != null, "Settings of algorithm cannot be null");
+            Debug.Assert(randomizer != null, "Generator cannot be null");
 
             InitialExplosion explosion = new InitialExplosion(Settings.FixedQuantitySparks);
             InitialSparkGenerator sparkGenerator = new InitialSparkGenerator(ProblemToSolve.Dimensions, randomizer);
             AlgorithmState state = new AlgorithmState();
 
             state.Fireworks = sparkGenerator.CreateSparks(explosion);
-            Debug.Assert(state.Fireworks != null, "state.fireworks cannot be null");
+            Debug.Assert(state.Fireworks != null, "State.fireworks cannot be null");
             state.BestSolution = ProblemToSolve.GetBest(state.Fireworks);
             state.StepNumber = 0;
 

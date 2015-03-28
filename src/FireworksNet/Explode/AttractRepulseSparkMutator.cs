@@ -2,10 +2,10 @@
 using FireworksNet.Explode;
 using FireworksNet.Model;
 using System.Collections.Generic;
-namespace FireworksNet.ParallelExplode
+namespace FireworksNet.Explode
 {
     /// <summary>
-    /// Wrapper for AttractRepulseSparkGenerator
+    /// Wrapper for AttractRepulseSparkGenerator, as described in 2013 paper.
     /// </summary>
     public class AttractRepulseSparkMutator : IFireworkMutator
     {
@@ -13,13 +13,12 @@ namespace FireworksNet.ParallelExplode
 
         public AttractRepulseSparkMutator(ref Solution bestSolution, IEnumerable<Dimension> dimensions, IContinuousDistribution distribution, System.Random randomizer)
         {
-            this.attractRepulseSparkGenerator = new AttractRepulseSparkGenerator(ref bestSolution, dimensions, distribution, randomizer);
+            this.attractRepulseSparkGenerator = new AttractRepulseSparkGenerator(bestSolution, dimensions, distribution, randomizer);
         } 
 
         public void MutateFirework(ref Firework fireWorkToMutate, FireworkExplosion explosion)
         {
-            // ??????????????
-            attractRepulseSparkGenerator.CreateSparks(explosion);
+            
         }
     }
 }

@@ -1,7 +1,7 @@
-﻿namespace FireworksNet.ParallelExplode
+﻿namespace FireworksNet.Explode
 {
     /// <summary>
-    /// Firework mutator interface
+    /// Firework mutator interface.
     /// </summary>
     public interface IFireworkMutator
     {

@@ -51,9 +51,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Explode\AttractRepulseSparkGeneratorTest.cs" />
+    <Compile Include="Explode\AttractRepulseSparkGeneratorTests.cs" />
     <Compile Include="Extensions\DoubleExtensionsTests.cs" />
-    <Compile Include="Extensions\ExploderTestHelper.cs" />
+    <Compile Include="Explode\ExploderTestHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Selection\BestSelectorTests.cs" />
     <Compile Include="Selection\SelectorTestsHelper.cs" />
