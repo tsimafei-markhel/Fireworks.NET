@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Explode\AttractRepulseSparkGeneratorTests.cs" />
+    <Compile Include="Explode\ParallelExploderTests.cs" />
     <Compile Include="Extensions\DoubleExtensionsTests.cs" />
     <Compile Include="Explode\ExploderTestHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

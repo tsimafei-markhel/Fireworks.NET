@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-
 using FireworksNet.Distributions;
 using FireworksNet.Extensions;
 using FireworksNet.Model;
@@ -10,7 +9,7 @@ using FireworksNet.Explode;
 namespace FireworksNet.Explode
 {
     /// <summary>
-    /// Implementation of Attract-Repulse mutation algorithm, as described in 2013 paper.
+    /// Implementation of Attract-Repulse mutation algorithm, as described in 2013 GPU paper.
     /// </summary>
     public class AttractRepulseSparkGenerator : SparkGeneratorBase<FireworkExplosion>
     {
@@ -70,6 +69,15 @@ namespace FireworksNet.Explode
             // attract-repulse scaling factor. (1-δ, 1+δ)
             double scalingFactor = this.distribution.Sample();
 
+            Solution copyOfBestSolution = null;
+
+            lock (bestSolution)
+            {
+                copyOfBestSolution = new Solution(bestSolution.Coordinates, bestSolution.Quality);
+            }
+
+            Debug.Assert(copyOfBestSolution != null, "Copy of best solution is null");
+
             foreach (Dimension dimension in this.dimensions)
             {
                 Debug.Assert(dimension != null, "Dimension is null");
@@ -78,7 +86,7 @@ namespace FireworksNet.Explode
 
                 if ((int)Math.Round(this.randomizer.NextDouble(0.0, 1.0), MidpointRounding.AwayFromZero) == 1) // Coin flip
                 {
-                    spark.Coordinates[dimension] += (spark.Coordinates[dimension] - bestSolution.Coordinates[dimension]) * scalingFactor;
+                    spark.Coordinates[dimension] += (spark.Coordinates[dimension] - copyOfBestSolution.Coordinates[dimension]) * scalingFactor;
                     if (!dimension.IsValueInRange(spark.Coordinates[dimension]))
                     {
                         spark.Coordinates[dimension] = dimension.VariationRange.Minimum + Math.Abs(spark.Coordinates[dimension]) % dimension.VariationRange.Length;

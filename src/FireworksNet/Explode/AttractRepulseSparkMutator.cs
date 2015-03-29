@@ -1,11 +1,12 @@
-﻿using FireworksNet.Distributions;
+﻿using System.Collections.Generic;
+using FireworksNet.Distributions;
 using FireworksNet.Explode;
 using FireworksNet.Model;
-using System.Collections.Generic;
+
 namespace FireworksNet.Explode
 {
     /// <summary>
-    /// Wrapper for AttractRepulseSparkGenerator, as described in 2013 paper.
+    /// Wrapper for AttractRepulseSparkGenerator, as described in 2013 GPU paper.
     /// </summary>
     public class AttractRepulseSparkMutator : IFireworkMutator
     {

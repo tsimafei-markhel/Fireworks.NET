@@ -1,20 +1,18 @@
 ﻿using System.Diagnostics;
 using System.Collections.Generic;
-
 using FireworksNet.Algorithm;
 using FireworksNet.Problems;
 using FireworksNet.StopConditions;
 using FireworksNet.Model;
 using FireworksNet.Explode;
 using FireworksNet.Distributions;
-
 using FireworksNet.Explode;
 using FireworksNet.Algorithm.Implementation;
 
 namespace FireworksNet.Algorithm
 {
     /// <summary>
-    /// Fireworks algorithm implementation based on gpu, as described in 2013 paper.
+    /// Fireworks algorithm implementation based on gpu, as described in 2013 GPU paper.
     /// </summary>
     public class ParallelFireworksAlgorithm : IFireworksAlgorithm, IStepperFireworksAlgorithm
     {

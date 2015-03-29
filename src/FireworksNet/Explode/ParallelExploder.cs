@@ -5,7 +5,7 @@ using FireworksNet.Model;
 namespace FireworksNet.Explode
 {
     /// <summary>
-    /// Represent exploder for gpu based implementation of Fireworks algorithm, as described in 2013 paper.
+    /// Represent exploder for gpu based implementation of Fireworks algorithm, as described in 2013 GPU paper.
     /// </summary>
     public class ParallelExploder : IExploder
     {
@@ -17,9 +17,9 @@ namespace FireworksNet.Explode
         /// <param name="settings">settings for ParallelExploder</param>
         public ParallelExploder(ParallelExploderSettings settings)
         {
-            if (this.settings == null) 
-            { 
-                throw new System.ArgumentNullException("parallel explode settings"); 
+            if (settings == null) 
+            {
+                throw new System.ArgumentNullException("settings"); 
             }
 
             this.settings = settings;
@@ -29,17 +29,17 @@ namespace FireworksNet.Explode
         {
             if (epicenter == null) 
             { 
-                throw new System.ArgumentNullException("epicenter cannot be null"); 
+                throw new System.ArgumentNullException("epicenter"); 
             }
             
             if (currentFireworkQualities == null) 
             { 
-                throw new System.ArgumentNullException("current firework qualities cannot be null"); 
+                throw new System.ArgumentNullException("currentFireworkQualities"); 
             }
             
             if (currentStepNumber < 0) 
-            { 
-                throw new System.ArgumentException("current step number cannot be negative"); 
+            {
+                throw new System.ArgumentOutOfRangeException("currentStepNumber");
             }
 
             IDictionary<FireworkType, int> sparks = new Dictionary<FireworkType, int>()
