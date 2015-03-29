@@ -51,6 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Explode\AbstractSourceData.cs" />
     <Compile Include="Explode\AttractRepulseSparkGeneratorTests.cs" />
     <Compile Include="Explode\ParallelExploderTests.cs" />
     <Compile Include="Extensions\DoubleExtensionsTests.cs" />

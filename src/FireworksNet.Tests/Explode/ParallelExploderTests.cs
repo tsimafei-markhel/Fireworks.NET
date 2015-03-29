@@ -1,28 +1,29 @@
-﻿using FireworksNet.Algorithm.Implementation;
+﻿using System;
+using System.Collections.Generic;
+using FireworksNet.Algorithm.Implementation;
 using FireworksNet.Explode;
 using FireworksNet.Model;
 using FireworksNet.Random;
 using NSubstitute;
-using System;
-using System.Collections.Generic;
 using Xunit;
+using Xunit.Extensions;
+
 
 namespace FireworksNet.Tests.Explode
 {
-    public class ParallelExploderTests
+    public class ParallelExploderTests : AbstractSourceData
     {
         [Fact]
         public void CreateInstanceOfParallelExploder_PassNullAsParameter_ArgumentNullExceptionThrown()
         {
             //Arrange
-            const string expectedParamName = "settings";           
+            const string expectedParamName = "settings";
 
             //Act
             ArgumentNullException exeption = Assert.Throws<ArgumentNullException>(() => new ParallelExploder(null));
 
             //Assert
-            Assert.NotNull(exeption);
-            Assert.Equal(expectedParamName, exeption.ParamName);            
+            Assert.Equal(expectedParamName, exeption.ParamName);
         }
 
         [Fact]
@@ -50,74 +51,42 @@ namespace FireworksNet.Tests.Explode
             var exploder = new ParallelExploder(exploderSettings);
 
             //Act
-            var explosion = exploder.Explode(epicenter, qualities, expectedBirthStepNumber);          
-             
+            var explosion = exploder.Explode(epicenter, qualities, expectedBirthStepNumber);
+
             //Assert
             Assert.NotNull(explosion);
             Assert.True(explosion is FireworkExplosion);
             Assert.Equal(exploderSettings.Amplitude, (explosion as FireworkExplosion).Amplitude);
             Assert.Equal(epicenter, (explosion as FireworkExplosion).ParentFirework);
-            Assert.Equal(expectedBirthStepNumber, explosion.StepNumber);            
+            Assert.Equal(expectedBirthStepNumber, explosion.StepNumber);
         }
 
-        [Fact]
-        public void Explode_Pass1stParameterAsNull_ArgumentNullExceptionThrown()
+        [Theory, MemberData("DataForTestMethodExploderOfParallelExploder")]
+        public void Explode_PassEachParameterAsNullAndOtherIsCorrect_ArgumentExceptionThrown(
+            Firework epicenter, IEnumerable<double> qualities, int currentStepNumber, Type exceptionType,  string expectedParamName)
         {
             //Arrange
-            const string expectedParamName = "epicenter";
-
-            int birthStepNumber = 1;            
-            var exploderSettings = Substitute.For<ParallelExploderSettings>();             
-            var qualities = Substitute.For<IEnumerable<double>>();
+            var exploderSettings = Substitute.For<ParallelExploderSettings>();           
             var exploder = new ParallelExploder(exploderSettings);
-
+                       
             //Act
-            ArgumentNullException exeption = Assert.Throws<ArgumentNullException>(() => exploder.Explode(null, qualities, birthStepNumber));
+            string actualParamName = null;
 
-            //Assert
-            Assert.NotNull(exeption);
-            Assert.Equal(expectedParamName, exeption.ParamName);
-        }
+            if (typeof(ArgumentNullException) == exceptionType)
+            {
+                ArgumentNullException exeption = Assert.Throws<ArgumentNullException>(
+                    () => exploder.Explode(epicenter, qualities, currentStepNumber));
+                actualParamName = exeption.ParamName;
+            }
+            else if(typeof(ArgumentOutOfRangeException) == exceptionType)
+            {
+                ArgumentOutOfRangeException exeption = Assert.Throws<ArgumentOutOfRangeException>(
+                    () => exploder.Explode(epicenter, qualities, currentStepNumber));
+                actualParamName = exeption.ParamName;
+            }            
 
-        [Fact]
-        public void Explode_Pass2ndParameterAsNull_ArgumentNullExceptionThrown()
-        {
-            //Arrange
-            const string expectedParamName = "currentFireworkQualities";
-
-            int birthStepNumber = 1;
-            FireworkType expectedFireworkType = FireworkType.SpecificSpark;
-            var exploderSettings = Substitute.For<ParallelExploderSettings>();
-            var epicenter = Substitute.For<Firework>(expectedFireworkType, birthStepNumber - 1);
-            var exploder = new ParallelExploder(exploderSettings);
-
-            //Act
-            ArgumentNullException exeption = Assert.Throws<ArgumentNullException>(() => exploder.Explode(epicenter, null, birthStepNumber));
-
-            //Assert
-            Assert.NotNull(exeption);
-            Assert.Equal(expectedParamName, exeption.ParamName);
-        }
-
-        [Fact]
-        public void Explode_Pass3rdParameterAsNegativeNumber_ArgumentExceptionThrown()
-        {
-            //Arrange
-            const string expectedParamName = "currentStepNumber";
-
-            int birthStepNumber = 1;
-            FireworkType expectedFireworkType = FireworkType.SpecificSpark;
-            var exploderSettings = Substitute.For<ParallelExploderSettings>();
-            var epicenter = Substitute.For<Firework>(expectedFireworkType, birthStepNumber - 1);
-            var qualities = Substitute.For<IEnumerable<double>>();
-            var exploder = new ParallelExploder(exploderSettings);
-
-            //Act
-            ArgumentOutOfRangeException exeption = Assert.Throws<ArgumentOutOfRangeException>(() => exploder.Explode(epicenter, qualities, -1));
-
-            //Assert
-            Assert.NotNull(exeption);
-            Assert.Equal(expectedParamName, exeption.ParamName);
-        }
+            //Assert             
+            Assert.Equal(expectedParamName, actualParamName);
+        }        
     }
 }
