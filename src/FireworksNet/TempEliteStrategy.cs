@@ -73,6 +73,11 @@ namespace FireworksNet
                 throw new ArgumentNullException("polynomialFunc");
             }
 
+            if (lowerBound > upperBound)
+            {
+                throw new ArgumentException("lowerBound");
+            }
+
             return (upperBound - lowerBound) / 2 + lowerBound;
         }
     }
@@ -84,6 +89,11 @@ namespace FireworksNet
             if (polynomialFunc == null)
             {
                 throw new ArgumentNullException("polynomialFunc");
+            }
+
+            if (lowerBound > upperBound)
+            {
+                throw new ArgumentException("lowerBound");
             }
 
             Func<double, double> derivative = Differentiate.FirstDerivativeFunc(polynomialFunc);
