@@ -105,6 +105,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Selection\IFireworkSelector.cs" />
     <Compile Include="Selection\DistanceBasedFireworkSelector.cs" />
+    <Compile Include="TempEliteStrategy.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FireworksNet.ruleset" />

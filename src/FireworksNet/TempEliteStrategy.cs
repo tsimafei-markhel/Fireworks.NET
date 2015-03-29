@@ -11,16 +11,16 @@ namespace FireworksNet
     /// <summary>
     /// Approximation by polynomial function.
     /// </summary>
-    public interface IPolynomial
+    public interface IFit
     {
         /// <summary>
         /// Approximates fitness landscape.
         /// </summary>
-        /// <param name="fireworkQualities">The qualities of fireworks.</param>
         /// <param name="fireworkCoordinates">The coordinates of fireworks in 
         /// the current one dimensional search space.</param>
+        /// <param name="fireworkQualities">The qualities of fireworks.</param>
         /// <returns>Approximated polynomial.</returns>
-        Func<double, double> Approximate(double[] fireworkQualities, double[] fireworkCoordinates);
+        Func<double, double> Approximate(double[] fireworkCoordinates, double[] fireworkQualities);
     }
 
     /// <summary>
@@ -32,22 +32,22 @@ namespace FireworksNet
         /// Selects an elite point by using polynomial function.
         /// </summary>
         /// <param name="polynomialFunc">The polynomial of 1st or 2nd order.</param>
-        /// <param name="lowerBound">The lowet bound.</param>
+        /// <param name="lowerBound">The lower bound.</param>
         /// <param name="upperBound">The upper bound.</param>
         /// <returns>Elite point.</returns>
         double SelectElitePoint(Func<double, double> polynomialFunc, double lowerBound, double upperBound);
     }
 
-    public class FirstOrderPolynomial : IPolynomial
+    public class PolynomialFit : IFit
     {
         private readonly int order;
 
-        public FirstOrderPolynomial()
+        public PolynomialFit(int order)
         {
-            this.order = 1;
+            this.order = order;
         }
 
-        public virtual Func<double, double> Approximate(double[] fireworkQualities, double[] fireworkCoordinates)
+        public virtual Func<double, double> Approximate(double[] fireworkCoordinates, double[] fireworkQualities)
         {
             if (fireworkQualities == null)
             {
@@ -59,44 +59,50 @@ namespace FireworksNet
                 throw new ArgumentNullException("fireworkCoordinates");
             }
 
-            return Fit.PolynomialFunc(fireworkQualities, fireworkCoordinates, this.order, DirectRegressionMethod.QR);
+            return Fit.PolynomialFunc(fireworkCoordinates, fireworkQualities, this.order, DirectRegressionMethod.QR);
         }
     }
 
-    public class SecondOrderPolynomial : IPolynomial
+    public class FirstOrderSelector : IElitePointSelector
     {
-        private readonly int order;
-
-        public SecondOrderPolynomial()
+        // TODO: Review of this logic.
+        public virtual double SelectElitePoint(Func<double, double> polynomialFunc, double lowerBound, double upperBound)
         {
-            this.order = 2;
+            if (polynomialFunc == null)
+            {
+                throw new ArgumentNullException("polynomialFunc");
+            }
+
+            return (upperBound - lowerBound) / 2 + lowerBound;
         }
+    }
 
-        public virtual Func<double, double> Approximate(double[] fireworkQualities, double[] fireworkCoordinates)
+    public class SecondOrderSelector : IElitePointSelector
+    {
+        public virtual double SelectElitePoint(Func<double, double> polynomialFunc, double lowerBound, double upperBound)
         {
-            if (fireworkQualities == null)
+            if (polynomialFunc == null)
             {
-                throw new ArgumentNullException("fireworkQualities");
+                throw new ArgumentNullException("polynomialFunc");
             }
 
-            if (fireworkCoordinates == null)
-            {
-                throw new ArgumentNullException("fireworkCoordinates");
-            }
+            Func<double, double> derivative = Differentiate.FirstDerivativeFunc(polynomialFunc);
 
-            return Fit.PolynomialFunc(fireworkQualities, fireworkCoordinates, this.order, DirectRegressionMethod.QR);
+            return Brent.FindRoot(derivative, lowerBound, upperBound);
         }
     }
 
     public class TempEliteStrategy
     {
-        public Firework GetFirework(Problem problem, IEnumerable<Firework> from, int order)
+        public FireworkType ElitePointType { get { return FireworkType.ExplosionSpark; } }
+
+        public Firework GetFirework(Problem problem, IFit polynomialFit, IElitePointSelector elitePointSelector, FireworkExplosion elitePointExplosion, IEnumerable<Firework> from, int order)
         {
             List<Firework> currentFireworks = new List<Firework>(from);
-     
+
             //11. Approximate fitness landscape in each projected one dimensional search space
             double[] qualities = new double[currentFireworks.Count];
-            
+
             //Get qualities of the fireworks
             int current = 0;
             foreach (Firework firework in currentFireworks)
@@ -109,50 +115,33 @@ namespace FireworksNet
 
             foreach (Dimension dimension in problem.Dimensions)
             {
-                double[] coordinates = new double[currentFireworks.Count];               
+                double[] coordinates = new double[currentFireworks.Count];
 
                 //Get coordinates of the fireworks in current dimension
                 current = 0;
-                foreach(Firework firework in currentFireworks)
+                foreach (Firework firework in currentFireworks)
                 {
                     coordinates[current] = firework.Coordinates[dimension];
                     current++;
                 }
-                
-                Func<double, double> polynomial = Fit.PolynomialFunc(qualities, coordinates, order, DirectRegressionMethod.QR);
+
+                Func<double, double> polynomial = polynomialFit.Approximate(coordinates, qualities);
                 fitnessLandscapes[dimension] = polynomial;
             }
 
             //12. Obtain a spark from approximated curves by Elite Strategy
 
-            Dictionary<Dimension, double> coordinates = new Dictionary<Dimension, double>();
+            Dictionary<Dimension, double> coordinatesElitePoint = new Dictionary<Dimension, double>();
 
-            if (order == 1)
+            foreach (KeyValuePair<Dimension, Func<double, double>> data in fitnessLandscapes)
             {
-                foreach (KeyValuePair<Dimension, Func<double, double>> data in fitnessLandscapes)
-                {
-                    /*
-                    double lowerBound = data.Key.VariationRange.Minimum;
-                    double upperBound = data.Key.VariationRange.Maximum;
-                    double midPoint = (upperBound - lowerBound) / 2 + lowerBound;
-                    coordinates[data.Key] = midPoint;
-                    */
-                }
+                double lowerBound = data.Key.VariationRange.Minimum;
+                double upperBound = data.Key.VariationRange.Maximum;
+                double elitePoint = elitePointSelector.SelectElitePoint(data.Value, lowerBound, upperBound);
+                coordinatesElitePoint[data.Key] = elitePoint;
             }
 
-            if (order == 2)
-            {
-                foreach (KeyValuePair<Dimension, Func<double, double>> data in fitnessLandscapes)
-                {
-                    double lowerBound = data.Key.VariationRange.Minimum;
-                    double upperBound = data.Key.VariationRange.Maximum;
-                    Func<double, double> derivative = Differentiate.FirstDerivativeFunc(data.Value);
-                    double x = Brent.FindRoot(derivative, lowerBound, upperBound);
-                    coordinates[data.Key] = x;
-                }
-            }
-
-            return null;
+            return new Firework(this.ElitePointType, elitePointExplosion.StepNumber, coordinatesElitePoint);
         }
     }
 }
