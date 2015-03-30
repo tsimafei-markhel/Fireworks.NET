@@ -49,10 +49,46 @@ namespace FireworksNet
         }
     }
 
+    public interface IDifferentiation
+    {
+        Func<double, double> Differentiate(Func<double, double> polynomialFunc);
+    }
+
+    public class PolynomialDifferentiation : IDifferentiation
+    {
+        public virtual Func<double, double> Differentiate(Func<double, double> polynomialFunc)
+        {
+            if (polynomialFunc == null)
+            {
+                throw new ArgumentNullException("polynomialFunc");
+            }
+
+            return MathNet.Numerics.Differentiate.FirstDerivativeFunc(polynomialFunc);
+        }
+    }
+
+    public interface IPolynomialSolver
+    {
+        double Solve(Func<double, double> polynomialFunc, double lowerBound, double upperBound);
+    }
+
+    public class SecondOrderPolynomialSolver : IPolynomialSolver
+    {
+        public virtual double Solve(Func<double, double> polynomialFunc, double lowerBound, double upperBound)
+        {
+            if (polynomialFunc == null)
+            {
+                throw new ArgumentNullException("polynomialFunc");
+            }
+
+            return Brent.FindRoot(polynomialFunc, lowerBound, upperBound);
+        }
+    }
+
     public class FirstOrderEliteStrategy : TempEliteStrategy
     {
-        public FirstOrderEliteStrategy(IEnumerable<Dimension> dimensions)
-            : base(dimensions)
+        public FirstOrderEliteStrategy(IFit polynomialFit, IEnumerable<Dimension> dimensions)
+            : base(polynomialFit, dimensions)
         {
         }
 
@@ -77,9 +113,24 @@ namespace FireworksNet
 
     public class SecondOrderEliteStrategy : TempEliteStrategy
     {
-        public SecondOrderEliteStrategy(IEnumerable<Dimension> dimensions)
-            : base(dimensions)
+        private readonly IDifferentiation polynomialDifferentiation;
+        private readonly IPolynomialSolver polynomialSolver;
+
+        public SecondOrderEliteStrategy(IFit polynomialFit, IEnumerable<Dimension> dimensions, IDifferentiation polynomialDifferentiation, IPolynomialSolver polynomialSolver)
+            : base(polynomialFit, dimensions)
         {
+            if (polynomialDifferentiation == null)
+            {
+                throw new ArgumentNullException("polynomialDifferentiation");
+            }
+
+            if (this.polynomialSolver == null)
+            {
+                throw new ArgumentNullException("polynomialSolver");
+            }
+
+            this.polynomialSolver = polynomialSolver;
+            this.polynomialDifferentiation = polynomialDifferentiation;
         }
 
         public override double SelectElitePoint(Func<double, double> polynomialFunc, double lowerBound, double upperBound)
@@ -96,37 +147,39 @@ namespace FireworksNet
 
             Debug.Assert(lowerBound > upperBound, "Lower bound more than upper bound.");
 
-            Func<double, double> derivative = Differentiate.FirstDerivativeFunc(polynomialFunc);
+            Func<double, double> derivative = this.polynomialDifferentiation.Differentiate(polynomialFunc);
 
-            return Brent.FindRoot(derivative, lowerBound, upperBound);
+            return polynomialSolver.Solve(derivative, lowerBound, upperBound);
         }
     }
 
     public abstract class TempEliteStrategy
     {
         private readonly IEnumerable<Dimension> dimensions;
+        private readonly IFit polynomialFit;
 
         public FireworkType ElitePointType { get { return FireworkType.SpecificSpark; } }
 
-        protected TempEliteStrategy(IEnumerable<Dimension> dimensions)
-        {
-            if (dimensions == null)
-            {
-                throw new ArgumentNullException("dimensions");
-            }
-
-            this.dimensions = dimensions;
-        }
-
-        public abstract double SelectElitePoint(Func<double, double> polynomialFunc, double lowerBound, double upperBound);
-
-        public Firework GetFirework(IFit polynomialFit, IEnumerable<Firework> from, int birthStepNumber)
+        protected TempEliteStrategy(IFit polynomialFit, IEnumerable<Dimension> dimensions)
         {
             if (polynomialFit == null)
             {
                 throw new ArgumentNullException("polynomialFit");
             }
 
+            if (dimensions == null)
+            {
+                throw new ArgumentNullException("dimensions");
+            }
+
+            this.polynomialFit = polynomialFit;
+            this.dimensions = dimensions;
+        }
+
+        public abstract double SelectElitePoint(Func<double, double> polynomialFunc, double lowerBound, double upperBound);
+
+        public Firework GetFirework(IEnumerable<Firework> from, int birthStepNumber)
+        {
             if (from == null)
             {
                 throw new ArgumentNullException("from");
@@ -164,7 +217,7 @@ namespace FireworksNet
                     current++;
                 }
 
-                Func<double, double> polynomial = polynomialFit.Approximate(coordinates, qualities);
+                Func<double, double> polynomial = this.polynomialFit.Approximate(coordinates, qualities);
                 fitnessLandscapes[dimension] = polynomial;
             }
 
