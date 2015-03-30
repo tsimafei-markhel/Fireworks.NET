@@ -5,6 +5,7 @@ using MathNet.Numerics.LinearRegression;
 using FireworksNet.Model;
 using FireworksNet.Problems;
 using MathNet.Numerics.RootFinding;
+using System.Diagnostics;
 
 namespace FireworksNet
 {
@@ -21,21 +22,6 @@ namespace FireworksNet
         /// <param name="fireworkQualities">The qualities of fireworks.</param>
         /// <returns>Approximated polynomial.</returns>
         Func<double, double> Approximate(double[] fireworkCoordinates, double[] fireworkQualities);
-    }
-
-    /// <summary>
-    /// Selects an elite point from approximated curves by Elite Strategy.
-    /// </summary>
-    public interface IElitePointSelector
-    {
-        /// <summary>
-        /// Selects an elite point by using polynomial function.
-        /// </summary>
-        /// <param name="polynomialFunc">The polynomial of 1st or 2nd order.</param>
-        /// <param name="lowerBound">The lower bound.</param>
-        /// <param name="upperBound">The upper bound.</param>
-        /// <returns>Elite point.</returns>
-        double SelectElitePoint(Func<double, double> polynomialFunc, double lowerBound, double upperBound);
     }
 
     public class PolynomialFit : IFit
@@ -63,38 +49,52 @@ namespace FireworksNet
         }
     }
 
-    public class FirstOrderSelector : IElitePointSelector
+    public class FirstOrderEliteStrategy : TempEliteStrategy
     {
-        // TODO: Review of this logic.
-        public virtual double SelectElitePoint(Func<double, double> polynomialFunc, double lowerBound, double upperBound)
+        public FirstOrderEliteStrategy(IEnumerable<Dimension> dimensions)
+            : base(dimensions)
+        {
+        }
+
+        public override double SelectElitePoint(Func<double, double> polynomialFunc, double lowerBound, double upperBound)
         {
             if (polynomialFunc == null)
             {
                 throw new ArgumentNullException("polynomialFunc");
             }
 
-            if (lowerBound > upperBound)
+            if (lowerBound == upperBound)
             {
-                throw new ArgumentException("lowerBound");
+                return lowerBound;
             }
 
+            Debug.Assert(lowerBound > upperBound, "Lower bound more than upper bound.");
+
+            // TODO: Review of this logic.
             return (upperBound - lowerBound) / 2 + lowerBound;
         }
     }
 
-    public class SecondOrderSelector : IElitePointSelector
+    public class SecondOrderEliteStrategy : TempEliteStrategy
     {
-        public virtual double SelectElitePoint(Func<double, double> polynomialFunc, double lowerBound, double upperBound)
+        public SecondOrderEliteStrategy(IEnumerable<Dimension> dimensions)
+            : base(dimensions)
+        {
+        }
+
+        public override double SelectElitePoint(Func<double, double> polynomialFunc, double lowerBound, double upperBound)
         {
             if (polynomialFunc == null)
             {
                 throw new ArgumentNullException("polynomialFunc");
             }
 
-            if (lowerBound > upperBound)
+            if (lowerBound == upperBound)
             {
-                throw new ArgumentException("lowerBound");
+                return lowerBound;
             }
+
+            Debug.Assert(lowerBound > upperBound, "Lower bound more than upper bound.");
 
             Func<double, double> derivative = Differentiate.FirstDerivativeFunc(polynomialFunc);
 
@@ -102,12 +102,41 @@ namespace FireworksNet
         }
     }
 
-    public class TempEliteStrategy
+    public abstract class TempEliteStrategy
     {
-        public FireworkType ElitePointType { get { return FireworkType.ExplosionSpark; } }
+        private readonly IEnumerable<Dimension> dimensions;
 
-        public Firework GetFirework(Problem problem, IFit polynomialFit, IElitePointSelector elitePointSelector, FireworkExplosion elitePointExplosion, IEnumerable<Firework> from, int order)
+        public FireworkType ElitePointType { get { return FireworkType.SpecificSpark; } }
+
+        protected TempEliteStrategy(IEnumerable<Dimension> dimensions)
         {
+            if (dimensions == null)
+            {
+                throw new ArgumentNullException("dimensions");
+            }
+
+            this.dimensions = dimensions;
+        }
+
+        public abstract double SelectElitePoint(Func<double, double> polynomialFunc, double lowerBound, double upperBound);
+
+        public Firework GetFirework(IFit polynomialFit, IEnumerable<Firework> from, int birthStepNumber)
+        {
+            if (polynomialFit == null)
+            {
+                throw new ArgumentNullException("polynomialFit");
+            }
+
+            if (from == null)
+            {
+                throw new ArgumentNullException("from");
+            }
+
+            if (birthStepNumber < 0)
+            {
+                throw new ArgumentOutOfRangeException("birthStepNumber");
+            }
+
             List<Firework> currentFireworks = new List<Firework>(from);
 
             //11. Approximate fitness landscape in each projected one dimensional search space
@@ -123,7 +152,7 @@ namespace FireworksNet
 
             Dictionary<Dimension, Func<double, double>> fitnessLandscapes = new Dictionary<Dimension, Func<double, double>>();
 
-            foreach (Dimension dimension in problem.Dimensions)
+            foreach (Dimension dimension in this.dimensions)
             {
                 double[] coordinates = new double[currentFireworks.Count];
 
@@ -147,11 +176,11 @@ namespace FireworksNet
             {
                 double lowerBound = data.Key.VariationRange.Minimum;
                 double upperBound = data.Key.VariationRange.Maximum;
-                double elitePoint = elitePointSelector.SelectElitePoint(data.Value, lowerBound, upperBound);
+                double elitePoint = this.SelectElitePoint(data.Value, lowerBound, upperBound);
                 coordinatesElitePoint[data.Key] = elitePoint;
             }
 
-            return new Firework(this.ElitePointType, elitePointExplosion.StepNumber, coordinatesElitePoint);
+            return new Firework(this.ElitePointType, birthStepNumber, coordinatesElitePoint);
         }
     }
 }
