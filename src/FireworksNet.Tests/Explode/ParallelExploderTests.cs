@@ -61,7 +61,7 @@ namespace FireworksNet.Tests.Explode
             Assert.Equal(expectedBirthStepNumber, explosion.StepNumber);
         }
 
-        [Theory, MemberData("DataForTestMethodExploderOfParallelExploder")]
+        [Theory, MemberData("DataForTestMethodExplodeOfParallelExploder")]
         public void Explode_PassEachParameterAsNullAndOtherIsCorrect_ArgumentExceptionThrown(
             Firework epicenter, IEnumerable<double> qualities, int currentStepNumber, Type exceptionType,  string expectedParamName)
         {
