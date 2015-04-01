@@ -9,7 +9,7 @@ namespace FireworksNet.Tests.Explode
 {
     public abstract class AbstractSourceData
     {
-        public static IEnumerable<object[]> DataForTestMethodExploderOfParallelExploder
+        public static IEnumerable<object[]> DataForTestMethodExplodeOfParallelExploder
         {
             get
             {
