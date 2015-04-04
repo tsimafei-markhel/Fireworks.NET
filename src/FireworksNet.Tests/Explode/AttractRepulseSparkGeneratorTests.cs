@@ -21,20 +21,17 @@ namespace FireworksNet.Tests.Explode
         {
             //Arrange
             const int expectedBirthStepNumber = 1;
-            const FireworkType expectedFireworkType = FireworkType.SpecificSpark;
-            
-            const double amplitude = 1;
-            const double delta = 0.1;
+            const FireworkType expectedFireworkType = FireworkType.SpecificSpark;           
                        
             var bestSolution = Substitute.For<Solution>(0);
             var dimensions = Substitute.For<IList<Dimension>>();                
             var randomizer = Substitute.For<System.Random>();
-            var distribution = Substitute.For<ContinuousUniformDistribution>(amplitude - delta, amplitude + delta);           
+            var distribution = Substitute.For<ContinuousUniformDistribution>(Amplitude - Delta, Amplitude + Delta);           
            
             var epicenter = Substitute.For<Firework>(expectedFireworkType, expectedBirthStepNumber - 1);
             var qualities = Substitute.For<IEnumerable<double>>();
             var sparks = Substitute.For<Dictionary<FireworkType, int>>();
-            var explosion = Substitute.For<FireworkExplosion>(epicenter, expectedBirthStepNumber, amplitude, sparks);
+            var explosion = Substitute.For<FireworkExplosion>(epicenter, expectedBirthStepNumber, Amplitude, sparks);
             
             var sparkGenerator = new AttractRepulseSparkGenerator(bestSolution, dimensions, distribution, randomizer);                                          
             
