@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FireworksNet", "FireworksNet\FireworksNet.csproj", "{030C2E45-DCEA-44DE-A90A-61C4092D3406}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FireworksNet.Examples", "FireworksNet.Examples\FireworksNet.Examples.csproj", "{3E5D80A2-E5FD-43C5-A55E-2D107F38AA8C}"
