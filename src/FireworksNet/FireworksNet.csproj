@@ -50,11 +50,13 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithm\Implementation\ParallelFireworksAlgorithm.cs" />
     <Compile Include="Algorithm\Implementation\ParallelFireworksAlgorithmSettings.cs" />
     <Compile Include="Algorithm\IStepperFireworksAlgorithm.cs" />
     <Compile Include="Distances\DistanceBase.cs" />
     <Compile Include="Distributions\ContinuousUniformDistribution.cs" />
     <Compile Include="Explode\AttractRepulseSparkGenerator.cs" />
+    <Compile Include="Explode\AttractRepulseSparkMutator.cs" />
     <Compile Include="Explode\IFireworkMutator.cs" />
     <Compile Include="Explode\ParallelExploder.cs" />
     <Compile Include="Explode\ParallelExploderSettings.cs" />

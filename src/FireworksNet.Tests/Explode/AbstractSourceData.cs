@@ -9,6 +9,9 @@ namespace FireworksNet.Tests.Explode
 {
     public abstract class AbstractSourceData
     {
+        public static double Amplitude;
+        public static double Delta;
+
         public static IEnumerable<object[]> DataForTestMethodExplodeOfParallelExploder
         {
             get
@@ -30,10 +33,8 @@ namespace FireworksNet.Tests.Explode
             get
             {
                 var bestSolution = Substitute.For<Solution>(0);
-                var dimensions = Substitute.For<IEnumerable<Dimension>>();     
-                var algorithmSettings = Substitute.For<ParallelFireworksAlgorithmSettings>();
-                var distribution = Substitute.For<ContinuousUniformDistribution>(
-                        algorithmSettings.Amplitude - algorithmSettings.Delta, algorithmSettings.Amplitude + algorithmSettings.Delta);
+                var dimensions = Substitute.For<IEnumerable<Dimension>>();
+                var distribution = Substitute.For<ContinuousUniformDistribution>(Amplitude - Delta, Amplitude + Delta);
                 var randomizer = Substitute.For<System.Random>();
 
                 return new[]
@@ -45,5 +46,11 @@ namespace FireworksNet.Tests.Explode
                 };
             }
         }
+
+        public AbstractSourceData()
+        {
+            Amplitude = 1;
+            Delta = 0.1;
+        } 
     }
 }

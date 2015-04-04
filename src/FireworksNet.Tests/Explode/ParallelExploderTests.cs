@@ -30,7 +30,7 @@ namespace FireworksNet.Tests.Explode
         public void CreateInstanceOfParallelExploder_PassValidSettings_ShouldReturnNotNullExploder()
         {
             //Arrange             
-            var exploderSettings = Substitute.For<ParallelExploderSettings>();
+            var exploderSettings = Substitute.For<FireworksNet.Explode.ParallelExploderSettings>();
 
             //Act
             var exploder = new ParallelExploder(exploderSettings);

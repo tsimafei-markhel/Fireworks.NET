@@ -6,7 +6,6 @@ using FireworksNet.StopConditions;
 using FireworksNet.Model;
 using FireworksNet.Explode;
 using FireworksNet.Distributions;
-using FireworksNet.Explode;
 using FireworksNet.Algorithm.Implementation;
 
 namespace FireworksNet.Algorithm
