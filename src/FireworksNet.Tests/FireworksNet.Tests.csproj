@@ -51,6 +51,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Explode\AbstractSourceData.cs" />
+    <Compile Include="Explode\AttractRepulseSparkGeneratorTests.cs" />
     <Compile Include="Extensions\DoubleExtensionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Selection\BestSelectorTests.cs" />
