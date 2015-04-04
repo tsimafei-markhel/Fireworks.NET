@@ -21,8 +21,8 @@ namespace FireworksNet.Tests.Explode
         {
             //Arrange
             const int expectedBirthStepNumber = 1;
-            const FireworkType expectedFireworkType = FireworkType.SpecificSpark;            
-            
+            const FireworkType expectedFireworkType = FireworkType.SpecificSpark;    
+        
             var bestSolution = Substitute.For<Solution>(0);
             var dimensions = Substitute.For<IList<Dimension>>();                
             var randomizer = Substitute.For<System.Random>();

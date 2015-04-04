@@ -58,8 +58,6 @@
     <Compile Include="Explode\AttractRepulseSparkGenerator.cs" />
     <Compile Include="Explode\AttractRepulseSparkMutator.cs" />
     <Compile Include="Explode\IFireworkMutator.cs" />
-    <Compile Include="Explode\ParallelExploder.cs" />
-    <Compile Include="Explode\ParallelExploderSettings.cs" />
     <Compile Include="Extensions\RandomExtensions.cs" />
     <Compile Include="Algorithm\Implementation\FireworksAlgorithmSettings.cs" />
     <Compile Include="Distances\EuclideanDistance.cs" />
@@ -99,8 +97,10 @@
     <Compile Include="Selection\BestAndRandomFireworkSelector.cs" />
     <Compile Include="Selection\FireworkSelectorBase.cs" />
     <Compile Include="StopConditions\CounterStopCondition.cs" />
-    <Compile Include="StopConditions\MinErrorStopCondition.cs" />
+    <Compile Include="StopConditions\CoordinateProximityStopCondition.cs" />
     <Compile Include="Problems\ProblemTarget.cs" />
+    <Compile Include="StopConditions\QualityProximityStopCondition.cs" />
+    <Compile Include="StopConditions\ProximityStopCondition.cs" />
     <Compile Include="StopConditions\StopConditionChain.cs" />
     <Compile Include="StopConditions\IStopCondition.cs" />
     <Compile Include="StopConditions\StepCounterStopCondition.cs" />

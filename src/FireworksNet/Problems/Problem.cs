@@ -105,7 +105,7 @@ namespace FireworksNet.Problems
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="Problem"/> type.
+        /// Initializes a new instance of <see cref="Problem"/> type with default initial ranges.
         /// </summary>
         /// <param name="dimensions">The dimensions of the problem.</param>
         /// <param name="targetFunction">The quality function that needs to be optimized.</param>

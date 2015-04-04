@@ -33,7 +33,8 @@ namespace FireworksNet.Tests.Explode
             get
             {
                 var bestSolution = Substitute.For<Solution>(0);
-                var dimensions = Substitute.For<IEnumerable<Dimension>>();
+                var dimensions = Substitute.For<IEnumerable<Dimension>>();                 
+
                 var distribution = Substitute.For<ContinuousUniformDistribution>(Amplitude - Delta, Amplitude + Delta);
                 var randomizer = Substitute.For<System.Random>();
 
