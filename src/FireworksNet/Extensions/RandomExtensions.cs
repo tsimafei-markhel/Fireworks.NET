@@ -156,6 +156,23 @@ namespace FireworksNet.Extensions
         }
 
         /// <summary>
+        /// Generates a random boolean value.
+        /// </summary>
+        /// <param name="random">The random number generator.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException"> if <paramref name="random"/>
+        /// is <c>null</c>.</exception>
+        public static bool NextBoolean(this System.Random random)
+        {
+            if (random == null)
+            {
+                throw new ArgumentNullException("random");
+            }
+
+            return random.NextDouble(0.0, 1.0) >= 0.5D;
+        }
+
+        /// <summary>
         /// Generates a random <see cref="double"/> within specified range.
         /// </summary>
         /// <param name="random">The random number generator.</param>
