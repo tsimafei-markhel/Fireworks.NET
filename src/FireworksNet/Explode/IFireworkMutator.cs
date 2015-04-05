@@ -1,10 +1,18 @@
-﻿namespace FireworksNet.Explode
+﻿using FireworksNet.Model;
+
+namespace FireworksNet.Explode
 {
     /// <summary>
-    /// Firework mutator interface.
+    /// The Firework mutator interface.
     /// </summary>
     public interface IFireworkMutator
     {
-        void MutateFirework(ref FireworksNet.Model.Firework bestFirework, FireworksNet.Model.FireworkExplosion explosion);
+        /// <summary>
+        /// Changes <paramref name="firework"/>.
+        /// </summary>
+        /// <param name="firework">The <see cref="Firework"/> to be changed.</param>
+        /// <param name="explosion">The <see cref="FireworkExplosion"/> that
+        /// contains explosion characteristics.</param>
+        void MutateFirework(ref Firework firework, FireworkExplosion explosion);
     }
 }
