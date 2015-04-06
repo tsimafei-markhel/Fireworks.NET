@@ -51,105 +51,106 @@ namespace FireworksNet
 
     public interface IDifferentiation
     {
-        Func<double, double> Differentiate(Func<double, double> polynomialFunc);
+        Func<double, double> Differentiate(Func<double, double> func);
     }
 
-    public class PolynomialDifferentiation : IDifferentiation
+    public class Differentiation : IDifferentiation
     {
-        public virtual Func<double, double> Differentiate(Func<double, double> polynomialFunc)
+        public virtual Func<double, double> Differentiate(Func<double, double> func)
         {
-            if (polynomialFunc == null)
+            if (func == null)
             {
                 throw new ArgumentNullException("polynomialFunc");
             }
 
-            return MathNet.Numerics.Differentiate.FirstDerivativeFunc(polynomialFunc);
+            return MathNet.Numerics.Differentiate.FirstDerivativeFunc(func);
         }
     }
 
-    public interface IPolynomialSolver
+    public interface ISolver
     {
-        double Solve(Func<double, double> polynomialFunc, double lowerBound, double upperBound);
+        double Solve(Func<double, double> polynomialFunc, Range variationRange);
     }
 
-    public class SecondOrderPolynomialSolver : IPolynomialSolver
+    public class BrentSolver : ISolver
     {
-        public virtual double Solve(Func<double, double> polynomialFunc, double lowerBound, double upperBound)
+        public virtual double Solve(Func<double, double> polynomialFunc, Range variationRange)
         {
             if (polynomialFunc == null)
             {
                 throw new ArgumentNullException("polynomialFunc");
             }
 
-            return Brent.FindRoot(polynomialFunc, lowerBound, upperBound);
+            if (variationRange == null)
+            {
+                throw new ArgumentNullException("variationRange");
+            }
+
+            return Brent.FindRoot(polynomialFunc, variationRange.Minimum, variationRange.Maximum);
         }
     }
 
     public class FirstOrderEliteStrategy : TempEliteStrategy
     {
-        public FirstOrderEliteStrategy(IFit polynomialFit, IEnumerable<Dimension> dimensions)
-            : base(polynomialFit, dimensions)
+        public FirstOrderEliteStrategy(IEnumerable<Dimension> dimensions, IFit polynomialFit)
+            : base(dimensions, polynomialFit)
         {
         }
 
-        public override double SelectElitePoint(Func<double, double> polynomialFunc, double lowerBound, double upperBound)
+        public override double SelectElitePoint(Func<double, double> polynomialFunc, Range variationRange)
         {
             if (polynomialFunc == null)
             {
                 throw new ArgumentNullException("polynomialFunc");
             }
 
-            if (lowerBound == upperBound)
+            if (variationRange == null)
             {
-                return lowerBound;
+                throw new ArgumentNullException("variationRange");
             }
 
-            Debug.Assert(lowerBound > upperBound, "Lower bound more than upper bound.");
-
             // TODO: Review of this logic.
-            return (upperBound - lowerBound) / 2 + lowerBound;
+            return (variationRange.Maximum - variationRange.Minimum) / 2 + variationRange.Minimum;
         }
     }
 
     public class SecondOrderEliteStrategy : TempEliteStrategy
     {
-        private readonly IDifferentiation polynomialDifferentiation;
-        private readonly IPolynomialSolver polynomialSolver;
+        private readonly IDifferentiation differentiation;
+        private readonly ISolver solver;
 
-        public SecondOrderEliteStrategy(IFit polynomialFit, IEnumerable<Dimension> dimensions, IDifferentiation polynomialDifferentiation, IPolynomialSolver polynomialSolver)
-            : base(polynomialFit, dimensions)
+        public SecondOrderEliteStrategy(IEnumerable<Dimension> dimensions, IFit polynomialFit, IDifferentiation differentiation, ISolver solver)
+            : base(dimensions, polynomialFit)
         {
-            if (polynomialDifferentiation == null)
+            if (differentiation == null)
             {
-                throw new ArgumentNullException("polynomialDifferentiation");
+                throw new ArgumentNullException("differentiation");
             }
 
-            if (this.polynomialSolver == null)
+            if (this.solver == null)
             {
-                throw new ArgumentNullException("polynomialSolver");
+                throw new ArgumentNullException("solver");
             }
 
-            this.polynomialSolver = polynomialSolver;
-            this.polynomialDifferentiation = polynomialDifferentiation;
+            this.differentiation = differentiation;
+            this.solver = solver;
         }
 
-        public override double SelectElitePoint(Func<double, double> polynomialFunc, double lowerBound, double upperBound)
+        public override double SelectElitePoint(Func<double, double> func, Range variationRange)
         {
-            if (polynomialFunc == null)
+            if (func == null)
             {
-                throw new ArgumentNullException("polynomialFunc");
+                throw new ArgumentNullException("func");
             }
 
-            if (lowerBound == upperBound)
+            if (variationRange == null)
             {
-                return lowerBound;
+                throw new ArgumentNullException("variationRange");
             }
 
-            Debug.Assert(lowerBound > upperBound, "Lower bound more than upper bound.");
+            Func<double, double> derivative = this.differentiation.Differentiate(func);
 
-            Func<double, double> derivative = this.polynomialDifferentiation.Differentiate(polynomialFunc);
-
-            return polynomialSolver.Solve(derivative, lowerBound, upperBound);
+            return solver.Solve(derivative, variationRange);
         }
     }
 
@@ -158,25 +159,25 @@ namespace FireworksNet
         private readonly IEnumerable<Dimension> dimensions;
         private readonly IFit polynomialFit;
 
-        public FireworkType ElitePointType { get { return FireworkType.SpecificSpark; } }
+        public FireworkType ElitePointType { get { return FireworkType.EliteFirework; } }
 
-        protected TempEliteStrategy(IFit polynomialFit, IEnumerable<Dimension> dimensions)
+        protected TempEliteStrategy(IEnumerable<Dimension> dimensions, IFit polynomialFit)
         {
-            if (polynomialFit == null)
-            {
-                throw new ArgumentNullException("polynomialFit");
-            }
-
             if (dimensions == null)
             {
                 throw new ArgumentNullException("dimensions");
             }
 
-            this.polynomialFit = polynomialFit;
+            if (polynomialFit == null)
+            {
+                throw new ArgumentNullException("polynomialFit");
+            }
+
             this.dimensions = dimensions;
+            this.polynomialFit = polynomialFit;
         }
 
-        public abstract double SelectElitePoint(Func<double, double> polynomialFunc, double lowerBound, double upperBound);
+        public abstract double SelectElitePoint(Func<double, double> func, Range variationRange);
 
         public Firework GetFirework(IEnumerable<Firework> from, int birthStepNumber)
         {
@@ -227,9 +228,7 @@ namespace FireworksNet
 
             foreach (KeyValuePair<Dimension, Func<double, double>> data in fitnessLandscapes)
             {
-                double lowerBound = data.Key.VariationRange.Minimum;
-                double upperBound = data.Key.VariationRange.Maximum;
-                double elitePoint = this.SelectElitePoint(data.Value, lowerBound, upperBound);
+                double elitePoint = this.SelectElitePoint(data.Value, data.Key.VariationRange);
                 coordinatesElitePoint[data.Key] = elitePoint;
             }
 

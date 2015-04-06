@@ -19,6 +19,11 @@ namespace FireworksNet.Model
         /// <summary>
         /// Firework that is the specific spark.
         /// </summary>
-        SpecificSpark
+        SpecificSpark,
+
+        /// <summary>
+        /// Firework that is the specific spark.
+        /// </summary>
+        EliteFirework
     }
 }
