@@ -143,8 +143,19 @@ namespace FireworksNet.Model
                 return true;
             }
 
-            return (this.Coordinates.Equals(other.Coordinates)) && // TODO: Need to compare dictionaries contents, not references.
-                   (this.Quality.IsEqual(other.Quality));
+            bool coordinatesEqual = false;
+            if (this.Coordinates == null)
+            {
+                coordinatesEqual = other.Coordinates == null;
+            }
+            else
+            {
+                coordinatesEqual = this.Coordinates.Equals(other.Coordinates); // TODO: Need to compare dictionaries contents, not references.
+            }
+
+            bool qualitiesEqual = this.Quality.IsEqual(other.Quality);
+
+            return coordinatesEqual && qualitiesEqual;
         }
 
         #endregion
