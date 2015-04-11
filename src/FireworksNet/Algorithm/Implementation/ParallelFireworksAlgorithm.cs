@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Collections.Generic;
+using System.Linq;
 using FireworksNet.Algorithm;
 using FireworksNet.Problems;
 using FireworksNet.StopConditions;
@@ -7,19 +8,29 @@ using FireworksNet.Model;
 using FireworksNet.Explode;
 using FireworksNet.Distributions;
 using FireworksNet.Algorithm.Implementation;
+using FireworksNet.Selection;
 
 namespace FireworksNet.Algorithm
 {
     /// <summary>
-    /// Fireworks algorithm implementation based on gpu, as described in 2013 GPU paper.
+    /// Fireworks algorithm implementation based on GPU, as described in 2013 GPU paper.
     /// </summary>
     public class ParallelFireworksAlgorithm : IFireworksAlgorithm, IStepperFireworksAlgorithm
     {
         private readonly System.Random randomizer;
         private IContinuousDistribution distribution;
-        private IExploder exploder;
-        private IFireworkMutator attractRepulseSparkMutator;
+        private IExploder exploder;         
         private AlgorithmState state;
+
+        /// <summary>
+        /// Execute search.
+        /// </summary>
+        private IFireworkMutator researcher;
+
+        /// <summary>
+        /// Represent best solution in now.
+        /// </summary>
+        private Solution bestSolution;
 
         /// <summary>
         /// Gets the problem to be solved by the algorithm.
@@ -34,13 +45,7 @@ namespace FireworksNet.Algorithm
         /// <summary>
         /// Gets the algorithm settings.
         /// </summary>
-        public ParallelFireworksAlgorithmSettings Settings { private set; get; }
-
-
-        /// <summary>
-        /// Represent best solution in now.
-        /// </summary>
-        private Solution bestSolution;
+        public ParallelFireworksAlgorithmSettings Settings { private set; get; }       
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ParallelFireworksAlgorithm"/> class.
@@ -75,10 +80,14 @@ namespace FireworksNet.Algorithm
             this.randomizer = new FireworksNet.Random.DefaultRandom();
             this.distribution = new ContinuousUniformDistribution(settings.Amplitude - settings.Delta, settings.Amplitude + settings.Delta);
 
-            this.state = CreateInitialState();// order necessary: invoke before initialize AttractRepulseSparkGenerator!
+            this.state = CreateInitialState();// order necessary: invoke before initialize AttractRepulseSparkMutator!
             this.bestSolution = state.BestSolution;
 
-            this.attractRepulseSparkMutator = new AttractRepulseSparkMutator(ref bestSolution, problem.Dimensions, distribution, randomizer);
+            ISparkGenerator generator = new AttractRepulseSparkGenerator(bestSolution, problem.Dimensions, distribution, randomizer);
+            IFireworkMutator mutator = new AttractRepulseSparkMutator(generator);
+            IFireworkSelector selector = new BestFireworkSelector((fireworks) => fireworks.OrderBy(f => f.Quality).First<Firework>());
+            this.researcher = new SearchMutator(mutator, generator, selector, settings);
+            
             this.exploder = new ParallelExploder(new ParallelExploderSettings()
             {                
                 FixedQuantitySparks = settings.FixedQuantitySparks,
@@ -129,7 +138,9 @@ namespace FireworksNet.Algorithm
             AlgorithmState state = new AlgorithmState();
 
             state.Fireworks = sparkGenerator.CreateSparks(explosion);
+
             Debug.Assert(state.Fireworks != null, "State.fireworks cannot be null");
+            
             state.BestSolution = ProblemToSolve.GetBest(state.Fireworks);
             state.StepNumber = 0;
 

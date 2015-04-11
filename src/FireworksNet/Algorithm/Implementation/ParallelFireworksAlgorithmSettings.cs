@@ -23,5 +23,11 @@
         /// δ should take (0; 1)
         /// </summary>
         public double Delta { get; set; }
+
+        /// <summary>
+        /// L - Quantity of steps of research.
+        /// L recommended be 16 or multiple of 16.
+        /// </summary>
+        public int QuantityStepsResearch { get; set; }
     }
 }

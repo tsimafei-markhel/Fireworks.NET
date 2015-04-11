@@ -13,7 +13,7 @@ namespace FireworksNet.Model
         /// <summary>
         /// Gets solution coordinates in problem space.
         /// </summary>
-        public IDictionary<Dimension, double> Coordinates { get; private set; } // TODO: Think of replacing Dictionary with some derived class, like CoordinateDictionary
+        public IDictionary<Dimension, double> Coordinates { get; set; } // TODO: Think of replacing Dictionary with some derived class, like CoordinateDictionary
 
         /// <summary>
         /// Gets or sets solution quality (value of target function).

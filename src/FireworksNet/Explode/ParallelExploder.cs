@@ -5,7 +5,7 @@ using FireworksNet.Model;
 namespace FireworksNet.Explode
 {
     /// <summary>
-    /// Represent exploder for GPU based implementation of Fireworks algorithm, as described in 2013 GPU paper.
+    /// Represent exploder for gpu based implementation of Fireworks algorithm, as described in 2013 GPU paper.
     /// </summary>
     public class ParallelExploder : IExploder
     {
@@ -44,6 +44,7 @@ namespace FireworksNet.Explode
 
             IDictionary<FireworkType, int> sparks = new Dictionary<FireworkType, int>()
             {
+                {FireworkType.ExplosionSpark, this.settings.FixedQuantitySparks},
                 {FireworkType.SpecificSpark, this.settings.FixedQuantitySparks}
             };
 

@@ -17,12 +17,12 @@ namespace FireworksNet.Model
         /// Gets the type of the firework (or spark this firework
         /// has been originated from).
         /// </summary>
-        public FireworkType FireworkType { get; private set; }
+        public FireworkType FireworkType { get; set; }
 
         /// <summary>
         /// Gets the number of step this firework was created at.
         /// </summary>
-        public int BirthStepNumber { get; private set; }
+        public int BirthStepNumber { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Firework"/> class.
