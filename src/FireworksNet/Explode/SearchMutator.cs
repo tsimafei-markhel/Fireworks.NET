@@ -79,10 +79,10 @@ namespace FireworksNet.Explode
         /// <returns></returns>
         private static Firework UpdateFirework(Firework source, ref Firework target)
         {
-            source.Coordinates = target.Coordinates;
-            source.Quality = target.Quality;
-            source.BirthStepNumber = target.BirthStepNumber;//TODO: maybe this field unnecessary     
-            source.FireworkType = target.FireworkType; //TODO: maybe this field unnecessary     
+            target.Coordinates = source.Coordinates;
+            target.Quality = source.Quality;
+            target.BirthStepNumber = source.BirthStepNumber;//TODO: maybe this field unnecessary     
+            target.FireworkType = source.FireworkType; //TODO: maybe this field unnecessary     
 
             return source;
         }
