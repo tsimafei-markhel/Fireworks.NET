@@ -60,6 +60,7 @@
     <Compile Include="Explode\IFireworkMutator.cs" />
     <Compile Include="Explode\ParallelExploder.cs" />
     <Compile Include="Explode\ParallelExploderSettings.cs" />
+    <Compile Include="Explode\SearchMutator.cs" />
     <Compile Include="Extensions\RandomExtensions.cs" />
     <Compile Include="Algorithm\Implementation\FireworksAlgorithmSettings.cs" />
     <Compile Include="Distances\EuclideanDistance.cs" />

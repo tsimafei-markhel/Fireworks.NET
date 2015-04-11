@@ -21,7 +21,7 @@ namespace FireworksNet.Explode
         {
             if (generator == null)
             {
-                throw new ArgumentNullException("attractRepulseSparkGenerator");
+                throw new ArgumentNullException("generator");
             }
 
             this.generator = generator;

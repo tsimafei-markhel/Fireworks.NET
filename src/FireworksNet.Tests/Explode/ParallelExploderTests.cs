@@ -11,7 +11,7 @@ using Xunit.Extensions;
 
 namespace FireworksNet.Tests.Explode
 {
-    public class ParallelExploderTests : AbstractSourceData
+    public class ParallelExploderTests : TestDataSource
     {
         [Fact]
         public void CreateInstanceOfParallelExploder_PassNullAsParameter_ArgumentNullExceptionThrown()

@@ -14,7 +14,7 @@ using Xunit;
 
 namespace FireworksNet.Tests.Explode
 {
-    public class AttractRepulseSparkGeneratorTests : AbstractSourceData
+    public class AttractRepulseSparkGeneratorTests : TestDataSource
     {
         [Fact]
         public void CreateSpark_MustReturnNotNullFirework()

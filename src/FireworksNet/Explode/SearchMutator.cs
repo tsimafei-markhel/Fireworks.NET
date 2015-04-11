@@ -27,7 +27,7 @@ namespace FireworksNet.Explode
 
             if (generator == null)
             {
-                throw new ArgumentNullException("sparkGenerator");
+                throw new ArgumentNullException("generator");
             }
 
             if (selector == null)

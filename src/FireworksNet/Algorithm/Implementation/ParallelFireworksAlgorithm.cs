@@ -59,18 +59,18 @@ namespace FireworksNet.Algorithm
         public ParallelFireworksAlgorithm(Problem problem, IStopCondition stopCondition, ParallelFireworksAlgorithmSettings settings)
         {
             if (problem == null) 
-            { 
-                throw new System.ArgumentNullException("problem to solve"); 
+            {
+                throw new System.ArgumentNullException("problem"); 
             }
             
             if (stopCondition == null) 
-            { 
-                throw new System.ArgumentNullException("stop condition"); 
+            {
+                throw new System.ArgumentNullException("stopCondition"); 
             }
             
             if (settings == null) 
-            { 
-                throw new System.ArgumentNullException("algorithm settings"); 
+            {
+                throw new System.ArgumentNullException("settings"); 
             }
 
             ProblemToSolve = problem;
@@ -110,8 +110,8 @@ namespace FireworksNet.Algorithm
         public Solution GetSolution(AlgorithmState state)
         {
             if (state == null) 
-            { 
-                throw new System.ArgumentNullException("algorithm state"); 
+            {
+                throw new System.ArgumentNullException("state"); 
             }
 
             return state.BestSolution;

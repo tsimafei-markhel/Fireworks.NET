@@ -7,7 +7,7 @@ using FireworksNet.Distributions;
 
 namespace FireworksNet.Tests.Explode
 {
-    public abstract class AbstractSourceData
+    public abstract class TestDataSource
     {
         public static double Amplitude;
         public static double Delta;
@@ -48,7 +48,7 @@ namespace FireworksNet.Tests.Explode
             }
         }
 
-        public AbstractSourceData()
+        public TestDataSource()
         {
             Amplitude = 1;
             Delta = 0.1;
