@@ -17,6 +17,8 @@ namespace FireworksNet.Algorithm
     /// </summary>
     public class ParallelFireworksAlgorithm : IFireworksAlgorithm, IStepperFireworksAlgorithm
     {
+        public delegate void QualityCalculatorDelegate(IEnumerable<Firework> sparks);
+
         private readonly System.Random randomizer;
         private IContinuousDistribution distribution;
         private IExploder exploder;         
@@ -73,9 +75,9 @@ namespace FireworksNet.Algorithm
                 throw new System.ArgumentNullException("settings"); 
             }
 
-            ProblemToSolve = problem;
-            StopCondition = stopCondition;
-            Settings = settings;
+            this.ProblemToSolve = problem;
+            this.StopCondition = stopCondition;
+            this.Settings = settings;
 
             this.randomizer = new FireworksNet.Random.DefaultRandom();
             this.distribution = new ContinuousUniformDistribution(settings.Amplitude - settings.Delta, settings.Amplitude + settings.Delta);
@@ -86,7 +88,7 @@ namespace FireworksNet.Algorithm
             ISparkGenerator generator = new AttractRepulseSparkGenerator(bestSolution, problem.Dimensions, distribution, randomizer);
             IFireworkMutator mutator = new AttractRepulseSparkMutator(generator);
             IFireworkSelector selector = new BestFireworkSelector((fireworks) => fireworks.OrderBy(f => f.Quality).First<Firework>());//select best
-            this.researcher = new SearchMutator(mutator, generator, selector, settings);
+            this.researcher = new FireworkSearchMutator(CalculateQualities, mutator, generator, selector, settings.QuantityStepsResearch);
             
             this.exploder = new ParallelExploder(new ParallelExploderSettings()
             {                
@@ -152,7 +154,7 @@ namespace FireworksNet.Algorithm
         private void CalculateQualities(IEnumerable<Firework> sparks)
         {
             foreach (Firework spark in sparks)
-            {
+            {        
                spark.Quality = ProblemToSolve.CalculateQuality(spark.Coordinates);
             }
         }

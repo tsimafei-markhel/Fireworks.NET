@@ -13,18 +13,15 @@ namespace FireworksNet.Explode
     /// </summary>
     public class AttractRepulseSparkGenerator : SparkGeneratorBase<FireworkExplosion>
     {
-        /// <summary>
-        /// Present current best solution in global scope.
-        /// </summary>
-        private readonly Solution bestSolution;               
-        private readonly IEnumerable<Dimension> dimensions;
+        private readonly Solution bestSolution;             
+        private readonly IEnumerable<Dimension> dimensions;           
         private readonly IContinuousDistribution distribution;
         private readonly System.Random randomizer;
-
+        
         public override FireworkType GeneratedSparkType { get { return FireworkType.SpecificSpark; } }     
 
         /// <summary>
-        /// Create instance of AttractRepulseSparkGenerator
+        /// Create instance of AttractRepulseSparkGenerator.
         /// </summary>
         /// <param name="dimensions">Dimension of research space.</param>
         /// <param name="state">Represent current state of algorithm.</param>
@@ -64,16 +61,16 @@ namespace FireworksNet.Explode
             Debug.Assert(explosion.ParentFirework != null, "Explosion parent firework is null");
             Debug.Assert(explosion.ParentFirework.Coordinates != null, "Explosion parent firework coordinate is null");
 
-            Firework spark = new Firework(GeneratedSparkType, explosion.StepNumber, explosion.ParentFirework.Coordinates);
+            Firework spark = new Firework(this.GeneratedSparkType, explosion.StepNumber, explosion.ParentFirework.Coordinates);
 
             // attract-repulse scaling factor. (1-δ, 1+δ)
             double scalingFactor = this.distribution.Sample();
 
             Solution copyOfBestSolution = null;
 
-            lock (bestSolution)
+            lock (this.bestSolution)
             {
-                copyOfBestSolution = new Solution(bestSolution.Coordinates, bestSolution.Quality);
+                copyOfBestSolution = new Solution(this.bestSolution.Coordinates, this.bestSolution.Quality);
             }
 
             Debug.Assert(copyOfBestSolution != null, "Copy of best solution is null");

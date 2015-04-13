@@ -7,6 +7,6 @@ namespace FireworksNet.Explode
     /// </summary>
     public interface IFireworkMutator
     {
-        void MutateFirework(ref Firework mutableFirework, FireworkExplosion explosion);
+        void MutateFirework(ref MutableFirework mutableFirework, FireworkExplosion explosion);
     }
 }

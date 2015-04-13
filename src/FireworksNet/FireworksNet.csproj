@@ -84,6 +84,7 @@
     <Compile Include="Model\ExplosionBase.cs" />
     <Compile Include="Model\Firework.cs" />
     <Compile Include="Model\FireworkType.cs" />
+    <Compile Include="Model\MutableFirework.cs" />
     <Compile Include="Model\Solution.cs" />
     <Compile Include="Model\TId.cs" />
     <Compile Include="Problems\Benchmark\Ackley.cs" />

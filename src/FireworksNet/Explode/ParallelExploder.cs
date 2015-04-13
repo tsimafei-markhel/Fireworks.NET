@@ -25,6 +25,13 @@ namespace FireworksNet.Explode
             this.settings = settings;
         }
 
+        /// <summary>
+        /// Explode firework.
+        /// </summary>
+        /// <param name="epicenter">Epicenter  - explode the fireworks.</param>
+        /// <param name="currentFireworkQualities">Qualities of epicenter.</param>
+        /// <param name="currentStepNumber">Step number for now.</param>
+        /// <returns></returns>
         public ExplosionBase Explode(Firework epicenter, IEnumerable<double> currentFireworkQualities, int currentStepNumber)
         {
             if (epicenter == null) 
