@@ -1,6 +1,6 @@
 ﻿using FireworksNet.Model;
 
-namespace FireworksNet.Explode
+namespace FireworksNet.Mutation
 {
     /// <summary>
     /// The Firework mutator interface.

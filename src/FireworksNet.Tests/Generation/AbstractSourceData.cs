@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using FireworksNet.Distributions;
 using FireworksNet.Model;
 using NSubstitute;
-using FireworksNet.Algorithm.Implementation;
-using FireworksNet.Distributions;
 
-namespace FireworksNet.Tests.Explode
+namespace FireworksNet.Tests.Generation
 {
     public abstract class AbstractSourceData
     {

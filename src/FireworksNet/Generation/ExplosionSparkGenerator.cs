@@ -4,7 +4,7 @@ using System.Diagnostics;
 using FireworksNet.Extensions;
 using FireworksNet.Model;
 
-namespace FireworksNet.Explode
+namespace FireworksNet.Generation
 {
     /// <summary>
     /// Conventional Explosion spark generator, as described in 2010 paper.

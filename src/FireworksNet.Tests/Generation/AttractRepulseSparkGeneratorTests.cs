@@ -1,18 +1,12 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using FireworksNet.Explode;
-using FireworksNet.Problems;
-using FireworksNet.Model;
 using FireworksNet.Distributions;
-using FireworksNet.Problems.Benchmark;
-using FireworksNet.Tests.Extensions;
-using FireworksNet.Algorithm.Implementation;
-using FireworksNet.Random;
+using FireworksNet.Generation;
+using FireworksNet.Model;
 using NSubstitute;
 using Xunit;
 
-namespace FireworksNet.Tests.Explode
+namespace FireworksNet.Tests.Generation
 {
     public class AttractRepulseSparkGeneratorTests : AbstractSourceData
     {
