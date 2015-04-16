@@ -6,6 +6,7 @@ using FireworksNet.Distances;
 using FireworksNet.Distributions;
 using FireworksNet.Explode;
 using FireworksNet.Extensions;
+using FireworksNet.Generation;
 using FireworksNet.Model;
 using FireworksNet.Problems;
 using FireworksNet.Random;

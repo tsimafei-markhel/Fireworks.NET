@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using FireworksNet.Model;
 
-namespace FireworksNet.Explode
+namespace FireworksNet.Generation
 {
     /// <summary>
     /// Base class for spark generators.
