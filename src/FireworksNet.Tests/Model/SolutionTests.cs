@@ -18,7 +18,7 @@ namespace FireworksNet.Tests.Model
                 Solution first = new Solution(quality1);
                 return new[] {
                 new object[] { first, new Solution(null, quality2), false  },
-                new object[] { first, new Solution(new Dictionary<Dimension, double>(), quality1), true },
+                new object[] { first, new Solution(new Dictionary<Dimension, double>(), quality1), false },
                 new object[] { first, "badObject", false } 
                 };
             }
@@ -47,7 +47,7 @@ namespace FireworksNet.Tests.Model
         [Theory, MemberData("SolutionsData")]
         public void GetHashCode_SolutionsVariations_PositiveExpected(object sol1, object Obj, bool expected)
         {          
-            var actual=sol1.GetHashCode() == Obj.GetHashCode();
+            var actual=(sol1.GetHashCode() == Obj.GetHashCode());
             Assert.Equal(expected, actual);
         }
 

@@ -7,21 +7,21 @@ namespace FireworksNet.Tests.Model
 {
     public class RangeTests
     {
-        public readonly Range range;
+        private readonly Range range;
 
         public RangeTests(){
             range = new Range(-1.0, false, 5.5, true);
         }
 
-        public static IEnumerable<object[]> SolutionsData
+        public static IEnumerable<object[]> RangeData
         {
             get
             {
                 Range range1 = Range.Create(100, 50, true, false);
                 return new[] {
-                new object[] { range1, Range.CreateWithRestrictions(100, 50, 40, 160, true, false), true  },
-                new object[] { range1, new Range(40, false, 60, true), false },
-                new object[] { new Range(40, false, 60, false), new Range(40, false, 60, true), false },
+                //new object[] { range1, Range.CreateWithRestrictions(100, 50, 40, 160, true, false), true  },
+              //  new object[] { range1, new Range(40, false, 60, true), false },
+                //new object[] { new Range(40, false, 60, false), new Range(40, false, 60, true), false },
                 new object[] { range1, "badObject", false } 
                 };
             }
@@ -40,6 +40,32 @@ namespace FireworksNet.Tests.Model
             var actual = range.IsInRange(value);
             Assert.Equal(expected, actual);          
         }
+
+     /*  [Theory, MemberData("RangeData")]
+        public void GetHashCode_RangesVariations_PositiveExpected(object range1, object Obj, bool expected)
+        {
+
+            var actual = (range1.GetHashCode() == Obj.GetHashCode());
+            Assert.Equal(expected, actual);
+
+        }
+        [Theory, MemberData("RangeData")]
+        public void Equals_RangesVariations_PositiveExpected(object range1, object Obj, bool expected)
+        {
+            var actual = range1.Equals(Obj);
+            Assert.Equal(expected, actual);
+        }
+        [Theory, MemberData("RangeData")]
+        public void ComparingOperator_RangesVariations_PositiveExpected(object range1, object Obj, bool expected)
+        {
+            var actual = (range1 == Obj);
+            Assert.Equal(expected, actual);
+
+            var actual2 = !(range1 != Obj);
+            Assert.Equal(expected, actual);
+        }
+        */
+
         [Fact]
         public void Range_NaNMinimumParam_ExceptionThrown()
         {
@@ -234,27 +260,6 @@ namespace FireworksNet.Tests.Model
         }
 
 
-        [Theory, MemberData("SolutionsData")]
-        public void GetHashCode_RangesVariations_PositiveExpected(object range1, object Obj, bool expected)
-        {
-            var actual = range1.GetHashCode() == Obj.GetHashCode();
-            Assert.Equal(expected, actual);
-
-        }
-         [Theory, MemberData("SolutionsData")]
-        public void Equals_RangesVariations_PositiveExpected(object range1, object Obj, bool expected)
-        {
-            var actual = range1.Equals(Obj);
-            Assert.Equal(expected, actual);
-        }
-        [Theory, MemberData("SolutionsData")]
-        public void ComparingOperator_RangesVariations_PositiveExpected(object range1, object Obj, bool expected)
-        {
-            var actual = (range1==Obj);
-            Assert.Equal(expected, actual);
-
-            var actual2 = !(range1 != Obj);
-            Assert.Equal(expected, actual);
-        }
+        
     }
 }
