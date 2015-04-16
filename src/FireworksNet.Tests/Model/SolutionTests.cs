@@ -1,72 +1,54 @@
 ﻿using System.Collections.Generic;
 using Xunit;
 using System;
+using Xunit.Extensions;
+using Xunit.Sdk;
 using FireworksNet.Model;
 
 namespace FireworksNet.Tests.Model
 {
     public class SolutionTests
     {
-        [Fact]
-        public void Equals_SolutionsVariations_PositiveExpected()
+
+        private readonly static double quality1=1;
+        private readonly static double quality2=2;
+       public static IEnumerable<object[]> SolutionsData
         {
-            double quality1 = 1;
-            double quality2 = 2;
-
-            Solution solution1 = new Solution(quality1);
-            Solution solution2 = new Solution(null,quality2);
-            Solution solution3 = new Solution(new Dictionary<Dimension,double>(), quality1);
-            Solution solution4 = new Solution(new Dictionary<Dimension,double>(), quality1);
-            Object badObject = "badObject";
-            Assert.True(solution3.Equals(solution3));
-
-            Assert.False(solution1.Equals(solution2));
-            Assert.False(solution2.Equals(solution3));
-            Assert.False(solution1.Equals(solution3));
-            Assert.False(solution1.Equals(badObject));
-            Assert.False(solution1.Equals(null));
+            get{
+                Solution first = new Solution(quality1);
+                return new[] {
+                new object[] { first, new Solution(null, quality2), false  },
+                new object[] { first, new Solution(new Dictionary<Dimension, double>(), quality1), true },
+                new object[] { first, "badObject", false } 
+                };
+            }
         }
-        [Fact]
-        public void ComparingOperators_SolutionsVariations_PositiveExpected()
+
+
+
+       [Theory, MemberData("SolutionsData")]
+        public void Equals_SolutionsVariations_PositiveExpected(object sol1, object Obj, bool expected)
         {
-            double quality1 = 1;
-            double quality2 = 2;
-
-            Solution solution1 = new Solution(quality1);
-            Solution solution2 = new Solution(null, quality2);
-            Solution solution3 = new Solution(new Dictionary<Dimension, double>(), quality1);
-            Solution solution4 = new Solution(new Dictionary<Dimension, double>(), quality1);
-            Object badObject = "badObject";
-
-            Assert.False(solution1 == solution2);
-            Assert.False(solution1 == solution3);
-            Assert.True(solution4 == solution3);
-            Assert.False(solution1 == badObject);
-            Assert.False(solution1 == null);
-
-            Assert.True(solution1 != solution2);
-            Assert.True(solution1 != solution3);
-            Assert.False(solution4 != solution3);
-            Assert.True(solution1 != badObject);
-            Assert.True(solution1 != null);
+            var actual = sol1.Equals(Obj);
+            Assert.Equal(expected, actual);
         }
-        [Fact]
-        public void GetHashCode_SolutionsVariations_PositiveExpected()
+
+        [Theory, MemberData("SolutionsData")]
+       public void ComparingOperators_SolutionsVariations_PositiveExpected(object sol1, object Obj, bool expected)
         {
-            double quality1 = 1;
-            double quality2 = 2;
+            var actual = (sol1==Obj);
+            Assert.Equal(expected, actual);
 
-            Solution solution1 = new Solution(quality1);
-            Solution solution2 = new Solution(null, quality2);
-            Solution solution3 = new Solution(new Dictionary<Dimension, double>(), quality1);
-            Solution solution4 = new Solution(new Dictionary<Dimension, double>(), quality1);
-            Object badObject = "badObject";
+            var actual2 = !(sol1 != Obj);
+            Assert.Equal(expected, actual);
+        }
 
-            Assert.NotEqual(solution1.GetHashCode(), solution2.GetHashCode());
-            Assert.NotEqual(solution1.GetHashCode(), solution3.GetHashCode());
-            Assert.NotEqual(solution1.GetHashCode(), badObject.GetHashCode());
-            Assert.Equal(solution3.GetHashCode(), solution4.GetHashCode());
 
+        [Theory, MemberData("SolutionsData")]
+        public void GetHashCode_SolutionsVariations_PositiveExpected(object sol1, object Obj, bool expected)
+        {          
+            var actual=sol1.GetHashCode() == Obj.GetHashCode();
+            Assert.Equal(expected, actual);
         }
 
     }

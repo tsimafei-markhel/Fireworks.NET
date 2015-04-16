@@ -7,21 +7,38 @@ namespace FireworksNet.Tests.Model
 {
     public class RangeTests
     {
-        
-        public RangeTests(){  }
-        [Fact]
-        public void IsValueInRange_Calculation_PositiveExpected()
-        {
-            Range range = new Range(-1.0, false, 5.5, true);
-            Assert.False(range.IsInRange(10));
-            Assert.False(range.IsInRange(16));
-            Assert.False(range.IsInRange(-4.5));
-            Assert.False(range.IsInRange(5.5));
+        public readonly Range range;
 
-            Assert.True(range.IsInRange(0.0));
-            Assert.True(range.IsInRange(3.8));
-            Assert.True(range.IsInRange(-1.0));
-            
+        public RangeTests(){
+            range = new Range(-1.0, false, 5.5, true);
+        }
+
+        public static IEnumerable<object[]> SolutionsData
+        {
+            get
+            {
+                Range range1 = Range.Create(100, 50, true, false);
+                return new[] {
+                new object[] { range1, Range.CreateWithRestrictions(100, 50, 40, 160, true, false), true  },
+                new object[] { range1, new Range(40, false, 60, true), false },
+                new object[] { new Range(40, false, 60, false), new Range(40, false, 60, true), false },
+                new object[] { range1, "badObject", false } 
+                };
+            }
+        }
+
+        [Theory,
+        InlineData(10, false),
+        InlineData(16, false),
+        InlineData(-4.5, false),
+        InlineData(5.5, false),
+        InlineData(0.0, true),
+        InlineData(3.8, true),
+        InlineData(-1.0, true)]
+        public void IsValueInRange_Calculation_PositiveExpected(double value, bool expected)
+        {
+            var actual = range.IsInRange(value);
+            Assert.Equal(expected, actual);          
         }
         [Fact]
         public void Range_NaNMinimumParam_ExceptionThrown()
@@ -217,54 +234,27 @@ namespace FireworksNet.Tests.Model
         }
 
 
-        [Fact]
-        public void GetHashCode_RangesVariations_PositiveExpected()
+        [Theory, MemberData("SolutionsData")]
+        public void GetHashCode_RangesVariations_PositiveExpected(object range1, object Obj, bool expected)
         {
-            Range range1 = Range.Create(100, 50, true, false);
-            Range range2 = Range.CreateWithRestrictions(100, 50, 40, 160, true, false);
-            Range range3 = new Range(40, false, 60, true);
-            Range range4 = new Range(40, false, 60, false);
-            Object badObject = "badObject";
+            var actual = range1.GetHashCode() == Obj.GetHashCode();
+            Assert.Equal(expected, actual);
 
-            Assert.Equal(range1.GetHashCode(), range2.GetHashCode());
-            Assert.NotEqual(range1.GetHashCode(), range3.GetHashCode());
-            Assert.NotEqual(range1.GetHashCode(), badObject.GetHashCode());
-            Assert.NotEqual(range3.GetHashCode(), range4.GetHashCode());
-            
         }
-        [Fact]
-        public void Equals_RangesVariations_PositiveExpected()
+         [Theory, MemberData("SolutionsData")]
+        public void Equals_RangesVariations_PositiveExpected(object range1, object Obj, bool expected)
         {
-            Range range1 = Range.Create(100, 50, true, false);
-            Range range2 = Range.CreateWithRestrictions(100, 50, 40, 160, true, false);
-            Range range3 = new Range(40, false, 60, true);
-            Object badObject = "badObject";
-
-            Assert.True(range1.Equals(range2));
-            Assert.False(range1.Equals(range3));
-            Assert.False(range1.Equals(badObject));
-            Assert.False(range1.Equals(null));
+            var actual = range1.Equals(Obj);
+            Assert.Equal(expected, actual);
         }
-        [Fact]
-        public void ComparingOperator_RangesVariations_PositiveExpected()
+        [Theory, MemberData("SolutionsData")]
+        public void ComparingOperator_RangesVariations_PositiveExpected(object range1, object Obj, bool expected)
         {
-            Range range1 = Range.Create(100, 50, true, false);
-            Range range2 = Range.CreateWithRestrictions(100, 50, 40, 160, true, false);
-            Range range3 = new Range(40, false, 60, true);
-            Range range4 = new Range(40, false, 60, false);
-            Object badObject = "badObject";
+            var actual = (range1==Obj);
+            Assert.Equal(expected, actual);
 
-            Assert.True(range1==range2);
-            Assert.False(range1==range3);
-            Assert.False(range4 == range3);
-            Assert.False(range1==badObject);
-            Assert.False(range1==null);
-
-            Assert.False(range1 != range2);
-            Assert.True(range1 != range3);
-            Assert.True(range4 != range3);
-            Assert.True(range1 != badObject);
-            Assert.True(range1 != null);
+            var actual2 = !(range1 != Obj);
+            Assert.Equal(expected, actual);
         }
     }
 }

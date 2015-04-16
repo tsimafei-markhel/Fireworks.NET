@@ -16,7 +16,7 @@ namespace FireworksNet.Tests.Model
         {          
         }
         [Fact]
-        public void ExplosionBase_NegaviteStepNumberParam_ExceptionThrown()
+        public void ExplosionBase_NegativeNumberAs1stParam_ExceptionThrown()
         {
             int stepNumber = -1;
             IDictionary<FireworkType,int> sparkCounts=new Dictionary<FireworkType,int>();
@@ -28,7 +28,7 @@ namespace FireworksNet.Tests.Model
             Assert.Equal(expectedParamName, actualException.ParamName);
         }
         [Fact]
-        public void ExplosionBase_NullSparkCountsParam_ExceptionThrown()
+        public void ExplosionBase_NegativeNumberAs2stParam_ExceptionThrown()
         {
             int stepNumber = 1;
             IDictionary<FireworkType, int> sparkCounts = null;

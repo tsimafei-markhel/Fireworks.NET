@@ -12,12 +12,14 @@ namespace FireworksNet.Tests.Model
         {
             dimension = new Dimension(new Range(5, 15.5));
         }
-        [Fact]
-        public void IsValueInRange_Calculation_PositiveExpected()
+        [Theory, 
+        InlineData(10, true),
+        InlineData(16, false),
+        InlineData(4.5, false)]
+        public void IsValueInRange_Calculation_PositiveExpected(double value, bool expected)
         {
-            Assert.True(dimension.IsValueInRange(10));
-            Assert.False(dimension.IsValueInRange(16));
-            Assert.False(dimension.IsValueInRange(4.5));
+            var actual = dimension.IsValueInRange(value);
+            Assert.Equal(expected, actual);
         }
         [Fact]
         public void Dimension_NegaviteParam_ExceptionThrown()

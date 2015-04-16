@@ -8,8 +8,9 @@ namespace FireworksNet.Tests.Model
    public class FireworkTests
     {
        [Fact]
-       public void Firework_NullCoordinatesParam_ExceptionThrown()
+       public void Firework_NullAs3stParam_ExceptionThrown()
        {
+           
            int birthSpetNumber = 1;
            FireworkType fireworkType = FireworkType.Initial;
            IDictionary<Dimension, double> coordinates = null;
