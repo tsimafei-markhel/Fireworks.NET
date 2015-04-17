@@ -97,35 +97,37 @@ namespace FireworksNet.Tests.Model
             Assert.Equal(expected, actual);
         }
 
-        // TODO: check Range class - method ToString() - he generated System.FormatException
-        /*[Theory, MemberData("RangeData")]
-        public void GetHashCode_RangesVariations_PositiveExpected(object range1, object Obj, bool expected)
+        [Theory, MemberData("RangeData")]
+        public void GetHashCode_RangesVariations_PositiveExpected(object range1, object obj, bool expected)
         {
-
             var hash1 = range1.GetHashCode();
-            var hash2 = Obj.GetHashCode();
-               var actual = (hash1 == hash2);
-            Assert.Equal(expected, actual);
+            var hash2 = obj.GetHashCode();
 
-        }
-         * 
-        [Theory, MemberData("RangeData")]
-        public void Equals_RangesVariations_PositiveExpected(object range1, object Obj, bool expected)
-        {
-            var actual = range1.Equals(Obj);
-            Assert.Equal(expected, actual);
-        }
-         * 
-        [Theory, MemberData("RangeData")]
-        public void ComparingOperator_RangesVariations_PositiveExpected(object range1, object Obj, bool expected)
-        {
-            var actual = (range1 == Obj);
-            Assert.Equal(expected, actual);
+            var actual = (hash1 == hash2);
 
-            var actual2 = !(range1 != Obj);
             Assert.Equal(expected, actual);
         }
-       */
+
+        [Theory, MemberData("RangeData")]
+        public void Equals_RangesVariations_PositiveExpected(object range1, object obj, bool expected)
+        {
+            var actual = range1.Equals(obj);
+
+            Assert.Equal(expected, actual);
+        }
+
+        // TODO: Fix this test
+        /*
+        [Theory, MemberData("RangeData")]
+        public void ComparingOperator_RangesVariations_PositiveExpected(object range1, object obj, bool expected)
+        {
+            var actual = (range1 == obj);
+            var actual2 = !(range1 != obj);
+
+            Assert.Equal(expected, actual);
+            Assert.Equal(expected, actual2);
+        }
+        */
 
         [Fact]
         public void Range_NaNAs1tsParam_ArgumentOutOfRangeExceptionThrown()
