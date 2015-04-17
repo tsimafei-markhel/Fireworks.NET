@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using Xunit;
-using System;
+﻿using System;
 using FireworksNet.Model;
+using Xunit;
 
 namespace FireworksNet.Tests.Model
 {
@@ -10,12 +9,11 @@ namespace FireworksNet.Tests.Model
         [Fact]
         public void InitialExplosion_NegativeAs1stParam_ExceptionThrown()
         {
-
-            int initialSparkaNumber = -1;
-
+            int initialSparksNumber = -1;
             string expectedParamName = "initialSparksNumber";
 
-            ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() => new InitialExplosion(initialSparkaNumber));
+            ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() => new InitialExplosion(initialSparksNumber));
+
             Assert.NotNull(actualException);
             Assert.Equal(expectedParamName, actualException.ParamName);
         }

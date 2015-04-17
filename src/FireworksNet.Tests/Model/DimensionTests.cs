@@ -7,28 +7,32 @@ namespace FireworksNet.Tests.Model
 {
     public class DimensionTests
     {
-        Dimension dimension; 
+        private readonly Dimension dimension;
+
         public DimensionTests()
         {
-            dimension = new Dimension(new Range(5, 15.5));
+            this.dimension = new Dimension(new Range(5, 15.5));
         }
-        [Theory, 
-        InlineData(10, true),
-        InlineData(16, false),
-        InlineData(4.5, false)]
+
+        [Theory]
+        [InlineData(10, true)]
+        [InlineData(16, false)]
+        [InlineData(4.5, false)]
         public void IsValueInRange_Calculation_PositiveExpected(double value, bool expected)
         {
-            var actual = dimension.IsValueInRange(value);
+            bool actual = this.dimension.IsValueInRange(value);
+
             Assert.Equal(expected, actual);
         }
+
         [Fact]
         public void Dimension_NegaviteAs1stParam_ExceptionThrown()
-        {  
-            Range NullVariationRange=null;
-
+        {
+            Range nullVariationRange = null;
             string expectedParamName = "variationRange";
-          
-            ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => new Dimension(NullVariationRange));
+
+            ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => new Dimension(nullVariationRange));
+
             Assert.NotNull(actualException);
             Assert.Equal(expectedParamName, actualException.ParamName);
         }
