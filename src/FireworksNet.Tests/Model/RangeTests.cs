@@ -18,11 +18,61 @@ namespace FireworksNet.Tests.Model
             get
             {
                 Range range1 = Range.Create(100, 50, true, false);
+                Range range2 = Range.CreateWithRestrictions(100, 50, 40, 160, true, false);
+                Range range3 = new Range(40, false, 60, true);
+                Range range4 = new Range(40, false, 60, false);
                 return new[] {
-                //new object[] { range1, Range.CreateWithRestrictions(100, 50, 40, 160, true, false), true  },
-              //  new object[] { range1, new Range(40, false, 60, true), false },
-                //new object[] { new Range(40, false, 60, false), new Range(40, false, 60, true), false },
+                new object[] { range1, range2,      true  },
+                new object[] { range1, range3,      false },
+                new object[] { range4, range3,      false },
                 new object[] { range1, "badObject", false } 
+                };
+            }
+        }
+        public static IEnumerable<object[]> RangeDataOfCreateWithRestrictionsMethod
+        {
+            get
+            {
+                int deviationPercent = 1;
+                double mean = 0.0;
+                double deviationValue = 1.0;
+                double minRestriction = 0;
+                double maxRestriction = 2;
+                return new[] {
+                new object[] { mean,                     deviationPercent,        double.NaN,     maxRestriction, "minimum"  },
+                new object[] { mean,                     deviationPercent,        minRestriction, double.NaN,     "maximum"  },
+                new object[] { mean,                     deviationPercent,        2,              -2,             "minimum"  },
+                new object[] { double.NaN,               deviationPercent,        minRestriction, maxRestriction, "mean"  },
+                new object[] { double.PositiveInfinity,  deviationPercent,        minRestriction, maxRestriction, "mean"  },
+                new object[] { double.NegativeInfinity,  deviationPercent,        minRestriction, maxRestriction, "mean"  },
+                new object[] { double.NaN,               deviationValue,          minRestriction, maxRestriction, "mean"  },
+                new object[] { double.PositiveInfinity,  deviationValue,          minRestriction, maxRestriction, "mean"  },
+                new object[] { double.NegativeInfinity,  deviationValue,          minRestriction, maxRestriction, "mean"  },
+                new object[] { mean,                     -1,                      minRestriction, maxRestriction, "deviationPercent"  },
+                new object[] { mean,                     double.NaN,              minRestriction, maxRestriction, "deviationValue"  },
+                new object[] { mean,                     double.PositiveInfinity, minRestriction, maxRestriction, "deviationValue"  },
+                new object[] { mean,                     double.NegativeInfinity, minRestriction, maxRestriction, "deviationValue"  },
+                };
+            }
+        }
+        public static IEnumerable<object[]> RangeDataOfCreateMethod
+        {
+            get
+            {
+                int deviationPercent = 1;
+                double mean = 0.0;
+                double deviationValue = 1.0;
+                return new[] {
+                new object[] { double.NaN,               deviationPercent,        "mean"  },
+                new object[] { double.PositiveInfinity,  deviationPercent,        "mean"  },
+                new object[] { double.NegativeInfinity,  deviationPercent,        "mean"  },
+                new object[] { double.NaN,               deviationValue,          "mean"  },
+                new object[] { double.PositiveInfinity,  deviationValue,          "mean"  },
+                new object[] { double.NegativeInfinity,  deviationValue,          "mean"  },
+                new object[] { mean,                     -1,                      "deviationPercent"  },
+                new object[] { mean,                     double.NaN,              "deviationValue"  },
+                new object[] { mean,                     double.PositiveInfinity, "deviationValue"  },
+                new object[] { mean,                     double.NegativeInfinity, "deviationValue"  },
                 };
             }
         }
@@ -40,12 +90,15 @@ namespace FireworksNet.Tests.Model
             var actual = range.IsInRange(value);
             Assert.Equal(expected, actual);          
         }
+      // TODO: check Range class - method ToString() - he generated System.FormatException
 
-     /*  [Theory, MemberData("RangeData")]
+        /*[Theory, MemberData("RangeData")]
         public void GetHashCode_RangesVariations_PositiveExpected(object range1, object Obj, bool expected)
         {
 
-            var actual = (range1.GetHashCode() == Obj.GetHashCode());
+            var hash1 = range1.GetHashCode();
+            var hash2 = Obj.GetHashCode();
+               var actual = (hash1 == hash2);
             Assert.Equal(expected, actual);
 
         }
@@ -64,10 +117,10 @@ namespace FireworksNet.Tests.Model
             var actual2 = !(range1 != Obj);
             Assert.Equal(expected, actual);
         }
-        */
+       */
 
         [Fact]
-        public void Range_NaNMinimumParam_ExceptionThrown()
+        public void Range_NaNAs1tsParam_ArgumentOutOfRangeExceptionThrown()
         {
             double min = double.NaN;
             double max = 0;
@@ -79,7 +132,7 @@ namespace FireworksNet.Tests.Model
             Assert.Equal(expectedParamName, actualException.ParamName);
         }
         [Fact]
-        public void Range_NaNMaximumParam_ExceptionThrown()
+        public void Range_NaNAs2ndParam_ArgumentOutOfRangeExceptionThrown()
         {
             double min = 0;
             double max = double.NaN;
@@ -91,7 +144,7 @@ namespace FireworksNet.Tests.Model
             Assert.Equal(expectedParamName, actualException.ParamName);
         }
         [Fact]
-        public void Range_СonfusedMinimumMaximumParams_ExceptionThrown()
+        public void Range_СonfusedAs1stAND2ndParam_ArgumentOutOfRangeExceptionThrown()
         {
             double min = 1;
             double max = -1;
@@ -102,164 +155,28 @@ namespace FireworksNet.Tests.Model
             Assert.NotNull(actualException);
             Assert.Equal(expectedParamName, actualException.ParamName);
         }
-        [Fact]
-        public void Create_NaNMeanParams_ExceptionThrown()
+
+        [Theory, MemberData("RangeDataOfCreateMethod")]
+        public void Create_NegativeParams_ArgumentOutOfRangeExceptionThrown(double mean, object deviation, string expectedParamName)
         {
-            double mean = double.NaN;
-            int deviationPercent = 1;
-
-            string expectedParamName = "mean";
-
-            ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() => Range.Create(mean, deviationPercent));
+            ArgumentOutOfRangeException actualException;
+          if(deviation is double)
+              actualException = Assert.Throws<ArgumentOutOfRangeException>(() => Range.Create(mean, (double)deviation));
+          else
+              actualException = Assert.Throws<ArgumentOutOfRangeException>(() => Range.Create(mean, (int)deviation));
             Assert.NotNull(actualException);
             Assert.Equal(expectedParamName, actualException.ParamName);
         }
-        [Fact]
-        public void Create_InfinityMeanParams_ExceptionThrown()
+        [Theory, MemberData("RangeDataOfCreateWithRestrictionsMethod")]
+        public void CreateWithRestrictions_NegativeParams_ArgumentOutOfRangeExceptionThrown(double mean, object deviation, double minRestriction, double maxRestriction, string expectedParamName)
         {
-            double mean = double.PositiveInfinity;
-            int deviationPercent = 1;
-
-            string expectedParamName = "mean";
-
-            ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() => Range.Create(mean, deviationPercent));
+            ArgumentOutOfRangeException actualException;
+            if (deviation is double)
+                actualException = Assert.Throws<ArgumentOutOfRangeException>(() => Range.CreateWithRestrictions(mean, (double)deviation, minRestriction, maxRestriction));
+            else
+                actualException = Assert.Throws<ArgumentOutOfRangeException>(() => Range.CreateWithRestrictions(mean, (int)deviation, minRestriction, maxRestriction));
             Assert.NotNull(actualException);
             Assert.Equal(expectedParamName, actualException.ParamName);
         }
-        [Fact]
-        public void Create_NegativeDeviationPercentParams_ExceptionThrown()
-        {
-            double mean = 0;
-            int deviationPercent = -1;
-
-            string expectedParamName = "deviationPercent";
-
-            ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() => Range.Create(mean, deviationPercent));
-            Assert.NotNull(actualException);
-            Assert.Equal(expectedParamName, actualException.ParamName);
-        }
-        [Fact]
-        public void Create_NaNDeviationValueParams_ExceptionThrown()
-        {
-            double mean = 0;
-            double deviationValue = double.NaN;
-
-            string expectedParamName = "deviationValue";
-
-            ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() => Range.Create(mean, deviationValue));
-            Assert.NotNull(actualException);
-            Assert.Equal(expectedParamName, actualException.ParamName);
-        }
-        [Fact]
-        public void Create_InfinityDeviationValueParams_ExceptionThrown()
-        {
-            double mean = 0;
-            double deviationValue = double.PositiveInfinity;
-
-            string expectedParamName = "deviationValue";
-
-            ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() => Range.Create(mean, deviationValue));
-            Assert.NotNull(actualException);
-            Assert.Equal(expectedParamName, actualException.ParamName);
-        }
-        [Fact]
-        public void Create_NegativeDeviationValueParams_ExceptionThrown()
-        {
-            double mean = 0;
-            double deviationValue = -1;
-
-            string expectedParamName = "deviationValue";
-
-            ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() => Range.Create(mean, deviationValue));
-            Assert.NotNull(actualException);
-            Assert.Equal(expectedParamName, actualException.ParamName);
-        }
-        [Fact]
-        public void CreateWithRestrictions_NaNMeanParams_ExceptionThrown()
-        {
-            double mean = double.NaN;
-            int deviationPercent = 1;
-            double minRestriction = 0;
-            double maxRestriction = 2;
-
-            string expectedParamName = "mean";
-
-            ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() => Range.CreateWithRestrictions(mean, deviationPercent,minRestriction,maxRestriction));
-            Assert.NotNull(actualException);
-            Assert.Equal(expectedParamName, actualException.ParamName);
-        }
-        [Fact]
-        public void CreateWithRestrictions_InfinityMeanParams_ExceptionThrown()
-        {
-            double mean = double.PositiveInfinity;
-            int deviationPercent = 1;
-            double minRestriction = 0;
-            double maxRestriction = 2;
-
-            string expectedParamName = "mean";
-
-            ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() => Range.CreateWithRestrictions(mean, deviationPercent, minRestriction, maxRestriction));
-            Assert.NotNull(actualException);
-            Assert.Equal(expectedParamName, actualException.ParamName);
-        }
-        [Fact]
-        public void CreateWithRestrictions_NegativeDeviationPercentParams_ExceptionThrown()
-        {
-            double mean = 0;
-            int deviationPercent = -1;
-            double minRestriction = 0;
-            double maxRestriction = 2;
-
-            string expectedParamName = "deviationPercent";
-
-            ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() => Range.CreateWithRestrictions(mean, deviationPercent, minRestriction, maxRestriction));
-            Assert.NotNull(actualException);
-            Assert.Equal(expectedParamName, actualException.ParamName);
-        }
-        [Fact]
-        public void CreateWithRestrictions_NaNDeviationValueParams_ExceptionThrown()
-        {
-            double mean = 0;
-            double deviationValue = double.NaN;
-            double minRestriction = 0;
-            double maxRestriction = 2;
-
-            string expectedParamName = "deviationValue";
-
-            ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() => Range.CreateWithRestrictions(mean, deviationValue, minRestriction, maxRestriction));
-            Assert.NotNull(actualException);
-            Assert.Equal(expectedParamName, actualException.ParamName);
-        }
-        [Fact]
-        public void CreateWithRestrictions_InfinityDeviationValueParams_ExceptionThrown()
-        {
-            double mean = 0;
-            double deviationValue = double.PositiveInfinity;
-            double minRestriction = 0;
-            double maxRestriction = 2;
-
-            string expectedParamName = "deviationValue";
-
-            ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() => Range.CreateWithRestrictions(mean, deviationValue, minRestriction, maxRestriction));
-            Assert.NotNull(actualException);
-            Assert.Equal(expectedParamName, actualException.ParamName);
-        }
-        [Fact]
-        public void CreateWithRestrictions_NegativeDeviationValueParams_ExceptionThrown()
-        {
-            double mean = 0;
-            double deviationValue =-1.0;
-            double minRestriction = 0;
-            double maxRestriction = 2;
-
-            string expectedParamName = "deviationValue";
-
-            ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() => Range.CreateWithRestrictions(mean, deviationValue, minRestriction, maxRestriction));
-            Assert.NotNull(actualException);
-            Assert.Equal(expectedParamName, actualException.ParamName);
-        }
-
-
-        
     }
 }

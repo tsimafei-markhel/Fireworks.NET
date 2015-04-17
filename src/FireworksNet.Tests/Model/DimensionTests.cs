@@ -22,7 +22,7 @@ namespace FireworksNet.Tests.Model
             Assert.Equal(expected, actual);
         }
         [Fact]
-        public void Dimension_NegaviteParam_ExceptionThrown()
+        public void Dimension_NegaviteAs1stParam_ExceptionThrown()
         {  
             Range NullVariationRange=null;
 

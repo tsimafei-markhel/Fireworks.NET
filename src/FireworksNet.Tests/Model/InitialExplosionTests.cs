@@ -8,7 +8,7 @@ namespace FireworksNet.Tests.Model
     public class InitialExplosionTests
     {
         [Fact]
-        public void InitialExplosion_NegativeInitialSparksNumberParam_ExceptionThrown()
+        public void InitialExplosion_NegativeAs1stParam_ExceptionThrown()
         {
 
             int initialSparkaNumber = -1;

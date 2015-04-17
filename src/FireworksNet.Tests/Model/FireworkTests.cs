@@ -8,7 +8,7 @@ namespace FireworksNet.Tests.Model
    public class FireworkTests
     {
        [Fact]
-       public void Firework_NullAs3stParam_ExceptionThrown()
+       public void Firework_NullAs3tdParam_ExceptionThrown()
        {
            
            int birthSpetNumber = 1;
@@ -22,7 +22,7 @@ namespace FireworksNet.Tests.Model
            Assert.Equal(expectedParamName, actualException.ParamName);
        }
        [Fact]
-       public void Firework_NegaviteBirthSpetNumberParam_ExceptionThrown()
+       public void Firework_NegaviteAs2ndParam_ExceptionThrown()
        {
            int birthSpetNumber = -1;
            FireworkType fireworkType = FireworkType.Initial;

@@ -13,7 +13,7 @@ namespace FireworksNet.Tests.Model
             algoritmState = new AlgorithmState();
         }
         [Fact]
-        public void SetterFireworks_NullValue_ExceptionThrown()
+        public void FireworksSetter_NullValue_ExceptionThrown()
         {
             IEnumerable<Firework> param = null;
 
@@ -23,7 +23,7 @@ namespace FireworksNet.Tests.Model
             Assert.Equal(expectedParamName, actualException.ParamName);
         }
         [Fact]
-        public void SetterStepNumber_NegativeValue_ExceptionThrown()
+        public void StepNumberSetter_NegativeValue_ExceptionThrown()
         {   
             int stepNumber = -1;
 
@@ -33,7 +33,7 @@ namespace FireworksNet.Tests.Model
             Assert.Equal(expectedParamName, actualException.ParamName);
         }
         [Fact]
-        public void SetterBestSolution_NullValue_ExceptionThrown()
+        public void BestSolutionSetter_NullValue_ExceptionThrown()
         {
             Solution param = null;
 

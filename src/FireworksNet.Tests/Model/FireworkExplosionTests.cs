@@ -8,7 +8,7 @@ namespace FireworksNet.Tests.Model
     public class FireworkExplosionTests
     {
         [Fact]
-        public void FirewordExplosion_NullParentFireworkParam_ExceptionThrown()
+        public void FirewordExplosion_NullAs1stParam_ExceptionThrown()
         {
             Firework parent = null;
             int stepNumber = 1;
@@ -23,7 +23,7 @@ namespace FireworksNet.Tests.Model
 
         }
         [Fact]
-        public void FirewordExplosion_NaNAmplitudeParam_ExceptionThrown()
+        public void FirewordExplosion_NaNAs3tdParam_ExceptionThrown()
         {
             Firework parent = new Firework(FireworkType.Initial,1);
             int stepNumber = 1;
@@ -38,7 +38,7 @@ namespace FireworksNet.Tests.Model
 
         }
         [Fact]
-        public void FirewordExplosion_InfinityAmplitudeParam_ExceptionThrown()
+        public void FirewordExplosion_InfinityAs3tdParam_ExceptionThrown()
         {
             Firework parent = new Firework(FireworkType.Initial, 1);
             int stepNumber = 1;
