@@ -15,10 +15,9 @@ namespace FireworksNet.Explode
     public class FireworkSearchMutator : IFireworkMutator
     {
         private ParallelFireworksAlgorithm.QualityCalculatorDelegate calculator;
-        private IFireworkMutator mutator;
         private ISparkGenerator generator;
         private IFireworkSelector selector;
-        private int quantityStepsResearch;
+        private int searchExplosionsCount;
 
         /// <summary>
         /// Create instance of SearchMutator.
@@ -27,28 +26,21 @@ namespace FireworksNet.Explode
         /// <param name="mutator">Execute mutation of firework.</param>
         /// <param name="generator">Generate fireworks during search.</param>
         /// <param name="selector">Util class for select best firework, after generate.</param>
-        /// <param name="quantityStepsResearch">Quantity of search iterations.</param>
+        /// <param name="searchExplosionsCount">Quantity of search iterations.</param>
         /// <exception cref="System.ArgumentNullException"> 
         /// if <paramref name="calculator"/> or <paramref name="mutator"/> or <paramref name="generator"/> or <paramref name="selector"/> is <c>null</c>.
         /// </exception>
         /// <exception cref="System.ArgumentException">
-        /// if <paramref name="quantityStepsResearch"/> is negative.
+        /// if <paramref name="searchExplosionsCount"/> is negative.
         /// </exception>
-        public FireworkSearchMutator(
-            ParallelFireworksAlgorithm.QualityCalculatorDelegate calculator,
-            IFireworkMutator mutator,
+        public FireworkSearchMutator( ParallelFireworksAlgorithm.QualityCalculatorDelegate calculator,
             ISparkGenerator generator,
             IFireworkSelector selector,
-            int quantityStepsResearch)
+            int searchExplosionsCount)
         {
             if (calculator == null)
             {
                 throw new ArgumentNullException("calculator");
-            }
-
-            if (mutator == null)
-            {
-                throw new ArgumentNullException("mutator");
             }
 
             if (generator == null)
@@ -61,22 +53,21 @@ namespace FireworksNet.Explode
                 throw new ArgumentNullException("selector");
             }
 
-            if (quantityStepsResearch < 1)
+            if (searchExplosionsCount < 1)
             {
-                throw new ArgumentException("quantityStepsResearch");
+                throw new ArgumentException("searchExplosionsCount");
             }
 
             this.calculator = calculator;
-            this.mutator = mutator;
             this.generator = generator;
             this.selector = selector;
-            this.quantityStepsResearch = quantityStepsResearch;
+            this.searchExplosionsCount = searchExplosionsCount;
         }
 
         /// <summary>
         /// Executes search. It will be explodes firework 'L' times.
         /// Here, the "L" is set in the <see cref="ParallelFireworksAlgorithmSettings"/>.
-        /// 'L' equals ParallelFireworksAlgorithmSettings.QuantityStepsResearch;
+        /// 'L' equals ParallelFireworksAlgorithmSettings.searchExplosionsCount;
         /// </summary>
         /// <param name="bestFirework">The Firework for mutate.</param>
         /// <param name="explosion">The explosion that gives birth to the spark.</param>
@@ -86,22 +77,20 @@ namespace FireworksNet.Explode
             Debug.Assert(explosion != null, "Explosion is null");
             Debug.Assert(explosion.ParentFirework != null, "Explosion parent firework is null");
             Debug.Assert(explosion.ParentFirework.Coordinates != null, "Explosion parent firework coordinate collection is null");
-            Debug.Assert(quantityStepsResearch < 1, "Quantity steps of research < 1");
+            Debug.Assert(searchExplosionsCount < 1, "Search explosions count < 1");
 
-            for (int i = 0; i < quantityStepsResearch; ++i)
+            for (int i = 0; i < searchExplosionsCount; ++i)
             {
                 IEnumerable<Firework> sparks = this.generator.CreateSparks(explosion);
                 Debug.Assert(sparks != null, "Sparks cannot is null");
 
                 this.calculator(sparks);
 
-                Firework newState = this.selector.SelectFireworks(sparks, 1).First();//best firework
+                Firework newState = this.selector.SelectFireworks(sparks).First();//best firework
                 Debug.Assert(newState != null, "New state firework is null");
 
                 mutableFirework.Update(newState);
             }
-
-            mutator.MutateFirework(ref mutableFirework, explosion);
         }
     }
 }

@@ -28,6 +28,6 @@
         /// L - Quantity of steps of research.
         /// L recommended be 16 or multiple of 16.
         /// </summary>
-        public int QuantityStepsResearch { get; set; }
+        public int SearchExplosionsCount { get; set; }
     }
 }

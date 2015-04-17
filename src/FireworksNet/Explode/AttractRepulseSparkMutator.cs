@@ -19,8 +19,7 @@ namespace FireworksNet.Explode
         /// </summary>
         /// <param name="generator">Attract-Repulse generator for generate spark.</param>
         /// <exception cref="System.ArgumentNullException">
-        /// if <paramref name="generator"/> is <c>null</c>
-        /// </exception>        
+        /// if <paramref name="generator"/> is <c>null</c> </exception>        
         public AttractRepulseSparkMutator(ISparkGenerator generator)
         {
             if (generator == null)

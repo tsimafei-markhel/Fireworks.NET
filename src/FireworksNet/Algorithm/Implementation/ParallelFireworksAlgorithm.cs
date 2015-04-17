@@ -9,6 +9,7 @@ using FireworksNet.Explode;
 using FireworksNet.Distributions;
 using FireworksNet.Algorithm.Implementation;
 using FireworksNet.Selection;
+using FireworksNet.Random;
 
 namespace FireworksNet.Algorithm
 {
@@ -79,7 +80,7 @@ namespace FireworksNet.Algorithm
             this.StopCondition = stopCondition;
             this.Settings = settings;
 
-            this.randomizer = new FireworksNet.Random.DefaultRandom();
+            this.randomizer = new DefaultRandom();
             this.distribution = new ContinuousUniformDistribution(settings.Amplitude - settings.Delta, settings.Amplitude + settings.Delta);
 
             this.state = CreateInitialState();// order necessary: invoke before initialize AttractRepulseSparkMutator!
@@ -88,7 +89,7 @@ namespace FireworksNet.Algorithm
             ISparkGenerator generator = new AttractRepulseSparkGenerator(bestSolution, problem.Dimensions, distribution, randomizer);
             IFireworkMutator mutator = new AttractRepulseSparkMutator(generator);
             IFireworkSelector selector = new BestFireworkSelector((fireworks) => fireworks.OrderBy(f => f.Quality).First<Firework>());//select best
-            this.researcher = new FireworkSearchMutator(CalculateQualities, mutator, generator, selector, settings.QuantityStepsResearch);
+            this.researcher = new FireworkSearchMutator(CalculateQualities, generator, selector, settings.SearchExplosionsCount);
             
             this.exploder = new ParallelExploder(new ParallelExploderSettings()
             {                

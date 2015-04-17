@@ -51,7 +51,6 @@ namespace FireworksNet.Explode
 
             IDictionary<FireworkType, int> sparks = new Dictionary<FireworkType, int>()
             {
-                {FireworkType.ExplosionSpark, this.settings.FixedQuantitySparks},
                 {FireworkType.SpecificSpark, this.settings.FixedQuantitySparks}
             };
 
