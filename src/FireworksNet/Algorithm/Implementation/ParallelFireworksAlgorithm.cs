@@ -89,7 +89,6 @@ namespace FireworksNet.Algorithm
             ISparkGenerator generator = new AttractRepulseSparkGenerator(bestSolution, problem.Dimensions, distribution, randomizer);
             IFireworkMutator mutator = new AttractRepulseSparkMutator(generator);
             IFireworkSelector selector = new BestFireworkSelector((fireworks) => fireworks.OrderBy(f => f.Quality).First<Firework>());//select best
-            this.researcher = new FireworkSearchMutator(CalculateQualities, generator, selector, settings.SearchExplosionsCount);
             
             this.exploder = new ParallelExploder(new ParallelExploderSettings()
             {                
