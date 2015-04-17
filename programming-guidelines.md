@@ -90,6 +90,13 @@ LocationSelector
 ```
 Rosenbrock2013
 ```
+- Put each attribute inside its own set of brackets, each on its own line.
+```csharp
+[Attribute]
+[AnotherAttribute(true)]
+public void SomeMethod()
+{ }
+```
 
 
 ##General Rules
