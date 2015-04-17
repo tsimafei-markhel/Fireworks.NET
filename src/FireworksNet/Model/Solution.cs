@@ -77,6 +77,8 @@ namespace FireworksNet.Model
             unchecked
             {
                 int hash = 17;
+                // TODO: added cap.
+                if (this.Coordinates!=null)
                 hash = hash * 29 + this.Coordinates.GetHashCode();
                 hash = hash * 29 + this.Quality.GetHashCode();
 

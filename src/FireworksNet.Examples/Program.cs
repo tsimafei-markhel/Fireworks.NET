@@ -1,4 +1,6 @@
-﻿using FireworksNet.Algorithm.Implementation;
+﻿using System;
+
+using FireworksNet.Algorithm.Implementation;
 using FireworksNet.Model;
 using FireworksNet.Problems.Benchmark;
 using FireworksNet.StopConditions;
@@ -9,6 +11,12 @@ namespace FireworksNet.Examples
     {
         private static void Main(string[] args)
         {
+
+            Range range1 = Range.Create(100, 50, true, false);
+            String s = range1.ToString();
+            Console.WriteLine(s);
+           
+
             // 1. Define a problem to solve
             Sphere problem = Sphere.Create();
 
