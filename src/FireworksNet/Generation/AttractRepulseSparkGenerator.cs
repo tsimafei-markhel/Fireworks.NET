@@ -1,40 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using FireworksNet.Distributions;
 using FireworksNet.Extensions;
 using FireworksNet.Model;
 
-namespace FireworksNet.Explode
+namespace FireworksNet.Generation
 {
     /// <summary>
-    /// Conventional Explosion spark generator, as described in 2010 paper.
+    /// Implementation of Attract-Repulse mutation algorithm, as described in 2013 GPU paper.
     /// </summary>
-    public class ExplosionSparkGenerator : SparkGeneratorBase<FireworkExplosion>
+    public class AttractRepulseSparkGenerator : SparkGeneratorBase<FireworkExplosion>
     {
+        /// <summary>
+        /// The current best solution in global scope.
+        /// </summary>
+        private readonly Solution bestSolution;
         private readonly IEnumerable<Dimension> dimensions;
+        private readonly IContinuousDistribution distribution;
         private readonly System.Random randomizer;
-
-        private const double offsetDisplacementRandomMin = -1.0;
-        private const double offsetDisplacementRandomMax = 1.0;
 
         /// <summary>
         /// Gets the type of the generated spark.
         /// </summary>
-        public override FireworkType GeneratedSparkType { get { return FireworkType.ExplosionSpark; } }
+        public override FireworkType GeneratedSparkType { get { return FireworkType.SpecificSpark; } }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExplosionSparkGenerator"/> class.
+        /// Initializes a new instance of the <see cref="AttractRepulseSparkGenerator"/> class.
         /// </summary>
+        /// <param name="bestSolution">The current best solution in global scope.</param>
         /// <param name="dimensions">The dimensions to fit generated sparks into.</param>
+        /// <param name="distribution">The distribution to be used to obtain scaling factor.</param>
         /// <param name="randomizer">The randomizer.</param>
-        /// <exception cref="System.ArgumentNullException"> if <paramref name="dimensions"/>
-        /// or <paramref name="randomizer"/> is <c>null</c>.
+        /// <exception cref="System.ArgumentNullException"> if <paramref name="bestSolution"/>
+        /// or <paramref name="dimensions"/> or <paramref name="distribution"/> or
+        /// <paramref name="randomizer"/> is <c>null</c>.
         /// </exception>
-        public ExplosionSparkGenerator(IEnumerable<Dimension> dimensions, System.Random randomizer)
+        public AttractRepulseSparkGenerator(Solution bestSolution, IEnumerable<Dimension> dimensions, IContinuousDistribution distribution, System.Random randomizer)
         {
+            if (bestSolution == null)
+            {
+                throw new ArgumentNullException("bestSolution");
+            }
+
             if (dimensions == null)
             {
                 throw new ArgumentNullException("dimensions");
+            }
+
+            if (distribution == null)
+            {
+                throw new ArgumentNullException("distribution");
             }
 
             if (randomizer == null)
@@ -42,7 +58,9 @@ namespace FireworksNet.Explode
                 throw new ArgumentNullException("randomizer");
             }
 
+            this.bestSolution = bestSolution;
             this.dimensions = dimensions;
+            this.distribution = distribution;
             this.randomizer = randomizer;
         }
 
@@ -56,14 +74,19 @@ namespace FireworksNet.Explode
             Debug.Assert(explosion != null, "Explosion is null");
             Debug.Assert(explosion.ParentFirework != null, "Explosion parent firework is null");
             Debug.Assert(explosion.ParentFirework.Coordinates != null, "Explosion parent firework coordinate collection is null");
-            Debug.Assert(this.randomizer != null, "Randomizer is null");
-            Debug.Assert(this.dimensions != null, "Dimension collection is null");
 
             Firework spark = new Firework(this.GeneratedSparkType, explosion.StepNumber, explosion.ParentFirework.Coordinates);
 
-            Debug.Assert(spark.Coordinates != null, "Spark coordinate collection is null");
+            // Attract-Repulse scaling factor. (1-δ, 1+δ)
+            double scalingFactor = this.distribution.Sample();
 
-            double offsetDisplacement = explosion.Amplitude * this.randomizer.NextDouble(ExplosionSparkGenerator.offsetDisplacementRandomMin, ExplosionSparkGenerator.offsetDisplacementRandomMax);
+            Solution copyOfBestSolution = null;
+
+            lock (this.bestSolution)
+            {
+                copyOfBestSolution = new Solution(this.bestSolution.Coordinates, this.bestSolution.Quality);
+            }
+
             foreach (Dimension dimension in this.dimensions)
             {
                 Debug.Assert(dimension != null, "Dimension is null");
@@ -72,7 +95,7 @@ namespace FireworksNet.Explode
 
                 if (this.randomizer.NextBoolean()) // Coin flip
                 {
-                    spark.Coordinates[dimension] += offsetDisplacement;
+                    spark.Coordinates[dimension] += (spark.Coordinates[dimension] - copyOfBestSolution.Coordinates[dimension]) * scalingFactor;
                     if (!dimension.IsValueInRange(spark.Coordinates[dimension]))
                     {
                         spark.Coordinates[dimension] = dimension.VariationRange.Minimum + Math.Abs(spark.Coordinates[dimension]) % dimension.VariationRange.Length;

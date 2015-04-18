@@ -15,7 +15,7 @@ namespace FireworksNet.Model
         /// during initialization. It should be used when interval boundaries
         /// have to be formatted.
         /// </summary>
-        private String cachedStringFormat;
+        private string cachedStringFormat;
 
         /// <summary>
         /// Gets lower boundary of the <see cref="Range"/>.
@@ -82,7 +82,7 @@ namespace FireworksNet.Model
             this.IsMaximumOpen = double.IsPositiveInfinity(this.Maximum) ? true : isMaximumOpen;
             this.IsOpen = this.IsMinimumOpen && this.IsMaximumOpen;
 
-            this.cachedStringFormat = (this.IsMinimumOpen ? "(" : "[") + "{1}, {2}" + (this.IsMaximumOpen ? ")" : "]");
+            this.cachedStringFormat = (this.IsMinimumOpen ? "(" : "[") + "{0}, {1}" + (this.IsMaximumOpen ? ")" : "]");
         }
 
         /// <summary>
@@ -150,12 +150,12 @@ namespace FireworksNet.Model
 
         /// <summary>
         /// Converts <see cref="Range"/> value to string with desired <paramref name="format"/> 
-        /// for <see cref="double"/> to <see cref="String"/> conversion.
+        /// for <see cref="double"/> to <see cref="string"/> conversion.
         /// </summary>
-        /// <param name="format"><see cref="double"/> to <see cref="String"/> format.</param>
+        /// <param name="format"><see cref="double"/> to <see cref="string"/> format.</param>
         /// <returns>String representation of this <see cref="Range"/> instance. Boundaries
         /// are formatted with <paramref name="format"/>.</returns>
-        public String ToString(String format)
+        public string ToString(string format)
         {
             return this.ToString(format, CultureInfo.CurrentCulture);
         }
@@ -169,32 +169,32 @@ namespace FireworksNet.Model
         /// to obtain the numeric format information from the current locale
         /// setting of the operating system.</param>
         /// <returns>The value of the current instance in the specified format.</returns>
-        public String ToString(String format, IFormatProvider formatProvider)
+        public string ToString(string format, IFormatProvider formatProvider)
         {
-            return String.Format(this.cachedStringFormat, this.Minimum.ToString(format, formatProvider), this.Maximum.ToString(format, formatProvider));
+            return string.Format(this.cachedStringFormat, this.Minimum.ToString(format, formatProvider), this.Maximum.ToString(format, formatProvider));
         }
 
         /// <summary>
-        /// Converts <see cref="Range"/> value to <see cref="String"/> 
+        /// Converts <see cref="Range"/> value to <see cref="string"/> 
         /// with <see cref="CultureInfo.Invariant"/>.
         /// </summary>
         /// <returns>String representation of this <see cref="Range"/> 
         /// instance - for <see cref="CultureInfo.Invariant"/>.</returns>
-        public String ToStringInvariant()
+        public string ToStringInvariant()
         {
-            return this.ToStringInvariant((String)null);
+            return this.ToStringInvariant((string)null);
         }
 
         /// <summary>
         /// Converts <see cref="Range"/> value to string with desired <paramref name="format"/> 
-        /// for <see cref="double"/> to <see cref="String"/> conversion and <see cref="CultureInfo.Invariant"/>.
+        /// for <see cref="double"/> to <see cref="string"/> conversion and <see cref="CultureInfo.Invariant"/>.
         /// </summary>
-        /// <param name="format"><see cref="double"/> to <see cref="String"/> format.</param>
+        /// <param name="format"><see cref="double"/> to <see cref="string"/> format.</param>
         /// <returns>String representation of this <see cref="Range"/> instance. Boundaries
         /// are formatted with <paramref name="format"/> - for <see cref="CultureInfo.Invariant"/>.</returns>
-        public String ToStringInvariant(String format)
+        public string ToStringInvariant(string format)
         {
-            return String.Format(this.cachedStringFormat, this.Minimum.ToString(format, CultureInfo.InvariantCulture), this.Maximum.ToString(format, CultureInfo.InvariantCulture));
+            return string.Format(this.cachedStringFormat, this.Minimum.ToString(format, CultureInfo.InvariantCulture), this.Maximum.ToString(format, CultureInfo.InvariantCulture));
         }
 
         #endregion
@@ -620,9 +620,9 @@ namespace FireworksNet.Model
         /// Returns a string that represents the current <see cref="Range"/> instance.
         /// </summary>
         /// <returns>A string that represents the current <see cref="Range"/> instance.</returns>
-        public override String ToString()
+        public override string ToString()
         {
-            return this.ToString((String)null, CultureInfo.CurrentCulture);
+            return this.ToString((string)null, CultureInfo.CurrentCulture);
         }
 
         #endregion

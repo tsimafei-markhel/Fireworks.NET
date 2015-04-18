@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using FireworksNet.Distances;
 using FireworksNet.Model;
 using FireworksNet.Selection;
-using FireworksNet.Distances;
-using Xunit;
 using NSubstitute;
+using Xunit;
 
 namespace FireworksNet.Tests.Selection
 {
@@ -30,12 +30,13 @@ namespace FireworksNet.Tests.Selection
             {
                 this.distanceCalculator.Calculate(this.bestFirework, this.allFireworks[i]).Returns(i);
             }
+
             this.nearBestSelector = new NearBestFireworkSelector(this.distanceCalculator, this.getBest, this.samplingNumber);
         }
 
         [Fact]
         public void SelectFireworks_PresentAllParam_ReturnsEqualFireworks()
-        {                 
+        {
             IEnumerable<Firework> expectedFireworks = SelectorTestsHelper.NearBestFireworks;
 
             IEnumerable<Firework> resultingFireworks = this.nearBestSelector.SelectFireworks(this.allFireworks, this.samplingNumber);
@@ -46,7 +47,7 @@ namespace FireworksNet.Tests.Selection
 
         [Fact]
         public void SelectFireworks_PresentAllParam_ReturnsNonEqualFireworks()
-        {          
+        {
             IEnumerable<Firework> expectedFireworks = SelectorTestsHelper.NonNearBestFirework;
 
             IEnumerable<Firework> resultingFireworks = this.nearBestSelector.SelectFireworks(this.allFireworks, this.samplingNumber);
