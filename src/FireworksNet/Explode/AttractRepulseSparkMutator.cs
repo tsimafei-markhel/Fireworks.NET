@@ -32,8 +32,15 @@ namespace FireworksNet.Explode
 
         public void MutateFirework(ref MutableFirework mutableFirework, FireworkExplosion explosion)
         {
-            Debug.Assert(mutableFirework != null, "Mutable firework is null");
-            Debug.Assert(explosion != null, "Explosion is null");
+            if (mutableFirework == null)
+            {
+                throw new ArgumentNullException("mutableFirework");
+            }
+
+            if (explosion == null)
+            {
+                throw new ArgumentNullException("explosion");
+            }
 
             Firework newState = this.generator.CreateSpark(explosion);
             mutableFirework.Update(newState);

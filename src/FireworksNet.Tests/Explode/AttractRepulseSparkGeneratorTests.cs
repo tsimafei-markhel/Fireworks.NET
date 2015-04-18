@@ -27,7 +27,7 @@ namespace FireworksNet.Tests.Explode
             var dimensions = Substitute.For<IList<Dimension>>();                
             var randomizer = Substitute.For<System.Random>();
             var distribution = Substitute.For<ContinuousUniformDistribution>(Amplitude - Delta, Amplitude + Delta);           
-           
+            
             var epicenter = Substitute.For<Firework>(expectedFireworkType, expectedBirthStepNumber - 1);
             var qualities = Substitute.For<IEnumerable<double>>();
             var sparks = Substitute.For<Dictionary<FireworkType, int>>();
@@ -49,11 +49,11 @@ namespace FireworksNet.Tests.Explode
             Solution bestSolution, IEnumerable<Dimension> dimensions, ContinuousUniformDistribution distribution, System.Random randomizer, string expectedParamName)
         {
             //Act
-            ArgumentNullException exeption = Assert.Throws<ArgumentNullException>(
+            ArgumentNullException exception = Assert.Throws<ArgumentNullException>(
                 () => new AttractRepulseSparkGenerator(bestSolution, dimensions, distribution, randomizer));
 
             //Assert
-            Assert.Equal(expectedParamName, exeption.ParamName);
+            Assert.Equal(expectedParamName, exception.ParamName);
         }        
     }
 }
