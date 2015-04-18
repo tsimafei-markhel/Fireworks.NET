@@ -6,6 +6,7 @@ using FireworksNet.Distances;
 using FireworksNet.Distributions;
 using FireworksNet.Explode;
 using FireworksNet.Extensions;
+using FireworksNet.Generation;
 using FireworksNet.Model;
 using FireworksNet.Problems;
 using FireworksNet.Random;
@@ -270,7 +271,6 @@ namespace FireworksNet.Algorithm.Implementation
             IEnumerable<Firework> specificSparks = new List<Firework>(this.Settings.SpecificSparksNumber);
             IEnumerable<int> specificSparkParentIndices = this.randomizer.NextUniqueInt32s(this.Settings.SpecificSparksNumber, 0, this.Settings.LocationsNumber);
             int currentFirework = 0;
-            
             foreach (Firework firework in state.Fireworks)
             {
                 Debug.Assert(firework != null, "Firework is null");

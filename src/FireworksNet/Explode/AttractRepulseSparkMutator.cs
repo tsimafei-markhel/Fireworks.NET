@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Diagnostics;
+using System.Collections.Generic;
 using FireworksNet.Distributions;
 using FireworksNet.Explode;
 using FireworksNet.Model;
-using System;
-using System.Diagnostics;
+using FireworksNet.Generation;
 
 namespace FireworksNet.Explode
 {

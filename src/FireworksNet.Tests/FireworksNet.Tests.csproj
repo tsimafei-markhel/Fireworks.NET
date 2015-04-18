@@ -51,11 +51,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Explode\TestDataSource.cs" />
-    <Compile Include="Explode\AttractRepulseSparkGeneratorTests.cs" />
-    <Compile Include="Explode\AttractRepulseSparkMutatorTests.cs" />
-    <Compile Include="Explode\ParallelExploderTests.cs" />
+    <Compile Include="Distances\EuclideanDistanceTests.cs" />
+    <Compile Include="Explode\ExploderTests.cs" />
+    <Compile Include="Generation\AbstractSourceData.cs" />
+    <Compile Include="Generation\AttractRepulseSparkGeneratorTests.cs" />
     <Compile Include="Extensions\DoubleExtensionsTests.cs" />
+    <Compile Include="Model\AlgorithmStateTests.cs" />
+    <Compile Include="Model\DimensionTests.cs" />
+    <Compile Include="Model\ExsplosionBaseTests.cs" />
+    <Compile Include="Model\FireworkExplosionTests.cs" />
+    <Compile Include="Model\FireworkTests.cs" />
+    <Compile Include="Model\InitialExplosionTests.cs" />
+    <Compile Include="Model\RangeTests.cs" />
+    <Compile Include="Model\SolutionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Selection\BestSelectorTests.cs" />
     <Compile Include="Selection\SelectorTestsHelper.cs" />
@@ -75,6 +83,7 @@
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
