@@ -6,9 +6,9 @@ using NSubstitute;
 using System;
 using Xunit;
 
-namespace FireworksNet.Tests.Explode
+namespace FireworksNet.Tests.Generation
 {
-    public class AttractRepulseSparkMutatorTests : TestDataSource
+    public class AttractRepulseSparkMutatorTests : AbstractSourceData
     {
         [Fact]
         public void CreateInstanceOfAttractRepulseSparkMutator_PassValidParameter()

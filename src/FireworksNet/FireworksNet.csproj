@@ -53,7 +53,7 @@
     <Compile Include="Algorithm\IStepperFireworksAlgorithm.cs" />
     <Compile Include="Distances\DistanceBase.cs" />
     <Compile Include="Distributions\ContinuousUniformDistribution.cs" />
-    <Compile Include="Explode\AttractRepulseSparkMutator.cs" />
+    <Compile Include="Generation\AttractRepulseSparkMutator.cs" />
     <Compile Include="Explode\IFireworkMutator.cs" />
     <Compile Include="Explode\ParallelExploder.cs" />
     <Compile Include="Explode\ParallelExploderSettings.cs" />
