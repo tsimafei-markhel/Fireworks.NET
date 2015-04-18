@@ -54,9 +54,7 @@
     <Compile Include="Distances\DistanceBase.cs" />
     <Compile Include="Distributions\ContinuousUniformDistribution.cs" />
     <Compile Include="Generation\AttractRepulseSparkMutator.cs" />
-    <Compile Include="Explode\IFireworkMutator.cs" />
-    <Compile Include="Explode\ParallelExploder.cs" />
-    <Compile Include="Explode\ParallelExploderSettings.cs" />
+    <Compile Include="Generation\IFireworkMutator.cs" />
     <Compile Include="Extensions\RandomExtensions.cs" />
     <Compile Include="Algorithm\Implementation\FireworksAlgorithmSettings.cs" />
     <Compile Include="Distances\EuclideanDistance.cs" />

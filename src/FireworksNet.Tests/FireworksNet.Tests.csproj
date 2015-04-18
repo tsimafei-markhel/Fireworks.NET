@@ -52,8 +52,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Distances\EuclideanDistanceTests.cs" />
-    <Compile Include="Explode\ParallelExploderTests.cs" />
-    <Compile Include="Explode\AbstractSourceData.cs" />
     <Compile Include="Generation\AttractRepulseSparkMutatorTests.cs" />
     <Compile Include="Explode\ExploderTests.cs" />
     <Compile Include="Generation\AbstractSourceData.cs" />
