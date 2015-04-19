@@ -65,7 +65,6 @@
     <Compile Include="Distributions\NormalDistribution.cs" />
     <Compile Include="Explode\Exploder.cs" />
     <Compile Include="Explode\ExploderSettings.cs" />
-    <Compile Include="Extensions\DoubleExtensions.cs" />
     <Compile Include="Algorithm\Implementation\FireworksAlgorithm.cs" />
     <Compile Include="Algorithm\IFireworksAlgorithm.cs" />
     <Compile Include="Generation\AttractRepulseSparkGenerator.cs" />
