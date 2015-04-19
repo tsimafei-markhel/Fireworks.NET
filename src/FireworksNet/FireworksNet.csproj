@@ -53,6 +53,7 @@
     <Compile Include="Algorithm\IStepperFireworksAlgorithm.cs" />
     <Compile Include="Distances\DistanceBase.cs" />
     <Compile Include="Distributions\ContinuousUniformDistribution.cs" />
+    <Compile Include="Explode\IExploder.cs" />
     <Compile Include="Generation\AttractRepulseSparkMutator.cs" />
     <Compile Include="Generation\IFireworkMutator.cs" />
     <Compile Include="Extensions\RandomExtensions.cs" />
@@ -63,7 +64,6 @@
     <Compile Include="Distributions\NormalDistribution.cs" />
     <Compile Include="Explode\Exploder.cs" />
     <Compile Include="Explode\ExploderSettings.cs" />
-    <Compile Include="Explode\IExploder.cs" />
     <Compile Include="Extensions\DoubleExtensions.cs" />
     <Compile Include="Algorithm\Implementation\FireworksAlgorithm.cs" />
     <Compile Include="Algorithm\IFireworksAlgorithm.cs" />
