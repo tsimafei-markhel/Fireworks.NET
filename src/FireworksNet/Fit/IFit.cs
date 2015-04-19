@@ -3,7 +3,7 @@
 namespace FireworksNet.Fit
 {
     /// <summary>
-    /// Approximation by function.
+    /// Approximation a function.
     /// </summary>
     public interface IFit
     {

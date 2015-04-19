@@ -11,7 +11,9 @@ namespace FireworksNet.Differentiation
         /// Differentiates <param name="func">.
         /// </summary>
         /// <param name="func">Function for differentiation.</param>
-        /// <returns>Differentiated function of <param name="func"></returns>
+        /// <returns>Differentiated function of <param name="func">.</returns>
+        /// <exception cref="System.ArgumentNullException"> if <paramref name="func"/>
+        /// is <c>null</c>.</exception>
         public virtual Func<double, double> Differentiate(Func<double, double> func)
         {
             if (func == null)

@@ -14,7 +14,7 @@ namespace FireworksNet.Solver
         /// <param name="polynomialFunc">Polynomial function to finding root.</param>
         /// <param name="variationRange">Represents an interval of finding root.</param>
         /// <returns>Root of <param name="polynomialFunc"> on 
-        /// <param name="variationRange"></returns>
+        /// <param name="variationRange">.</returns>
         double Solve(Func<double, double> polynomialFunc, Range variationRange);
     }
 }
