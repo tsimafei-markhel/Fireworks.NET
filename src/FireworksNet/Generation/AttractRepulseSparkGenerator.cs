@@ -81,6 +81,7 @@ namespace FireworksNet.Generation
             double scalingFactor = this.distribution.Sample();
 
             Solution copyOfBestSolution = null;
+
             lock (this.bestSolution)
             {
                 copyOfBestSolution = new Solution(this.bestSolution.Coordinates, this.bestSolution.Quality);
