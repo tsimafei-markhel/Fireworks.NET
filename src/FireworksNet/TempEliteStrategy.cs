@@ -14,9 +14,9 @@ namespace FireworksNet
         {
         }
 
-        public override double SelectElitePoint(Func<double, double> polynomialFunc, Range variationRange)
+        public override double SelectElitePoint(Func<double, double> func, Range variationRange)
         {
-            if (polynomialFunc == null)
+            if (func == null)
             {
                 throw new ArgumentNullException("polynomialFunc");
             }
@@ -76,7 +76,7 @@ namespace FireworksNet
         private readonly IEnumerable<Dimension> dimensions;
         private readonly IFit polynomialFit;
 
-        public FireworkType ElitePointType { get { return FireworkType.EliteFirework; } }
+        public FireworkType ElitePointType { get; set; }
 
         protected TempEliteStrategy(IEnumerable<Dimension> dimensions, IFit polynomialFit)
         {
@@ -92,6 +92,7 @@ namespace FireworksNet
 
             this.dimensions = dimensions;
             this.polynomialFit = polynomialFit;
+            this.ElitePointType = FireworkType.EliteFirework;
         }
 
         public abstract double SelectElitePoint(Func<double, double> func, Range variationRange);

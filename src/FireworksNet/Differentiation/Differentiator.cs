@@ -18,7 +18,7 @@ namespace FireworksNet.Differentiation
         {
             if (func == null)
             {
-                throw new ArgumentNullException("polynomialFunc");
+                throw new ArgumentNullException("func");
             }
 
             return MathNet.Numerics.Differentiate.FirstDerivativeFunc(func);
