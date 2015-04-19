@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Linq;
-using System.Diagnostics;
 using System.Collections.Generic;
-using FireworksNet.Model;
+using System.Diagnostics;
+using System.Linq;
 using FireworksNet.Extensions;
+using FireworksNet.Model;
 
 namespace FireworksNet.Selection
 {
@@ -28,10 +28,10 @@ namespace FireworksNet.Selection
         {
             if (randomizer == null)
             {
-                throw new ArgumentNullException("randomzier");
+                throw new ArgumentNullException("randomizer");
             }
 
-            this.randomizer = randomizer;      
+            this.randomizer = randomizer;
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace FireworksNet.Selection
         }
 
         /// <summary>
-        /// Selects <paramref name="numberToSelect"/> <see cref="Firework"/>s from
+        /// Selects <paramref name="numberToSelect"/> random <see cref="Firework"/>s from
         /// the <paramref name="from"/> collection. Selected <see cref="Firework"/>s
         /// are stored in the new collection, <paramref name="from"/> is not modified.
         /// </summary>
@@ -55,7 +55,7 @@ namespace FireworksNet.Selection
         /// <param name="numberToSelect">The number of <see cref="Firework"/>s
         /// to select.</param>
         /// <returns>
-        /// A subset of <see cref="Firework"/>s.
+        /// A subset of randomly selected <see cref="Firework"/>s.
         /// </returns>
         /// <exception cref="System.ArgumentNullException"> if <paramref name="from"/>
         /// is <c>null</c>.</exception>
@@ -85,18 +85,13 @@ namespace FireworksNet.Selection
             }
 
             List<Firework> selectedLocations = new List<Firework>(numberToSelect);
-            if (numberToSelect == 0)
+            if (numberToSelect > 0)
             {
-                return selectedLocations;
-            }
-
-            if (numberToSelect >= 1)
-            {
-                // 1. Generate number of fireworks using random
+                // 1. Generate random indices of fireworks
                 IEnumerable<int> selectedFireworkIndices = this.randomizer.NextUniqueInt32s(numberToSelect, 0, from.Count());
                 Debug.Assert(selectedFireworkIndices != null, "Generated numbers collection is null");
 
-                // 2. Find fireworks by generated numbers
+                // 2. Take fireworks by generated indices
                 int currentFirework = 0;
                 foreach(Firework firework in from)
                 {
@@ -108,10 +103,10 @@ namespace FireworksNet.Selection
                     }
 
                     currentFirework++;
-                }     
+                }
             }
 
             return selectedLocations;
-        }     
+        }
     }
 }

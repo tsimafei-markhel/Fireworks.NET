@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Diagnostics;
+using System.Linq;
 using FireworksNet.Model;
 
 namespace FireworksNet.Selection
 {
     /// <summary>
     /// Selects <see cref="Firework"/>s that will stay around for the next step:
-    /// takes number of best <see cref="Firework"/>s, per 2012 paper.
+    /// takes number of the best <see cref="Firework"/>s, per 2012 paper.
     /// </summary>
     public class BestFireworkSelector : FireworkSelectorBase
     {
@@ -47,7 +47,7 @@ namespace FireworksNet.Selection
         }
 
         /// <summary>
-        /// Selects <paramref name="numberToSelect"/> <see cref="Firework"/>s from
+        /// Selects <paramref name="numberToSelect"/> the best <see cref="Firework"/>s from
         /// the <paramref name="from"/> collection. Selected <see cref="Firework"/>s
         /// are stored in the new collection, <paramref name="from"/> is not modified.
         /// </summary>
@@ -56,7 +56,7 @@ namespace FireworksNet.Selection
         /// <param name="numberToSelect">The number of <see cref="Firework"/>s
         /// to select.</param>
         /// <returns>
-        /// A subset of <see cref="Firework"/>s.
+        /// A subset of the best <see cref="Firework"/>s.
         /// </returns>
         /// <exception cref="System.ArgumentNullException"> if <paramref name="from"/>
         /// is <c>null</c>.</exception>
@@ -85,23 +85,24 @@ namespace FireworksNet.Selection
                 return new List<Firework>(from);
             }
 
-            List<Firework> bestFireworks = new List<Firework>(numberToSelect);
-            if (numberToSelect == 0)
-            {
-                return bestFireworks;
-            }
-
             Debug.Assert(this.bestFireworkSelector != null, "Best firework selector is null");
 
-            if (numberToSelect >= 1)
+            List<Firework> bestFireworks = new List<Firework>(numberToSelect);
+            if (numberToSelect == 1)
             {
-                // Find number of fireworks with best quality based on sampling number
+                // Handle "give me one best firework" case separately
+                // for performance
+                bestFireworks.Add(this.bestFireworkSelector(from));
+            }
+            else if (numberToSelect > 1)
+            {
+                // Find fireworks with the best quality based on a sampling number
                 List<Firework> currentFireworks = new List<Firework>(from);
-
                 for (int i = 0; i < numberToSelect; i++)
                 {
+                    // TODO: It makes sense to sort the collection first, and then take
+                    // the first ones.
                     Firework bestFirework = this.bestFireworkSelector(currentFireworks);
-
                     bestFireworks.Add(bestFirework);
                     currentFireworks.Remove(bestFirework);
                 }

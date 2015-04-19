@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using FireworksNet.Model;
 
 namespace FireworksNet.StopConditions
@@ -64,6 +65,9 @@ namespace FireworksNet.StopConditions
             }
 
             StopConditionChain chain = new StopConditionChain();
+
+            Debug.Assert(chain.stopConditions != null, "Chain stop condition collection is null");
+
             chain.stopConditions.Add(firstStopCondition);
 
             return chain;
@@ -118,11 +122,18 @@ namespace FireworksNet.StopConditions
         /// chain stop conditions.</exception>
         public bool ShouldStop(AlgorithmState state)
         {
+            if (state == null)
+            {
+                throw new ArgumentNullException("state");
+            }
+
             switch (this.aggregationMode)
             {
                 case StopConditionChain.AggregationOperator.And:
                     foreach (IStopCondition stopCondition in this.stopConditions)
                     {
+                        Debug.Assert(stopCondition != null, "Stop condition is null");
+
                         if (!stopCondition.ShouldStop(state))
                         {
                             return false;
@@ -134,6 +145,8 @@ namespace FireworksNet.StopConditions
                 case StopConditionChain.AggregationOperator.Or:
                     foreach (IStopCondition stopCondition in this.stopConditions)
                     {
+                        Debug.Assert(stopCondition != null, "Stop condition is null");
+
                         if (stopCondition.ShouldStop(state))
                         {
                             return true;
@@ -174,6 +187,8 @@ namespace FireworksNet.StopConditions
             {
                 throw new InvalidOperationException();
             }
+
+            Debug.Assert(this.stopConditions != null, "Stop condition collection is null");
 
             this.stopConditions.Add(anotherStopCondition);
             return this;
