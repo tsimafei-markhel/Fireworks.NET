@@ -51,6 +51,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithm\IStepperFireworksAlgorithm.cs" />
+    <Compile Include="Differentiation\Differentiator.cs" />
+    <Compile Include="Differentiation\IDifferentiator.cs" />
     <Compile Include="Distances\DistanceBase.cs" />
     <Compile Include="Distributions\ContinuousUniformDistribution.cs" />
     <Compile Include="Extensions\RandomExtensions.cs" />
@@ -70,6 +72,8 @@
     <Compile Include="Extensions\DoubleExtensions.cs" />
     <Compile Include="Algorithm\Implementation\FireworksAlgorithm.cs" />
     <Compile Include="Algorithm\IFireworksAlgorithm.cs" />
+    <Compile Include="Fit\IFit.cs" />
+    <Compile Include="Fit\PolynomialFit.cs" />
     <Compile Include="Model\AlgorithmState.cs" />
     <Compile Include="Model\FireworkExplosion.cs" />
     <Compile Include="Model\InitialExplosion.cs" />
@@ -91,6 +95,8 @@
     <Compile Include="Selection\RandomFireworkSelector.cs" />
     <Compile Include="Selection\BestAndRandomFireworkSelector.cs" />
     <Compile Include="Selection\FireworkSelectorBase.cs" />
+    <Compile Include="Solver\Solver.cs" />
+    <Compile Include="Solver\ISolver.cs" />
     <Compile Include="StopConditions\CounterStopCondition.cs" />
     <Compile Include="StopConditions\MinErrorStopCondition.cs" />
     <Compile Include="Problems\ProblemTarget.cs" />

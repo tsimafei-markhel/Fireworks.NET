@@ -1,95 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using MathNet.Numerics;
-using MathNet.Numerics.LinearRegression;
 using FireworksNet.Model;
-using FireworksNet.Problems;
-using MathNet.Numerics.RootFinding;
-using System.Diagnostics;
+using FireworksNet.Fit;
+using FireworksNet.Solver;
+using FireworksNet.Differentiation;
 
 namespace FireworksNet
 {
-    /// <summary>
-    /// Approximation by polynomial function.
-    /// </summary>
-    public interface IFit
-    {
-        /// <summary>
-        /// Approximates fitness landscape.
-        /// </summary>
-        /// <param name="fireworkCoordinates">The coordinates of fireworks in 
-        /// the current one dimensional search space.</param>
-        /// <param name="fireworkQualities">The qualities of fireworks.</param>
-        /// <returns>Approximated polynomial.</returns>
-        Func<double, double> Approximate(double[] fireworkCoordinates, double[] fireworkQualities);
-    }
-
-    public class PolynomialFit : IFit
-    {
-        private readonly int order;
-
-        public PolynomialFit(int order)
-        {
-            this.order = order;
-        }
-
-        public virtual Func<double, double> Approximate(double[] fireworkCoordinates, double[] fireworkQualities)
-        {
-            if (fireworkQualities == null)
-            {
-                throw new ArgumentNullException("fireworkQualities");
-            }
-
-            if (fireworkCoordinates == null)
-            {
-                throw new ArgumentNullException("fireworkCoordinates");
-            }
-
-            return Fit.PolynomialFunc(fireworkCoordinates, fireworkQualities, this.order, DirectRegressionMethod.QR);
-        }
-    }
-
-    public interface IDifferentiation
-    {
-        Func<double, double> Differentiate(Func<double, double> func);
-    }
-
-    public class Differentiation : IDifferentiation
-    {
-        public virtual Func<double, double> Differentiate(Func<double, double> func)
-        {
-            if (func == null)
-            {
-                throw new ArgumentNullException("polynomialFunc");
-            }
-
-            return MathNet.Numerics.Differentiate.FirstDerivativeFunc(func);
-        }
-    }
-
-    public interface ISolver
-    {
-        double Solve(Func<double, double> polynomialFunc, Range variationRange);
-    }
-
-    public class BrentSolver : ISolver
-    {
-        public virtual double Solve(Func<double, double> polynomialFunc, Range variationRange)
-        {
-            if (polynomialFunc == null)
-            {
-                throw new ArgumentNullException("polynomialFunc");
-            }
-
-            if (variationRange == null)
-            {
-                throw new ArgumentNullException("variationRange");
-            }
-
-            return Brent.FindRoot(polynomialFunc, variationRange.Minimum, variationRange.Maximum);
-        }
-    }
-
     public class FirstOrderEliteStrategy : TempEliteStrategy
     {
         public FirstOrderEliteStrategy(IEnumerable<Dimension> dimensions, IFit polynomialFit)
@@ -116,10 +33,10 @@ namespace FireworksNet
 
     public class SecondOrderEliteStrategy : TempEliteStrategy
     {
-        private readonly IDifferentiation differentiation;
+        private readonly IDifferentiator differentiation;
         private readonly ISolver solver;
 
-        public SecondOrderEliteStrategy(IEnumerable<Dimension> dimensions, IFit polynomialFit, IDifferentiation differentiation, ISolver solver)
+        public SecondOrderEliteStrategy(IEnumerable<Dimension> dimensions, IFit polynomialFit, IDifferentiator differentiation, ISolver solver)
             : base(dimensions, polynomialFit)
         {
             if (differentiation == null)
