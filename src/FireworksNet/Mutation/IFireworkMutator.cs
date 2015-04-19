@@ -8,11 +8,11 @@ namespace FireworksNet.Mutation
     public interface IFireworkMutator
     {
         /// <summary>
-        /// Changes <paramref name="firework"/>.
+        /// Changes the <paramref name="firework"/>.
         /// </summary>
-        /// <param name="firework">The <see cref="Firework"/> to be changed.</param>
+        /// <param name="firework">The <see cref="MutableFirework"/> to be changed.</param>
         /// <param name="explosion">The <see cref="FireworkExplosion"/> that
         /// contains explosion characteristics.</param>
-        void MutateFirework(ref Firework firework, FireworkExplosion explosion);
+        void MutateFirework(ref MutableFirework firework, FireworkExplosion explosion);
     }
 }

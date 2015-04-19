@@ -55,8 +55,8 @@
     <Compile Include="Differentiation\IDifferentiator.cs" />
     <Compile Include="Distances\DistanceBase.cs" />
     <Compile Include="Distributions\ContinuousUniformDistribution.cs" />
-    <Compile Include="Generation\AttractRepulseSparkGenerator.cs" />
-    <Compile Include="Mutation\IFireworkMutator.cs" />
+    <Compile Include="Explode\IExploder.cs" />
+    <Compile Include="Mutation\AttractRepulseSparkMutator.cs" />
     <Compile Include="Extensions\RandomExtensions.cs" />
     <Compile Include="Algorithm\Implementation\FireworksAlgorithmSettings.cs" />
     <Compile Include="Distances\EuclideanDistance.cs" />
@@ -65,9 +65,12 @@
     <Compile Include="Distributions\NormalDistribution.cs" />
     <Compile Include="Explode\Exploder.cs" />
     <Compile Include="Explode\ExploderSettings.cs" />
+    <Compile Include="Extensions\DoubleExtensions.cs" />
+    <Compile Include="Algorithm\Implementation\FireworksAlgorithm.cs" />
+    <Compile Include="Algorithm\IFireworksAlgorithm.cs" />
+    <Compile Include="Generation\AttractRepulseSparkGenerator.cs" />
     <Compile Include="Generation\ExplosionSparkGenerator.cs" />
     <Compile Include="Generation\GaussianSparkGenerator.cs" />
-    <Compile Include="Explode\IExploder.cs" />
     <Compile Include="Generation\InitialSparkGenerator.cs" />
     <Compile Include="Generation\ISparkGenerator.cs" />
     <Compile Include="Generation\SparkGeneratorBase.cs" />
@@ -82,8 +85,10 @@
     <Compile Include="Model\ExplosionBase.cs" />
     <Compile Include="Model\Firework.cs" />
     <Compile Include="Model\FireworkType.cs" />
+    <Compile Include="Model\MutableFirework.cs" />
     <Compile Include="Model\Solution.cs" />
     <Compile Include="Model\TId.cs" />
+    <Compile Include="Mutation\IFireworkMutator.cs" />
     <Compile Include="Problems\Benchmark\Ackley.cs" />
     <Compile Include="Problems\Benchmark\Tablet.cs" />
     <Compile Include="Problems\Benchmark\Cigar.cs" />
