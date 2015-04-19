@@ -97,8 +97,8 @@
     <Compile Include="Selection\RandomFireworkSelector.cs" />
     <Compile Include="Selection\BestAndRandomFireworkSelector.cs" />
     <Compile Include="Selection\FireworkSelectorBase.cs" />
-    <Compile Include="Solver\Solver.cs" />
-    <Compile Include="Solver\ISolver.cs" />
+    <Compile Include="Solving\Solver.cs" />
+    <Compile Include="Solving\ISolver.cs" />
     <Compile Include="StopConditions\CounterStopCondition.cs" />
     <Compile Include="StopConditions\CoordinateProximityStopCondition.cs" />
     <Compile Include="Problems\ProblemTarget.cs" />

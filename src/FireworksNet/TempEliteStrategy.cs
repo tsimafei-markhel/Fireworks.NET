@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using FireworksNet.Model;
 using FireworksNet.Fit;
-using FireworksNet.Solver;
+using FireworksNet.Solving;
 using FireworksNet.Differentiation;
 
 namespace FireworksNet
@@ -18,7 +18,7 @@ namespace FireworksNet
         {
             if (func == null)
             {
-                throw new ArgumentNullException("polynomialFunc");
+                throw new ArgumentNullException("func");
             }
 
             if (variationRange == null)

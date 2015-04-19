@@ -2,7 +2,7 @@
 using MathNet.Numerics;
 using FireworksNet.Model;
 
-namespace FireworksNet.Solver
+namespace FireworksNet.Solving
 {
     /// <summary>
     /// A polynomial function solver.

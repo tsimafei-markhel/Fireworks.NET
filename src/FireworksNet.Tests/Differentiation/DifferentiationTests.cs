@@ -40,9 +40,9 @@ namespace FireworksNet.Tests.Differentiation
         }
 
         [Fact]
-        public void Solve_NullAs1stParam_ExceptionThrown()
+        public void Differentiate_NullAs1stParam_ExceptionThrown()
         {
-            string expectedParamName = "polynomialFunc";
+            string expectedParamName = "func";
             Func<double, double> func = null;
 
             ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => this.differentiator.Differentiate(func));

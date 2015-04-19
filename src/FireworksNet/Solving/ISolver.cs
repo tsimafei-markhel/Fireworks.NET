@@ -1,7 +1,7 @@
 ﻿using System;
 using FireworksNet.Model;
 
-namespace FireworksNet.Solver
+namespace FireworksNet.Solving
 {
     /// <summary>
     /// Contains logic for finding root of polynomial function.

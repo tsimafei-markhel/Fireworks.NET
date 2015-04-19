@@ -1,18 +1,19 @@
 ﻿using System;
 using Xunit;
 using FireworksNet.Model;
+using FireworksNet.Solving;
 
-namespace FireworksNet.Tests.Solver
+namespace FireworksNet.Tests.Solving
 {
     public class SolverTests
     {
-        private readonly FireworksNet.Solver.Solver solver;
+        private readonly Solver solver;
         private readonly Func<double, double> targetFunc;
         private readonly Range range;
 
         public SolverTests()
         {
-            this.solver = new FireworksNet.Solver.Solver();
+            this.solver = new Solver();
             this.targetFunc = x => x + x;
             this.range = new Range(-5, 5);
         }

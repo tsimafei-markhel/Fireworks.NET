@@ -71,7 +71,7 @@
     <Compile Include="Selection\SelectorTestsHelper.cs" />
     <Compile Include="Selection\NearBestSelectorTests.cs" />
     <Compile Include="Selection\RandomSelectorTests.cs" />
-    <Compile Include="Solver\SolverTests.cs" />
+    <Compile Include="Solving\SolverTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
