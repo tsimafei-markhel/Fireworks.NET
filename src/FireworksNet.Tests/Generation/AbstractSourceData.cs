@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using FireworksNet.Distributions;
+using FireworksNet.Generation;
 using FireworksNet.Model;
 using NSubstitute;
-using FireworksNet.Generation;
 
 namespace FireworksNet.Tests.Generation
 {
@@ -60,8 +60,8 @@ namespace FireworksNet.Tests.Generation
 
                 return new[]
                 {
-                    new object[]{mutableFirework, null, "explosion"},
-                    new object[]{null, explosion, "mutableFirework"}
+                    new object[] { mutableFirework, null,      "explosion"},
+                    new object[] { null,            explosion, "firework"}
                 };
             }
         }
@@ -83,6 +83,6 @@ namespace FireworksNet.Tests.Generation
             var explosion = Substitute.For<FireworkExplosion>(epicenter, 1, Amplitude, sparks);
 
             return explosion;
-        }  
+        }
     }
 }

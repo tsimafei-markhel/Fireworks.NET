@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using FireworksNet.Extensions;
 
 namespace FireworksNet.Model
@@ -13,6 +14,7 @@ namespace FireworksNet.Model
         /// <summary>
         /// Gets solution coordinates in problem space.
         /// </summary>
+        [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "This is done for the sake of mutability of inheritors.")]
         public IDictionary<Dimension, double> Coordinates { get; protected set; } // TODO: Think of replacing Dictionary with some derived class, like CoordinateDictionary
 
         /// <summary>
