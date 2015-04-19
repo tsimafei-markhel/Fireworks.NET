@@ -74,8 +74,6 @@
     <Compile Include="Generation\ISparkGenerator.cs" />
     <Compile Include="Generation\SparkGeneratorBase.cs" />
     <Compile Include="Extensions\DoubleExtensions.cs" />
-    <Compile Include="Algorithm\Implementation\FireworksAlgorithm.cs" />
-    <Compile Include="Algorithm\IFireworksAlgorithm.cs" />
     <Compile Include="Fit\IFit.cs" />
     <Compile Include="Fit\PolynomialFit.cs" />
     <Compile Include="Model\AlgorithmState.cs" />
@@ -129,7 +127,7 @@
     <CodeAnalysisDictionary Include="CodeAnalysisCustomDictionary.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
