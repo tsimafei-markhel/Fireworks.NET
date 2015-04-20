@@ -51,12 +51,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Differentiation\DifferentiationTests.cs" />
+    <Compile Include="Extensions\DoubleExtensionsTests.cs" />
+    <Compile Include="Fit\PolynomialFitTests.cs" />
     <Compile Include="Distances\EuclideanDistanceTests.cs" />
     <Compile Include="Mutation\AttractRepulseSparkMutatorTests.cs" />
     <Compile Include="Explode\ExploderTests.cs" />
     <Compile Include="Generation\AbstractSourceData.cs" />
     <Compile Include="Generation\AttractRepulseSparkGeneratorTests.cs" />
-    <Compile Include="Extensions\DoubleExtensionsTests.cs" />
     <Compile Include="Model\AlgorithmStateTests.cs" />
     <Compile Include="Model\DimensionTests.cs" />
     <Compile Include="Model\ExsplosionBaseTests.cs" />
@@ -70,6 +72,7 @@
     <Compile Include="Selection\SelectorTestsHelper.cs" />
     <Compile Include="Selection\NearBestSelectorTests.cs" />
     <Compile Include="Selection\RandomSelectorTests.cs" />
+    <Compile Include="Solving\SolverTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
