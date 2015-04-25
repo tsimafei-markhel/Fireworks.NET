@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using FireworksNet.Model;
-using FireworksNet.Fit;
-using FireworksNet.Solving;
 using FireworksNet.Differentiation;
+using FireworksNet.Fit;
+using FireworksNet.Model;
+using FireworksNet.Solving;
 
 namespace FireworksNet
 {
@@ -26,7 +26,7 @@ namespace FireworksNet
                 throw new ArgumentNullException("variationRange");
             }
 
-            // TODO: Review of this logic.
+            // TODO: Review this logic
             return (variationRange.Maximum - variationRange.Minimum) / 2 + variationRange.Minimum;
         }
     }
@@ -111,10 +111,10 @@ namespace FireworksNet
 
             List<Firework> currentFireworks = new List<Firework>(from);
 
-            //11. Approximate fitness landscape in each projected one dimensional search space
+            // 11. Approximate fitness landscape in each projected one dimensional search space
             double[] qualities = new double[currentFireworks.Count];
 
-            //Get qualities of the fireworks
+            // Get qualities of the fireworks
             int current = 0;
             foreach (Firework firework in currentFireworks)
             {
@@ -128,7 +128,7 @@ namespace FireworksNet
             {
                 double[] coordinates = new double[currentFireworks.Count];
 
-                //Get coordinates of the fireworks in current dimension
+                // Get coordinates of the fireworks in current dimension
                 current = 0;
                 foreach (Firework firework in currentFireworks)
                 {
@@ -140,7 +140,7 @@ namespace FireworksNet
                 fitnessLandscapes[dimension] = polynomial;
             }
 
-            //12. Obtain a spark from approximated curves by Elite Strategy
+            // 12. Obtain a spark from approximated curves by Elite Strategy
 
             Dictionary<Dimension, double> coordinatesElitePoint = new Dictionary<Dimension, double>();
 

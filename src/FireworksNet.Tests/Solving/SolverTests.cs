@@ -1,7 +1,7 @@
 ﻿using System;
-using Xunit;
 using FireworksNet.Model;
 using FireworksNet.Solving;
+using Xunit;
 
 namespace FireworksNet.Tests.Solving
 {
@@ -41,7 +41,7 @@ namespace FireworksNet.Tests.Solving
         [Fact]
         public void Solve_NullAs1stParam_ExceptionThrown()
         {
-            string expectedParamName = "polynomialFunc";
+            string expectedParamName = "func";
             Func<double, double> func = null;
 
             ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => this.solver.Solve(func, this.range));
