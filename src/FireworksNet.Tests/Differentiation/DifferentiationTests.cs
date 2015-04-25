@@ -1,6 +1,6 @@
 ﻿using System;
-using Xunit;
 using FireworksNet.Differentiation;
+using Xunit;
 
 namespace FireworksNet.Tests.Differentiation
 {

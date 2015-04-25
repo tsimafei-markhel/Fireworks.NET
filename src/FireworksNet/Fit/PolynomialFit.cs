@@ -3,7 +3,7 @@
 namespace FireworksNet.Fit
 {
     /// <summary>
-    /// Approximation a polynomial function.
+    /// Polynomial approximation of a function.
     /// </summary>
     public class PolynomialFit : IFit
     {
@@ -12,7 +12,7 @@ namespace FireworksNet.Fit
         /// <summary>
         /// Initializes a new instance of the <see cref="PolynomialFit"/> class.
         /// </summary>
-        /// <param name="order">The order of polinomial function.</param>
+        /// <param name="order">The order of polynomial function.</param>
         /// <exception cref="System.ArgumentOutOfRangeException"> if <paramref name="order"/>
         /// is less than zero.</exception>
         public PolynomialFit(int order)
@@ -27,28 +27,28 @@ namespace FireworksNet.Fit
 
         /// <summary>
         /// Least-Squares fitting the points (x,y), where x-s represented as 
-        /// <paramref name="fireworkCoordinates"/> and y-s represented as 
-        /// <paramref name="fireworkQualities"/>.
+        /// <paramref name="argumentValues"/> and y-s represented as 
+        /// <paramref name="functionValues"/>.
         /// </summary>
-        /// <param name="fireworkCoordinates">A firework coordinates.</param>
-        /// <param name="fireworkQualities">A firework qualities.</param>
+        /// <param name="argumentValues">A firework coordinates.</param>
+        /// <param name="functionValues">A firework qualities.</param>
         /// <returns>Approximated polynomial function.</returns>
         /// <exception cref="System.ArgumentNullException"> if 
-        /// <paramref name="fireworkCoordinates"/> and <paramref name="fireworkQualities"/>
+        /// <paramref name="argumentValues"/> and <paramref name="functionValues"/>
         /// is <c>null</c>.</exception>
-        public virtual Func<double, double> Approximate(double[] fireworkCoordinates, double[] fireworkQualities)
+        public Func<double, double> Approximate(double[] argumentValues, double[] functionValues)
         {
-            if (fireworkCoordinates == null)
+            if (argumentValues == null)
             {
-                throw new ArgumentNullException("fireworkCoordinates");
+                throw new ArgumentNullException("argumentValues");
             }
 
-            if (fireworkQualities == null)
+            if (functionValues == null)
             {
-                throw new ArgumentNullException("fireworkQualities");
+                throw new ArgumentNullException("functionValues");
             }
 
-            return MathNet.Numerics.Fit.PolynomialFunc(fireworkCoordinates, fireworkQualities, this.order);
+            return MathNet.Numerics.Fit.PolynomialFunc(argumentValues, functionValues, this.order);
         }
     }
 }
