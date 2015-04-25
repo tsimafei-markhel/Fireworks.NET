@@ -4,17 +4,16 @@ using FireworksNet.Model;
 namespace FireworksNet.Solving
 {
     /// <summary>
-    /// Contains logic for finding root of polynomial function.
+    /// Function root finder.
     /// </summary>
     public interface ISolver
     {
         /// <summary>
-        /// Solves <param name="polynomialFunc"> on <param name="variationRange">.
+        /// Solves <paramref name="func"/> on a <param name="variationRange">.
         /// </summary>
-        /// <param name="polynomialFunc">Polynomial function to finding root.</param>
-        /// <param name="variationRange">Represents an interval of finding root.</param>
-        /// <returns>Root of <param name="polynomialFunc"> on 
-        /// <param name="variationRange">.</returns>
-        double Solve(Func<double, double> polynomialFunc, Range variationRange);
+        /// <param name="func">The function to find a root of.</param>
+        /// <param name="variationRange">Represents an interval to find root on.</param>
+        /// <returns>Root of the <paramref name="func"/> on <paramref name="variationRange"/>.</returns>
+        double Solve(Func<double, double> func, Range variationRange);
     }
 }
