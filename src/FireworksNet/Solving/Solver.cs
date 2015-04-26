@@ -1,28 +1,26 @@
 ﻿using System;
-using MathNet.Numerics;
 using FireworksNet.Model;
 
 namespace FireworksNet.Solving
 {
     /// <summary>
-    /// A polynomial function solver.
+    /// Function root finder.
     /// </summary>
     public class Solver : ISolver
     {
         /// <summary>
-        /// Solves <param name="polynomialFunc"> on <param name="variationRange">.
+        /// Solves <paramref name="func"/> on a <param name="variationRange">.
         /// </summary>
-        /// <param name="polynomialFunc">A polynomial function to solve.</param>
-        /// <param name="variationRange">Represents an interval of finding root.</param>
-        /// <returns>Root of <param name="polynomialFunc"> on 
-        /// <param name="variationRange">.</returns>
-        /// <exception cref="System.ArgumentNullException"> if <paramref name="polynomialFunc"/>
-        /// and <paramref name="variationRange"/> is <c>null</c>.</exception>
-        public virtual double Solve(Func<double, double> polynomialFunc, Range variationRange)
+        /// <param name="func">The function to find a root of.</param>
+        /// <param name="variationRange">Represents an interval to find root on.</param>
+        /// <returns>Root of the <paramref name="func"/> on <paramref name="variationRange"/>.</returns>
+        /// <exception cref="System.ArgumentNullException"> if <paramref name="func"/>
+        /// or <paramref name="variationRange"/> is <c>null</c>.</exception>
+        public double Solve(Func<double, double> func, Range variationRange)
         {
-            if (polynomialFunc == null)
+            if (func == null)
             {
-                throw new ArgumentNullException("polynomialFunc");
+                throw new ArgumentNullException("func");
             }
 
             if (variationRange == null)
@@ -30,7 +28,7 @@ namespace FireworksNet.Solving
                 throw new ArgumentNullException("variationRange");
             }
 
-            return FindRoots.OfFunction(polynomialFunc, variationRange.Minimum, variationRange.Maximum);         
+            return MathNet.Numerics.FindRoots.OfFunction(func, variationRange.Minimum, variationRange.Maximum);
         }
     }
 }

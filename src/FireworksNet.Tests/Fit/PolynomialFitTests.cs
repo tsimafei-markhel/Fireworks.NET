@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using Xunit;
 using FireworksNet.Fit;
+using Xunit;
 
 namespace FireworksNet.Tests.Fit
 {
@@ -49,7 +49,7 @@ namespace FireworksNet.Tests.Fit
         [Fact]
         public void Approximate_NullAs1stParam_ExceptionThrown()
         {
-            string expectedParamName = "fireworkCoordinates";
+            string expectedParamName = "argumentValues";
             double[] coordinates = null;
 
             ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => this.polynomialFit.Approximate(coordinates, this.qualities));
@@ -61,7 +61,7 @@ namespace FireworksNet.Tests.Fit
         [Fact]
         public void Approximate_NullAs2ndParam_ExceptionThrown()
         {
-            string expectedParamName = "fireworkQualities";
+            string expectedParamName = "functionValues";
             double[] qualities = null;
 
             ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => this.polynomialFit.Approximate(this.coordinates, qualities));

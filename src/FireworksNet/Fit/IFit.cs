@@ -3,18 +3,18 @@
 namespace FireworksNet.Fit
 {
     /// <summary>
-    /// Approximation a function.
+    /// Approximation of a function.
     /// </summary>
     public interface IFit
     {
         /// <summary>
-        /// Approximates fitness landscape using <param name="fireworkCoordinates">
-        /// and <param name="fireworkQualities">.
+        /// Approximates a function using <paramref name="argumentValues"/>
+        /// and <paramref name="functionValues"/>.
         /// </summary>
-        /// <param name="fireworkCoordinates">The coordinates of <see cref="Firework"/>s
-        ///  in the current one dimensional search space.</param>
-        /// <param name="fireworkQualities">The qualities of <see cref="Firework"/>s.</param>
-        /// <returns>Approximated polynomial function.</returns>
-        Func<double, double> Approximate(double[] fireworkCoordinates, double[] fireworkQualities);
+        /// <param name="argumentValues">An array of function argument values.</param>
+        /// <param name="functionValues">An array of function values that correspond
+        /// to the <paramref name="argumentValues"/>.</param>
+        /// <returns>Target function approximation.</returns>
+        Func<double, double> Approximate(double[] argumentValues, double[] functionValues);
     }
 }
