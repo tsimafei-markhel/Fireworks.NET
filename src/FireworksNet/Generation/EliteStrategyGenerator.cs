@@ -9,7 +9,7 @@ namespace FireworksNet.Generation
     /// <summary>
     /// Elite strategy spark generator, as described in 2012 paper.
     /// </summary>
-    public abstract class EliteStrategyGenerator : SparkGeneratorBase<FireworksExplosion>
+    public abstract class EliteStrategyGenerator : SparkGeneratorBase<EliteExplosion>
     {
         private readonly IEnumerable<Dimension> dimensions;
         private readonly IFit polynomialFit;
@@ -55,7 +55,7 @@ namespace FireworksNet.Generation
         /// <param name="explosion">The explosion that contains the collection 
         /// of sparks.</param>
         /// <returns>The new typed spark.</returns>
-        protected override Firework CreateSparkTyped(FireworksExplosion explosion)
+        protected override Firework CreateSparkTyped(EliteExplosion explosion)
         {
             Debug.Assert(explosion != null, "Explosion is null");
             Debug.Assert(explosion.Fireworks != null, "Fireworks collection is null");

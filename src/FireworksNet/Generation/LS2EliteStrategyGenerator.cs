@@ -1,62 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using FireworksNet.Model;
-using FireworksNet.Fit;
-using FireworksNet.Solving;
 using FireworksNet.Differentiation;
-using FireworksNet.Generation;
+using FireworksNet.Fit;
+using FireworksNet.Model;
+using FireworksNet.Solving;
 
-namespace FireworksNet
+namespace FireworksNet.Generation
 {
     /// <summary>
     /// Elite strategy spark generator using first order functions, per 2012 paper.
     /// </summary>
-    public class FirstOrderEliteStrategy : EliteStrategyGenerator
-    {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FirstOrderEliteStrategy"/> class.
-        /// </summary>
-        /// <param name="dimensions">The dimensions to fit generated sparks into.</param>
-        /// <param name="polynomialFit">The polynomial fit.</param>
-        public FirstOrderEliteStrategy(IEnumerable<Dimension> dimensions, IFit polynomialFit)
-            : base(dimensions, polynomialFit)
-        {
-        }
-
-        /// <summary>
-        /// Calculates elite point by searching midpoint.
-        /// </summary>
-        /// <param name="func">The function to calculate elite point.</param>
-        /// <param name="variationRange">Represents an interval to calculate 
-        /// elite point.</param>
-        /// <returns>The coordinate of elite point.</returns>
-        protected override double CalculateElitePoint(Func<double, double> func, Range variationRange)
-        {
-            if (func == null)
-            {
-                throw new ArgumentNullException("func");
-            }
-
-            if (variationRange == null)
-            {
-                throw new ArgumentNullException("variationRange");
-            }
-
-            // TODO: Review of this logic.
-            return (variationRange.Maximum - variationRange.Minimum) / 2 + variationRange.Minimum;
-        }
-    }
-
-    /// <summary>
-    /// Elite strategy spark generator using first order functions, per 2012 paper.
-    /// </summary>
-    public class SecondOrderEliteStrategy : EliteStrategyGenerator
+    public class LS2EliteStrategyGenerator : EliteStrategyGenerator
     {
         private readonly IDifferentiator differentiation;
         private readonly ISolver solver;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SecondOrderEliteStrategy"/> class.
+        /// Initializes a new instance of the <see cref="LS2EliteStrategyGenerator"/> class.
         /// </summary>
         /// <param name="dimensions">The dimensions to fit generated sparks into.</param>
         /// <param name="polynomialFit">The polynomial fit.</param>
@@ -65,7 +25,7 @@ namespace FireworksNet
         /// <exception cref="System.ArgumentNullException"> if <paramref name="differentiation"/>
         /// or <paramref name="solver"/> is <c>null</c>.
         /// </exception>
-        public SecondOrderEliteStrategy(IEnumerable<Dimension> dimensions, IFit polynomialFit, IDifferentiator differentiation, ISolver solver)
+        public LS2EliteStrategyGenerator(IEnumerable<Dimension> dimensions, IFit polynomialFit, IDifferentiator differentiation, ISolver solver)
             : base(dimensions, polynomialFit)
         {
             if (differentiation == null)
