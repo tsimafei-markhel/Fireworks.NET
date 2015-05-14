@@ -18,30 +18,65 @@ namespace FireworksNet.Algorithm.Implementation
     /// <summary>
     /// Fireworks Algorithm implementation, per 2010 paper.
     /// </summary>
-    public sealed class FireworksAlgorithm : IFireworksAlgorithm, IStepperFireworksAlgorithm
+    public class FireworksAlgorithm : IFireworksAlgorithm, IStepperFireworksAlgorithm
     {
         private const double normalDistributionMean = 1.0;
         private const double normalDistributionStdDev = 1.0;
 
-        private readonly System.Random randomizer;
-        private readonly IContinuousDistribution distribution;
-        private readonly ISparkGenerator initialSparkGenerator;
-        private readonly ISparkGenerator explosionSparkGenerator;
-        private readonly ISparkGenerator specificSparkGenerator;
-        private readonly IDistance distanceCalculator;
-        private readonly IFireworkSelector locationSelector;
-        private readonly ExploderSettings exploderSettings;
-        private readonly IExploder exploder;
+        /// <summary>
+        /// Gets the randomizer.
+        /// </summary>
+        protected System.Random Randomizer { get; private set; }
+
+        /// <summary>
+        /// Gets the continuous univariate probability distribution.
+        /// </summary>
+        protected IContinuousDistribution Distribution { get; private set; }
+
+        /// <summary>
+        /// Gets the initial spark generator.
+        /// </summary>
+        protected ISparkGenerator initialSparkGenerator { get; private set; }
+
+        /// <summary>
+        /// Gets the explosion spark generator.
+        /// </summary>
+        protected ISparkGenerator explosionSparkGenerator { get; private set; }
+
+        /// <summary>
+        /// Gets the specific spark generator.
+        /// </summary>
+        protected ISparkGenerator specificSparkGenerator { get; private set; }
+
+        /// <summary>
+        /// Gets the distance calculator.
+        /// </summary>
+        protected IDistance distanceCalculator { get; private set; }
+
+        /// <summary>
+        /// Gets the location selector.
+        /// </summary>
+        protected IFireworkSelector locationSelector { get; private set; }
+
+        /// <summary>
+        /// Gets the explosion settings.
+        /// </summary>
+        protected ExploderSettings exploderSettings { get; private set; }
+
+        /// <summary>
+        /// Gets the explosion generator.
+        /// </summary>
+        protected IExploder exploder { get; private set; }
 
         /// <summary>
         /// Gets the problem to be solved by the algorithm.
         /// </summary>
-        public Problem ProblemToSolve { get; private set; }
+        public Problem ProblemToSolve { get; protected set; }
 
         /// <summary>
         /// Gets the stop condition for the algorithm.
         /// </summary>
-        public IStopCondition StopCondition { get; private set; }
+        public IStopCondition StopCondition { get; protected set; }
 
         /// <summary>
         /// Gets the algorithm settings.
@@ -78,11 +113,11 @@ namespace FireworksNet.Algorithm.Implementation
             this.StopCondition = stopCondition;
             this.Settings = settings;
 
-            this.randomizer = new DefaultRandom();
-            this.distribution = new NormalDistribution(FireworksAlgorithm.normalDistributionMean, FireworksAlgorithm.normalDistributionStdDev);
-            this.initialSparkGenerator = new InitialSparkGenerator(problem.Dimensions, problem.InitialRanges, this.randomizer);
-            this.explosionSparkGenerator = new ExplosionSparkGenerator(problem.Dimensions, this.randomizer);
-            this.specificSparkGenerator = new GaussianSparkGenerator(problem.Dimensions, this.distribution, this.randomizer);
+            this.Randomizer = new DefaultRandom();
+            this.Distribution = new NormalDistribution(FireworksAlgorithm.normalDistributionMean, FireworksAlgorithm.normalDistributionStdDev);
+            this.initialSparkGenerator = new InitialSparkGenerator(problem.Dimensions, problem.InitialRanges, this.Randomizer);
+            this.explosionSparkGenerator = new ExplosionSparkGenerator(problem.Dimensions, this.Randomizer);
+            this.specificSparkGenerator = new GaussianSparkGenerator(problem.Dimensions, this.Distribution, this.Randomizer);
             this.distanceCalculator = new EuclideanDistance(problem.Dimensions);
             this.locationSelector = new DistanceBasedFireworkSelector(this.distanceCalculator, new Func<IEnumerable<Firework>, Firework>(problem.GetBest), this.Settings.LocationsNumber);
             this.exploderSettings = new ExploderSettings()
@@ -103,7 +138,7 @@ namespace FireworksNet.Algorithm.Implementation
         /// </summary>
         /// <returns><see cref="Solution"/> instance that represents
         /// best solution found during the algorithm run.</returns>
-        public Solution Solve()
+        public virtual Solution Solve()
         {
             AlgorithmState state = this.CreateInitialState();
 
@@ -134,7 +169,7 @@ namespace FireworksNet.Algorithm.Implementation
         /// initial state (before the run starts).</returns>
         /// <remarks>On each call re-creates the initial state (i.e. returns 
         /// new object each time).</remarks>
-        public AlgorithmState CreateInitialState()
+        public virtual AlgorithmState CreateInitialState()
         {
             Debug.Assert(this.Settings != null, "Settings is null");
             Debug.Assert(this.initialSparkGenerator != null, "Initial spark generator is null");
@@ -167,7 +202,7 @@ namespace FireworksNet.Algorithm.Implementation
         /// <exception cref="System.ArgumentNullException"> if <paramref name="state"/>
         /// is <c>null</c>.</exception>
         /// <remarks>This method does not modify <paramref name="state"/>.</remarks>
-        public AlgorithmState MakeStep(AlgorithmState state)
+        public virtual AlgorithmState MakeStep(AlgorithmState state)
         {
             if (state == null)
             {
@@ -199,7 +234,7 @@ namespace FireworksNet.Algorithm.Implementation
         /// <exception cref="System.ArgumentNullException"> if <paramref name="state"/>
         /// is <c>null</c>.</exception>
         /// <remarks>This method does not modify <paramref name="state"/>.</remarks>
-        public Solution GetSolution(AlgorithmState state)
+        public virtual Solution GetSolution(AlgorithmState state)
         {
             if (state == null)
             {
@@ -219,7 +254,7 @@ namespace FireworksNet.Algorithm.Implementation
         /// <exception cref="System.ArgumentNullException"> if <paramref name="state"/>
         /// is <c>null</c>.</exception>
         /// <remarks>This method does not modify <paramref name="state"/>.</remarks>
-        public bool ShouldStop(AlgorithmState state)
+        public virtual bool ShouldStop(AlgorithmState state)
         {
             if (state == null)
             {
@@ -241,7 +276,7 @@ namespace FireworksNet.Algorithm.Implementation
         /// <exception cref="System.ArgumentNullException"> if <paramref name="state"/>
         /// is <c>null</c>.</exception>
         /// <remarks>This method does modify the <paramref name="state"/>.</remarks>
-        private void MakeStep(ref AlgorithmState state)
+        protected virtual void MakeStep(ref AlgorithmState state)
         {
             if (state == null)
             {
@@ -252,7 +287,7 @@ namespace FireworksNet.Algorithm.Implementation
             Debug.Assert(state.Fireworks != null, "State firework collection is null");
             Debug.Assert(this.Settings != null, "Settings is null");
             Debug.Assert(this.Settings.SpecificSparksNumber >= 0, "Negative settings specific spark number");
-            Debug.Assert(this.randomizer != null, "Randomizer is null");
+            Debug.Assert(this.Randomizer != null, "Randomizer is null");
             Debug.Assert(this.Settings.LocationsNumber >= 0, "Negative settings locations number");
             Debug.Assert(this.exploder != null, "Exploder is null");
             Debug.Assert(this.explosionSparkGenerator != null, "Explosion spark generator is null");
@@ -269,7 +304,7 @@ namespace FireworksNet.Algorithm.Implementation
 
             IEnumerable<Firework> explosionSparks = new List<Firework>();
             IEnumerable<Firework> specificSparks = new List<Firework>(this.Settings.SpecificSparksNumber);
-            IEnumerable<int> specificSparkParentIndices = this.randomizer.NextUniqueInt32s(this.Settings.SpecificSparksNumber, 0, this.Settings.LocationsNumber);
+            IEnumerable<int> specificSparkParentIndices = this.Randomizer.NextUniqueInt32s(this.Settings.SpecificSparksNumber, 0, this.Settings.LocationsNumber);
             int currentFirework = 0;
             foreach (Firework firework in state.Fireworks)
             {
@@ -310,7 +345,7 @@ namespace FireworksNet.Algorithm.Implementation
         /// <param name="fireworks">The fireworks to calculate qualities for.</param>
         /// <remarks>It is expected that none of the <paramref name="fireworks"/>
         /// has its quality calculated before.</remarks>
-        private void CalculateQualities(IEnumerable<Firework> fireworks)
+        protected virtual void CalculateQualities(IEnumerable<Firework> fireworks)
         {
             Debug.Assert(fireworks != null, "Fireworks collection is null");
             Debug.Assert(this.ProblemToSolve != null, "Problem to solve is null");
