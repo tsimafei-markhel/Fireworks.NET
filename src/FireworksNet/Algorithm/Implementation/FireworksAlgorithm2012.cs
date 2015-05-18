@@ -72,8 +72,8 @@ namespace FireworksNet.Algorithm.Implementation
             Debug.Assert(this.Settings != null, "Settings is null");
             Debug.Assert(this.Randomizer != null, "Randomizer is null");
             Debug.Assert(this.Settings.LocationsNumber >= 0, "Negative settings locations number");
-            Debug.Assert(this.exploder != null, "Exploder is null");
-            Debug.Assert(this.explosionSparkGenerator != null, "Explosion spark generator is null");
+            Debug.Assert(this.Exploder != null, "Exploder is null");
+            Debug.Assert(this.ExplosionSparkGenerator != null, "Explosion spark generator is null");
             Debug.Assert(this.ProblemToSolve != null, "Problem to solve is null");
 
             state.StepNumber++;
@@ -88,16 +88,16 @@ namespace FireworksNet.Algorithm.Implementation
             {
                 Debug.Assert(firework != null, "Firework is null");
 
-                ExplosionBase explosion = this.exploder.Explode(firework, fireworkQualities, state.StepNumber);
+                ExplosionBase explosion = this.Exploder.Explode(firework, fireworkQualities, state.StepNumber);
                 Debug.Assert(explosion != null, "Explosion is null");
 
-                IEnumerable<Firework> fireworkExplosionSparks = this.explosionSparkGenerator.CreateSparks(explosion);
+                IEnumerable<Firework> fireworkExplosionSparks = this.ExplosionSparkGenerator.CreateSparks(explosion);
                 Debug.Assert(fireworkExplosionSparks != null, "Firework explosion sparks collection is null");
 
                 explosionSparks = explosionSparks.Concat(fireworkExplosionSparks);
                 if (specificSparkParentIndices.Contains(currentFirework))
                 {
-                    IEnumerable<Firework> fireworkSpecificSparks = this.specificSparkGenerator.CreateSparks(explosion);
+                    IEnumerable<Firework> fireworkSpecificSparks = this.SpecificSparkGenerator.CreateSparks(explosion);
                     Debug.Assert(fireworkSpecificSparks != null, "Firework specific sparks collection is null");
 
                     specificSparks = specificSparks.Concat(fireworkSpecificSparks);
@@ -110,7 +110,7 @@ namespace FireworksNet.Algorithm.Implementation
             this.CalculateQualities(specificSparks);
 
             IEnumerable<Firework> allFireworks = state.Fireworks.Concat(explosionSparks.Concat(specificSparks));
-            List<Firework> selectedFireworks = this.locationSelector.SelectFireworks(allFireworks).ToList();
+            List<Firework> selectedFireworks = this.LocationSelector.SelectFireworks(allFireworks).ToList();
 
             Firework worstFirework;
 

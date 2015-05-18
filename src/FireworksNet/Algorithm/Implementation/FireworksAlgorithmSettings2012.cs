@@ -6,7 +6,7 @@ namespace FireworksNet.Algorithm.Implementation
     /// Stores user-defined constants that control algorithm run.
     /// </summary>
     /// <remarks>Uses notation described in 2012 paper.</remarks>
-    public class FireworksAlgorithmSettings2012 : FireworksAlgorithmSettings
+    public sealed class FireworksAlgorithmSettings2012 : FireworksAlgorithmSettings
     {       
         /// <summary>
         /// Order of polynomial function.
