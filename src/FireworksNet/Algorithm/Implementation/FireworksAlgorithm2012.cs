@@ -28,6 +28,11 @@ namespace FireworksNet.Algorithm.Implementation
         /// <summary>
         /// Gets the algorithm settings.
         /// </summary>
+        private new FireworksAlgorithmSettings2012 Settings { get; set; }
+
+        /// <summary>
+        /// Gets the algorithm settings.
+        /// </summary>
         ///public new FireworksAlgorithmSettings2012 Settings { get; private set; }
 
         /// <summary>
@@ -38,7 +43,8 @@ namespace FireworksNet.Algorithm.Implementation
         /// <param name="settings">The algorithm settings.</param>
         public FireworksAlgorithm2012(Problem problem, IStopCondition stopCondition, FireworksAlgorithmSettings2012 settings)
             : base(problem, stopCondition, settings)
-        {                     
+        {
+            this.Settings = settings;
             this.differentiator = new Differentiator();
             this.samplingSelector = new BestFireworkSelector(new Func<IEnumerable<Firework>, Firework>(problem.GetBest));
             this.polynomialFit = new PolynomialFit(this.Settings.FunctionOrder);
@@ -134,7 +140,7 @@ namespace FireworksNet.Algorithm.Implementation
         }
 
         /// <summary>
-        /// Compare two <see cref="Firework"/> and determines necessary to replace worst 
+        /// Compare two <see cref="Firework"/>s and determines necessary to replace worst 
         /// with elite by elite strategy
         /// </summary>
         /// <param name="worst">The worst firework on current step.</param>
