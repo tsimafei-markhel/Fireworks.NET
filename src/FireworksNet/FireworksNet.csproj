@@ -50,6 +50,8 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithm\Implementation\FireworksAlgorithm2012.cs" />
+    <Compile Include="Algorithm\Implementation\FireworksAlgorithmSettings2012.cs" />
     <Compile Include="Algorithm\IStepperFireworksAlgorithm.cs" />
     <Compile Include="Differentiation\Differentiator.cs" />
     <Compile Include="Differentiation\IDifferentiator.cs" />
