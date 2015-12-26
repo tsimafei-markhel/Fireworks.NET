@@ -116,18 +116,15 @@ namespace FireworksNet.Tests.Model
             Assert.Equal(expected, actual);
         }
 
-        // TODO: Fix this test
-        /*
         [Theory, MemberData("RangeData")]
-        public void ComparingOperator_RangesVariations_PositiveExpected(object range1, object obj, bool expected)
+        public void ComparingOperator_RangesVariations_PositiveExpected(Range range1, object obj, bool expected)
         {
-            var actual = (range1 == obj);
-            var actual2 = !(range1 != obj);
+            var actual = (range1 == (obj as Range));
+            var actual2 = !(range1 != (obj as Range));
 
             Assert.Equal(expected, actual);
             Assert.Equal(expected, actual2);
         }
-        */
 
         [Fact]
         public void Range_NaNAs1tsParam_ArgumentOutOfRangeExceptionThrown()
