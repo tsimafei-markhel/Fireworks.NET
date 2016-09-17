@@ -69,6 +69,7 @@
     <Compile Include="Generation\InitialSparkGeneratorTests.cs" />
     <Compile Include="Generation\LS1EliteStrategyGeneratorTests.cs" />
     <Compile Include="Generation\LS2EliteStrategyGeneratorTests.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Mutation\AttractRepulseSparkMutatorTests.cs" />
     <Compile Include="Explode\ExploderTests.cs" />
     <Compile Include="Generation\AbstractSourceData.cs" />

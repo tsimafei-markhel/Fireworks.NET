@@ -68,7 +68,7 @@ namespace FireworksNet.Tests.Algorithm.Implementation
         private FireworksAlgorithm GetFireworksAgorithm()
         {
             var testStopCondition = new CounterStopCondition(1);
-            var testFireworksAlgoritmSetting = new FireworksAlgorithmSettings()
+            var testFireworksAlgoritmSetting = new FireworksAlgorithmSettings
             {
                 LocationsNumber = 1,
                 ExplosionSparksNumberModifier = 1,

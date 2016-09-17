@@ -7,7 +7,7 @@ namespace FireworksNet.Examples
 {
     public class Program
     {
-        private static void Main(string[] args)
+        private static void Main()
         {
             // 1. Define a problem to solve
             Sphere problem = Sphere.Create();
