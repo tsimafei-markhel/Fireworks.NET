@@ -18,7 +18,7 @@ namespace FireworksNet.Model
         /// <exception cref="System.ArgumentOutOfRangeException"> if <paramref name="initialSparksNumber"/>
         /// is less than zero.</exception>
         public InitialExplosion(int stepNumber, int initialSparksNumber)
-            : base(stepNumber, new Dictionary<FireworkType, int>() { { FireworkType.Initial, initialSparksNumber } })
+            : base(stepNumber, new Dictionary<FireworkType, int> { { FireworkType.Initial, initialSparksNumber } })
         {
             if (initialSparksNumber < 0)
             {

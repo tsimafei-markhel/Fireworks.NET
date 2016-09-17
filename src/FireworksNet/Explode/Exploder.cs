@@ -100,7 +100,7 @@ namespace FireworksNet.Explode
             Debug.Assert(!double.IsNaN(amplitude), "Amplitude is NaN");
             Debug.Assert(!double.IsInfinity(amplitude), "Amplitude is Infinity");
 
-            IDictionary<FireworkType, int> sparkCounts = new Dictionary<FireworkType, int>()
+            IDictionary<FireworkType, int> sparkCounts = new Dictionary<FireworkType, int>
             {
                 { FireworkType.ExplosionSpark, this.CountExplosionSparks(focus, currentFireworkQualities) },
                 { FireworkType.SpecificSpark, this.CountSpecificSparks(focus, currentFireworkQualities) }

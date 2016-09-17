@@ -135,7 +135,7 @@ namespace FireworksNet.Selection
 
         /// <summary>
         /// Calculates the sums of distances between each <see cref="Firework"/> and other 
-        /// <see cref="Fireworks"/>s.
+        /// <see cref="Firework"/>s.
         /// </summary>
         /// <param name="fireworks">The collection of <see cref="Firework"/>s to calculate
         /// distances between.</param>
@@ -176,7 +176,7 @@ namespace FireworksNet.Selection
         /// Calculates the probabilities of each firework to be selected.
         /// </summary>
         /// <param name="distances">The sums of distances between each <see cref="Firework"/> and other 
-        /// <see cref="Fireworks"/>s.</param>
+        /// <see cref="Firework"/>s.</param>
         /// <returns>A map. Key is a <see cref="Firework"/>. Value is a probability for that <see cref="Firework"/>
         /// to be selected.</returns>
         /// <exception cref="System.ArgumentNullException"> if <paramref name="distances"/> is <c>null</c>.</exception>

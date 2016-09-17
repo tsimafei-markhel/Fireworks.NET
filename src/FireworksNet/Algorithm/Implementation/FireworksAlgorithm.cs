@@ -120,7 +120,7 @@ namespace FireworksNet.Algorithm.Implementation
             this.SpecificSparkGenerator = new GaussianSparkGenerator(problem.Dimensions, this.Distribution, this.Randomizer);
             this.DistanceCalculator = new EuclideanDistance(problem.Dimensions);
             this.LocationSelector = new DistanceBasedFireworkSelector(this.DistanceCalculator, new Func<IEnumerable<Firework>, Firework>(problem.GetBest), this.Settings.LocationsNumber);
-            this.ExploderSettings = new ExploderSettings()
+            this.ExploderSettings = new ExploderSettings
             {
                 ExplosionSparksNumberModifier = settings.ExplosionSparksNumberModifier,
                 ExplosionSparksNumberLowerBound = settings.ExplosionSparksNumberLowerBound,
@@ -185,7 +185,7 @@ namespace FireworksNet.Algorithm.Implementation
 
             this.CalculateQualities(fireworks);
 
-            return new AlgorithmState()
+            return new AlgorithmState
             {
                 BestSolution = this.ProblemToSolve.GetBest(fireworks),
                 Fireworks = fireworks,
@@ -209,7 +209,7 @@ namespace FireworksNet.Algorithm.Implementation
                 throw new ArgumentNullException(nameof(state));
             }
 
-            AlgorithmState newState = new AlgorithmState()
+            AlgorithmState newState = new AlgorithmState
             {
                 // TODO: Add copy constructor
                 BestSolution = state.BestSolution,

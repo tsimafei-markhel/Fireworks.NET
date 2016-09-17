@@ -22,7 +22,7 @@ namespace FireworksNet.Model
         SpecificSpark,
 
         /// <summary>
-        /// Firework that is the specific spark.
+        /// Firework that is the elite spark (per 2012 paper).
         /// </summary>
         EliteFirework
     }

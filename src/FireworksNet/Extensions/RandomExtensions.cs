@@ -169,7 +169,7 @@ namespace FireworksNet.Extensions
                 throw new ArgumentNullException(nameof(random));
             }
 
-            return random.NextDouble(0.0, 1.0) >= 0.5D;
+            return random.NextDouble(0.0, 1.0).IsGreaterOrEqual(0.5D);
         }
 
         /// <summary>

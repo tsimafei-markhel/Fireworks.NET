@@ -24,7 +24,7 @@ namespace FireworksNet.Model
         /// <exception cref="System.ArgumentNullException"> if <paramref name="fireworks"/> 
         /// is <c>null</c>.</exception>
         public EliteExplosion(int stepNumber, int fireworksNumber, IEnumerable<Firework> fireworks)
-            : base(stepNumber, new Dictionary<FireworkType, int>() { { FireworkType.ExplosionSpark, fireworksNumber } })
+            : base(stepNumber, new Dictionary<FireworkType, int> { { FireworkType.ExplosionSpark, fireworksNumber } })
         {
             if (fireworksNumber < 0)
             {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Diagnostics;
+using System.Linq;
 using FireworksNet.Differentiation;
 using FireworksNet.Extensions;
 using FireworksNet.Fit;
@@ -28,12 +28,8 @@ namespace FireworksNet.Algorithm.Implementation
         /// <summary>
         /// Gets the algorithm settings.
         /// </summary>
+        /// TODO: Why is it private new?
         private new FireworksAlgorithmSettings2012 Settings { get; set; }
-
-        /// <summary>
-        /// Gets the algorithm settings.
-        /// </summary>
-        ///public new FireworksAlgorithmSettings2012 Settings { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FireworksAlgorithm2012"/> class.
@@ -48,8 +44,8 @@ namespace FireworksNet.Algorithm.Implementation
             this.differentiator = new Differentiator();
             this.samplingSelector = new BestFireworkSelector(new Func<IEnumerable<Firework>, Firework>(problem.GetBest));
             this.polynomialFit = new PolynomialFit(this.Settings.FunctionOrder);
-            this.functionSolver = new Solver();           
-            this.eliteStrategyGenerator = new LS2EliteStrategyGenerator(problem.Dimensions, this.polynomialFit, this.differentiator, this.functionSolver);            
+            this.functionSolver = new Solver();
+            this.eliteStrategyGenerator = new LS2EliteStrategyGenerator(problem.Dimensions, this.polynomialFit, this.differentiator, this.functionSolver);
         }
 
         /// <summary>
@@ -112,16 +108,7 @@ namespace FireworksNet.Algorithm.Implementation
             IEnumerable<Firework> allFireworks = state.Fireworks.Concat(explosionSparks.Concat(specificSparks));
             List<Firework> selectedFireworks = this.LocationSelector.SelectFireworks(allFireworks).ToList();
 
-            Firework worstFirework;
-
-            if (this.ProblemToSolve.Target == ProblemTarget.Minimum)
-            {
-                worstFirework = selectedFireworks.OrderByDescending(fw => fw.Quality).First();
-            }
-            else
-            {
-                worstFirework = selectedFireworks.OrderBy(fw => fw.Quality).First();
-            }
+            Firework worstFirework = this.SelectWorstFirework(selectedFireworks);
 
             IEnumerable<Firework> samplingFireworks = this.samplingSelector.SelectFireworks(selectedFireworks, this.Settings.SamplingNumber);
             ExplosionBase eliteExplosion = new EliteExplosion(state.StepNumber, this.Settings.SamplingNumber, samplingFireworks);
@@ -129,7 +116,7 @@ namespace FireworksNet.Algorithm.Implementation
             Firework eliteFirework = this.eliteStrategyGenerator.CreateSpark(eliteExplosion);
             eliteFirework.Quality = this.ProblemToSolve.CalculateQuality(eliteFirework.Coordinates);
 
-            if (this.IsReplace(worstFirework, eliteFirework))
+            if (this.IsReplaceWorstWithElite(worstFirework, eliteFirework))
             {
                 selectedFireworks.Remove(worstFirework);
                 selectedFireworks.Add(eliteFirework);
@@ -140,21 +127,41 @@ namespace FireworksNet.Algorithm.Implementation
         }
 
         /// <summary>
-        /// Compare two <see cref="Firework"/>s and determines necessary to replace worst 
-        /// with elite by elite strategy
+        /// Chooses the worst firework among <paramref name="fireworks"/>.
+        /// </summary>
+        /// <param name="fireworks">Fireworks to choose the worst one from.</param>
+        /// <returns>The worst firework among <paramref name="fireworks"/>.</returns>
+        private Firework SelectWorstFirework(IEnumerable<Firework> fireworks)
+        {
+            Debug.Assert(this.ProblemToSolve != null, "Problem to solve is null");
+            Debug.Assert(fireworks != null, "Firework collection is null");
+
+            if (this.ProblemToSolve.Target == ProblemTarget.Minimum)
+            {
+                return fireworks.OrderByDescending(fw => fw.Quality).First();
+            }
+            else
+            {
+                return fireworks.OrderBy(fw => fw.Quality).First();
+            }
+        }
+
+        /// <summary>
+        /// Compares two <see cref="Firework"/>s and determines if it is necessary to replace the worst one 
+        /// with the elite one according to the elite strategy.
         /// </summary>
         /// <param name="worst">The worst firework on current step.</param>
         /// <param name="elite">The elite firework on current step calculated by 
         /// elite strategy</param>
         /// <returns><c>true</c> if necessary replace <paramref name="worst"/> with 
         /// <paramref name="elite"/>.</returns>
-        private bool IsReplace(Firework worst, Firework elite)
+        private bool IsReplaceWorstWithElite(Firework worst, Firework elite)
         {
             Debug.Assert(worst != null, "Worst firework is null");
             Debug.Assert(elite != null, "Elite firework is null");
             Debug.Assert(this.ProblemToSolve != null, "Problem to solve is null");
 
-            return this.ProblemToSolve.Target == ProblemTarget.Minimum ? (worst.Quality > elite.Quality) : (worst.Quality < elite.Quality);
+            return this.ProblemToSolve.Target == ProblemTarget.Minimum ? worst.Quality.IsGreater(elite.Quality) : worst.Quality.IsLess(elite.Quality);
         }
     }
 }
