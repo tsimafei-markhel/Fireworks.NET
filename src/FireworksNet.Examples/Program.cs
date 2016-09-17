@@ -17,7 +17,7 @@ namespace FireworksNet.Examples
             problem.QualityCalculated += stopCondition.IncrementCounter;
 
             // 3. Initialize algorithm run settings
-            FireworksAlgorithmSettings settings = new FireworksAlgorithmSettings()
+            FireworksAlgorithmSettings settings = new FireworksAlgorithmSettings
             {
                 LocationsNumber = 5,
                 ExplosionSparksNumberModifier = 50.0,

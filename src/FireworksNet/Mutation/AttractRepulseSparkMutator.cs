@@ -22,7 +22,7 @@ namespace FireworksNet.Mutation
         {
             if (generator == null)
             {
-                throw new ArgumentNullException("generator");
+                throw new ArgumentNullException(nameof(generator));
             }
 
             this.generator = generator;
@@ -40,12 +40,12 @@ namespace FireworksNet.Mutation
         {
             if (firework == null)
             {
-                throw new ArgumentNullException("firework");
+                throw new ArgumentNullException(nameof(firework));
             }
 
             if (explosion == null)
             {
-                throw new ArgumentNullException("explosion");
+                throw new ArgumentNullException(nameof(explosion));
             }
 
             Debug.Assert(this.generator != null, "Generator is null");

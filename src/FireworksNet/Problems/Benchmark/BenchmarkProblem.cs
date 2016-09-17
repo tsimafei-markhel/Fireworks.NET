@@ -32,14 +32,14 @@ namespace FireworksNet.Problems.Benchmark
         {
             if (knownSolution == null)
             {
-                throw new ArgumentNullException("knownSolution");
+                throw new ArgumentNullException(nameof(knownSolution));
             }
 
             if (knownSolution.Coordinates == null && double.IsNaN(knownSolution.Quality))
             {
                 // We have neither coordinates of a known solution nor its quality.
                 // Therefore, such known solution is useless.
-                throw new ArgumentException(string.Empty, "knownSolution");
+                throw new ArgumentException(string.Empty, nameof(knownSolution));
             }
 
             this.KnownSolution = knownSolution;

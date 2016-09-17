@@ -502,12 +502,12 @@ namespace FireworksNet.Model
         {
             if (double.IsNaN(mean))
             {
-                throw new ArgumentOutOfRangeException("mean");
+                throw new ArgumentOutOfRangeException(nameof(mean));
             }
 
             if (double.IsInfinity(mean))
             {
-                throw new ArgumentOutOfRangeException("mean");
+                throw new ArgumentOutOfRangeException(nameof(mean));
             }
         }
 
@@ -524,17 +524,17 @@ namespace FireworksNet.Model
         {
             if (double.IsNaN(deviationValue))
             {
-                throw new ArgumentOutOfRangeException("deviationValue");
+                throw new ArgumentOutOfRangeException(nameof(deviationValue));
             }
 
             if (double.IsInfinity(deviationValue))
             {
-                throw new ArgumentOutOfRangeException("deviationValue");
+                throw new ArgumentOutOfRangeException(nameof(deviationValue));
             }
 
             if (deviationValue.IsLess(0.0))
             {
-                throw new ArgumentOutOfRangeException("deviationValue");
+                throw new ArgumentOutOfRangeException(nameof(deviationValue));
             }
         }
 
@@ -549,7 +549,7 @@ namespace FireworksNet.Model
         {
             if (deviationPercent < 0)
             {
-                throw new ArgumentOutOfRangeException("deviationPercent");
+                throw new ArgumentOutOfRangeException(nameof(deviationPercent));
             }
         }
 
@@ -568,17 +568,17 @@ namespace FireworksNet.Model
         {
             if (double.IsNaN(minimum))
             {
-                throw new ArgumentOutOfRangeException("minimum");
+                throw new ArgumentOutOfRangeException(nameof(minimum));
             }
 
             if (double.IsNaN(maximum))
             {
-                throw new ArgumentOutOfRangeException("maximum");
+                throw new ArgumentOutOfRangeException(nameof(maximum));
             }
 
             if (minimum.IsGreater(maximum))
             {
-                throw new ArgumentOutOfRangeException("minimum");
+                throw new ArgumentOutOfRangeException(nameof(minimum));
             }
         }
 

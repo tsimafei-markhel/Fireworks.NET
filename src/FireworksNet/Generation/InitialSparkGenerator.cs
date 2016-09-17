@@ -34,17 +34,17 @@ namespace FireworksNet.Generation
         {
             if (dimensions == null)
             {
-                throw new ArgumentNullException("dimensions");
+                throw new ArgumentNullException(nameof(dimensions));
             }
 
             if (initialRanges == null)
             {
-                throw new ArgumentNullException("initialRanges");
+                throw new ArgumentNullException(nameof(initialRanges));
             }
 
             if (randomizer == null)
             {
-                throw new ArgumentNullException("randomizer");
+                throw new ArgumentNullException(nameof(randomizer));
             }
 
             this.dimensions = dimensions;

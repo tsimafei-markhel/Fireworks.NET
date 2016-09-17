@@ -30,7 +30,7 @@ namespace FireworksNet.Generation
         {
             if (explosion == null)
             {
-                throw new ArgumentNullException("explosion");
+                throw new ArgumentNullException(nameof(explosion));
             }
 
             int desiredNumberOfSparks;
@@ -67,7 +67,7 @@ namespace FireworksNet.Generation
         {
             if (explosion == null)
             {
-                throw new ArgumentNullException("explosion");
+                throw new ArgumentNullException(nameof(explosion));
             }
 
             T typedExplosion = explosion as T;

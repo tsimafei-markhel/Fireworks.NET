@@ -22,7 +22,7 @@ namespace FireworksNet.Model
         {
             if (initialSparksNumber < 0)
             {
-                throw new ArgumentOutOfRangeException("initialSparksNumber");
+                throw new ArgumentOutOfRangeException(nameof(initialSparksNumber));
             }
         }
 

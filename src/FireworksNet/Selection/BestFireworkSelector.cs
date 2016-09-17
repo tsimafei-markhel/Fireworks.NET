@@ -28,7 +28,7 @@ namespace FireworksNet.Selection
         {
             if (bestFireworkSelector == null)
             {
-                throw new ArgumentNullException("bestFireworkSelector");
+                throw new ArgumentNullException(nameof(bestFireworkSelector));
             }
 
             this.bestFireworkSelector = bestFireworkSelector;
@@ -67,17 +67,17 @@ namespace FireworksNet.Selection
         {
             if (from == null)
             {
-                throw new ArgumentNullException("from");
+                throw new ArgumentNullException(nameof(from));
             }
 
             if (numberToSelect < 0)
             {
-                throw new ArgumentOutOfRangeException("numberToSelect");
+                throw new ArgumentOutOfRangeException(nameof(numberToSelect));
             }
 
             if (numberToSelect > from.Count())
             {
-                throw new ArgumentOutOfRangeException("numberToSelect");
+                throw new ArgumentOutOfRangeException(nameof(numberToSelect));
             }
 
             if (numberToSelect == from.Count())

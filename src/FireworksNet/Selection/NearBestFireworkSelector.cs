@@ -33,12 +33,12 @@ namespace FireworksNet.Selection
         {
             if (distanceCalculator == null)
             {
-                throw new ArgumentNullException("distanceCalculator");
+                throw new ArgumentNullException(nameof(distanceCalculator));
             }
 
             if (bestFireworkSelector == null)
             {
-                throw new ArgumentNullException("bestFireworkSelector");
+                throw new ArgumentNullException(nameof(bestFireworkSelector));
             }
 
             this.distanceCalculator = distanceCalculator;
@@ -79,17 +79,17 @@ namespace FireworksNet.Selection
         {
             if (from == null)
             {
-                throw new ArgumentNullException("from");
+                throw new ArgumentNullException(nameof(from));
             }
 
             if (numberToSelect < 0)
             {
-                throw new ArgumentOutOfRangeException("numberToSelect");
+                throw new ArgumentOutOfRangeException(nameof(numberToSelect));
             }
 
             if (numberToSelect > from.Count())
             {
-                throw new ArgumentOutOfRangeException("numberToSelect");
+                throw new ArgumentOutOfRangeException(nameof(numberToSelect));
             }
 
             if (numberToSelect == from.Count())
@@ -141,17 +141,17 @@ namespace FireworksNet.Selection
         {
             if (fireworks == null)
             {
-                throw new ArgumentNullException("fireworks");
+                throw new ArgumentNullException(nameof(fireworks));
             }
 
             if (fireworks.Count() == 0)
             {
-                throw new ArgumentException(string.Empty, "fireworks");
+                throw new ArgumentException(string.Empty, nameof(fireworks));
             }
 
             if (bestFirework == null)
             {
-                throw new ArgumentNullException("bestFirework");
+                throw new ArgumentNullException(nameof(bestFirework));
             }
 
             Debug.Assert(this.distanceCalculator != null, "Distance calculator is null");

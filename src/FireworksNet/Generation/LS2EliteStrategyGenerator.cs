@@ -30,12 +30,12 @@ namespace FireworksNet.Generation
         {
             if (differentiation == null)
             {
-                throw new ArgumentNullException("differentiation");
+                throw new ArgumentNullException(nameof(differentiation));
             }
 
             if (this.solver == null)
             {
-                throw new ArgumentNullException("solver");
+                throw new ArgumentNullException(nameof(solver));
             }
 
             this.differentiation = differentiation;
@@ -54,12 +54,12 @@ namespace FireworksNet.Generation
         {
             if (func == null)
             {
-                throw new ArgumentNullException("func");
+                throw new ArgumentNullException(nameof(func));
             }
 
             if (variationRange == null)
             {
-                throw new ArgumentNullException("variationRange");
+                throw new ArgumentNullException(nameof(variationRange));
             }
 
             Func<double, double> derivative = this.differentiation.Differentiate(func);

@@ -31,12 +31,12 @@ namespace FireworksNet.Generation
         {
             if (func == null)
             {
-                throw new ArgumentNullException("func");
+                throw new ArgumentNullException(nameof(func));
             }
 
             if (variationRange == null)
             {
-                throw new ArgumentNullException("variationRange");
+                throw new ArgumentNullException(nameof(variationRange));
             }
 
             // TODO: Review of this logic.

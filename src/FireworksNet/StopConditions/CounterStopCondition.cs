@@ -28,7 +28,7 @@ namespace FireworksNet.StopConditions
         {
             if (threshold < 0)
             {
-                throw new ArgumentOutOfRangeException("threshold");
+                throw new ArgumentOutOfRangeException(nameof(threshold));
             }
 
             this.count = 0;

@@ -47,7 +47,7 @@ namespace FireworksNet.Explode
         {
             if (settings == null)
             {
-                throw new ArgumentNullException("settings");
+                throw new ArgumentNullException(nameof(settings));
             }
 
             this.settings = settings;
@@ -77,22 +77,22 @@ namespace FireworksNet.Explode
         {
             if (focus == null)
             {
-                throw new ArgumentNullException("focus");
+                throw new ArgumentNullException(nameof(focus));
             }
 
             if (currentFireworkQualities == null)
             {
-                throw new ArgumentNullException("currentFireworkQualities");
+                throw new ArgumentNullException(nameof(currentFireworkQualities));
             }
 
             if (currentStepNumber < 0)
             {
-                throw new ArgumentOutOfRangeException("currentStepNumber");
+                throw new ArgumentOutOfRangeException(nameof(currentStepNumber));
             }
 
             if (currentStepNumber < focus.BirthStepNumber) // Not '<=' here because that would limit possible algorithm implementations
             {
-                throw new ArgumentOutOfRangeException("currentStepNumber");
+                throw new ArgumentOutOfRangeException(nameof(currentStepNumber));
             }
 
             double amplitude = this.CalculateAmplitude(focus, currentFireworkQualities);

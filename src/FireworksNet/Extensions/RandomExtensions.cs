@@ -69,22 +69,22 @@ namespace FireworksNet.Extensions
         {
             if (random == null)
             {
-                throw new ArgumentNullException("random");
+                throw new ArgumentNullException(nameof(random));
             }
 
             if (neededValuesNumber < 0)
             {
-                throw new ArgumentOutOfRangeException("neededValuesNumber");
+                throw new ArgumentOutOfRangeException(nameof(neededValuesNumber));
             }
 
             if (neededValuesNumber > maxExclusive - minInclusive && maxExclusive - minInclusive > 0) // maxExclusive - minInclusive > 0 is required to avoid overflow
             {
-                throw new ArgumentOutOfRangeException("neededValuesNumber");
+                throw new ArgumentOutOfRangeException(nameof(neededValuesNumber));
             }
 
             if (maxExclusive <= minInclusive)
             {
-                throw new ArgumentOutOfRangeException("maxExclusive");
+                throw new ArgumentOutOfRangeException(nameof(maxExclusive));
             }
 
             List<int> result = new List<int>(neededValuesNumber);
@@ -115,22 +115,22 @@ namespace FireworksNet.Extensions
         {
             if (random == null)
             {
-                throw new ArgumentNullException("random");
+                throw new ArgumentNullException(nameof(random));
             }
 
             if (neededValuesNumber < 0)
             {
-                throw new ArgumentOutOfRangeException("neededValuesNumber");
+                throw new ArgumentOutOfRangeException(nameof(neededValuesNumber));
             }
 
             if (neededValuesNumber > maxExclusive - minInclusive && maxExclusive - minInclusive > 0) // maxExclusive - minInclusive > 0 is required to avoid overflow
             {
-                throw new ArgumentOutOfRangeException("neededValuesNumber");
+                throw new ArgumentOutOfRangeException(nameof(neededValuesNumber));
             }
 
             if (maxExclusive <= minInclusive)
             {
-                throw new ArgumentOutOfRangeException("maxExclusive");
+                throw new ArgumentOutOfRangeException(nameof(maxExclusive));
             }
 
             HashSet<int> uniqueNumbers = new HashSet<int>();
@@ -166,7 +166,7 @@ namespace FireworksNet.Extensions
         {
             if (random == null)
             {
-                throw new ArgumentNullException("random");
+                throw new ArgumentNullException(nameof(random));
             }
 
             return random.NextDouble(0.0, 1.0) >= 0.5D;
@@ -186,17 +186,17 @@ namespace FireworksNet.Extensions
         {
             if (random == null)
             {
-                throw new ArgumentNullException("random");
+                throw new ArgumentNullException(nameof(random));
             }
 
             if (double.IsNaN(minInclusive) || double.IsInfinity(minInclusive))
             {
-                throw new ArgumentOutOfRangeException("minInclusive");
+                throw new ArgumentOutOfRangeException(nameof(minInclusive));
             }
 
             if (double.IsNaN(intervalLength) || double.IsInfinity(intervalLength))
             {
-                throw new ArgumentOutOfRangeException("intervalLength");
+                throw new ArgumentOutOfRangeException(nameof(intervalLength));
             }
 
             return minInclusive + random.NextDouble() * intervalLength;

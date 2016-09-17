@@ -96,17 +96,17 @@ namespace FireworksNet.Algorithm.Implementation
         {
             if (problem == null)
             {
-                throw new ArgumentNullException("problem");
+                throw new ArgumentNullException(nameof(problem));
             }
 
             if (stopCondition == null)
             {
-                throw new ArgumentNullException("stopCondition");
+                throw new ArgumentNullException(nameof(stopCondition));
             }
 
             if (settings == null)
             {
-                throw new ArgumentNullException("settings");
+                throw new ArgumentNullException(nameof(settings));
             }
 
             this.ProblemToSolve = problem;
@@ -206,7 +206,7 @@ namespace FireworksNet.Algorithm.Implementation
         {
             if (state == null)
             {
-                throw new ArgumentNullException("state");
+                throw new ArgumentNullException(nameof(state));
             }
 
             AlgorithmState newState = new AlgorithmState()
@@ -238,7 +238,7 @@ namespace FireworksNet.Algorithm.Implementation
         {
             if (state == null)
             {
-                throw new ArgumentNullException("state");
+                throw new ArgumentNullException(nameof(state));
             }
 
             return state.BestSolution;
@@ -258,7 +258,7 @@ namespace FireworksNet.Algorithm.Implementation
         {
             if (state == null)
             {
-                throw new ArgumentNullException("state");
+                throw new ArgumentNullException(nameof(state));
             }
 
             Debug.Assert(this.StopCondition != null, "Stop condition is null");
@@ -280,7 +280,7 @@ namespace FireworksNet.Algorithm.Implementation
         {
             if (state == null)
             {
-                throw new ArgumentNullException("state");
+                throw new ArgumentNullException(nameof(state));
             }
 
             Debug.Assert(state.StepNumber >= 0, "Negative step number");

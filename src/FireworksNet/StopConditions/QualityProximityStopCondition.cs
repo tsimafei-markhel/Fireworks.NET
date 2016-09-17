@@ -30,7 +30,7 @@ namespace FireworksNet.StopConditions
         {
             if (double.IsNaN(qualityThreshold) || double.IsInfinity(qualityThreshold))
             {
-                throw new ArgumentOutOfRangeException("qualityThreshold");
+                throw new ArgumentOutOfRangeException(nameof(qualityThreshold));
             }
 
             this.QualityThreshold = qualityThreshold;
@@ -54,7 +54,7 @@ namespace FireworksNet.StopConditions
         {
             if (state == null)
             {
-                throw new ArgumentNullException("state");
+                throw new ArgumentNullException(nameof(state));
             }
 
             Debug.Assert(state.BestSolution != null, "State best solution is null");

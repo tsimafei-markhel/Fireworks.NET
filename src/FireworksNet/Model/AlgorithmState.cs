@@ -40,7 +40,7 @@ namespace FireworksNet.Model
             {
                 if (value == null)
                 {
-                    throw new ArgumentNullException("value");
+                    throw new ArgumentNullException(nameof(value));
                 }
 
                 this.fireworks = value;
@@ -62,7 +62,7 @@ namespace FireworksNet.Model
             {
                 if (value < 0)
                 {
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 }
 
                 this.stepNumber = value;
@@ -84,7 +84,7 @@ namespace FireworksNet.Model
             {
                 if (value == null)
                 {
-                    throw new ArgumentNullException("value");
+                    throw new ArgumentNullException(nameof(value));
                 }
 
                 this.bestSolution = value;

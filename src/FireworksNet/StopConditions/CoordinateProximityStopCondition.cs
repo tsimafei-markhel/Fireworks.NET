@@ -39,12 +39,12 @@ namespace FireworksNet.StopConditions
         {
             if (distanceCalculator == null)
             {
-                throw new ArgumentNullException("distanceCalculator");
+                throw new ArgumentNullException(nameof(distanceCalculator));
             }
 
             if (double.IsNaN(distanceThreshold) || double.IsInfinity(distanceThreshold))
             {
-                throw new ArgumentOutOfRangeException("distanceThreshold");
+                throw new ArgumentOutOfRangeException(nameof(distanceThreshold));
             }
 
             this.DistanceCalculator = distanceCalculator;
@@ -69,7 +69,7 @@ namespace FireworksNet.StopConditions
         {
             if (state == null)
             {
-                throw new ArgumentNullException("state");
+                throw new ArgumentNullException(nameof(state));
             }
 
             Debug.Assert(this.DistanceCalculator != null, "Distance calculator is null");

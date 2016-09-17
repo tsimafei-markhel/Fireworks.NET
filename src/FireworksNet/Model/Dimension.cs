@@ -29,7 +29,7 @@ namespace FireworksNet.Model
         {
             if (variationRange == null)
             {
-                throw new ArgumentNullException("variationRange");
+                throw new ArgumentNullException(nameof(variationRange));
             }
 
             this.Id = new TId();

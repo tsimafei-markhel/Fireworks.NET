@@ -38,17 +38,17 @@ namespace FireworksNet.Distances
         {
             if (first == null)
             {
-                throw new ArgumentNullException("first");
+                throw new ArgumentNullException(nameof(first));
             }
 
             if (second == null)
             {
-                throw new ArgumentNullException("second");
+                throw new ArgumentNullException(nameof(second));
             }
 
             if (first.Length != second.Length)
             {
-                throw new ArgumentException(string.Empty, "second");
+                throw new ArgumentException(string.Empty, nameof(second));
             }
 
             return MathNet.Numerics.Distance.Euclidean(first, second);

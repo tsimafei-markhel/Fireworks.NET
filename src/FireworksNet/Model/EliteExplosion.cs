@@ -28,12 +28,12 @@ namespace FireworksNet.Model
         {
             if (fireworksNumber < 0)
             {
-                throw new ArgumentOutOfRangeException("fireworksNumber");
+                throw new ArgumentOutOfRangeException(nameof(fireworksNumber));
             }
 
             if (fireworks == null)
             {
-                throw new ArgumentNullException("fireworks");
+                throw new ArgumentNullException(nameof(fireworks));
             }
 
             this.Fireworks = fireworks;

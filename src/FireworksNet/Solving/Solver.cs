@@ -20,12 +20,12 @@ namespace FireworksNet.Solving
         {
             if (func == null)
             {
-                throw new ArgumentNullException("func");
+                throw new ArgumentNullException(nameof(func));
             }
 
             if (variationRange == null)
             {
-                throw new ArgumentNullException("variationRange");
+                throw new ArgumentNullException(nameof(variationRange));
             }
 
             return MathNet.Numerics.FindRoots.OfFunction(func, variationRange.Minimum, variationRange.Maximum);

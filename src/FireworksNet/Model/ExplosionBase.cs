@@ -38,12 +38,12 @@ namespace FireworksNet.Model
         {
             if (stepNumber < 0)
             {
-                throw new ArgumentOutOfRangeException("stepNumber");
+                throw new ArgumentOutOfRangeException(nameof(stepNumber));
             }
             
             if (sparkCounts == null)
             {
-                throw new ArgumentNullException("sparkCounts");
+                throw new ArgumentNullException(nameof(sparkCounts));
             }
 
             this.Id = new TId();

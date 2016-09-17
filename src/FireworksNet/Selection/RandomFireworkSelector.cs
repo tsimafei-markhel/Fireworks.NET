@@ -28,7 +28,7 @@ namespace FireworksNet.Selection
         {
             if (randomizer == null)
             {
-                throw new ArgumentNullException("randomizer");
+                throw new ArgumentNullException(nameof(randomizer));
             }
 
             this.randomizer = randomizer;
@@ -66,17 +66,17 @@ namespace FireworksNet.Selection
         {
             if (from == null)
             {
-                throw new ArgumentNullException("from");
+                throw new ArgumentNullException(nameof(from));
             }
 
             if (numberToSelect < 0)
             {
-                throw new ArgumentOutOfRangeException("numberToSelect");
+                throw new ArgumentOutOfRangeException(nameof(numberToSelect));
             }
 
             if (numberToSelect > from.Count())
             {
-                throw new ArgumentOutOfRangeException("numberToSelect");
+                throw new ArgumentOutOfRangeException(nameof(numberToSelect));
             }
 
             if (numberToSelect == from.Count())

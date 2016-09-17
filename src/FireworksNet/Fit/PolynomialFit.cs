@@ -19,7 +19,7 @@ namespace FireworksNet.Fit
         {
             if (order < 0)
             {
-                throw new ArgumentOutOfRangeException("order");
+                throw new ArgumentOutOfRangeException(nameof(order));
             }
 
             this.order = order;
@@ -40,12 +40,12 @@ namespace FireworksNet.Fit
         {
             if (argumentValues == null)
             {
-                throw new ArgumentNullException("argumentValues");
+                throw new ArgumentNullException(nameof(argumentValues));
             }
 
             if (functionValues == null)
             {
-                throw new ArgumentNullException("functionValues");
+                throw new ArgumentNullException(nameof(functionValues));
             }
 
             return MathNet.Numerics.Fit.PolynomialFunc(argumentValues, functionValues, this.order);

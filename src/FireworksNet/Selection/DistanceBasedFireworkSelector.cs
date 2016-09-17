@@ -32,12 +32,12 @@ namespace FireworksNet.Selection
         {
             if (distanceCalculator == null)
             {
-                throw new ArgumentNullException("distanceCalculator");
+                throw new ArgumentNullException(nameof(distanceCalculator));
             }
 
             if (bestFireworkSelector == null)
             {
-                throw new ArgumentNullException("bestFireworkSelector");
+                throw new ArgumentNullException(nameof(bestFireworkSelector));
             }
 
             this.distanceCalculator = distanceCalculator;
@@ -78,19 +78,19 @@ namespace FireworksNet.Selection
         {
             if (from == null)
             {
-                throw new ArgumentNullException("from");
+                throw new ArgumentNullException(nameof(from));
             }
 
             if (numberToSelect < 0)
             {
-                throw new ArgumentOutOfRangeException("numberToSelect");
+                throw new ArgumentOutOfRangeException(nameof(numberToSelect));
             }
 
             if (numberToSelect > from.Count())
             {
                 // At some point, we may need to return just as much as we have
                 // instead of throwing an exception.
-                throw new ArgumentOutOfRangeException("numberToSelect");
+                throw new ArgumentOutOfRangeException(nameof(numberToSelect));
             }
 
             if (numberToSelect == from.Count())
@@ -150,7 +150,7 @@ namespace FireworksNet.Selection
 
             if (fireworks == null)
             {
-                throw new ArgumentNullException("fireworks");
+                throw new ArgumentNullException(nameof(fireworks));
             }
 
             Debug.Assert(this.distanceCalculator != null, "Distance calculator is null");
@@ -184,7 +184,7 @@ namespace FireworksNet.Selection
         {
             if (distances == null)
             {
-                throw new ArgumentNullException("distances");
+                throw new ArgumentNullException(nameof(distances));
             }
 
             Dictionary<Firework, double> probabilities = new Dictionary<Firework, double>(distances.Count());

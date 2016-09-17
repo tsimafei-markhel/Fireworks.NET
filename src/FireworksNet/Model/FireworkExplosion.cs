@@ -36,12 +36,12 @@ namespace FireworksNet.Model
         {
             if (parentFirework == null)
             {
-                throw new ArgumentNullException("parentFirework");
+                throw new ArgumentNullException(nameof(parentFirework));
             }
 
             if (double.IsNaN(amplitude) || double.IsInfinity(amplitude))
             {
-                throw new ArgumentOutOfRangeException("amplitude");
+                throw new ArgumentOutOfRangeException(nameof(amplitude));
             }
 
             this.ParentFirework = parentFirework;

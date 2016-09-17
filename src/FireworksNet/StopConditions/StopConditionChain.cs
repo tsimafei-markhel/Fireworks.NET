@@ -61,7 +61,7 @@ namespace FireworksNet.StopConditions
         {
             if (firstStopCondition == null)
             {
-                throw new ArgumentNullException("firstStopCondition");
+                throw new ArgumentNullException(nameof(firstStopCondition));
             }
 
             StopConditionChain chain = new StopConditionChain();
@@ -85,7 +85,7 @@ namespace FireworksNet.StopConditions
         {
             if (anotherStopCondition == null)
             {
-                throw new ArgumentNullException("anotherStopCondition");
+                throw new ArgumentNullException(nameof(anotherStopCondition));
             }
 
             return this.AddStopCondition(anotherStopCondition, StopConditionChain.AggregationOperator.And);
@@ -102,7 +102,7 @@ namespace FireworksNet.StopConditions
         {
             if (anotherStopCondition == null)
             {
-                throw new ArgumentNullException("anotherStopCondition");
+                throw new ArgumentNullException(nameof(anotherStopCondition));
             }
 
             return this.AddStopCondition(anotherStopCondition, StopConditionChain.AggregationOperator.Or);
@@ -124,7 +124,7 @@ namespace FireworksNet.StopConditions
         {
             if (state == null)
             {
-                throw new ArgumentNullException("state");
+                throw new ArgumentNullException(nameof(state));
             }
 
             switch (this.aggregationMode)
@@ -175,7 +175,7 @@ namespace FireworksNet.StopConditions
         {
             if (mode == StopConditionChain.AggregationOperator.None)
             {
-                throw new ArgumentOutOfRangeException("mode");
+                throw new ArgumentOutOfRangeException(nameof(mode));
             }
 
             if (this.aggregationMode == StopConditionChain.AggregationOperator.None)

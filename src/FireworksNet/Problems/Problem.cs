@@ -67,35 +67,35 @@ namespace FireworksNet.Problems
         {
             if (dimensions == null)
             {
-                throw new ArgumentNullException("dimensions");
+                throw new ArgumentNullException(nameof(dimensions));
             }
 
             if (dimensions.Count == 0)
             {
-                throw new ArgumentException(string.Empty, "dimensions");
+                throw new ArgumentException(string.Empty, nameof(dimensions));
             }
 
             if (initialRanges == null)
             {
-                throw new ArgumentNullException("initialRanges");
+                throw new ArgumentNullException(nameof(initialRanges));
             }
 
             if (initialRanges.Count != dimensions.Count)
             {
-                throw new ArgumentException(string.Empty, "initialRanges");
+                throw new ArgumentException(string.Empty, nameof(initialRanges));
             }
 
             foreach(Dimension dimension in dimensions)
             {
                 if (!initialRanges.ContainsKey(dimension))
                 {
-                    throw new ArgumentException(string.Empty, "initialRanges");
+                    throw new ArgumentException(string.Empty, nameof(initialRanges));
                 }
             }
 
             if (targetFunction == null)
             {
-                throw new ArgumentNullException("targetFunction");
+                throw new ArgumentNullException(nameof(targetFunction));
             }
 
             this.Dimensions = dimensions;
@@ -145,7 +145,7 @@ namespace FireworksNet.Problems
         {
             if (coordinateValues == null)
             {
-                throw new ArgumentNullException("coordinateValues");
+                throw new ArgumentNullException(nameof(coordinateValues));
             }
 
             Debug.Assert(this.targetFunction != null, "Target function is null");
@@ -169,7 +169,7 @@ namespace FireworksNet.Problems
         {
             if (fireworks == null)
             {
-                throw new ArgumentNullException("fireworks");
+                throw new ArgumentNullException(nameof(fireworks));
             }
 
             this.OnBestFireworkFinding(new BestFireworkFindingEventArgs(fireworks));
@@ -202,7 +202,7 @@ namespace FireworksNet.Problems
         {
             if (dimensions == null)
             {
-                throw new ArgumentNullException("dimensions");
+                throw new ArgumentNullException(nameof(dimensions));
             }
 
             Dictionary<Dimension, Range> initialRanges = new Dictionary<Dimension, Range>(dimensions.Count);

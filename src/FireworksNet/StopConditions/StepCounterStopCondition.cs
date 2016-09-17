@@ -36,7 +36,7 @@ namespace FireworksNet.StopConditions
             {
                 if (state == null)
                 {
-                    throw new ArgumentNullException("state");
+                    throw new ArgumentNullException(nameof(state));
                 }
 
                 shouldStop = state.StepNumber >= this.Threshold;

@@ -24,7 +24,7 @@ namespace FireworksNet.StopConditions
         {
             if (expectation == null)
             {
-                throw new ArgumentNullException("expectation");
+                throw new ArgumentNullException(nameof(expectation));
             }
 
             this.Expectation = expectation;

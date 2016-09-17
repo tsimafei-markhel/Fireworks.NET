@@ -40,22 +40,22 @@ namespace FireworksNet.Generation
         {
             if (bestSolution == null)
             {
-                throw new ArgumentNullException("bestSolution");
+                throw new ArgumentNullException(nameof(bestSolution));
             }
 
             if (dimensions == null)
             {
-                throw new ArgumentNullException("dimensions");
+                throw new ArgumentNullException(nameof(dimensions));
             }
 
             if (distribution == null)
             {
-                throw new ArgumentNullException("distribution");
+                throw new ArgumentNullException(nameof(distribution));
             }
 
             if (randomizer == null)
             {
-                throw new ArgumentNullException("randomizer");
+                throw new ArgumentNullException(nameof(randomizer));
             }
 
             this.bestSolution = bestSolution;

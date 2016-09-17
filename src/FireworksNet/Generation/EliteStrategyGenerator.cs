@@ -28,12 +28,12 @@ namespace FireworksNet.Generation
         {
             if (dimensions == null)
             {
-                throw new ArgumentNullException("dimensions");
+                throw new ArgumentNullException(nameof(dimensions));
             }
 
             if (polynomialFit == null)
             {
-                throw new ArgumentNullException("polynomialFit");
+                throw new ArgumentNullException(nameof(polynomialFit));
             }
 
             this.dimensions = dimensions;
@@ -89,7 +89,7 @@ namespace FireworksNet.Generation
         {
             if (fireworks == null)
             {
-                throw new ArgumentNullException("fireworks");
+                throw new ArgumentNullException(nameof(fireworks));
             }
 
             List<Firework> currentFireworks = new List<Firework>(fireworks);

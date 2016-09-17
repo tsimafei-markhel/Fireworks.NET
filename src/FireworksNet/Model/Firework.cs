@@ -40,12 +40,12 @@ namespace FireworksNet.Model
         {
             if (birthStepNumber < 0)
             {
-                throw new ArgumentOutOfRangeException("birthStepNumber");
+                throw new ArgumentOutOfRangeException(nameof(birthStepNumber));
             }
 
             if (coordinates == null)
             {
-                throw new ArgumentNullException("coordinates");
+                throw new ArgumentNullException(nameof(coordinates));
             }
 
             this.Id = new TId();

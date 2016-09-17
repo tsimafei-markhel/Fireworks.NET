@@ -24,7 +24,7 @@ namespace FireworksNet.Selection
         {
             if (locationsNumber < 0)
             {
-                throw new ArgumentOutOfRangeException("locationsNumber");
+                throw new ArgumentOutOfRangeException(nameof(locationsNumber));
             }
 
             this.LocationsNumber = locationsNumber;

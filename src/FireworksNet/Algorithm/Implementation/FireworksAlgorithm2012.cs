@@ -64,7 +64,7 @@ namespace FireworksNet.Algorithm.Implementation
         {
             if (state == null)
             {
-                throw new ArgumentNullException("state");
+                throw new ArgumentNullException(nameof(state));
             }
 
             Debug.Assert(state.StepNumber >= 0, "Negative step number");
