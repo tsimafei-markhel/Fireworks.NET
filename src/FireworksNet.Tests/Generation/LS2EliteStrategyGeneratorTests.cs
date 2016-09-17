@@ -17,7 +17,7 @@ namespace FireworksNet.Tests.Generation
             get
             {
                 IFit polynomialFit = new PolynomialFit(0);
-                var dimensions = new List<Dimension>();
+                List<Dimension> dimensions = new List<Dimension>();
                 IDifferentiator differentiation = new Differentiator();
                 ISolver solver = new Solver();
 

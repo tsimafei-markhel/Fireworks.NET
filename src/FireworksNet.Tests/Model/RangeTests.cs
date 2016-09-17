@@ -93,17 +93,17 @@ namespace FireworksNet.Tests.Model
         [InlineData(-1.0, true)]
         public void IsValueInRange_Calculation_PositiveExpected(double value, bool expected)
         {
-            var actual = this.range.IsInRange(value);
+            bool actual = this.range.IsInRange(value);
             Assert.Equal(expected, actual);
         }
 
         [Theory, MemberData("RangeData")]
         public void GetHashCode_RangesVariations_PositiveExpected(object range1, object obj, bool expected)
         {
-            var hash1 = range1.GetHashCode();
-            var hash2 = obj.GetHashCode();
+            int hash1 = range1.GetHashCode();
+            int hash2 = obj.GetHashCode();
 
-            var actual = (hash1 == hash2);
+            bool actual = (hash1 == hash2);
 
             Assert.Equal(expected, actual);
         }
@@ -111,7 +111,7 @@ namespace FireworksNet.Tests.Model
         [Theory, MemberData("RangeData")]
         public void Equals_RangesVariations_PositiveExpected(object range1, object obj, bool expected)
         {
-            var actual = range1.Equals(obj);
+            bool actual = range1.Equals(obj);
 
             Assert.Equal(expected, actual);
         }
@@ -119,8 +119,8 @@ namespace FireworksNet.Tests.Model
         [Theory, MemberData("RangeData")]
         public void ComparingOperator_RangesVariations_PositiveExpected(Range range1, object obj, bool expected)
         {
-            var actual = (range1 == (obj as Range));
-            var actual2 = !(range1 != (obj as Range));
+            bool actual = (range1 == (obj as Range));
+            bool actual2 = !(range1 != (obj as Range));
 
             Assert.Equal(expected, actual);
             Assert.Equal(expected, actual2);

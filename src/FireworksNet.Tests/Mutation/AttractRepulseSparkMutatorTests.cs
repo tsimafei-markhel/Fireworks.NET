@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using FireworksNet.Generation;
 using FireworksNet.Model;
 using FireworksNet.Mutation;
 using NSubstitute;
@@ -12,9 +13,9 @@ namespace FireworksNet.Tests.Mutation
         [Fact]
         public void CreateInstanceOfAttractRepulseSparkMutator_PassValidParameter()
         {
-            var generator = CreateAttractRepulseSparkGenerator();
+            ISparkGenerator generator = CreateAttractRepulseSparkGenerator();
 
-            var mutator = new AttractRepulseSparkMutator(generator);
+            AttractRepulseSparkMutator mutator = new AttractRepulseSparkMutator(generator);
 
             Assert.NotNull(mutator);
         }
@@ -33,8 +34,8 @@ namespace FireworksNet.Tests.Mutation
         public void MutateFirework_PassEachParameterAsNullAndOtherIsCorrect_ArgumentNullExceptionThrown(
             MutableFirework mutableFirework, FireworkExplosion explosion, String expectedParamName)
         {
-            var generator = CreateAttractRepulseSparkGenerator();
-            var mutator = new AttractRepulseSparkMutator(generator);
+            ISparkGenerator generator = CreateAttractRepulseSparkGenerator();
+            AttractRepulseSparkMutator mutator = new AttractRepulseSparkMutator(generator);
 
             ArgumentException exception = Assert.Throws<ArgumentNullException>(() => mutator.MutateFirework(ref mutableFirework, explosion));
 
@@ -56,19 +57,16 @@ namespace FireworksNet.Tests.Mutation
             foreach (Dimension dimension in dimensions)
             {
                 coordinatesBefore.Add(dimension, 0);
-            }
-            foreach (Dimension dimension in dimensions)
-            {
                 coordinatesAfter.Add(dimension, 1);
             }
 
-            var mutableFirework = new MutableFirework(FireworkType.SpecificSpark, 0, coordinatesBefore);
-            var mutateFirework = new MutableFirework(FireworkType.SpecificSpark, 1, coordinatesAfter);//present state mutable firework after mutate
+            MutableFirework mutableFirework = new MutableFirework(FireworkType.SpecificSpark, 0, coordinatesBefore);
+            MutableFirework mutateFirework = new MutableFirework(FireworkType.SpecificSpark, 1, coordinatesAfter); //present state mutable firework after mutate
 
-            var explosion = CreateFireworkExplosion(mutableFirework);
-            var generator = CreateAttractRepulseSparkGenerator();
+            FireworkExplosion explosion = CreateFireworkExplosion(mutableFirework);
+            ISparkGenerator generator = CreateAttractRepulseSparkGenerator();
             generator.CreateSpark(explosion).Returns(mutateFirework);
-            var mutator = Substitute.For<AttractRepulseSparkMutator>(generator);
+            AttractRepulseSparkMutator mutator = Substitute.For<AttractRepulseSparkMutator>(generator);
 
             mutator.MutateFirework(ref mutableFirework, explosion);
 

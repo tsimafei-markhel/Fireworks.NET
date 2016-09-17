@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace FireworksNet.Model
 {
     public class MutableFirework : Firework
     {
         /// <summary>
-        /// Create instance of MutableFirework class
+        /// Initializes a new instance of the <see cref="MutableFirework"/> class.
         /// </summary>
         /// <param name="fireworkType">The type of the firework (or spark this firework has been originated from).</param>
         /// <param name="birthStepNumber">The number of step this firework was created at.</param>
@@ -22,7 +18,7 @@ namespace FireworksNet.Model
         }
 
         /// <summary>
-        /// Updates firework. He simply copy fields.
+        /// Updates the firework by simply copying the fields.
         /// </summary>
         /// <param name="newState">New state of firework.</param>
         public void Update(Firework newState)

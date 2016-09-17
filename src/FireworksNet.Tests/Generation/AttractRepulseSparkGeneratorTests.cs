@@ -14,20 +14,20 @@ namespace FireworksNet.Tests.Generation
         public void CreateSpark_MustReturnNotNullFirework()
         {
             const int expectedBirthStepNumber = 1;
-            const FireworkType expectedFireworkType = FireworkType.SpecificSpark;    
+            const FireworkType expectedFireworkType = FireworkType.SpecificSpark;
 
-            var bestSolution = Substitute.For<Solution>(0);
-            var dimensions = Substitute.For<IList<Dimension>>();
-            var randomizer = Substitute.For<System.Random>();
-            var distribution = Substitute.For<ContinuousUniformDistribution>(AbstractSourceData.Amplitude - AbstractSourceData.Delta, AbstractSourceData.Amplitude + AbstractSourceData.Delta);
-            var epicenter = Substitute.For<Firework>(expectedFireworkType, expectedBirthStepNumber - 1);
-            var qualities = Substitute.For<IEnumerable<double>>();
-            var sparks = Substitute.For<Dictionary<FireworkType, int>>();
-            var explosion = Substitute.For<FireworkExplosion>(epicenter, expectedBirthStepNumber, AbstractSourceData.Amplitude, sparks);
+            Solution bestSolution = Substitute.For<Solution>(0);
+            IList<Dimension> dimensions = Substitute.For<IList<Dimension>>();
+            System.Random randomizer = Substitute.For<System.Random>();
+            ContinuousUniformDistribution distribution = Substitute.For<ContinuousUniformDistribution>(AbstractSourceData.Amplitude - AbstractSourceData.Delta, AbstractSourceData.Amplitude + AbstractSourceData.Delta);
+            Firework epicenter = Substitute.For<Firework>(expectedFireworkType, expectedBirthStepNumber - 1);
+            IEnumerable<double> qualities = Substitute.For<IEnumerable<double>>();
+            Dictionary<FireworkType, int> sparks = Substitute.For<Dictionary<FireworkType, int>>();
+            FireworkExplosion explosion = Substitute.For<FireworkExplosion>(epicenter, expectedBirthStepNumber, AbstractSourceData.Amplitude, sparks);
 
-            var sparkGenerator = new AttractRepulseSparkGenerator(bestSolution, dimensions, distribution, randomizer);
+            AttractRepulseSparkGenerator sparkGenerator = new AttractRepulseSparkGenerator(bestSolution, dimensions, distribution, randomizer);
 
-            var spark = sparkGenerator.CreateSpark(explosion);
+            Firework spark = sparkGenerator.CreateSpark(explosion);
 
             Assert.NotNull(spark);
             Assert.Equal(expectedFireworkType, spark.FireworkType);

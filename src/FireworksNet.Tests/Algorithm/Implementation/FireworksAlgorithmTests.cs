@@ -26,8 +26,8 @@ namespace FireworksNet.Tests.Algorithm.Implementation
         {
             get
             {
-                var testStopCondition = new CounterStopCondition(1);
-                var testFireworksAlgoritmSettings = new FireworksAlgorithmSettings();
+                CounterStopCondition testStopCondition = new CounterStopCondition(1);
+                FireworksAlgorithmSettings testFireworksAlgoritmSettings = new FireworksAlgorithmSettings();
 
                 return new[] {
                     new object[] { null,        testStopCondition, testFireworksAlgoritmSettings, "problem"},
@@ -67,8 +67,8 @@ namespace FireworksNet.Tests.Algorithm.Implementation
 
         private FireworksAlgorithm GetFireworksAgorithm()
         {
-            var testStopCondition = new CounterStopCondition(1);
-            var testFireworksAlgoritmSetting = new FireworksAlgorithmSettings
+            CounterStopCondition testStopCondition = new CounterStopCondition(1);
+            FireworksAlgorithmSettings testFireworksAlgoritmSetting = new FireworksAlgorithmSettings
             {
                 LocationsNumber = 1,
                 ExplosionSparksNumberModifier = 1,

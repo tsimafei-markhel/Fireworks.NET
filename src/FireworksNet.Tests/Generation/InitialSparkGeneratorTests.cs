@@ -14,7 +14,7 @@ namespace FireworksNet.Tests.Generation
             get
             {
                 IDictionary<Dimension, Range> initialRandes = new Dictionary<Dimension, Range>();
-                var dimensions = new List<Dimension>();
+                List<Dimension> dimensions = new List<Dimension>();
                 System.Random randomizer = new System.Random();
 
                 return new[] {
@@ -29,7 +29,7 @@ namespace FireworksNet.Tests.Generation
         {
             get
             {
-                var dimensions = new List<Dimension>();
+                List<Dimension> dimensions = new List<Dimension>();
                 System.Random randomizer = new System.Random();
 
                 return new[] {

@@ -14,7 +14,7 @@ namespace FireworksNet.Tests.Generation
             get
             {
                 System.Random randomizer = new System.Random();
-                var dimensions = new List<Dimension>();
+                List<Dimension> dimensions = new List<Dimension>();
 
                 return new[] {
                     new object[] { null,      randomizer, "dimensions"},

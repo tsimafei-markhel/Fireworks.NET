@@ -29,7 +29,7 @@ namespace FireworksNet.Tests.Generation
             get
             {
                 IContinuousDistribution distribution = new TestDistribution();
-                var dimensions = new List<Dimension>();
+                List<Dimension> dimensions = new List<Dimension>();
                 System.Random randomizer = new System.Random();
 
                 return new[] {

@@ -33,7 +33,7 @@ namespace FireworksNet.Tests.Generation
             get
             {
                 PolynomialFit polynomialFit = new PolynomialFit(0);
-                var dimensions = new List<Dimension>();
+                List<Dimension> dimensions = new List<Dimension>();
 
                 return new[] {
                     new object[] { null,      polynomialFit, "dimensions"},
@@ -42,6 +42,7 @@ namespace FireworksNet.Tests.Generation
                 };
             }
         }
+
         public static TestEliteStrategyGenerator getTestEliteStrategyGenerator()
         {
             return new TestEliteStrategyGenerator(new List<Dimension>(), new PolynomialFit(0));
