@@ -25,12 +25,12 @@ The project is released under the terms of the MIT license. See [LICENSE](LICENS
 
 ##Dependencies and Third-Party Libraries
 FireworksNet:
-- [Math.NET Numerics 3.5.0](https://www.nuget.org/packages/MathNet.Numerics/3.5.0)
+- [Math.NET Numerics 3.13.1](https://www.nuget.org/packages/MathNet.Numerics/3.13.1)
 
 FireworksNet.Tests:
-- [xUnit.net 2.0.0](https://www.nuget.org/packages/xunit/2.0.0)
-- [xUnit.net [Runner: Visual Studio] 2.0.0](https://www.nuget.org/packages/xunit.runner.visualstudio/2.0.0)
-- [NSubstitute 1.8.1](https://www.nuget.org/packages/NSubstitute/)
+- [xUnit.net 2.1.0](https://www.nuget.org/packages/xunit/2.1.0)
+- [xUnit.net [Runner: Visual Studio] 2.1.0](https://www.nuget.org/packages/xunit.runner.visualstudio/2.1.0)
+- [NSubstitute 1.10.0](https://www.nuget.org/packages/NSubstitute/1.10.0)
 
 **Note** NuGet packages are not committed to the repository, you need to use Package Restore to get them before the build.
 
