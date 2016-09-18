@@ -34,8 +34,8 @@ namespace FireworksNet.Mutation
         /// <param name="firework">The <see cref="MutableFirework"/> to be changed.</param>
         /// <param name="explosion">The <see cref="FireworkExplosion"/> that
         /// contains explosion characteristics.</param>
-        /// <exception cref="System.ArgumentNullException"> if <paramref name="mutableFirework"/>
-        /// or <param name="explosion"/> is <c>null</c>.</exception>
+        /// <exception cref="System.ArgumentNullException"> if <paramref name="firework"/>
+        /// or <paramref name="explosion"/> is <c>null</c>.</exception>
         public void MutateFirework(ref MutableFirework firework, FireworkExplosion explosion)
         {
             if (firework == null)

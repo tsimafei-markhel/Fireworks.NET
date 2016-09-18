@@ -134,7 +134,7 @@ namespace FireworksNet.Selection
         /// between that <see cref="Firework"/> and the best <see cref="Firework"/>.
         /// </returns>
         /// <exception cref="System.ArgumentNullException"> if <paramref name="fireworks"/> or 
-        /// <paramref name="bestFirework"/> is <c>null</c>.
+        /// <paramref name="bestFirework"/> is <c>null</c>.</exception>
         /// <exception cref="System.ArgumentException"> if <paramref name="fireworks"/> is empty.
         /// </exception>
         protected virtual IDictionary<Firework, double> CalculateDistances(IEnumerable<Firework> fireworks, Firework bestFirework)

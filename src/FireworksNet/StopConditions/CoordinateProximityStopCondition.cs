@@ -55,8 +55,8 @@ namespace FireworksNet.StopConditions
         /// Tells if an algorithm that is currently in <paramref name="state"/> state
         /// should stop (and don't make further steps) or not. Stops if the distance
         /// between the <paramref name="state"/>'s Best Solution and the 
-        /// <see cref="CoordinateProximityStopCondition.Expectation"/> is less than
-        /// or equal to <see cref="CoordinateProximityStopCondition.DistanceThreshold"/>.
+        /// <see cref="CoordinateProximityStopCondition"/>.Expectation is less than
+        /// or equal to <see cref="CoordinateProximityStopCondition"/>.DistanceThreshold.
         /// </summary>
         /// <param name="state">The current algorithm state.</param>
         /// <returns>

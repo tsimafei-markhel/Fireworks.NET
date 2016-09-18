@@ -2,6 +2,9 @@
 
 namespace FireworksNet.Model
 {
+    /// <summary>
+    /// Firework that provides an ability to change its state.
+    /// </summary>
     public class MutableFirework : Firework
     {
         /// <summary>

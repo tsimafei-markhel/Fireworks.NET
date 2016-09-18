@@ -247,40 +247,40 @@ namespace FireworksNet.Problems
             return candidate.Quality.IsGreater(currentMaximum.Quality) ? candidate : currentMaximum;
         }
 
+        /// <summary>
+        /// Firing an event before calculating quality of a firework.
+        /// </summary>
+        /// <param name="eventArgs">Event arguments.</param>
         protected virtual void OnQualityCalculating(QualityCalculatingEventArgs eventArgs)
         {
-            EventHandler<QualityCalculatingEventArgs> handler = this.QualityCalculating;
-            if (handler != null)
-            {
-                handler(this, eventArgs);
-            }
+            this.QualityCalculating?.Invoke(this, eventArgs);
         }
 
+        /// <summary>
+        /// Firing an event after calculating quality of a firework.
+        /// </summary>
+        /// <param name="eventArgs">Event arguments.</param>
         protected virtual void OnQualityCalculated(QualityCalculatedEventArgs eventArgs)
         {
-            EventHandler<QualityCalculatedEventArgs> handler = this.QualityCalculated;
-            if (handler != null)
-            {
-                handler(this, eventArgs);
-            }
+            this.QualityCalculated?.Invoke(this, eventArgs);
         }
 
+        /// <summary>
+        /// Firing an event before searching for the best firework.
+        /// </summary>
+        /// <param name="eventArgs">Event arguments.</param>
         protected virtual void OnBestFireworkFinding(BestFireworkFindingEventArgs eventArgs)
         {
-            EventHandler<BestFireworkFindingEventArgs> handler = this.BestFireworkFinding;
-            if (handler != null)
-            {
-                handler(this, eventArgs);
-            }
+            this.BestFireworkFinding?.Invoke(this, eventArgs);
         }
 
+        /// <summary>
+        /// Firing an event after finding the best firework.
+        /// </summary>
+        /// <param name="eventArgs">Event arguments.</param>
         protected virtual void OnBestFireworkFound(BestFireworkFoundEventArgs eventArgs)
         {
-            EventHandler<BestFireworkFoundEventArgs> handler = this.BestFireworkFound;
-            if (handler != null)
-            {
-                handler(this, eventArgs);
-            }
+            this.BestFireworkFound?.Invoke(this, eventArgs);
         }
     }
 

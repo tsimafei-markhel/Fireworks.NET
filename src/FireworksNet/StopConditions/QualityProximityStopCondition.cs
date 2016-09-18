@@ -40,7 +40,7 @@ namespace FireworksNet.StopConditions
         /// Tells if an algorithm that is currently in <paramref name="state"/> state
         /// should stop (and don't make further steps) or not. Stops if absolute value
         /// of the difference between the quality of <paramref name="state"/>'s Best
-        /// Solution and <see cref="QualityProximityStopCondition.Expectation"/> is less
+        /// Solution and <see cref="QualityProximityStopCondition"/>.Expectation is less
         /// than or equal to <see cref="QualityProximityStopCondition.QualityThreshold"/>.
         /// </summary>
         /// <param name="state">The current algorithm state.</param>

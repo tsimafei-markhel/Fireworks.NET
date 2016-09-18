@@ -94,7 +94,7 @@ namespace FireworksNet.Extensions
     }
 
     /// <summary>
-    /// Implementation of <see cref="IComparer<T>"/> that relies on <see cref="DoubleExtensions"/>
+    /// Implementation of <see cref="IComparer{T}"/> that relies on <see cref="DoubleExtensions"/>
     /// to compare two instances of <see cref="double"/>.
     /// </summary>
     public sealed class DoubleExtensionComparer : IComparer<double>
