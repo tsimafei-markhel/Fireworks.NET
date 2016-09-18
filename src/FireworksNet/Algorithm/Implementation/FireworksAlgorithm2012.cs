@@ -26,56 +26,75 @@ namespace FireworksNet.Algorithm.Implementation
         private const double normalDistributionMean = 1.0;
         private const double normalDistributionStdDev = 1.0;
 
-        private readonly IDifferentiator differentiator;
-        private readonly IFireworkSelector samplingSelector;
-        private readonly IFit polynomialFit;
-        private readonly ISolver functionSolver;
-        private readonly EliteStrategyGenerator eliteStrategyGenerator;
+        /// <summary>
+        /// Gets or sets the randomizer.
+        /// </summary>
+        public System.Random Randomizer { get; set; }
 
         /// <summary>
-        /// Gets the randomizer.
+        /// Gets or sets the continuous univariate probability distribution.
         /// </summary>
-        protected System.Random Randomizer { get; private set; }
+        public IContinuousDistribution Distribution { get; set; }
 
         /// <summary>
-        /// Gets the continuous univariate probability distribution.
+        /// Gets or sets the initial spark generator.
         /// </summary>
-        protected IContinuousDistribution Distribution { get; private set; }
+        public ISparkGenerator InitialSparkGenerator { get; set; }
 
         /// <summary>
-        /// Gets the initial spark generator.
+        /// Gets or sets the explosion spark generator.
         /// </summary>
-        protected ISparkGenerator InitialSparkGenerator { get; private set; }
+        public ISparkGenerator ExplosionSparkGenerator { get; set; }
 
         /// <summary>
-        /// Gets the explosion spark generator.
+        /// Gets or sets the specific spark generator.
         /// </summary>
-        protected ISparkGenerator ExplosionSparkGenerator { get; private set; }
+        public ISparkGenerator SpecificSparkGenerator { get; set; }
 
         /// <summary>
-        /// Gets the specific spark generator.
+        /// Gets or sets the distance calculator.
         /// </summary>
-        protected ISparkGenerator SpecificSparkGenerator { get; private set; }
+        public IDistance DistanceCalculator { get; set; }
 
         /// <summary>
-        /// Gets the distance calculator.
+        /// Gets or sets the location selector.
         /// </summary>
-        protected IDistance DistanceCalculator { get; private set; }
+        public IFireworkSelector LocationSelector { get; set; }
 
         /// <summary>
-        /// Gets the location selector.
+        /// Gets or sets the explosion settings.
         /// </summary>
-        protected IFireworkSelector LocationSelector { get; private set; }
+        public ExploderSettings ExploderSettings { get; set; }
 
         /// <summary>
-        /// Gets the explosion settings.
+        /// Gets or sets the explosion generator.
         /// </summary>
-        protected ExploderSettings ExploderSettings { get; private set; }
+        public IExploder Exploder { get; set; }
 
         /// <summary>
-        /// Gets the explosion generator.
+        /// Gets or sets the differentiator.
         /// </summary>
-        protected IExploder Exploder { get; private set; }
+        public IDifferentiator Differentiator { get; set; }
+
+        /// <summary>
+        /// Gets or sets the sampling selector.
+        /// </summary>
+        public IFireworkSelector SamplingSelector { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ploynomial fit.
+        /// </summary>
+        public IFit PolynomialFit { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function solver.
+        /// </summary>
+        public ISolver FunctionSolver { get; set; }
+
+        /// <summary>
+        /// Gets or sets the elite strategy generator.
+        /// </summary>
+        public EliteStrategyGenerator EliteStrategyGenerator { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FireworksAlgorithm2012"/> class.
@@ -86,12 +105,6 @@ namespace FireworksNet.Algorithm.Implementation
         public FireworksAlgorithm2012(Problem problem, IStopCondition stopCondition, FireworksAlgorithmSettings2012 settings)
             : base(problem, stopCondition, settings)
         {
-            this.differentiator = new Differentiator();
-            this.samplingSelector = new BestFireworkSelector(new Func<IEnumerable<Firework>, Firework>(problem.GetBest));
-            this.polynomialFit = new PolynomialFit(this.Settings.FunctionOrder);
-            this.functionSolver = new Solver();
-            this.eliteStrategyGenerator = new LS2EliteStrategyGenerator(problem.Dimensions, this.polynomialFit, this.differentiator, this.functionSolver);
-
             this.Randomizer = new DefaultRandom();
             this.Distribution = new NormalDistribution(FireworksAlgorithm2012.normalDistributionMean, FireworksAlgorithm2012.normalDistributionStdDev);
             this.InitialSparkGenerator = new InitialSparkGenerator(problem.Dimensions, problem.InitialRanges, this.Randomizer);
@@ -108,6 +121,11 @@ namespace FireworksNet.Algorithm.Implementation
                 SpecificSparksPerExplosionNumber = settings.SpecificSparksPerExplosionNumber
             };
             this.Exploder = new Exploder(this.ExploderSettings);
+            this.Differentiator = new Differentiator();
+            this.SamplingSelector = new BestFireworkSelector(new Func<IEnumerable<Firework>, Firework>(problem.GetBest));
+            this.PolynomialFit = new PolynomialFit(this.Settings.FunctionOrder);
+            this.FunctionSolver = new Solver();
+            this.EliteStrategyGenerator = new LS2EliteStrategyGenerator(problem.Dimensions, this.PolynomialFit, this.Differentiator, this.FunctionSolver);
         }
 
         #region IFireworksAlgorithm methods
@@ -255,7 +273,7 @@ namespace FireworksNet.Algorithm.Implementation
         /// <exception cref="System.ArgumentNullException"> if <paramref name="state"/>
         /// is <c>null</c>.</exception>
         /// <remarks>This method does modify the <paramref name="state"/>.</remarks>
-        private void MakeStep(ref AlgorithmState state)
+        public void MakeStep(ref AlgorithmState state)
         {
             if (state == null)
             {
@@ -309,10 +327,10 @@ namespace FireworksNet.Algorithm.Implementation
 
             Firework worstFirework = this.SelectWorstFirework(selectedFireworks);
 
-            IEnumerable<Firework> samplingFireworks = this.samplingSelector.SelectFireworks(selectedFireworks, this.Settings.SamplingNumber);
+            IEnumerable<Firework> samplingFireworks = this.SamplingSelector.SelectFireworks(selectedFireworks, this.Settings.SamplingNumber);
             ExplosionBase eliteExplosion = new EliteExplosion(state.StepNumber, this.Settings.SamplingNumber, samplingFireworks);
 
-            Firework eliteFirework = this.eliteStrategyGenerator.CreateSpark(eliteExplosion);
+            Firework eliteFirework = this.EliteStrategyGenerator.CreateSpark(eliteExplosion);
             eliteFirework.Quality = this.ProblemToSolve.CalculateQuality(eliteFirework.Coordinates);
 
             if (this.IsReplaceWorstWithElite(worstFirework, eliteFirework))
@@ -330,7 +348,7 @@ namespace FireworksNet.Algorithm.Implementation
         /// </summary>
         /// <param name="fireworks">Fireworks to choose the worst one from.</param>
         /// <returns>The worst firework among <paramref name="fireworks"/>.</returns>
-        private Firework SelectWorstFirework(IEnumerable<Firework> fireworks)
+        public Firework SelectWorstFirework(IEnumerable<Firework> fireworks)
         {
             Debug.Assert(this.ProblemToSolve != null, "Problem to solve is null");
             Debug.Assert(fireworks != null, "Firework collection is null");
@@ -354,7 +372,7 @@ namespace FireworksNet.Algorithm.Implementation
         /// elite strategy</param>
         /// <returns><c>true</c> if necessary replace <paramref name="worst"/> with 
         /// <paramref name="elite"/>.</returns>
-        private bool IsReplaceWorstWithElite(Firework worst, Firework elite)
+        public bool IsReplaceWorstWithElite(Firework worst, Firework elite)
         {
             Debug.Assert(worst != null, "Worst firework is null");
             Debug.Assert(elite != null, "Elite firework is null");
