@@ -145,7 +145,7 @@ namespace FireworksNet.Algorithm.Implementation
             {
                 Debug.Assert(state != null, "Current state is null");
 
-                this.MakeStep(ref state);
+                state = this.MakeStep(state);
 
                 Debug.Assert(state != null, "Current state is null");
             }
@@ -182,12 +182,7 @@ namespace FireworksNet.Algorithm.Implementation
 
             this.CalculateQualities(fireworks);
 
-            return new AlgorithmState
-            {
-                BestSolution = this.ProblemToSolve.GetBest(fireworks),
-                Fireworks = fireworks,
-                StepNumber = 0
-            };
+            return new AlgorithmState(fireworks, 0, this.ProblemToSolve.GetBest(fireworks));
         }
 
         /// <summary>
@@ -206,19 +201,69 @@ namespace FireworksNet.Algorithm.Implementation
                 throw new ArgumentNullException(nameof(state));
             }
 
-            AlgorithmState newState = new AlgorithmState
+            Debug.Assert(state.StepNumber >= 0, "Negative step number");
+            Debug.Assert(state.Fireworks != null, "State firework collection is null");
+            Debug.Assert(this.Settings != null, "Settings is null");
+            Debug.Assert(this.Randomizer != null, "Randomizer is null");
+            Debug.Assert(this.Settings.LocationsNumber >= 0, "Negative settings locations number");
+            Debug.Assert(this.Exploder != null, "Exploder is null");
+            Debug.Assert(this.ExplosionSparkGenerator != null, "Explosion spark generator is null");
+            Debug.Assert(this.ProblemToSolve != null, "Problem to solve is null");
+
+            // Need to increase step number first. Otherwise, we'll get
+            // BirthStepNumber for 1st generation fireworks == 0 just like
+            // that of initial fireworks.
+            int stepNumber = state.StepNumber + 1;
+
+            IEnumerable<double> fireworkQualities = state.Fireworks.Select(fw => fw.Quality);
+            IEnumerable<int> specificSparkParentIndices = this.Randomizer.NextUniqueInt32s(this.Settings.SpecificSparksNumber, 0, this.Settings.LocationsNumber);
+
+            IEnumerable<Firework> explosionSparks = new List<Firework>();
+            IEnumerable<Firework> specificSparks = new List<Firework>(this.Settings.SpecificSparksNumber);
+            int currentFirework = 0;
+            foreach (Firework firework in state.Fireworks)
             {
-                // TODO: Add copy constructor
-                BestSolution = state.BestSolution,
-                Fireworks = state.Fireworks,
-                StepNumber = state.StepNumber
-            };
+                Debug.Assert(firework != null, "Firework is null");
 
-            this.MakeStep(ref newState);
+                ExplosionBase explosion = this.Exploder.Explode(firework, fireworkQualities, stepNumber);
+                Debug.Assert(explosion != null, "Explosion is null");
 
-            Debug.Assert(newState != null, "New state is null");
+                IEnumerable<Firework> fireworkExplosionSparks = this.ExplosionSparkGenerator.CreateSparks(explosion);
+                Debug.Assert(fireworkExplosionSparks != null, "Firework explosion sparks collection is null");
 
-            return newState;
+                explosionSparks = explosionSparks.Concat(fireworkExplosionSparks);
+                if (specificSparkParentIndices.Contains(currentFirework))
+                {
+                    IEnumerable<Firework> fireworkSpecificSparks = this.SpecificSparkGenerator.CreateSparks(explosion);
+                    Debug.Assert(fireworkSpecificSparks != null, "Firework specific sparks collection is null");
+
+                    specificSparks = specificSparks.Concat(fireworkSpecificSparks);
+                }
+
+                currentFirework++;
+            }
+
+            this.CalculateQualities(explosionSparks);
+            this.CalculateQualities(specificSparks);
+
+            IEnumerable<Firework> allFireworks = state.Fireworks.Concat(explosionSparks.Concat(specificSparks));
+            List<Firework> selectedFireworks = this.LocationSelector.SelectFireworks(allFireworks).ToList();
+
+            Firework worstFirework = this.SelectWorstFirework(selectedFireworks);
+
+            IEnumerable<Firework> samplingFireworks = this.SamplingSelector.SelectFireworks(selectedFireworks, this.Settings.SamplingNumber);
+            ExplosionBase eliteExplosion = new EliteExplosion(stepNumber, this.Settings.SamplingNumber, samplingFireworks);
+
+            Firework eliteFirework = this.EliteStrategyGenerator.CreateSpark(eliteExplosion);
+            eliteFirework.Quality = this.ProblemToSolve.CalculateQuality(eliteFirework.Coordinates);
+
+            if (this.IsReplaceWorstWithElite(worstFirework, eliteFirework))
+            {
+                selectedFireworks.Remove(worstFirework);
+                selectedFireworks.Add(eliteFirework);
+            }
+
+            return new AlgorithmState(selectedFireworks, stepNumber, this.ProblemToSolve.GetBest(selectedFireworks));
         }
 
         /// <summary>
@@ -264,84 +309,6 @@ namespace FireworksNet.Algorithm.Implementation
         }
 
         #endregion
-
-        /// <summary>
-        /// Makes the algorithm step.
-        /// </summary>
-        /// <param name="state">The algorithm state after previous step or initial 
-        /// state.</param>
-        /// <exception cref="System.ArgumentNullException"> if <paramref name="state"/>
-        /// is <c>null</c>.</exception>
-        /// <remarks>This method does modify the <paramref name="state"/>.</remarks>
-        public void MakeStep(ref AlgorithmState state)
-        {
-            if (state == null)
-            {
-                throw new ArgumentNullException(nameof(state));
-            }
-
-            Debug.Assert(state.StepNumber >= 0, "Negative step number");
-            Debug.Assert(state.Fireworks != null, "State firework collection is null");
-            Debug.Assert(this.Settings != null, "Settings is null");
-            Debug.Assert(this.Randomizer != null, "Randomizer is null");
-            Debug.Assert(this.Settings.LocationsNumber >= 0, "Negative settings locations number");
-            Debug.Assert(this.Exploder != null, "Exploder is null");
-            Debug.Assert(this.ExplosionSparkGenerator != null, "Explosion spark generator is null");
-            Debug.Assert(this.ProblemToSolve != null, "Problem to solve is null");
-
-            state.StepNumber++;
-
-            IEnumerable<double> fireworkQualities = state.Fireworks.Select(fw => fw.Quality);
-
-            IEnumerable<Firework> explosionSparks = new List<Firework>();
-            IEnumerable<Firework> specificSparks = new List<Firework>(this.Settings.SpecificSparksNumber);
-            IEnumerable<int> specificSparkParentIndices = this.Randomizer.NextUniqueInt32s(this.Settings.SpecificSparksNumber, 0, this.Settings.LocationsNumber);
-            int currentFirework = 0;
-            foreach (Firework firework in state.Fireworks)
-            {
-                Debug.Assert(firework != null, "Firework is null");
-
-                ExplosionBase explosion = this.Exploder.Explode(firework, fireworkQualities, state.StepNumber);
-                Debug.Assert(explosion != null, "Explosion is null");
-
-                IEnumerable<Firework> fireworkExplosionSparks = this.ExplosionSparkGenerator.CreateSparks(explosion);
-                Debug.Assert(fireworkExplosionSparks != null, "Firework explosion sparks collection is null");
-
-                explosionSparks = explosionSparks.Concat(fireworkExplosionSparks);
-                if (specificSparkParentIndices.Contains(currentFirework))
-                {
-                    IEnumerable<Firework> fireworkSpecificSparks = this.SpecificSparkGenerator.CreateSparks(explosion);
-                    Debug.Assert(fireworkSpecificSparks != null, "Firework specific sparks collection is null");
-
-                    specificSparks = specificSparks.Concat(fireworkSpecificSparks);
-                }
-
-                currentFirework++;
-            }
-
-            this.CalculateQualities(explosionSparks);
-            this.CalculateQualities(specificSparks);
-
-            IEnumerable<Firework> allFireworks = state.Fireworks.Concat(explosionSparks.Concat(specificSparks));
-            List<Firework> selectedFireworks = this.LocationSelector.SelectFireworks(allFireworks).ToList();
-
-            Firework worstFirework = this.SelectWorstFirework(selectedFireworks);
-
-            IEnumerable<Firework> samplingFireworks = this.SamplingSelector.SelectFireworks(selectedFireworks, this.Settings.SamplingNumber);
-            ExplosionBase eliteExplosion = new EliteExplosion(state.StepNumber, this.Settings.SamplingNumber, samplingFireworks);
-
-            Firework eliteFirework = this.EliteStrategyGenerator.CreateSpark(eliteExplosion);
-            eliteFirework.Quality = this.ProblemToSolve.CalculateQuality(eliteFirework.Coordinates);
-
-            if (this.IsReplaceWorstWithElite(worstFirework, eliteFirework))
-            {
-                selectedFireworks.Remove(worstFirework);
-                selectedFireworks.Add(eliteFirework);
-            }
-
-            state.Fireworks = selectedFireworks;
-            state.BestSolution = this.ProblemToSolve.GetBest(selectedFireworks);
-        }
 
         /// <summary>
         /// Chooses the worst firework among <paramref name="fireworks"/>.

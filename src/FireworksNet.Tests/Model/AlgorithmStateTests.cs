@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 using FireworksNet.Model;
 using Xunit;
 
@@ -7,44 +7,25 @@ namespace FireworksNet.Tests.Model
 {
     public class AlgorithmStateTests
     {
-        private readonly AlgorithmState algoritmState;
-
-        public AlgorithmStateTests()
+        [Fact]
+        public void Constructor_NullFireworks_ExceptionThrown()
         {
-            this.algoritmState = new AlgorithmState();
+            ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => new AlgorithmState(null, 0, new Solution(0.0)));
+            Assert.Equal("fireworks", actualException.ParamName);
         }
 
         [Fact]
-        public void FireworksSetter_NullValue_ExceptionThrown()
+        public void Constructor_NegativeValue_ExceptionThrown()
         {
-            IEnumerable<Firework> param = null;
-
-            string expectedParamName = "value";
-
-            ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => this.algoritmState.Fireworks = param);
-            Assert.Equal(expectedParamName, actualException.ParamName);
+            ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() => new AlgorithmState(Enumerable.Empty<Firework>(), -1, new Solution(0.0)));
+            Assert.Equal("stepNumber", actualException.ParamName);
         }
 
         [Fact]
-        public void StepNumberSetter_NegativeValue_ExceptionThrown()
+        public void Constructor_NullValue_ExceptionThrown()
         {
-            int stepNumber = -1;
-
-            string expectedParamName = "value";
-
-            ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() => this.algoritmState.StepNumber = stepNumber);
-            Assert.Equal(expectedParamName, actualException.ParamName);
-        }
-
-        [Fact]
-        public void BestSolutionSetter_NullValue_ExceptionThrown()
-        {
-            Solution param = null;
-
-            string expectedParamName = "value";
-
-            ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => this.algoritmState.BestSolution = param);
-            Assert.Equal(expectedParamName, actualException.ParamName);
+            ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => new AlgorithmState(Enumerable.Empty<Firework>(), 0, null));
+            Assert.Equal("bestSolution", actualException.ParamName);
         }
     }
 }
