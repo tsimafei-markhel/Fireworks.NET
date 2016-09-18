@@ -24,49 +24,49 @@ namespace FireworksNet.Algorithm.Implementation
         private const double normalDistributionStdDev = 1.0;
 
         /// <summary>
-        /// Gets the randomizer.
+        /// Gets or sets the randomizer.
         /// </summary>
-        protected System.Random Randomizer { get; private set; }
+        public System.Random Randomizer { get; set; }
 
         /// <summary>
-        /// Gets the continuous univariate probability distribution.
+        /// Gets or sets the continuous univariate probability distribution.
         /// </summary>
-        protected IContinuousDistribution Distribution { get; private set; }
+        public IContinuousDistribution Distribution { get; set; }
 
         /// <summary>
-        /// Gets the initial spark generator.
+        /// Gets or sets the initial spark generator.
         /// </summary>
-        protected ISparkGenerator InitialSparkGenerator { get; private set; }
+        public ISparkGenerator InitialSparkGenerator { get; set; }
 
         /// <summary>
-        /// Gets the explosion spark generator.
+        /// Gets or sets the explosion spark generator.
         /// </summary>
-        protected ISparkGenerator ExplosionSparkGenerator { get; private set; }
+        public ISparkGenerator ExplosionSparkGenerator { get; set; }
 
         /// <summary>
-        /// Gets the specific spark generator.
+        /// Gets or sets the specific spark generator.
         /// </summary>
-        protected ISparkGenerator SpecificSparkGenerator { get; private set; }
+        public ISparkGenerator SpecificSparkGenerator { get; set; }
 
         /// <summary>
-        /// Gets the distance calculator.
+        /// Gets or sets the distance calculator.
         /// </summary>
-        protected IDistance DistanceCalculator { get; private set; }
+        public IDistance DistanceCalculator { get; set; }
 
         /// <summary>
-        /// Gets the location selector.
+        /// Gets or sets the location selector.
         /// </summary>
-        protected IFireworkSelector LocationSelector { get; private set; }
+        public IFireworkSelector LocationSelector { get; set; }
 
         /// <summary>
-        /// Gets the explosion settings.
+        /// Gets or sets the explosion settings.
         /// </summary>
-        protected ExploderSettings ExploderSettings { get; private set; }
+        public ExploderSettings ExploderSettings { get; set; }
 
         /// <summary>
-        /// Gets the explosion generator.
+        /// Gets or sets the explosion generator.
         /// </summary>
-        protected IExploder Exploder { get; private set; }
+        public IExploder Exploder { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FireworksAlgorithm"/> class.
@@ -240,7 +240,7 @@ namespace FireworksNet.Algorithm.Implementation
         /// <exception cref="System.ArgumentNullException"> if <paramref name="state"/>
         /// is <c>null</c>.</exception>
         /// <remarks>This method does modify the <paramref name="state"/>.</remarks>
-        private void MakeStep(ref AlgorithmState state)
+        public void MakeStep(ref AlgorithmState state)
         {
             if (state == null)
             {
@@ -309,7 +309,7 @@ namespace FireworksNet.Algorithm.Implementation
         /// <param name="fireworks">The fireworks to calculate qualities for.</param>
         /// <remarks>It is expected that none of the <paramref name="fireworks"/>
         /// has its quality calculated before.</remarks>
-        private void CalculateQualities(IEnumerable<Firework> fireworks)
+        public void CalculateQualities(IEnumerable<Firework> fireworks)
         {
             Debug.Assert(fireworks != null, "Fireworks collection is null");
             Debug.Assert(this.ProblemToSolve != null, "Problem to solve is null");
