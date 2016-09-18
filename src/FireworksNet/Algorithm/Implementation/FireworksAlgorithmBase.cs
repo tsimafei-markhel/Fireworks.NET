@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using FireworksNet.Model;
 using FireworksNet.Problems;
 using FireworksNet.StopConditions;
@@ -63,5 +65,27 @@ namespace FireworksNet.Algorithm.Implementation
         /// <returns><see cref="Solution"/> instance that represents
         /// best solution found during the algorithm run.</returns>
         public abstract Solution Solve();
+
+        /// <summary>
+        /// Calculates the qualities for each <see cref="Firework"/> in
+        /// <paramref name="fireworks"/> collection.
+        /// </summary>
+        /// <param name="fireworks">The fireworks to calculate qualities for.</param>
+        /// <remarks>It is expected that none of the <paramref name="fireworks"/>
+        /// has its quality calculated before.</remarks>
+        public virtual void CalculateQualities(IEnumerable<Firework> fireworks)
+        {
+            Debug.Assert(fireworks != null, "Fireworks collection is null");
+            Debug.Assert(this.ProblemToSolve != null, "Problem to solve is null");
+
+            foreach (Firework firework in fireworks)
+            {
+                Debug.Assert(firework != null, "Firework is null");
+                Debug.Assert(double.IsNaN(firework.Quality), "Excessive quality calculation"); // If quality is not NaN, it most likely has been already calculated
+                Debug.Assert(firework.Coordinates != null, "Firework coordinates collection is null");
+
+                firework.Quality = this.ProblemToSolve.CalculateQuality(firework.Coordinates);
+            }
+        }
     }
 }

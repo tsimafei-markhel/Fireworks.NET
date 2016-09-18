@@ -326,28 +326,6 @@ namespace FireworksNet.Algorithm.Implementation
         }
 
         /// <summary>
-        /// Calculates the qualities for each <see cref="Firework"/> in
-        /// <paramref name="fireworks"/> collection.
-        /// </summary>
-        /// <param name="fireworks">The fireworks to calculate qualities for.</param>
-        /// <remarks>It is expected that none of the <paramref name="fireworks"/>
-        /// has its quality calculated before.</remarks>
-        private void CalculateQualities(IEnumerable<Firework> fireworks)
-        {
-            Debug.Assert(fireworks != null, "Fireworks collection is null");
-            Debug.Assert(this.ProblemToSolve != null, "Problem to solve is null");
-
-            foreach (Firework firework in fireworks)
-            {
-                Debug.Assert(firework != null, "Firework is null");
-                Debug.Assert(double.IsNaN(firework.Quality), "Excessive quality calculation"); // If quality is not NaN, it most likely has been already calculated
-                Debug.Assert(firework.Coordinates != null, "Firework coordinates collection is null");
-
-                firework.Quality = this.ProblemToSolve.CalculateQuality(firework.Coordinates);
-            }
-        }
-
-        /// <summary>
         /// Chooses the worst firework among <paramref name="fireworks"/>.
         /// </summary>
         /// <param name="fireworks">Fireworks to choose the worst one from.</param>
