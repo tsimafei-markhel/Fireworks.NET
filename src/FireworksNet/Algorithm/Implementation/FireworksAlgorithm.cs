@@ -18,7 +18,7 @@ namespace FireworksNet.Algorithm.Implementation
     /// <summary>
     /// Fireworks Algorithm implementation, per 2010 paper.
     /// </summary>
-    public class FireworksAlgorithm : IFireworksAlgorithm, IStepperFireworksAlgorithm
+    public class FireworksAlgorithm : FireworksAlgorithmBase<FireworksAlgorithmSettings>, IFireworksAlgorithm, IStepperFireworksAlgorithm
     {
         private const double normalDistributionMean = 1.0;
         private const double normalDistributionStdDev = 1.0;
@@ -69,50 +69,14 @@ namespace FireworksNet.Algorithm.Implementation
         protected IExploder Exploder { get; private set; }
 
         /// <summary>
-        /// Gets the problem to be solved by the algorithm.
-        /// </summary>
-        public Problem ProblemToSolve { get; protected set; }
-
-        /// <summary>
-        /// Gets the stop condition for the algorithm.
-        /// </summary>
-        public IStopCondition StopCondition { get; protected set; }
-
-        /// <summary>
-        /// Gets the algorithm settings.
-        /// </summary>
-        public FireworksAlgorithmSettings Settings { get; private set; }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="FireworksAlgorithm"/> class.
         /// </summary>
         /// <param name="problem">The problem to be solved by the algorithm.</param>
         /// <param name="stopCondition">The stop condition for the algorithm.</param>
         /// <param name="settings">The algorithm settings.</param>
-        /// <exception cref="System.ArgumentNullException"> if <paramref name="problem"/>
-        /// or <paramref name="stopCondition"/> or <paramref name="settings"/> is 
-        /// <c>null</c>.</exception>
         public FireworksAlgorithm(Problem problem, IStopCondition stopCondition, FireworksAlgorithmSettings settings)
+            : base(problem, stopCondition, settings)
         {
-            if (problem == null)
-            {
-                throw new ArgumentNullException(nameof(problem));
-            }
-
-            if (stopCondition == null)
-            {
-                throw new ArgumentNullException(nameof(stopCondition));
-            }
-
-            if (settings == null)
-            {
-                throw new ArgumentNullException(nameof(settings));
-            }
-
-            this.ProblemToSolve = problem;
-            this.StopCondition = stopCondition;
-            this.Settings = settings;
-
             this.Randomizer = new DefaultRandom();
             this.Distribution = new NormalDistribution(FireworksAlgorithm.normalDistributionMean, FireworksAlgorithm.normalDistributionStdDev);
             this.InitialSparkGenerator = new InitialSparkGenerator(problem.Dimensions, problem.InitialRanges, this.Randomizer);
@@ -138,7 +102,7 @@ namespace FireworksNet.Algorithm.Implementation
         /// </summary>
         /// <returns><see cref="Solution"/> instance that represents
         /// best solution found during the algorithm run.</returns>
-        public virtual Solution Solve()
+        public override Solution Solve()
         {
             AlgorithmState state = this.CreateInitialState();
 
