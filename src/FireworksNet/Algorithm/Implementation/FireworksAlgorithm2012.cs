@@ -94,7 +94,7 @@ namespace FireworksNet.Algorithm.Implementation
         /// <summary>
         /// Gets or sets the elite strategy generator.
         /// </summary>
-        public EliteStrategyGenerator EliteStrategyGenerator { get; set; }
+        public ISparkGenerator EliteStrategyGenerator { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FireworksAlgorithm2012"/> class.
