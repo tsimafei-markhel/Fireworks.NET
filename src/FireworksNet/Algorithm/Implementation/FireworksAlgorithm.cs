@@ -18,7 +18,7 @@ namespace FireworksNet.Algorithm.Implementation
     /// <summary>
     /// Fireworks Algorithm implementation, per 2010 paper.
     /// </summary>
-    public class FireworksAlgorithm : FireworksAlgorithmBase<FireworksAlgorithmSettings>, IFireworksAlgorithm, IStepperFireworksAlgorithm
+    public sealed class FireworksAlgorithm : FireworksAlgorithmBase<FireworksAlgorithmSettings>, IFireworksAlgorithm, IStepperFireworksAlgorithm
     {
         private const double normalDistributionMean = 1.0;
         private const double normalDistributionStdDev = 1.0;
@@ -133,7 +133,7 @@ namespace FireworksNet.Algorithm.Implementation
         /// initial state (before the run starts).</returns>
         /// <remarks>On each call re-creates the initial state (i.e. returns 
         /// new object each time).</remarks>
-        public virtual AlgorithmState CreateInitialState()
+        public AlgorithmState CreateInitialState()
         {
             Debug.Assert(this.Settings != null, "Settings is null");
             Debug.Assert(this.InitialSparkGenerator != null, "Initial spark generator is null");
@@ -166,7 +166,7 @@ namespace FireworksNet.Algorithm.Implementation
         /// <exception cref="System.ArgumentNullException"> if <paramref name="state"/>
         /// is <c>null</c>.</exception>
         /// <remarks>This method does not modify <paramref name="state"/>.</remarks>
-        public virtual AlgorithmState MakeStep(AlgorithmState state)
+        public AlgorithmState MakeStep(AlgorithmState state)
         {
             if (state == null)
             {
@@ -198,7 +198,7 @@ namespace FireworksNet.Algorithm.Implementation
         /// <exception cref="System.ArgumentNullException"> if <paramref name="state"/>
         /// is <c>null</c>.</exception>
         /// <remarks>This method does not modify <paramref name="state"/>.</remarks>
-        public virtual Solution GetSolution(AlgorithmState state)
+        public Solution GetSolution(AlgorithmState state)
         {
             if (state == null)
             {
@@ -218,7 +218,7 @@ namespace FireworksNet.Algorithm.Implementation
         /// <exception cref="System.ArgumentNullException"> if <paramref name="state"/>
         /// is <c>null</c>.</exception>
         /// <remarks>This method does not modify <paramref name="state"/>.</remarks>
-        public virtual bool ShouldStop(AlgorithmState state)
+        public bool ShouldStop(AlgorithmState state)
         {
             if (state == null)
             {
@@ -240,7 +240,7 @@ namespace FireworksNet.Algorithm.Implementation
         /// <exception cref="System.ArgumentNullException"> if <paramref name="state"/>
         /// is <c>null</c>.</exception>
         /// <remarks>This method does modify the <paramref name="state"/>.</remarks>
-        protected virtual void MakeStep(ref AlgorithmState state)
+        private void MakeStep(ref AlgorithmState state)
         {
             if (state == null)
             {
@@ -309,7 +309,7 @@ namespace FireworksNet.Algorithm.Implementation
         /// <param name="fireworks">The fireworks to calculate qualities for.</param>
         /// <remarks>It is expected that none of the <paramref name="fireworks"/>
         /// has its quality calculated before.</remarks>
-        protected virtual void CalculateQualities(IEnumerable<Firework> fireworks)
+        private void CalculateQualities(IEnumerable<Firework> fireworks)
         {
             Debug.Assert(fireworks != null, "Fireworks collection is null");
             Debug.Assert(this.ProblemToSolve != null, "Problem to solve is null");
