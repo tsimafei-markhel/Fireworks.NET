@@ -319,16 +319,14 @@ namespace FireworksNet.Algorithm.Implementation
             this.CalculateQualities(specificSparks);
 
             IEnumerable<Firework> allFireworks = state.Fireworks.Concat(explosionSparks.Concat(specificSparks));
-            List<Firework> selectedFireworks = this.LocationSelector.SelectFireworks(allFireworks).ToList();
-
-            Firework worstFirework = this.SelectWorstFirework(selectedFireworks);
+            IList<Firework> selectedFireworks = this.LocationSelector.SelectFireworks(allFireworks).ToList();
 
             IEnumerable<Firework> samplingFireworks = this.SamplingSelector.SelectFireworks(selectedFireworks, this.Settings.SamplingNumber);
             ExplosionBase eliteExplosion = new EliteExplosion(stepNumber, this.Settings.SamplingNumber, samplingFireworks);
-
             Firework eliteFirework = this.EliteStrategyGenerator.CreateSpark(eliteExplosion);
             this.CalculateQuality(eliteFirework);
 
+            Firework worstFirework = this.SelectWorstFirework(selectedFireworks);
             if (this.IsReplaceWorstWithElite(worstFirework, eliteFirework))
             {
                 selectedFireworks.Remove(worstFirework);
