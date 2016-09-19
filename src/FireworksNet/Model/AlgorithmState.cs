@@ -18,19 +18,19 @@ namespace FireworksNet.Model
         /// Gets or sets a collection of current fireworks.
         /// </summary>
         /// <exception cref="System.ArgumentNullException"> if value is null.</exception>
-        public IEnumerable<Firework> Fireworks { get; private set; }
+        public IEnumerable<Firework> Fireworks { get; protected set; }
 
         /// <summary>
         /// Gets or sets the step number.
         /// </summary>
         /// <exception cref="System.ArgumentOutOfRangeException"> if value is less than zero.</exception>
-        public int StepNumber { get; private set; }
+        public int StepNumber { get; protected set; }
 
         /// <summary>
         /// Gets or sets the best solution among <see cref="AlgorithmState"/>.Fireworks.
         /// </summary>
         /// <exception cref="System.ArgumentNullException"> if value is null.</exception>
-        public Solution BestSolution { get; private set; }
+        public Solution BestSolution { get; protected set; }
 
         /// <summary>
         /// Initializes a new instance of <see cref="AlgorithmState"/>.

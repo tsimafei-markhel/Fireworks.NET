@@ -137,7 +137,7 @@ namespace FireworksNet.Algorithm.Implementation
         /// best solution found during the algorithm run.</returns>
         public override Solution Solve()
         {
-            AlgorithmState state = this.CreateInitialState();
+            AlgorithmState state = this.CreateInitialState(true);
 
             Debug.Assert(state != null, "Initial state is null");
 
@@ -145,12 +145,10 @@ namespace FireworksNet.Algorithm.Implementation
             {
                 Debug.Assert(state != null, "Current state is null");
 
-                state = this.MakeStep(state);
+                this.MakeStep(state, true);
 
-                Debug.Assert(state != null, "Current state is null");
+                Debug.Assert(state != null, "Updated state is null");
             }
-
-            Debug.Assert(state != null, "Final state is null");
 
             return this.GetSolution(state);
         }
@@ -168,6 +166,81 @@ namespace FireworksNet.Algorithm.Implementation
         /// new object each time).</remarks>
         public AlgorithmState CreateInitialState()
         {
+            return this.CreateInitialState(false);
+        }
+
+        /// <summary>
+        /// Represents one iteration of the algorithm.
+        /// </summary>
+        /// <param name="state">The state of the algorithm after the previous step
+        /// or initial state.</param>
+        /// <returns>State of the algorithm after the step.</returns>
+        /// <exception cref="System.ArgumentNullException"> if <paramref name="state"/>
+        /// is <c>null</c>.</exception>
+        public AlgorithmState MakeStep(AlgorithmState state)
+        {
+            if (state == null)
+            {
+                throw new ArgumentNullException(nameof(state));
+            }
+
+            return this.MakeStep(state, false);
+        }
+
+        /// <summary>
+        /// Determines the best found solution.
+        /// </summary>
+        /// <param name="state">The state of the algorithm after the previous step
+        /// or initial state.</param>
+        /// <returns><see cref="Solution"/> instance that represents
+        /// best solution found during the algorithm run.</returns>
+        /// <exception cref="System.ArgumentNullException"> if <paramref name="state"/>
+        /// is <c>null</c>.</exception>
+        /// <remarks>This method does not modify <paramref name="state"/>.</remarks>
+        public Solution GetSolution(AlgorithmState state)
+        {
+            if (state == null)
+            {
+                throw new ArgumentNullException(nameof(state));
+            }
+
+            return state.BestSolution;
+        }
+
+        /// <summary>
+        /// Tells if no further steps should be made.
+        /// </summary>
+        /// <param name="state">The state of the algorithm after the previous step
+        /// or initial state.</param>
+        /// <returns><c>true</c> if next step should be made. Otherwise 
+        /// <c>false</c>.</returns>
+        /// <exception cref="System.ArgumentNullException"> if <paramref name="state"/>
+        /// is <c>null</c>.</exception>
+        /// <remarks>This method does not modify <paramref name="state"/>.</remarks>
+        public bool ShouldStop(AlgorithmState state)
+        {
+            if (state == null)
+            {
+                throw new ArgumentNullException(nameof(state));
+            }
+
+            Debug.Assert(this.StopCondition != null, "Stop condition is null");
+
+            return this.StopCondition.ShouldStop(state);
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Creates the initial algorithm state (before the run starts).
+        /// </summary>
+        /// <param name="isMutable">Whether the initial state has to be mutable or not.</param>
+        /// <returns><see cref="AlgorithmState"/> instance that represents
+        /// initial state (before the run starts).</returns>
+        /// <remarks>On each call re-creates the initial state (i.e. returns 
+        /// new object each time).</remarks>
+        public AlgorithmState CreateInitialState(bool isMutable)
+        {
             Debug.Assert(this.Settings != null, "Settings is null");
             Debug.Assert(this.InitialSparkGenerator != null, "Initial spark generator is null");
             Debug.Assert(this.ProblemToSolve != null, "Problem to solve is null");
@@ -182,7 +255,9 @@ namespace FireworksNet.Algorithm.Implementation
 
             this.CalculateQualities(fireworks);
 
-            return new AlgorithmState(fireworks, 0, this.ProblemToSolve.GetBest(fireworks));
+            return isMutable
+                ? new MutableAlgorithmState(fireworks, 0, this.ProblemToSolve.GetBest(fireworks))
+                : new AlgorithmState(fireworks, 0, this.ProblemToSolve.GetBest(fireworks));
         }
 
         /// <summary>
@@ -190,11 +265,11 @@ namespace FireworksNet.Algorithm.Implementation
         /// </summary>
         /// <param name="state">The state of the algorithm after the previous step
         /// or initial state.</param>
+        /// <param name="isMutable">Whether the state is mutable or not.</param>
         /// <returns>State of the algorithm after the step.</returns>
         /// <exception cref="System.ArgumentNullException"> if <paramref name="state"/>
         /// is <c>null</c>.</exception>
-        /// <remarks>This method does not modify <paramref name="state"/>.</remarks>
-        public AlgorithmState MakeStep(AlgorithmState state)
+        public AlgorithmState MakeStep(AlgorithmState state, bool isMutable)
         {
             if (state == null)
             {
@@ -210,9 +285,6 @@ namespace FireworksNet.Algorithm.Implementation
             Debug.Assert(this.ExplosionSparkGenerator != null, "Explosion spark generator is null");
             Debug.Assert(this.ProblemToSolve != null, "Problem to solve is null");
 
-            // Need to increase step number first. Otherwise, we'll get
-            // BirthStepNumber for 1st generation fireworks == 0 just like
-            // that of initial fireworks.
             int stepNumber = state.StepNumber + 1;
 
             IEnumerable<double> fireworkQualities = state.Fireworks.Select(fw => fw.Quality);
@@ -263,52 +335,20 @@ namespace FireworksNet.Algorithm.Implementation
                 selectedFireworks.Add(eliteFirework);
             }
 
+            if (isMutable)
+            {
+                MutableAlgorithmState mutableState = state as MutableAlgorithmState;
+                if (state == null)
+                {
+                    throw new InvalidOperationException();
+                }
+
+                mutableState.UpdateState(selectedFireworks, stepNumber, this.ProblemToSolve.GetBest(selectedFireworks));
+                return mutableState;
+            }
+
             return new AlgorithmState(selectedFireworks, stepNumber, this.ProblemToSolve.GetBest(selectedFireworks));
         }
-
-        /// <summary>
-        /// Determines the best found solution.
-        /// </summary>
-        /// <param name="state">The state of the algorithm after the previous step
-        /// or initial state.</param>
-        /// <returns><see cref="Solution"/> instance that represents
-        /// best solution found during the algorithm run.</returns>
-        /// <exception cref="System.ArgumentNullException"> if <paramref name="state"/>
-        /// is <c>null</c>.</exception>
-        /// <remarks>This method does not modify <paramref name="state"/>.</remarks>
-        public Solution GetSolution(AlgorithmState state)
-        {
-            if (state == null)
-            {
-                throw new ArgumentNullException(nameof(state));
-            }
-
-            return state.BestSolution;
-        }
-
-        /// <summary>
-        /// Tells if no further steps should be made.
-        /// </summary>
-        /// <param name="state">The state of the algorithm after the previous step
-        /// or initial state.</param>
-        /// <returns><c>true</c> if next step should be made. Otherwise 
-        /// <c>false</c>.</returns>
-        /// <exception cref="System.ArgumentNullException"> if <paramref name="state"/>
-        /// is <c>null</c>.</exception>
-        /// <remarks>This method does not modify <paramref name="state"/>.</remarks>
-        public bool ShouldStop(AlgorithmState state)
-        {
-            if (state == null)
-            {
-                throw new ArgumentNullException(nameof(state));
-            }
-
-            Debug.Assert(this.StopCondition != null, "Stop condition is null");
-
-            return this.StopCondition.ShouldStop(state);
-        }
-
-        #endregion
 
         /// <summary>
         /// Chooses the worst firework among <paramref name="fireworks"/>.
