@@ -67,6 +67,24 @@ namespace FireworksNet.Algorithm.Implementation
         public abstract Solution Solve();
 
         /// <summary>
+        /// Calculates the quality for the given <paramref name="firework"/>.
+        /// </summary>
+        /// <param name="firework">The firework to calculate quality for.</param>
+        /// <remarks>It is expected that <paramref name="firework"/> hasn't got its quality calculated before.</remarks>
+        public virtual void CalculateQuality(Firework firework)
+        {
+            if (firework == null)
+            {
+                throw new ArgumentNullException(nameof(firework));
+            }
+
+            Debug.Assert(this.ProblemToSolve != null, "Problem to solve is null");
+            Debug.Assert(double.IsNaN(firework.Quality), "Excessive quality calculation"); // If quality is not NaN, it most likely has been already calculated
+
+            firework.Quality = this.ProblemToSolve.CalculateQuality(firework.Coordinates);
+        }
+
+        /// <summary>
         /// Calculates the qualities for each <see cref="Firework"/> in
         /// <paramref name="fireworks"/> collection.
         /// </summary>
@@ -75,16 +93,17 @@ namespace FireworksNet.Algorithm.Implementation
         /// has its quality calculated before.</remarks>
         public virtual void CalculateQualities(IEnumerable<Firework> fireworks)
         {
+            if (fireworks == null)
+            {
+                throw new ArgumentNullException(nameof(fireworks));
+            }
+
             Debug.Assert(fireworks != null, "Fireworks collection is null");
             Debug.Assert(this.ProblemToSolve != null, "Problem to solve is null");
 
             foreach (Firework firework in fireworks)
             {
-                Debug.Assert(firework != null, "Firework is null");
-                Debug.Assert(double.IsNaN(firework.Quality), "Excessive quality calculation"); // If quality is not NaN, it most likely has been already calculated
-                Debug.Assert(firework.Coordinates != null, "Firework coordinates collection is null");
-
-                firework.Quality = this.ProblemToSolve.CalculateQuality(firework.Coordinates);
+                this.CalculateQuality(firework);
             }
         }
     }

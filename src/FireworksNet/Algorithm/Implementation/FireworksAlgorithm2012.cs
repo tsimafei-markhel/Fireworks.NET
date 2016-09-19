@@ -327,7 +327,7 @@ namespace FireworksNet.Algorithm.Implementation
             ExplosionBase eliteExplosion = new EliteExplosion(stepNumber, this.Settings.SamplingNumber, samplingFireworks);
 
             Firework eliteFirework = this.EliteStrategyGenerator.CreateSpark(eliteExplosion);
-            eliteFirework.Quality = this.ProblemToSolve.CalculateQuality(eliteFirework.Coordinates);
+            this.CalculateQuality(eliteFirework);
 
             if (this.IsReplaceWorstWithElite(worstFirework, eliteFirework))
             {
