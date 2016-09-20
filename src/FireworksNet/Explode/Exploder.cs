@@ -108,6 +108,7 @@ namespace FireworksNet.Explode
                 throw new ArgumentOutOfRangeException(nameof(currentStepNumber));
             }
 
+            // TODO: Add caching based on the step number (and maybe on the current fireworks) - to avoid selecting same qualities multiple times.
             IEnumerable<double> currentFireworkQualities = currentFireworks.Select(fw => fw.Quality);
 
             Debug.Assert(currentFireworkQualities != null, "Current firework qualities is null");
