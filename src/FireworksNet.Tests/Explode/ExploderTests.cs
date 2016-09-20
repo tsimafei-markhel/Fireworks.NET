@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using FireworksNet.Explode;
 using FireworksNet.Model;
+using FireworksNet.Selection;
 using Xunit;
 
 namespace FireworksNet.Tests.Explode
@@ -9,62 +11,63 @@ namespace FireworksNet.Tests.Explode
     public class ExploderTests
     {
         private readonly Exploder exploder;
+        private readonly IFireworkSelector bestFireworkSelector;
 
         public ExploderTests()
         {
-            this.exploder = new Exploder(new ExploderSettings());
+            this.bestFireworkSelector = new BestFireworkSelector(new Func<IEnumerable<Firework>, Firework>(ExploderTests.GetBest));
+            this.exploder = new Exploder(new ExploderSettings(), this.bestFireworkSelector);
+        }
+
+        public static Firework GetBest(IEnumerable<Firework> fireworks)
+        {
+            return fireworks.OrderBy(fr => fr.Quality).First<Firework>();
         }
 
         [Fact]
-        public void Exploder_NullAs1stParam_ExceptionThrown()
+        public void Constructor_NullExploderSettings_ExceptionThrown()
         {
-            ExploderSettings settings = null;
-
             string expectedParamName = "settings";
 
-            ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => new Exploder(settings));
-            Assert.NotNull(actualException);
+            ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => new Exploder(null, this.bestFireworkSelector));
             Assert.Equal(expectedParamName, actualException.ParamName);
         }
 
         [Fact]
-        public void Explode_NullAs1stParam_ExceptionThrown()
+        public void Constructor_NullBestFireworkSelector_ExceptionThrown()
         {
-            Firework focus = null;
-            IEnumerable<double> currentFireworkQualities = new List<double>();
-            int currentStepNumber = 0;
+            string expectedParamName = "bestFireworkSelector";
 
+            ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => new Exploder(new ExploderSettings(), null));
+            Assert.Equal(expectedParamName, actualException.ParamName);
+        }
+
+        [Fact]
+        public void Explode_NullFocus_ExceptionThrown()
+        {
             string expectedParamName = "focus";
 
-            ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => this.exploder.Explode(focus, currentFireworkQualities, currentStepNumber));
+            ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => this.exploder.Explode(null, Enumerable.Empty<Firework>(), 0));
             Assert.NotNull(actualException);
             Assert.Equal(expectedParamName, actualException.ParamName);
         }
 
         [Fact]
-        public void Explode_NullAs2ndParam_ExceptionThrown()
+        public void Explode_NullCurrentFireworks_ExceptionThrown()
         {
-            Firework focus = new Firework(FireworkType.Initial, 1);
-            IEnumerable<double> currentFireworkQualities = null;
-            int currentStepNumber = 0;
+            string expectedParamName = "currentFireworks";
 
-            string expectedParamName = "currentFireworkQualities";
-
-            ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => this.exploder.Explode(focus, currentFireworkQualities, currentStepNumber));
+            ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => this.exploder.Explode(new Firework(FireworkType.Initial, 1), null, 0));
             Assert.NotNull(actualException);
             Assert.Equal(expectedParamName, actualException.ParamName);
         }
 
         [Fact]
-        public void Explode_NegativeAs3rdParam_ExceptionThrown()
+        public void Explode_NegativeCurrentStepNumber_ExceptionThrown()
         {
-            Firework focus = new Firework(FireworkType.Initial, 1);
-            IEnumerable<double> currentFireworkQualities = new List<double>();
-            int currentStepNumber = -1;
-
             string expectedParamName = "currentStepNumber";
 
-            ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() => this.exploder.Explode(focus, currentFireworkQualities, currentStepNumber));
+            ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() => this.exploder.Explode(new Firework(FireworkType.Initial, 1), Enumerable.Empty<Firework>(), -1));
             Assert.NotNull(actualException);
             Assert.Equal(expectedParamName, actualException.ParamName);
         }
@@ -72,13 +75,9 @@ namespace FireworksNet.Tests.Explode
         [Fact]
         public void Explode_StepNumberLessThanFocusBirthStepNumber_ExceptionThrown()
         {
-            Firework focus = new Firework(FireworkType.Initial, 1);
-            IEnumerable<double> currentFireworkQualities = new List<double>();
-            int currentStepNumber = 0;
-
             string expectedParamName = "currentStepNumber";
 
-            ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() => this.exploder.Explode(focus, currentFireworkQualities, currentStepNumber));
+            ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() => this.exploder.Explode(new Firework(FireworkType.Initial, 1), Enumerable.Empty<Firework>(), 0));
             Assert.NotNull(actualException);
             Assert.Equal(expectedParamName, actualException.ParamName);
         }

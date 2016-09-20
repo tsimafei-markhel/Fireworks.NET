@@ -62,6 +62,11 @@ namespace FireworksNet.Algorithm.Implementation
         public IFireworkSelector LocationSelector { get; set; }
 
         /// <summary>
+        /// Gets or sets the sampling selector.
+        /// </summary>
+        public IFireworkSelector SamplingSelector { get; set; }
+
+        /// <summary>
         /// Gets or sets the explosion settings.
         /// </summary>
         public ExploderSettings ExploderSettings { get; set; }
@@ -75,11 +80,6 @@ namespace FireworksNet.Algorithm.Implementation
         /// Gets or sets the differentiator.
         /// </summary>
         public IDifferentiator Differentiator { get; set; }
-
-        /// <summary>
-        /// Gets or sets the sampling selector.
-        /// </summary>
-        public IFireworkSelector SamplingSelector { get; set; }
 
         /// <summary>
         /// Gets or sets the ploynomial fit.
@@ -112,6 +112,7 @@ namespace FireworksNet.Algorithm.Implementation
             this.SpecificSparkGenerator = new GaussianSparkGenerator(problem.Dimensions, this.Distribution, this.Randomizer);
             this.DistanceCalculator = new EuclideanDistance(problem.Dimensions);
             this.LocationSelector = new DistanceBasedFireworkSelector(this.DistanceCalculator, new Func<IEnumerable<Firework>, Firework>(problem.GetBest), this.Settings.LocationsNumber);
+            this.SamplingSelector = new BestFireworkSelector(new Func<IEnumerable<Firework>, Firework>(problem.GetBest));
             this.ExploderSettings = new ExploderSettings
             {
                 ExplosionSparksNumberModifier = settings.ExplosionSparksNumberModifier,
@@ -120,9 +121,9 @@ namespace FireworksNet.Algorithm.Implementation
                 ExplosionSparksMaximumAmplitude = settings.ExplosionSparksMaximumAmplitude,
                 SpecificSparksPerExplosionNumber = settings.SpecificSparksPerExplosionNumber
             };
-            this.Exploder = new Exploder(this.ExploderSettings);
+
+            this.Exploder = new Exploder(this.ExploderSettings, this.SamplingSelector);
             this.Differentiator = new Differentiator();
-            this.SamplingSelector = new BestFireworkSelector(new Func<IEnumerable<Firework>, Firework>(problem.GetBest));
             this.PolynomialFit = new PolynomialFit(this.Settings.FunctionOrder);
             this.FunctionSolver = new Solver();
             this.EliteStrategyGenerator = new LS2EliteStrategyGenerator(problem.Dimensions, this.PolynomialFit, this.Differentiator, this.FunctionSolver);
@@ -287,7 +288,6 @@ namespace FireworksNet.Algorithm.Implementation
 
             int stepNumber = state.StepNumber + 1;
 
-            IEnumerable<double> fireworkQualities = state.Fireworks.Select(fw => fw.Quality);
             IEnumerable<int> specificSparkParentIndices = this.Randomizer.NextUniqueInt32s(this.Settings.SpecificSparksNumber, 0, this.Settings.LocationsNumber);
 
             IEnumerable<Firework> explosionSparks = new List<Firework>();
@@ -297,7 +297,7 @@ namespace FireworksNet.Algorithm.Implementation
             {
                 Debug.Assert(firework != null, "Firework is null");
 
-                ExplosionBase explosion = this.Exploder.Explode(firework, fireworkQualities, stepNumber);
+                ExplosionBase explosion = this.Exploder.Explode(firework, state.Fireworks, stepNumber);
                 Debug.Assert(explosion != null, "Explosion is null");
 
                 IEnumerable<Firework> fireworkExplosionSparks = this.ExplosionSparkGenerator.CreateSparks(explosion);

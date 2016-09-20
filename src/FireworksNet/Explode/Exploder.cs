@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using FireworksNet.Extensions;
 using FireworksNet.Model;
+using FireworksNet.Selection;
 
 namespace FireworksNet.Explode
 {
@@ -16,6 +17,11 @@ namespace FireworksNet.Explode
         /// The exploder settings.
         /// </summary>
         private readonly ExploderSettings settings;
+
+        /// <summary>
+        /// The best firework selector.
+        /// </summary>
+        private readonly IFireworkSelector bestFireworkSelector;
 
         /// <summary>
         /// Minimum allowed explosion sparks number (not rounded).
@@ -41,16 +47,23 @@ namespace FireworksNet.Explode
         /// Initializes a new instance of the <see cref="Exploder"/> class.
         /// </summary>
         /// <param name="settings">The exploder settings.</param>
+        /// <param name="bestFireworkSelector">The best firework selector.</param>
         /// <exception cref="System.ArgumentNullException"> if <paramref name="settings"/>
-        /// is <c>null</c>.</exception>
-        public Exploder(ExploderSettings settings)
+        /// or <paramref name="bestFireworkSelector"/> is <c>null</c>.</exception>
+        public Exploder(ExploderSettings settings, IFireworkSelector bestFireworkSelector)
         {
             if (settings == null)
             {
                 throw new ArgumentNullException(nameof(settings));
             }
 
+            if (bestFireworkSelector == null)
+            {
+                throw new ArgumentNullException(nameof(bestFireworkSelector));
+            }
+
             this.settings = settings;
+            this.bestFireworkSelector = bestFireworkSelector;
 
             this.minAllowedExplosionSparksNumberExact = settings.ExplosionSparksNumberLowerBound * settings.ExplosionSparksNumberModifier;
             this.maxAllowedExplosionSparksNumberExact = settings.ExplosionSparksNumberUpperBound * settings.ExplosionSparksNumberModifier;
@@ -62,27 +75,27 @@ namespace FireworksNet.Explode
         /// Creates an explosion.
         /// </summary>
         /// <param name="focus">The explosion focus (center).</param>
-        /// <param name="currentFireworkQualities">The qualities of fireworks that exist
+        /// <param name="currentFireworks">The collection of fireworks that exist 
         /// at the moment of explosion.</param>
         /// <param name="currentStepNumber">The current step number.</param>
         /// <returns>New explosion.</returns>
         /// <exception cref="System.ArgumentNullException"> if <paramref name="focus"/>
-        /// or <paramref name="currentFireworkQualities"/> is <c>null</c>.
+        /// or <paramref name="currentFireworks"/> is <c>null</c>.
         /// </exception>
         /// <exception cref="System.ArgumentOutOfRangeException"> if 
         /// <paramref name="currentStepNumber"/> is less than zero or
         /// less than birth step number of the <paramref name="focus"/>.
         /// </exception>
-        public virtual ExplosionBase Explode(Firework focus, IEnumerable<double> currentFireworkQualities, int currentStepNumber)
+        public virtual ExplosionBase Explode(Firework focus, IEnumerable<Firework> currentFireworks, int currentStepNumber)
         {
             if (focus == null)
             {
                 throw new ArgumentNullException(nameof(focus));
             }
 
-            if (currentFireworkQualities == null)
+            if (currentFireworks == null)
             {
-                throw new ArgumentNullException(nameof(currentFireworkQualities));
+                throw new ArgumentNullException(nameof(currentFireworks));
             }
 
             if (currentStepNumber < 0)
@@ -95,7 +108,11 @@ namespace FireworksNet.Explode
                 throw new ArgumentOutOfRangeException(nameof(currentStepNumber));
             }
 
-            double amplitude = this.CalculateAmplitude(focus, currentFireworkQualities);
+            IEnumerable<double> currentFireworkQualities = currentFireworks.Select(fw => fw.Quality);
+
+            Debug.Assert(currentFireworkQualities != null, "Current firework qualities is null");
+
+            double amplitude = this.CalculateAmplitude(focus, currentFireworks, currentFireworkQualities);
 
             Debug.Assert(!double.IsNaN(amplitude), "Amplitude is NaN");
             Debug.Assert(!double.IsInfinity(amplitude), "Amplitude is Infinity");
@@ -113,21 +130,23 @@ namespace FireworksNet.Explode
         /// Calculates the explosion amplitude.
         /// </summary>
         /// <param name="focus">The explosion focus.</param>
+        /// <param name="currentFireworks">The collection of fireworks that exist at the moment of explosion.</param>
         /// <param name="currentFireworkQualities">The current firework qualities.</param>
         /// <returns>The explosion amplitude.</returns>
-        protected virtual double CalculateAmplitude(Firework focus, IEnumerable<double> currentFireworkQualities)
+        protected virtual double CalculateAmplitude(Firework focus, IEnumerable<Firework> currentFireworks, IEnumerable<double> currentFireworkQualities)
         {
             Debug.Assert(focus != null, "Focus is null");
+            Debug.Assert(currentFireworks != null, "Current fireworks is null");
             Debug.Assert(currentFireworkQualities != null, "Current firework qualities is null");
+            Debug.Assert(this.bestFireworkSelector != null, "Best firework selector is null");
             Debug.Assert(this.settings != null, "Settings is null");
 
-            // Using Aggregate() here because Min() won't use my double extensions
-            double minFireworkQuality = currentFireworkQualities.Aggregate((agg, next) => next.IsLess(agg) ? next : agg);
+            double bestFireworkQuality = this.bestFireworkSelector.SelectFireworks(currentFireworks, 1).First().Quality;
 
-            Debug.Assert(!double.IsNaN(minFireworkQuality), "Min firework quality is NaN");
-            Debug.Assert(!double.IsInfinity(minFireworkQuality), "Min firework quality is Infinity");
+            Debug.Assert(!double.IsNaN(bestFireworkQuality), "Best firework quality is NaN");
+            Debug.Assert(!double.IsInfinity(bestFireworkQuality), "Best firework quality is Infinity");
 
-            return this.settings.ExplosionSparksMaximumAmplitude * (focus.Quality - minFireworkQuality + double.Epsilon) / (currentFireworkQualities.Sum(fq => fq - minFireworkQuality) + double.Epsilon);
+            return this.settings.ExplosionSparksMaximumAmplitude * (focus.Quality - bestFireworkQuality + double.Epsilon) / (currentFireworkQualities.Sum(fq => fq - bestFireworkQuality) + double.Epsilon);
         }
 
         /// <summary>
