@@ -129,7 +129,7 @@ namespace FireworksNet.Algorithm.Implementation
                 SpecificSparksPerExplosionNumber = settings.SpecificSparksPerExplosionNumber
             };
 
-            this.Exploder = new Exploder(this.ExploderSettings, this.SamplingSelector);
+            this.Exploder = new Exploder(this.ExploderSettings, this.BestWorstFireworkSelector);
             this.Differentiator = new Differentiator();
             this.PolynomialFit = new PolynomialFit(this.Settings.FunctionOrder);
             this.FunctionSolver = new Solver();
@@ -333,7 +333,7 @@ namespace FireworksNet.Algorithm.Implementation
             Firework eliteFirework = this.EliteStrategyGenerator.CreateSpark(eliteExplosion);
             this.CalculateQuality(eliteFirework);
 
-            Firework worstFirework = this.SelectWorstFirework(selectedFireworks);
+            Firework worstFirework = this.BestWorstFireworkSelector.SelectWorst(selectedFireworks);
             if (this.IsReplaceWorstWithElite(worstFirework, eliteFirework))
             {
                 selectedFireworks.Remove(worstFirework);
@@ -353,26 +353,6 @@ namespace FireworksNet.Algorithm.Implementation
             }
 
             return new AlgorithmState(selectedFireworks, stepNumber, this.BestWorstFireworkSelector.SelectBest(selectedFireworks));
-        }
-
-        /// <summary>
-        /// Chooses the worst firework among <paramref name="fireworks"/>.
-        /// </summary>
-        /// <param name="fireworks">Fireworks to choose the worst one from.</param>
-        /// <returns>The worst firework among <paramref name="fireworks"/>.</returns>
-        public Firework SelectWorstFirework(IEnumerable<Firework> fireworks)
-        {
-            Debug.Assert(this.ProblemToSolve != null, "Problem to solve is null");
-            Debug.Assert(fireworks != null, "Firework collection is null");
-
-            if (this.ProblemToSolve.Target == ProblemTarget.Minimum)
-            {
-                return fireworks.OrderByDescending(fw => fw.Quality).First();
-            }
-            else
-            {
-                return fireworks.OrderBy(fw => fw.Quality).First();
-            }
         }
 
         /// <summary>

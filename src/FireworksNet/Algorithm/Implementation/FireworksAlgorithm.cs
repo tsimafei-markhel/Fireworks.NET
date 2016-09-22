@@ -65,11 +65,6 @@ namespace FireworksNet.Algorithm.Implementation
         public IFireworkSelector LocationSelector { get; set; }
 
         /// <summary>
-        /// Gets or sets the best firework selector.
-        /// </summary>
-        public IFireworkSelector BestFireworkSelector { get; set; }
-
-        /// <summary>
         /// Gets or sets the explosion settings.
         /// </summary>
         public ExploderSettings ExploderSettings { get; set; }
@@ -96,7 +91,6 @@ namespace FireworksNet.Algorithm.Implementation
             this.SpecificSparkGenerator = new GaussianSparkGenerator(problem.Dimensions, this.Distribution, this.Randomizer);
             this.DistanceCalculator = new EuclideanDistance(problem.Dimensions);
             this.LocationSelector = new DistanceBasedFireworkSelector(this.DistanceCalculator, new Func<IEnumerable<Firework>, Firework>(this.BestWorstFireworkSelector.SelectBest), this.Settings.LocationsNumber);
-            this.BestFireworkSelector = new BestFireworkSelector(new Func<IEnumerable<Firework>, Firework>(this.BestWorstFireworkSelector.SelectBest));
             this.ExploderSettings = new ExploderSettings
             {
                 ExplosionSparksNumberModifier = settings.ExplosionSparksNumberModifier,
@@ -106,7 +100,7 @@ namespace FireworksNet.Algorithm.Implementation
                 SpecificSparksPerExplosionNumber = settings.SpecificSparksPerExplosionNumber
             };
 
-            this.Exploder = new Exploder(this.ExploderSettings, this.BestFireworkSelector);
+            this.Exploder = new Exploder(this.ExploderSettings, this.BestWorstFireworkSelector);
         }
 
         #region IFireworksAlgorithm methods

@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using FireworksNet.Extensions;
 using FireworksNet.Model;
-using FireworksNet.Selection;
+using FireworksNet.Selection.Extremum;
 
 namespace FireworksNet.Explode
 {
@@ -19,9 +19,9 @@ namespace FireworksNet.Explode
         private readonly ExploderSettings settings;
 
         /// <summary>
-        /// The best firework selector.
+        /// The extremum firework selector.
         /// </summary>
-        private readonly IFireworkSelector bestFireworkSelector;
+        private readonly IExtremumFireworkSelector extremumFireworkSelector;
 
         /// <summary>
         /// Minimum allowed explosion sparks number (not rounded).
@@ -47,23 +47,23 @@ namespace FireworksNet.Explode
         /// Initializes a new instance of the <see cref="Exploder"/> class.
         /// </summary>
         /// <param name="settings">The exploder settings.</param>
-        /// <param name="bestFireworkSelector">The best firework selector.</param>
+        /// <param name="extremumFireworkSelector">The extremum firework selector.</param>
         /// <exception cref="System.ArgumentNullException"> if <paramref name="settings"/>
-        /// or <paramref name="bestFireworkSelector"/> is <c>null</c>.</exception>
-        public Exploder(ExploderSettings settings, IFireworkSelector bestFireworkSelector)
+        /// or <paramref name="extremumFireworkSelector"/> is <c>null</c>.</exception>
+        public Exploder(ExploderSettings settings, IExtremumFireworkSelector extremumFireworkSelector)
         {
             if (settings == null)
             {
                 throw new ArgumentNullException(nameof(settings));
             }
 
-            if (bestFireworkSelector == null)
+            if (extremumFireworkSelector == null)
             {
-                throw new ArgumentNullException(nameof(bestFireworkSelector));
+                throw new ArgumentNullException(nameof(extremumFireworkSelector));
             }
 
             this.settings = settings;
-            this.bestFireworkSelector = bestFireworkSelector;
+            this.extremumFireworkSelector = extremumFireworkSelector;
 
             this.minAllowedExplosionSparksNumberExact = settings.ExplosionSparksNumberLowerBound * settings.ExplosionSparksNumberModifier;
             this.maxAllowedExplosionSparksNumberExact = settings.ExplosionSparksNumberUpperBound * settings.ExplosionSparksNumberModifier;
@@ -139,10 +139,10 @@ namespace FireworksNet.Explode
             Debug.Assert(focus != null, "Focus is null");
             Debug.Assert(currentFireworks != null, "Current fireworks is null");
             Debug.Assert(currentFireworkQualities != null, "Current firework qualities is null");
-            Debug.Assert(this.bestFireworkSelector != null, "Best firework selector is null");
+            Debug.Assert(this.extremumFireworkSelector != null, "Extremum firework selector is null");
             Debug.Assert(this.settings != null, "Settings is null");
 
-            double bestFireworkQuality = this.bestFireworkSelector.SelectFireworks(currentFireworks, 1).First().Quality;
+            double bestFireworkQuality = this.extremumFireworkSelector.SelectBest(currentFireworks).Quality;
 
             Debug.Assert(!double.IsNaN(bestFireworkQuality), "Best firework quality is NaN");
             Debug.Assert(!double.IsInfinity(bestFireworkQuality), "Best firework quality is Infinity");

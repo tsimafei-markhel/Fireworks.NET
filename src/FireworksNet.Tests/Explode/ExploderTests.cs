@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using FireworksNet.Explode;
 using FireworksNet.Model;
-using FireworksNet.Selection;
+using FireworksNet.Problems;
+using FireworksNet.Selection.Extremum;
 using Xunit;
 
 namespace FireworksNet.Tests.Explode
@@ -11,17 +11,12 @@ namespace FireworksNet.Tests.Explode
     public class ExploderTests
     {
         private readonly Exploder exploder;
-        private readonly IFireworkSelector bestFireworkSelector;
+        private readonly IExtremumFireworkSelector extremumFireworkSelector;
 
         public ExploderTests()
         {
-            this.bestFireworkSelector = new BestFireworkSelector(new Func<IEnumerable<Firework>, Firework>(ExploderTests.GetBest));
-            this.exploder = new Exploder(new ExploderSettings(), this.bestFireworkSelector);
-        }
-
-        public static Firework GetBest(IEnumerable<Firework> fireworks)
-        {
-            return fireworks.OrderBy(fr => fr.Quality).First<Firework>();
+            this.extremumFireworkSelector = new ExtremumFireworkSelector(ProblemTarget.Minimum);
+            this.exploder = new Exploder(new ExploderSettings(), this.extremumFireworkSelector);
         }
 
         [Fact]
@@ -29,14 +24,14 @@ namespace FireworksNet.Tests.Explode
         {
             string expectedParamName = "settings";
 
-            ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => new Exploder(null, this.bestFireworkSelector));
+            ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => new Exploder(null, this.extremumFireworkSelector));
             Assert.Equal(expectedParamName, actualException.ParamName);
         }
 
         [Fact]
         public void Constructor_NullBestFireworkSelector_ExceptionThrown()
         {
-            string expectedParamName = "bestFireworkSelector";
+            string expectedParamName = "extremumFireworkSelector";
 
             ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => new Exploder(new ExploderSettings(), null));
             Assert.Equal(expectedParamName, actualException.ParamName);
