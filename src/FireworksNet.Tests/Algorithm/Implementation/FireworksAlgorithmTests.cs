@@ -18,7 +18,6 @@ namespace FireworksNet.Tests.Algorithm.Implementation
             public TestProblem(IList<Dimension> dimensions, IDictionary<Dimension, Range> initialRanges, Func<IDictionary<Dimension, double>, double> targetFunction, ProblemTarget target)
                 : base(dimensions, initialRanges, targetFunction, target)
             {
-
             }
         }
 
@@ -38,7 +37,7 @@ namespace FireworksNet.Tests.Algorithm.Implementation
             }
         }
 
-        public IEnumerable<object[]> FireworksAlgorithmData
+        public static IEnumerable<object[]> FireworksAlgorithmData
         {
             get { return new[] { new object[] { positiveValue, 2 } }; }
         }
@@ -65,9 +64,11 @@ namespace FireworksNet.Tests.Algorithm.Implementation
             return new TestProblem(dimensions, initialRanges, targetFunction, target);
         }
 
-        private FireworksAlgorithm GetFireworksAgorithm()
+        private FireworksAlgorithm GetFireworksAlgorithm()
         {
             CounterStopCondition testStopCondition = new CounterStopCondition(1);
+            testProblem.QualityCalculated += testStopCondition.IncrementCounter;
+
             FireworksAlgorithmSettings testFireworksAlgoritmSetting = new FireworksAlgorithmSettings
             {
                 LocationsNumber = 1,
@@ -100,45 +101,54 @@ namespace FireworksNet.Tests.Algorithm.Implementation
         [InlineData(null, "state")]
         public void MakeStep_NegativeParams_ArgumentNullExceptionThrown(AlgorithmState state, string expectedParamName)
         {
-            FireworksAlgorithm fireworksAlgorithm = this.GetFireworksAgorithm();
+            FireworksAlgorithm fireworksAlgorithm = this.GetFireworksAlgorithm();
 
             ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => fireworksAlgorithm.MakeStep(state));
 
             Assert.NotNull(actualException);
             Assert.Equal(expectedParamName, actualException.ParamName);
+
+            testProblem.QualityCalculated -= ((CounterStopCondition)fireworksAlgorithm.StopCondition).IncrementCounter;
         }
 
         [Theory]
         [InlineData(null, "state")]
         public void GetSolution_NegativeParams_ArgumentNullExceptionThrown(AlgorithmState state, string expectedParamName)
         {
-            FireworksAlgorithm fireworksAlgorithm = this.GetFireworksAgorithm();
+            FireworksAlgorithm fireworksAlgorithm = this.GetFireworksAlgorithm();
 
             ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => fireworksAlgorithm.GetSolution(state));
 
             Assert.NotNull(actualException);
             Assert.Equal(expectedParamName, actualException.ParamName);
+
+            testProblem.QualityCalculated -= ((CounterStopCondition)fireworksAlgorithm.StopCondition).IncrementCounter;
         }
 
         [Theory]
         [InlineData(null, "state")]
         public void ShouldStop_NegativeParams_ArgumentNullExceptionThrown(AlgorithmState state, string expectedParamName)
         {
-            FireworksAlgorithm fireworksAlgorithm = this.GetFireworksAgorithm();
+            FireworksAlgorithm fireworksAlgorithm = this.GetFireworksAlgorithm();
 
             ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => fireworksAlgorithm.ShouldStop(state));
 
             Assert.NotNull(actualException);
             Assert.Equal(expectedParamName, actualException.ParamName);
+
+            testProblem.QualityCalculated -= ((CounterStopCondition)fireworksAlgorithm.StopCondition).IncrementCounter;
         }
 
-        // TODO: check Algoritm setting
-        /*
-        [Theory, MemberData("FireworksAlgorithmData")]
+        [Theory]
+        [MemberData("FireworksAlgorithmData")]
         public void Solve_Calculation_PositiveExpected(double expectedValue, int precision)
         {
-            double value = getFireworksAlgorithm().Solve().Quality;
+            FireworksAlgorithm fireworksAlgorithm = this.GetFireworksAlgorithm();
+            double value = fireworksAlgorithm.Solve().Quality;
+
             Assert.Equal(expectedValue, value, precision);
-        }*/
+
+            testProblem.QualityCalculated -= ((CounterStopCondition)fireworksAlgorithm.StopCondition).IncrementCounter;
+        }
     }
 }
