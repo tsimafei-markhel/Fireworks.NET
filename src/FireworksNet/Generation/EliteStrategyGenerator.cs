@@ -62,8 +62,7 @@ namespace FireworksNet.Generation
             Debug.Assert(this.dimensions != null, "Dimension collection is null");
             Debug.Assert(this.polynomialFit != null, "Polynomial fit is null");
 
-            //12. Obtain a spark from approximated curves by Elite Strategy
-
+            // 12. Obtain a spark from approximated curves by Elite Strategy
             IDictionary<Dimension, Func<double, double>> fitnessLandscapes = this.ApproximateFitnessLandscapes(explosion.Fireworks);
             IDictionary<Dimension, double> coordinatesElitePoint = new Dictionary<Dimension, double>();
 
@@ -92,7 +91,7 @@ namespace FireworksNet.Generation
                 throw new ArgumentNullException(nameof(fireworks));
             }
 
-            List<Firework> currentFireworks = new List<Firework>(fireworks);
+            IList<Firework> currentFireworks = new List<Firework>(fireworks);
 
             double[] qualities = new double[currentFireworks.Count];
 

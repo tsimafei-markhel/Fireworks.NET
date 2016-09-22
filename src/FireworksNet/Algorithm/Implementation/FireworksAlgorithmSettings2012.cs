@@ -1,5 +1,4 @@
-﻿using FireworksNet.Selection;
-
+﻿
 namespace FireworksNet.Algorithm.Implementation
 {
     /// <summary>
@@ -7,7 +6,7 @@ namespace FireworksNet.Algorithm.Implementation
     /// </summary>
     /// <remarks>Uses notation described in 2012 paper.</remarks>
     public sealed class FireworksAlgorithmSettings2012 : FireworksAlgorithmSettings
-    {       
+    {
         /// <summary>
         /// Order of polynomial function.
         /// </summary>

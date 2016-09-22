@@ -33,7 +33,7 @@ namespace FireworksNet.Generation
                 throw new ArgumentNullException(nameof(differentiation));
             }
 
-            if (this.solver == null)
+            if (solver == null)
             {
                 throw new ArgumentNullException(nameof(solver));
             }
