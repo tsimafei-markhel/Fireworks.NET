@@ -13,6 +13,7 @@ using FireworksNet.Model;
 using FireworksNet.Problems;
 using FireworksNet.Random;
 using FireworksNet.Selection;
+using FireworksNet.Selection.Extremum;
 using FireworksNet.Solving;
 using FireworksNet.StopConditions;
 
@@ -30,6 +31,11 @@ namespace FireworksNet.Algorithm.Implementation
         /// Gets or sets the randomizer.
         /// </summary>
         public System.Random Randomizer { get; set; }
+
+        /// <summary>
+        /// Gets or sets the extremum firework selector.
+        /// </summary>
+        public IExtremumFireworkSelector BestWorstFireworkSelector { get; set; }
 
         /// <summary>
         /// Gets or sets the continuous univariate probability distribution.
@@ -106,13 +112,14 @@ namespace FireworksNet.Algorithm.Implementation
             : base(problem, stopCondition, settings)
         {
             this.Randomizer = new DefaultRandom();
+            this.BestWorstFireworkSelector = new ExtremumFireworkSelector(problem.Target);
             this.Distribution = new NormalDistribution(FireworksAlgorithm2012.normalDistributionMean, FireworksAlgorithm2012.normalDistributionStdDev);
             this.InitialSparkGenerator = new InitialSparkGenerator(problem.Dimensions, problem.InitialRanges, this.Randomizer);
             this.ExplosionSparkGenerator = new ExplosionSparkGenerator(problem.Dimensions, this.Randomizer);
             this.SpecificSparkGenerator = new GaussianSparkGenerator(problem.Dimensions, this.Distribution, this.Randomizer);
             this.DistanceCalculator = new EuclideanDistance(problem.Dimensions);
-            this.LocationSelector = new DistanceBasedFireworkSelector(this.DistanceCalculator, new Func<IEnumerable<Firework>, Firework>(problem.GetBest), this.Settings.LocationsNumber);
-            this.SamplingSelector = new BestFireworkSelector(new Func<IEnumerable<Firework>, Firework>(problem.GetBest));
+            this.LocationSelector = new DistanceBasedFireworkSelector(this.DistanceCalculator, new Func<IEnumerable<Firework>, Firework>(this.BestWorstFireworkSelector.SelectBest), this.Settings.LocationsNumber);
+            this.SamplingSelector = new BestFireworkSelector(new Func<IEnumerable<Firework>, Firework>(this.BestWorstFireworkSelector.SelectBest));
             this.ExploderSettings = new ExploderSettings
             {
                 ExplosionSparksNumberModifier = settings.ExplosionSparksNumberModifier,
@@ -244,7 +251,7 @@ namespace FireworksNet.Algorithm.Implementation
         {
             Debug.Assert(this.Settings != null, "Settings is null");
             Debug.Assert(this.InitialSparkGenerator != null, "Initial spark generator is null");
-            Debug.Assert(this.ProblemToSolve != null, "Problem to solve is null");
+            Debug.Assert(this.BestWorstFireworkSelector != null, "Best-Worst firework selector is null");
 
             InitialExplosion initialExplosion = new InitialExplosion(this.Settings.LocationsNumber);
 
@@ -257,8 +264,8 @@ namespace FireworksNet.Algorithm.Implementation
             this.CalculateQualities(fireworks);
 
             return isMutable
-                ? new MutableAlgorithmState(fireworks, 0, this.ProblemToSolve.GetBest(fireworks))
-                : new AlgorithmState(fireworks, 0, this.ProblemToSolve.GetBest(fireworks));
+                ? new MutableAlgorithmState(fireworks, 0, this.BestWorstFireworkSelector.SelectBest(fireworks))
+                : new AlgorithmState(fireworks, 0, this.BestWorstFireworkSelector.SelectBest(fireworks));
         }
 
         /// <summary>
@@ -284,7 +291,7 @@ namespace FireworksNet.Algorithm.Implementation
             Debug.Assert(this.Settings.LocationsNumber >= 0, "Negative settings locations number");
             Debug.Assert(this.Exploder != null, "Exploder is null");
             Debug.Assert(this.ExplosionSparkGenerator != null, "Explosion spark generator is null");
-            Debug.Assert(this.ProblemToSolve != null, "Problem to solve is null");
+            Debug.Assert(this.BestWorstFireworkSelector != null, "Best-Worst firework selector is null");
 
             int stepNumber = state.StepNumber + 1;
 
@@ -341,11 +348,11 @@ namespace FireworksNet.Algorithm.Implementation
                     throw new InvalidOperationException();
                 }
 
-                mutableState.UpdateState(selectedFireworks, stepNumber, this.ProblemToSolve.GetBest(selectedFireworks));
+                mutableState.UpdateState(selectedFireworks, stepNumber, this.BestWorstFireworkSelector.SelectBest(selectedFireworks));
                 return mutableState;
             }
 
-            return new AlgorithmState(selectedFireworks, stepNumber, this.ProblemToSolve.GetBest(selectedFireworks));
+            return new AlgorithmState(selectedFireworks, stepNumber, this.BestWorstFireworkSelector.SelectBest(selectedFireworks));
         }
 
         /// <summary>

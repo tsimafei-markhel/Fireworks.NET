@@ -5,6 +5,7 @@
             <Word>Griewank</Word>
             <Word>Rastrigrin</Word>
             <Word>Rosenbrock</Word>
+            <Word>Extremum</Word>
         </Recognized>
         <Compound>
             <Term CompoundAlternate="LessOr">Lessor</Term>

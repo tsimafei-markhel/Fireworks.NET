@@ -126,20 +126,10 @@ namespace FireworksNet.Tests.Problems
         }
 
         [Theory]
-        [InlineData(null, "fireworks")]
-        public void GetBest_NegativeParams_ArgumentNullExceptionTrown(IEnumerable<Firework> fireworks, string expectedParamName)
-        {
-            ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => getTestProblem().GetBest(fireworks));
-
-            Assert.NotNull(actualException);
-            Assert.Equal(expectedParamName, actualException.ParamName);
-        }
-
-        [Theory]
         [InlineData(null, "dimensions")]
         public void CreateDefaultInitialRanges_NegativeParams_ArgumentNullExceptionTrown(IList<Dimension> dimensions, string expectedParamName)
         {
-            ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => TestProblem.CreateDefaultInitialRanges(dimensions));
+            ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => Problem.CreateDefaultInitialRanges(dimensions));
 
             Assert.NotNull(actualException);
             Assert.Equal(expectedParamName, actualException.ParamName);

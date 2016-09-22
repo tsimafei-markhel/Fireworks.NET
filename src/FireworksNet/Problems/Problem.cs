@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using FireworksNet.Extensions;
 using FireworksNet.Model;
 
 namespace FireworksNet.Problems
@@ -23,16 +21,6 @@ namespace FireworksNet.Problems
         /// Fired after the solution quality is calculated.
         /// </summary>
         public event EventHandler<QualityCalculatedEventArgs> QualityCalculated;
-
-        /// <summary>
-        /// Fired before looking for the best firework.
-        /// </summary>
-        public event EventHandler<BestFireworkFindingEventArgs> BestFireworkFinding;
-
-        /// <summary>
-        /// Fired after the best firework is found.
-        /// </summary>
-        public event EventHandler<BestFireworkFoundEventArgs> BestFireworkFound;
 
         /// <summary>
         /// Gets the dimensions of the problem.
@@ -157,38 +145,6 @@ namespace FireworksNet.Problems
         }
 
         /// <summary>
-        /// Gets the best <see cref="Firework"/> among the <paramref name="fireworks"/>.
-        /// </summary>
-        /// <param name="fireworks">The collection of <see cref="Firework"/>s to look
-        /// the best one among.</param>
-        /// <returns>The best <see cref="Firework"/> among the 
-        /// <paramref name="fireworks"/>.</returns>
-        /// <exception cref="ArgumentNullException">if <paramref name="fireworks"/> is
-        /// <c>null</c>.</exception>
-        public virtual Firework GetBest(IEnumerable<Firework> fireworks)
-        {
-            if (fireworks == null)
-            {
-                throw new ArgumentNullException(nameof(fireworks));
-            }
-
-            this.OnBestFireworkFinding(new BestFireworkFindingEventArgs(fireworks));
-
-            Firework bestFirework = null;
-            if (this.Target == ProblemTarget.Minimum)
-            {
-                bestFirework = fireworks.Aggregate(this.GetLessQualityFirework);
-            }
-            else
-            {
-                bestFirework = fireworks.Aggregate(this.GetGreaterQualityFirework);
-            }
-
-            this.OnBestFireworkFound(new BestFireworkFoundEventArgs(fireworks, bestFirework));
-            return bestFirework;
-        }
-
-        /// <summary>
         /// Creates the collection of initial ranges for given <see cref="Dimension"/>s from
         /// ranges of <paramref name="dimensions"/>.
         /// </summary>
@@ -218,36 +174,6 @@ namespace FireworksNet.Problems
         }
 
         /// <summary>
-        /// Gets <see cref="Firework"/> with minimum quality.
-        /// </summary>
-        /// <param name="currentMinimum">Current minimum quality <see cref="Firework"/>.</param>
-        /// <param name="candidate">The <see cref="Firework"/> to be compared with
-        /// <paramref name="currentMinimum"/>.</param>
-        /// <returns>The <see cref="Firework"/> with minimum quality.</returns>
-        protected virtual Firework GetLessQualityFirework(Firework currentMinimum, Firework candidate)
-        {
-            Debug.Assert(currentMinimum != null, "Current minimum is null");
-            Debug.Assert(candidate != null, "Candidate for minimum is null");
-
-            return candidate.Quality.IsLess(currentMinimum.Quality) ? candidate : currentMinimum;
-        }
-
-        /// <summary>
-        /// Gets <see cref="Firework"/> with maximum quality.
-        /// </summary>
-        /// <param name="currentMaximum">Current maximum quality <see cref="Firework"/>.</param>
-        /// <param name="candidate">The <see cref="Firework"/> to be compared with
-        /// <paramref name="currentMaximum"/>.</param>
-        /// <returns>The <see cref="Firework"/> with maximum quality.</returns>
-        protected virtual Firework GetGreaterQualityFirework(Firework currentMaximum, Firework candidate)
-        {
-            Debug.Assert(currentMaximum != null, "Current maximum is null");
-            Debug.Assert(candidate != null, "Candidate for maximum is null");
-
-            return candidate.Quality.IsGreater(currentMaximum.Quality) ? candidate : currentMaximum;
-        }
-
-        /// <summary>
         /// Firing an event before calculating quality of a firework.
         /// </summary>
         /// <param name="eventArgs">Event arguments.</param>
@@ -263,112 +189,6 @@ namespace FireworksNet.Problems
         protected virtual void OnQualityCalculated(QualityCalculatedEventArgs eventArgs)
         {
             this.QualityCalculated?.Invoke(this, eventArgs);
-        }
-
-        /// <summary>
-        /// Firing an event before searching for the best firework.
-        /// </summary>
-        /// <param name="eventArgs">Event arguments.</param>
-        protected virtual void OnBestFireworkFinding(BestFireworkFindingEventArgs eventArgs)
-        {
-            this.BestFireworkFinding?.Invoke(this, eventArgs);
-        }
-
-        /// <summary>
-        /// Firing an event after finding the best firework.
-        /// </summary>
-        /// <param name="eventArgs">Event arguments.</param>
-        protected virtual void OnBestFireworkFound(BestFireworkFoundEventArgs eventArgs)
-        {
-            this.BestFireworkFound?.Invoke(this, eventArgs);
-        }
-    }
-
-    /// <summary>
-    /// Arguments of the Problem.QualityCalculating event.
-    /// </summary>
-    public class QualityCalculatingEventArgs : EventArgs
-    {
-        /// <summary>
-        /// Gets the coordinates of the solution to calculate quality for.
-        /// </summary>
-        public IDictionary<Dimension, double> CoordinateValues { get; private set; }
-
-        /// <summary>
-        /// Initializes a new instance of <see cref="QualityCalculatingEventArgs"/> type.
-        /// </summary>
-        /// <param name="coordinateValues">The coordinates of the solution to calculate
-        /// quality for.</param>
-        public QualityCalculatingEventArgs(IDictionary<Dimension, double> coordinateValues)
-        {
-            this.CoordinateValues = coordinateValues;
-        }
-    }
-
-    /// <summary>
-    /// Arguments of the Problem.QualityCalculated event.
-    /// </summary>
-    public class QualityCalculatedEventArgs : QualityCalculatingEventArgs
-    {
-        /// <summary>
-        /// Gets the quality of the solution.
-        /// </summary>
-        public double Quality { get; private set; }
-
-        /// <summary>
-        /// Initializes a new instance of <see cref="QualityCalculatedEventArgs"/> type.
-        /// </summary>
-        /// <param name="coordinateValues">The coordinates of the solution to calculate
-        /// quality for.</param>
-        /// <param name="quality">The calculated solution quality.</param>
-        public QualityCalculatedEventArgs(IDictionary<Dimension, double> coordinateValues, double quality)
-            : base(coordinateValues)
-        {
-            this.Quality = quality;
-        }
-    }
-
-    /// <summary>
-    /// Arguments of the Problem.BestFireworkFinding event.
-    /// </summary>
-    public class BestFireworkFindingEventArgs : EventArgs
-    {
-        /// <summary>
-        /// Gets the collection of <see cref="Firework"/>s to find the best one among.
-        /// </summary>
-        public IEnumerable<Firework> FireworksToCheck { get; private set; }
-
-        /// <summary>
-        /// Initializes a new instance of <see cref="BestFireworkFindingEventArgs"/> type.
-        /// </summary>
-        /// <param name="fireworksToCheck">The collection of <see cref="Firework"/>s to
-        /// find the best one among.</param>
-        public BestFireworkFindingEventArgs(IEnumerable<Firework> fireworksToCheck)
-        {
-            this.FireworksToCheck = fireworksToCheck;
-        }
-    }
-
-    /// <summary>
-    /// Arguments of the Problem.BestFireworkFound event.
-    /// </summary>
-    public class BestFireworkFoundEventArgs : BestFireworkFindingEventArgs
-    {
-        /// <summary>
-        /// Gets the best <see cref="Firework"/>.
-        /// </summary>
-        public Firework BestFirework { get; private set; }
-
-        /// <summary>
-        /// Initializes a new instance of <see cref="BestFireworkFoundEventArgs"/> type.
-        /// </summary>
-        /// <param name="fireworksToCheck">The collection of <see cref="Firework"/>s to
-        /// find the best one among.</param>
-        /// <param name="bestFirework">The best <see cref="Firework"/> found.</param>
-        public BestFireworkFoundEventArgs(IEnumerable<Firework> fireworksToCheck, Firework bestFirework)
-            : base(fireworksToCheck)
-        {
-            this.BestFirework = bestFirework;
         }
     }
 }

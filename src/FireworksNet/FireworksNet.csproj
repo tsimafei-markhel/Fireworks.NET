@@ -103,7 +103,13 @@
     <Compile Include="Problems\Benchmark\Griewank.cs" />
     <Compile Include="Problems\Benchmark\Ellipse.cs" />
     <Compile Include="Problems\Benchmark\Sphere.cs" />
+    <Compile Include="Problems\QualityCalculatedEventArgs.cs" />
+    <Compile Include="Problems\QualityCalculatingEventArgs.cs" />
     <Compile Include="Selection\BestFireworkSelector.cs" />
+    <Compile Include="Selection\Extremum\ExtremumFireworkFindingEventArgs.cs" />
+    <Compile Include="Selection\Extremum\ExtremumFireworkFoundEventArgs.cs" />
+    <Compile Include="Selection\Extremum\ExtremumFireworkSelector.cs" />
+    <Compile Include="Selection\Extremum\IExtremumFireworkSelector.cs" />
     <Compile Include="Selection\NearBestFireworkSelector.cs" />
     <Compile Include="Selection\RandomFireworkSelector.cs" />
     <Compile Include="Selection\BestAndRandomFireworkSelector.cs" />
