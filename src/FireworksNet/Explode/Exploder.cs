@@ -120,7 +120,7 @@ namespace FireworksNet.Explode
 
             IDictionary<FireworkType, int> sparkCounts = new Dictionary<FireworkType, int>
             {
-                { FireworkType.ExplosionSpark, this.CountExplosionSparks(focus, currentFireworkQualities) },
+                { FireworkType.ExplosionSpark, this.CountExplosionSparks(focus, currentFireworks, currentFireworkQualities) },
                 { FireworkType.SpecificSpark, this.CountSpecificSparks(focus, currentFireworkQualities) }
             };
 
@@ -154,14 +154,16 @@ namespace FireworksNet.Explode
         /// Defines the count of the explosion sparks.
         /// </summary>
         /// <param name="focus">The explosion focus.</param>
+        /// <param name="currentFireworks">The collection of fireworks that exist at the moment of explosion.</param>
         /// <param name="currentFireworkQualities">The current firework qualities.</param>
         /// <returns>The number of explosion sparks created by that explosion.</returns>
-        protected virtual int CountExplosionSparks(Firework focus, IEnumerable<double> currentFireworkQualities)
+        protected virtual int CountExplosionSparks(Firework focus, IEnumerable<Firework> currentFireworks, IEnumerable<double> currentFireworkQualities)
         {
             Debug.Assert(focus != null, "Focus is null");
+            Debug.Assert(currentFireworks != null, "Current fireworks is null");
             Debug.Assert(currentFireworkQualities != null, "Current firework qualities is null");
 
-            double explosionSparksNumberExact = this.CountExplosionSparksExact(focus, currentFireworkQualities);
+            double explosionSparksNumberExact = this.CountExplosionSparksExact(focus, currentFireworks, currentFireworkQualities);
 
             Debug.Assert(!double.IsNaN(explosionSparksNumberExact), "Explosion sparks number exact is NaN");
             Debug.Assert(!double.IsInfinity(explosionSparksNumberExact), "Explosion sparks number exact is Infinity");
@@ -170,14 +172,13 @@ namespace FireworksNet.Explode
             {
                 return this.minAllowedExplosionSparksNumber;
             }
-            else if (explosionSparksNumberExact.IsGreater(this.maxAllowedExplosionSparksNumberExact))
+
+            if (explosionSparksNumberExact.IsGreater(this.maxAllowedExplosionSparksNumberExact))
             {
                 return this.maxAllowedExplosionSparksNumber;
             }
-            else
-            {
-                return (int)Math.Round(explosionSparksNumberExact, MidpointRounding.AwayFromZero);
-            }
+
+            return (int)Math.Round(explosionSparksNumberExact, MidpointRounding.AwayFromZero);
         }
 
         /// <summary>
@@ -197,21 +198,22 @@ namespace FireworksNet.Explode
         /// Defines the exact (not rounded) count of the explosion sparks.
         /// </summary>
         /// <param name="focus">The explosion focus.</param>
+        /// <param name="currentFireworks">The collection of fireworks that exist at the moment of explosion.</param>
         /// <param name="currentFireworkQualities">The current firework qualities.</param>
         /// <returns>The exact (not rounded) number of explosion sparks created by that explosion.</returns>
-        private double CountExplosionSparksExact(Firework focus, IEnumerable<double> currentFireworkQualities)
+        private double CountExplosionSparksExact(Firework focus, IEnumerable<Firework> currentFireworks, IEnumerable<double> currentFireworkQualities)
         {
             Debug.Assert(focus != null, "Focus is null");
+            Debug.Assert(currentFireworks != null, "Current fireworks is null");
             Debug.Assert(currentFireworkQualities != null, "Current firework qualities is null");
             Debug.Assert(this.settings != null, "Settings is null");
 
-            // Using Aggregate() here because Max() won't use my double extensions
-            double maxFireworkQuality = currentFireworkQualities.Aggregate((agg, next) => next.IsGreater(agg) ? next : agg);
+            double worstFireworkQuality = this.extremumFireworkSelector.SelectWorst(currentFireworks).Quality;
 
-            Debug.Assert(!double.IsNaN(maxFireworkQuality), "Max firework quality is NaN");
-            Debug.Assert(!double.IsInfinity(maxFireworkQuality), "Max firework quality is Infinity");
+            Debug.Assert(!double.IsNaN(worstFireworkQuality), "Worst firework quality is NaN");
+            Debug.Assert(!double.IsInfinity(worstFireworkQuality), "Worst firework quality is Infinity");
 
-            return this.settings.ExplosionSparksNumberModifier * (maxFireworkQuality - focus.Quality + double.Epsilon) / (currentFireworkQualities.Sum(fq => maxFireworkQuality - fq) + double.Epsilon);
+            return this.settings.ExplosionSparksNumberModifier * (worstFireworkQuality - focus.Quality + double.Epsilon) / (currentFireworkQualities.Sum(fq => worstFireworkQuality - fq) + double.Epsilon);
         }
     }
 }
