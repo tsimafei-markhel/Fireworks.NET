@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using FireworksNet.Model;
 
 namespace FireworksNet.Generation
@@ -7,8 +9,8 @@ namespace FireworksNet.Generation
     /// <summary>
     /// Base class for spark generators.
     /// </summary>
-    /// <typeparam name="T">Type of the spark that can be generated.</typeparam>
-    public abstract class SparkGeneratorBase<T> : ISparkGenerator where T : ExplosionBase
+    /// <typeparam name="TExplosion">Type of the explosion.</typeparam>
+    public abstract class SparkGeneratorBase<TExplosion> : ISparkGenerator where TExplosion : ExplosionBase
     {
         /// <summary>
         /// Gets the type of the generated spark.
@@ -25,7 +27,7 @@ namespace FireworksNet.Generation
         /// <exception cref="System.ArgumentNullException"> if <paramref name="explosion"/>
         /// is <c>null</c>.</exception>
         /// <exception cref="System.InvalidOperationException"> if <paramref name="explosion"/>
-        /// does not match <typeparamref name="T"/>.</exception>
+        /// does not match <typeparamref name="TExplosion"/>.</exception>
         public virtual IEnumerable<Firework> CreateSparks(ExplosionBase explosion)
         {
             if (explosion == null)
@@ -36,16 +38,11 @@ namespace FireworksNet.Generation
             int desiredNumberOfSparks;
             if (!explosion.SparkCounts.TryGetValue(this.GeneratedSparkType, out desiredNumberOfSparks))
             {
-                return new List<Firework>();
+                return Enumerable.Empty<Firework>();
             }
 
-            T typedExplosion = explosion as T;
-            if (typedExplosion == null)
-            {
-                throw new InvalidOperationException();
-            }
-
-            List<Firework> sparks = new List<Firework>(desiredNumberOfSparks);
+            TExplosion typedExplosion = SparkGeneratorBase<TExplosion>.GetTypedExplosion(explosion);
+            IList<Firework> sparks = new List<Firework>(desiredNumberOfSparks);
             for (int i = 0; i < desiredNumberOfSparks; i++)
             {
                 sparks.Add(this.CreateSparkTyped(typedExplosion));
@@ -62,7 +59,7 @@ namespace FireworksNet.Generation
         /// <exception cref="System.ArgumentNullException"> if <paramref name="explosion"/>
         /// is <c>null</c>.</exception>
         /// <exception cref="System.InvalidOperationException"> if <paramref name="explosion"/>
-        /// does not match <typeparamref name="T"/>.</exception>
+        /// does not match <typeparamref name="TExplosion"/>.</exception>
         public virtual Firework CreateSpark(ExplosionBase explosion)
         {
             if (explosion == null)
@@ -70,12 +67,7 @@ namespace FireworksNet.Generation
                 throw new ArgumentNullException(nameof(explosion));
             }
 
-            T typedExplosion = explosion as T;
-            if (typedExplosion == null)
-            {
-                throw new InvalidOperationException();
-            }
-
+            TExplosion typedExplosion = SparkGeneratorBase<TExplosion>.GetTypedExplosion(explosion);
             return this.CreateSparkTyped(typedExplosion);
         }
 
@@ -84,6 +76,26 @@ namespace FireworksNet.Generation
         /// </summary>
         /// <param name="explosion">The explosion that gives birth to the spark.</param>
         /// <returns>The new typed spark.</returns>
-        protected abstract Firework CreateSparkTyped(T explosion);
+        protected abstract Firework CreateSparkTyped(TExplosion explosion);
+
+        /// <summary>
+        /// Casts <paramref name="explosion"/> to the <typeparamref name="TExplosion"/>.
+        /// </summary>
+        /// <param name="explosion">The firework explosion.</param>
+        /// <returns>Typed firework explosion.</returns>
+        /// <exception cref="System.InvalidOperationException"> if <paramref name="explosion"/>
+        /// does not match <typeparamref name="TExplosion"/>.</exception>
+        private static TExplosion GetTypedExplosion(ExplosionBase explosion)
+        {
+            Debug.Assert(explosion != null, "Explosion is null");
+
+            TExplosion typedExplosion = explosion as TExplosion;
+            if (typedExplosion == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            return typedExplosion;
+        }
     }
 }
