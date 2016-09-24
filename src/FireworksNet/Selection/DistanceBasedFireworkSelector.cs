@@ -5,6 +5,7 @@ using System.Linq;
 using FireworksNet.Distances;
 using FireworksNet.Extensions;
 using FireworksNet.Model;
+using FireworksNet.Selection.Extremum;
 
 namespace FireworksNet.Selection
 {
@@ -15,19 +16,18 @@ namespace FireworksNet.Selection
     public class DistanceBasedFireworkSelector : FireworkSelectorBase
     {
         private readonly IDistance distanceCalculator;
-        private readonly Func<IEnumerable<Firework>, Firework> bestFireworkSelector;
+        private readonly IExtremumFireworkSelector extremumFireworkSelector;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DistanceBasedFireworkSelector"/> class.
         /// </summary>
         /// <param name="distanceCalculator">The distance calculator.</param>
-        /// <param name="bestFireworkSelector">The function that can be used to select 
-        /// best <see cref="Firework"/>.</param>
+        /// <param name="extremumFireworkSelector">The extremum firework selector.</param>
         /// <param name="locationsNumber">The number of <see cref="Firework"/>s to be selected.</param>
         /// <exception cref="System.ArgumentNullException"> if <paramref name="distanceCalculator"/>
-        /// or <paramref name="bestFireworkSelector"/> is <c>null</c>.
+        /// or <paramref name="extremumFireworkSelector"/> is <c>null</c>.
         /// </exception>
-        public DistanceBasedFireworkSelector(IDistance distanceCalculator, Func<IEnumerable<Firework>, Firework> bestFireworkSelector, int locationsNumber)
+        public DistanceBasedFireworkSelector(IDistance distanceCalculator, IExtremumFireworkSelector extremumFireworkSelector, int locationsNumber)
             : base(locationsNumber)
         {
             if (distanceCalculator == null)
@@ -35,25 +35,24 @@ namespace FireworksNet.Selection
                 throw new ArgumentNullException(nameof(distanceCalculator));
             }
 
-            if (bestFireworkSelector == null)
+            if (extremumFireworkSelector == null)
             {
-                throw new ArgumentNullException(nameof(bestFireworkSelector));
+                throw new ArgumentNullException(nameof(extremumFireworkSelector));
             }
 
             this.distanceCalculator = distanceCalculator;
-            this.bestFireworkSelector = bestFireworkSelector;
+            this.extremumFireworkSelector = extremumFireworkSelector;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DistanceBasedFireworkSelector"/> class.
         /// </summary>
         /// <param name="distanceCalculator">The distance calculator.</param>
-        /// <param name="bestFireworkSelector">The function that can be used to select 
-        /// best <see cref="Firework"/>.</param>
+        /// <param name="extremumFireworkSelector">The extremum firework selector.</param>
         /// <remarks>It is assumed that number of <see cref="Firework"/>s to be selected
         /// differs from step to step and hence is passed to the <c>Select</c> method.</remarks>
-        public DistanceBasedFireworkSelector(IDistance distanceCalculator, Func<IEnumerable<Firework>, Firework> bestFireworkSelector)
-            : this(distanceCalculator, bestFireworkSelector, 0)
+        public DistanceBasedFireworkSelector(IDistance distanceCalculator, IExtremumFireworkSelector extremumFireworkSelector)
+            : this(distanceCalculator, extremumFireworkSelector, 0)
         {
         }
 
@@ -93,21 +92,23 @@ namespace FireworksNet.Selection
                 throw new ArgumentOutOfRangeException(nameof(numberToSelect));
             }
 
+            if (numberToSelect == 0)
+            {
+                return Enumerable.Empty<Firework>();
+            }
+
             if (numberToSelect == from.Count())
             {
                 return new List<Firework>(from);
             }
 
-            List<Firework> selectedLocations = new List<Firework>(numberToSelect);
-            if (numberToSelect == 0)
-            {
-                return selectedLocations;
-            }
+            Debug.Assert(this.extremumFireworkSelector != null, "Best firework selector is null");
 
-            Debug.Assert(this.bestFireworkSelector != null, "Best firework selector is null");
+            // Have List<T> instead of IList<T> here since List<>.AddRange() is used below.
+            List<Firework> selectedLocations = new List<Firework>(numberToSelect);
 
             // 1. Find a firework with best quality - it will be kept anyways
-            Firework bestFirework = this.bestFireworkSelector(from);
+            Firework bestFirework = this.extremumFireworkSelector.SelectBest(from);
             selectedLocations.Add(bestFirework);
 
             if (numberToSelect > 1)
@@ -155,7 +156,7 @@ namespace FireworksNet.Selection
 
             Debug.Assert(this.distanceCalculator != null, "Distance calculator is null");
 
-            Dictionary<Firework, double> distances = new Dictionary<Firework, double>(fireworks.Count());
+            IDictionary<Firework, double> distances = new Dictionary<Firework, double>(fireworks.Count());
             foreach (Firework firework in fireworks)
             {
                 Debug.Assert(firework != null, "Firework is null");
@@ -187,7 +188,7 @@ namespace FireworksNet.Selection
                 throw new ArgumentNullException(nameof(distances));
             }
 
-            Dictionary<Firework, double> probabilities = new Dictionary<Firework, double>(distances.Count());
+            IDictionary<Firework, double> probabilities = new Dictionary<Firework, double>(distances.Count());
             double distancesSum = distances.Values.Sum();
             Debug.Assert(!distancesSum.IsEqual(0.0), "Distances sum is 0");
 
