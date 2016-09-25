@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using FireworksNet.Model;
+using FireworksNet.State;
 using Xunit;
 
-namespace FireworksNet.Tests.Model
+namespace FireworksNet.Tests.State
 {
     public class MutableAlgorithmStateTests
     {

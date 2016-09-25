@@ -12,6 +12,7 @@ using FireworksNet.Problems;
 using FireworksNet.Random;
 using FireworksNet.Selection;
 using FireworksNet.Selection.Extremum;
+using FireworksNet.State;
 using FireworksNet.StopConditions;
 
 namespace FireworksNet.Algorithm.Implementation
@@ -112,7 +113,7 @@ namespace FireworksNet.Algorithm.Implementation
         /// best solution found during the algorithm run.</returns>
         public override Solution Solve()
         {
-            AlgorithmState state = this.CreateInitialState(true);
+            IAlgorithmState state = this.CreateInitialState(true);
 
             Debug.Assert(state != null, "Initial state is null");
 
@@ -135,11 +136,11 @@ namespace FireworksNet.Algorithm.Implementation
         /// <summary>
         /// Creates the initial algorithm state (before the run starts).
         /// </summary>
-        /// <returns><see cref="AlgorithmState"/> instance that represents
+        /// <returns>Instane of class implementing <see cref="IAlgorithmState"/>, that represents
         /// initial state (before the run starts).</returns>
         /// <remarks>On each call re-creates the initial state (i.e. returns 
         /// new object each time).</remarks>
-        public AlgorithmState CreateInitialState()
+        public IAlgorithmState CreateInitialState()
         {
             return this.CreateInitialState(false);
         }
@@ -152,7 +153,7 @@ namespace FireworksNet.Algorithm.Implementation
         /// <returns>State of the algorithm after the step.</returns>
         /// <exception cref="System.ArgumentNullException"> if <paramref name="state"/>
         /// is <c>null</c>.</exception>
-        public AlgorithmState MakeStep(AlgorithmState state)
+        public IAlgorithmState MakeStep(IAlgorithmState state)
         {
             if (state == null)
             {
@@ -172,7 +173,7 @@ namespace FireworksNet.Algorithm.Implementation
         /// <exception cref="System.ArgumentNullException"> if <paramref name="state"/>
         /// is <c>null</c>.</exception>
         /// <remarks>This method does not modify <paramref name="state"/>.</remarks>
-        public Solution GetSolution(AlgorithmState state)
+        public Solution GetSolution(IAlgorithmState state)
         {
             if (state == null)
             {
@@ -192,7 +193,7 @@ namespace FireworksNet.Algorithm.Implementation
         /// <exception cref="System.ArgumentNullException"> if <paramref name="state"/>
         /// is <c>null</c>.</exception>
         /// <remarks>This method does not modify <paramref name="state"/>.</remarks>
-        public bool ShouldStop(AlgorithmState state)
+        public bool ShouldStop(IAlgorithmState state)
         {
             if (state == null)
             {
@@ -210,11 +211,11 @@ namespace FireworksNet.Algorithm.Implementation
         /// Creates the initial algorithm state (before the run starts).
         /// </summary>
         /// <param name="isMutable">Whether the initial state has to be mutable or not.</param>
-        /// <returns><see cref="AlgorithmState"/> instance that represents
+        /// <returns>Instane of class implementing <see cref="IAlgorithmState"/>, that represents
         /// initial state (before the run starts).</returns>
         /// <remarks>On each call re-creates the initial state (i.e. returns 
         /// new object each time).</remarks>
-        public AlgorithmState CreateInitialState(bool isMutable)
+        public IAlgorithmState CreateInitialState(bool isMutable)
         {
             Debug.Assert(this.Settings != null, "Settings is null");
             Debug.Assert(this.InitialSparkGenerator != null, "Initial spark generator is null");
@@ -244,7 +245,7 @@ namespace FireworksNet.Algorithm.Implementation
         /// <returns>State of the algorithm after the step.</returns>
         /// <exception cref="System.ArgumentNullException"> if <paramref name="state"/>
         /// is <c>null</c>.</exception>
-        public AlgorithmState MakeStep(AlgorithmState state, bool isMutable)
+        public IAlgorithmState MakeStep(IAlgorithmState state, bool isMutable)
         {
             if (state == null)
             {

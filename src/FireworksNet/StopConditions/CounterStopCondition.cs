@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading;
-using FireworksNet.Model;
+using FireworksNet.State;
 
 namespace FireworksNet.StopConditions
 {
@@ -44,7 +44,7 @@ namespace FireworksNet.StopConditions
         /// <c>true</c> if an algorithm that is currently in <paramref name="state"/>
         /// state should stop (and don't make further steps). Otherwise <c>false</c>.
         /// </returns>
-        public virtual bool ShouldStop(AlgorithmState state)
+        public virtual bool ShouldStop(IAlgorithmState state)
         {
             return this.count >= this.Threshold;
         }

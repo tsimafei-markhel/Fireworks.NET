@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using FireworksNet.Model;
 
-namespace FireworksNet.Model
+namespace FireworksNet.State
 {
     /// <summary>
     /// Represents mutable algorithm state.
@@ -26,6 +27,9 @@ namespace FireworksNet.Model
         /// <param name="fireworks">New collection of fireworks for this state.</param>
         /// <param name="stepNumber">New step number.</param>
         /// <param name="bestSolution">New best solution in this state.</param>
+        /// <exception cref="System.ArgumentNullException"> if <paramref name="fireworks"/> or
+        /// <paramref name="bestSolution"/> is <c>null</c>.</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException"> if <paramref name="stepNumber"/> is less than zero.</exception>
         public void UpdateState(IEnumerable<Firework> fireworks, int stepNumber, Solution bestSolution)
         {
             if (fireworks == null)

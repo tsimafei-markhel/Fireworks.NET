@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using FireworksNet.Model;
+using FireworksNet.State;
 
 namespace FireworksNet.StopConditions
 {
@@ -120,7 +120,7 @@ namespace FireworksNet.StopConditions
         /// <exception cref="System.InvalidOperationException"> if unsupported
         /// <see cref="StopConditionChain.AggregationOperator"/> is used to
         /// chain stop conditions.</exception>
-        public bool ShouldStop(AlgorithmState state)
+        public bool ShouldStop(IAlgorithmState state)
         {
             if (state == null)
             {

@@ -1,5 +1,5 @@
 ﻿using System;
-using FireworksNet.Model;
+using FireworksNet.State;
 
 namespace FireworksNet.StopConditions
 {
@@ -29,7 +29,7 @@ namespace FireworksNet.StopConditions
         /// </returns>
         /// <exception cref="System.ArgumentNullException"> if <paramref name="state"/>
         /// is <c>null</c>.</exception>
-        public override bool ShouldStop(AlgorithmState state)
+        public override bool ShouldStop(IAlgorithmState state)
         {
             bool shouldStop = base.ShouldStop(state);
             if (!shouldStop)

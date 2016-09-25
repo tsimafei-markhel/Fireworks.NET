@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using FireworksNet.Model;
 
-namespace FireworksNet.Model
+namespace FireworksNet.State
 {
     /// <summary>
     /// Stores current algorithm state.
     /// </summary>
     /// <remarks>This class is not thread-safe.</remarks>
-    public class AlgorithmState
+    public class AlgorithmState : IAlgorithmState
     {
         /// <summary>
         /// Gets unique state identifier.
@@ -17,19 +18,16 @@ namespace FireworksNet.Model
         /// <summary>
         /// Gets or sets a collection of current fireworks.
         /// </summary>
-        /// <exception cref="System.ArgumentNullException"> if value is null.</exception>
         public IEnumerable<Firework> Fireworks { get; protected set; }
 
         /// <summary>
         /// Gets or sets the step number.
         /// </summary>
-        /// <exception cref="System.ArgumentOutOfRangeException"> if value is less than zero.</exception>
         public int StepNumber { get; protected set; }
 
         /// <summary>
         /// Gets or sets the best solution among <see cref="AlgorithmState"/>.Fireworks.
         /// </summary>
-        /// <exception cref="System.ArgumentNullException"> if value is null.</exception>
         public Solution BestSolution { get; protected set; }
 
         /// <summary>
@@ -38,6 +36,9 @@ namespace FireworksNet.Model
         /// <param name="fireworks">A collection of fireworks for this state.</param>
         /// <param name="stepNumber">Current step number.</param>
         /// <param name="bestSolution">The best solution in this state.</param>
+        /// <exception cref="System.ArgumentNullException"> if <paramref name="fireworks"/> or
+        /// <paramref name="bestSolution"/> is <c>null</c>.</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException"> if <paramref name="stepNumber"/> is less than zero.</exception>
         public AlgorithmState(IEnumerable<Firework> fireworks, int stepNumber, Solution bestSolution)
         {
             if (fireworks == null)

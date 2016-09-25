@@ -3,6 +3,7 @@ using System.Diagnostics;
 using FireworksNet.Distances;
 using FireworksNet.Extensions;
 using FireworksNet.Model;
+using FireworksNet.State;
 
 namespace FireworksNet.StopConditions
 {
@@ -65,7 +66,7 @@ namespace FireworksNet.StopConditions
         /// </returns>
         /// <exception cref="System.ArgumentNullException"> if <paramref name="state"/>
         /// is <c>null</c>.</exception>
-        public override bool ShouldStop(AlgorithmState state)
+        public override bool ShouldStop(IAlgorithmState state)
         {
             if (state == null)
             {

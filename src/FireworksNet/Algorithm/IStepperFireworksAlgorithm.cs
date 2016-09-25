@@ -1,4 +1,5 @@
 ﻿using FireworksNet.Model;
+using FireworksNet.State;
 
 namespace FireworksNet.Algorithm
 {
@@ -10,9 +11,9 @@ namespace FireworksNet.Algorithm
         /// <summary>
         /// Creates the initial algorithm state (before the run starts).
         /// </summary>
-        /// <returns><see cref="AlgorithmState"/> instance that represents
+        /// <returns>Instane of class implementing <see cref="IAlgorithmState"/>, that represents
         /// initial state (before the run starts).</returns>
-        AlgorithmState CreateInitialState();
+        IAlgorithmState CreateInitialState();
 
         /// <summary>
         /// Represents one iteration of the algorithm.
@@ -21,7 +22,7 @@ namespace FireworksNet.Algorithm
         /// or initial state.</param>
         /// <returns>State of the algorithm after the step.</returns>
         /// <remarks>This method should not modify <paramref name="state"/>.</remarks>
-        AlgorithmState MakeStep(AlgorithmState state);
+        IAlgorithmState MakeStep(IAlgorithmState state);
 
         /// <summary>
         /// Tells if no further steps should be made.
@@ -30,7 +31,7 @@ namespace FireworksNet.Algorithm
         /// or initial state.</param>
         /// <returns><c>true</c> if next step should be made. Otherwise <c>false</c>.</returns>
         /// <remarks>This method should not modify <paramref name="state"/>.</remarks>
-        bool ShouldStop(AlgorithmState state);
+        bool ShouldStop(IAlgorithmState state);
 
         /// <summary>
         /// Determines the best found solution.
@@ -40,6 +41,6 @@ namespace FireworksNet.Algorithm
         /// <returns><see cref="Solution"/> instance that represents
         /// best solution found during the algorithm run.</returns>
         /// <remarks>This method should not modify <paramref name="state"/>.</remarks>
-        Solution GetSolution(AlgorithmState state);
+        Solution GetSolution(IAlgorithmState state);
     }
 }

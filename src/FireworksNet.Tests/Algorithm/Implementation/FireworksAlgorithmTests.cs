@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using FireworksNet.Algorithm.Implementation;
 using FireworksNet.Model;
 using FireworksNet.Problems;
+using FireworksNet.State;
 using FireworksNet.StopConditions;
 using Xunit;
 

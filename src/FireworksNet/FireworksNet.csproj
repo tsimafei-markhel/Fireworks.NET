@@ -63,7 +63,7 @@
     <Compile Include="Generation\LS1EliteStrategyGenerator.cs" />
     <Compile Include="Generation\LS2EliteStrategyGenerator.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Model\MutableAlgorithmState.cs" />
+    <Compile Include="State\MutableAlgorithmState.cs" />
     <Compile Include="Model\EliteExplosion.cs" />
     <Compile Include="Mutation\AttractRepulseSparkMutator.cs" />
     <Compile Include="Extensions\RandomExtensions.cs" />
@@ -85,7 +85,7 @@
     <Compile Include="Extensions\DoubleExtensions.cs" />
     <Compile Include="Fit\IFit.cs" />
     <Compile Include="Fit\PolynomialFit.cs" />
-    <Compile Include="Model\AlgorithmState.cs" />
+    <Compile Include="State\AlgorithmState.cs" />
     <Compile Include="Model\FireworkExplosion.cs" />
     <Compile Include="Model\InitialExplosion.cs" />
     <Compile Include="Model\ExplosionBase.cs" />
@@ -116,6 +116,7 @@
     <Compile Include="Selection\FireworkSelectorBase.cs" />
     <Compile Include="Solving\Solver.cs" />
     <Compile Include="Solving\ISolver.cs" />
+    <Compile Include="State\IAlgorithmState.cs" />
     <Compile Include="StopConditions\CounterStopCondition.cs" />
     <Compile Include="StopConditions\CoordinateProximityStopCondition.cs" />
     <Compile Include="Problems\ProblemTarget.cs" />
