@@ -63,7 +63,6 @@
     <Compile Include="Generation\LS1EliteStrategyGenerator.cs" />
     <Compile Include="Generation\LS2EliteStrategyGenerator.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="State\MutableAlgorithmState.cs" />
     <Compile Include="Model\EliteExplosion.cs" />
     <Compile Include="Mutation\AttractRepulseSparkMutator.cs" />
     <Compile Include="Extensions\RandomExtensions.cs" />

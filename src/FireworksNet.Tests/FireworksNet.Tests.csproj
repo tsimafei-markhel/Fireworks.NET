@@ -70,7 +70,6 @@
     <Compile Include="Generation\LS1EliteStrategyGeneratorTests.cs" />
     <Compile Include="Generation\LS2EliteStrategyGeneratorTests.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="State\MutableAlgorithmStateTests.cs" />
     <Compile Include="Mutation\AttractRepulseSparkMutatorTests.cs" />
     <Compile Include="Explode\ExploderTests.cs" />
     <Compile Include="Generation\AbstractSourceData.cs" />
