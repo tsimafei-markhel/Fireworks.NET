@@ -23,7 +23,7 @@ namespace FireworksNet.Algorithm.Implementation
     /// <summary>
     /// Fireworks Algorithm implementation, per 2012 paper.
     /// </summary>
-    public sealed class FireworksAlgorithm2012 : FireworksAlgorithmBase<FireworksAlgorithmSettings2012>, IFireworksAlgorithm, IStepperFireworksAlgorithm
+    public sealed class FireworksAlgorithm2012 : FireworksAlgorithmBase<FireworksAlgorithmSettings2012>, IStepperFireworksAlgorithm
     {
         private const double normalDistributionMean = 1.0;
         private const double normalDistributionStdDev = 1.0;
@@ -292,7 +292,7 @@ namespace FireworksNet.Algorithm.Implementation
             this.CalculateQuality(eliteFirework);
 
             Firework worstFirework = this.BestWorstFireworkSelector.SelectWorst(selectedFireworks);
-            if (this.IsReplaceWorstWithElite(worstFirework, eliteFirework))
+            if (this.ShouldReplaceWorstWithElite(worstFirework, eliteFirework))
             {
                 selectedFireworks.Remove(worstFirework);
                 selectedFireworks.Add(eliteFirework);
@@ -312,7 +312,7 @@ namespace FireworksNet.Algorithm.Implementation
         /// elite strategy</param>
         /// <returns><c>true</c> if necessary replace <paramref name="worst"/> with 
         /// <paramref name="elite"/>.</returns>
-        public bool IsReplaceWorstWithElite(Firework worst, Firework elite)
+        public bool ShouldReplaceWorstWithElite(Firework worst, Firework elite)
         {
             Debug.Assert(worst != null, "Worst firework is null");
             Debug.Assert(elite != null, "Elite firework is null");

@@ -19,7 +19,7 @@ namespace FireworksNet.Algorithm.Implementation
     /// <summary>
     /// Fireworks Algorithm implementation, per 2010 paper.
     /// </summary>
-    public sealed class FireworksAlgorithm : FireworksAlgorithmBase<FireworksAlgorithmSettings>, IFireworksAlgorithm, IStepperFireworksAlgorithm
+    public sealed class FireworksAlgorithm : FireworksAlgorithmBase<FireworksAlgorithmSettings>, IStepperFireworksAlgorithm
     {
         private const double normalDistributionMean = 1.0;
         private const double normalDistributionStdDev = 1.0;

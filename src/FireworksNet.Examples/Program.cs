@@ -1,5 +1,7 @@
-﻿using FireworksNet.Algorithm.Implementation;
+﻿using FireworksNet.Algorithm;
+using FireworksNet.Algorithm.Implementation;
 using FireworksNet.Model;
+using FireworksNet.Problems;
 using FireworksNet.Problems.Benchmark;
 using FireworksNet.StopConditions;
 
@@ -22,7 +24,7 @@ namespace FireworksNet.Examples
         private static void RunFireworks2010()
         {
             // 1. Define a problem to solve
-            Sphere problem = Sphere.Create();
+            Problem problem = Sphere.Create();
 
             // 2. Setup algorithm stop condition
             CounterStopCondition stopCondition = new CounterStopCondition(10000);
@@ -41,7 +43,7 @@ namespace FireworksNet.Examples
             };
 
             // 4. Instantiate desired implementation of the algorithm (per 2010 paper in this case)
-            FireworksAlgorithm fwa2010 = new FireworksAlgorithm(problem, stopCondition, settings);
+            IFireworksAlgorithm fwa2010 = new FireworksAlgorithm(problem, stopCondition, settings);
 
             // 5. Finally, find a solution
             Solution solution = fwa2010.Solve();
@@ -50,7 +52,7 @@ namespace FireworksNet.Examples
         private static void RunFireworks2012()
         {
             // 1. Define a problem to solve
-            Sphere problem = Sphere.Create();
+            Problem problem = Sphere.Create();
 
             // 2. Setup algorithm stop condition
             CounterStopCondition stopCondition = new CounterStopCondition(10000);
@@ -71,7 +73,7 @@ namespace FireworksNet.Examples
             };
 
             // 4. Instantiate desired implementation of the algorithm (per 2012 paper in this case)
-            FireworksAlgorithm2012 fwa2012 = new FireworksAlgorithm2012(problem, stopCondition, settings);
+            IFireworksAlgorithm fwa2012 = new FireworksAlgorithm2012(problem, stopCondition, settings);
 
             // 5. Finally, find a solution
             Solution solution = fwa2012.Solve();
