@@ -28,6 +28,8 @@ namespace FireworksNet.Algorithm.Implementation
         private const double normalDistributionMean = 1.0;
         private const double normalDistributionStdDev = 1.0;
 
+        private AlgorithmState state;
+
         /// <summary>
         /// Gets or sets the randomizer.
         /// </summary>
@@ -146,20 +148,20 @@ namespace FireworksNet.Algorithm.Implementation
         /// best solution found during the algorithm run.</returns>
         public override Solution Solve()
         {
-            IAlgorithmState state = this.CreateInitialState();
+            this.InitializeInternal();
 
-            Debug.Assert(state != null, "Initial state is null");
+            Debug.Assert(this.state != null, "Initial state is null");
 
-            while (!this.ShouldStop(state))
+            while (!this.ShouldStop())
             {
-                Debug.Assert(state != null, "Current state is null");
+                Debug.Assert(this.state != null, "Current state is null");
 
-                this.MakeStep(state);
+                this.MakeStepInternal();
 
-                Debug.Assert(state != null, "Updated state is null");
+                Debug.Assert(this.state != null, "Updated state is null");
             }
 
-            return this.GetSolution(state);
+            return this.state.BestSolution;
         }
 
         #endregion
@@ -173,7 +175,49 @@ namespace FireworksNet.Algorithm.Implementation
         /// initial state (before the run starts).</returns>
         /// <remarks>On each call re-creates the initial state (i.e. returns 
         /// new object each time).</remarks>
-        public IAlgorithmState CreateInitialState()
+        public IAlgorithmState Initialize()
+        {
+            this.InitializeInternal();
+
+            Debug.Assert(this.state != null, "State is null");
+
+            return new AlgorithmState(this.state.Fireworks, this.state.StepNumber, this.state.BestSolution);
+        }
+
+        /// <summary>
+        /// Makes another iteration of the algorithm.
+        /// </summary>
+        /// <returns>State of the algorithm after the step.</returns>
+        public IAlgorithmState MakeStep()
+        {
+            this.MakeStepInternal();
+
+            Debug.Assert(this.state != null, "State is null");
+
+            return new AlgorithmState(this.state.Fireworks, this.state.StepNumber, this.state.BestSolution);
+        }
+
+        /// <summary>
+        /// Tells if no further steps should be made.
+        /// </summary>
+        /// <returns><c>true</c> if next step should be made. Otherwise 
+        /// <c>false</c>.</returns>
+        public bool ShouldStop()
+        {
+            Debug.Assert(this.StopCondition != null, "Stop condition is null");
+            Debug.Assert(this.state != null, "State is null");
+
+            return this.StopCondition.ShouldStop(this.state);
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Creates the initial algorithm state (before the run starts).
+        /// </summary>
+        /// <remarks>On each call re-creates the initial state (i.e. returns 
+        /// new object each time).</remarks>
+        public void InitializeInternal()
         {
             Debug.Assert(this.Settings != null, "Settings is null");
             Debug.Assert(this.InitialSparkGenerator != null, "Initial spark generator is null");
@@ -189,26 +233,17 @@ namespace FireworksNet.Algorithm.Implementation
 
             this.CalculateQualities(fireworks);
 
-            return new AlgorithmState(fireworks, 0, this.BestWorstFireworkSelector.SelectBest(fireworks));
+            this.state = new AlgorithmState(fireworks, 0, this.BestWorstFireworkSelector.SelectBest(fireworks));
         }
 
         /// <summary>
         /// Represents one iteration of the algorithm.
         /// </summary>
-        /// <param name="state">The state of the algorithm after the previous step
-        /// or initial state.</param>
-        /// <returns>State of the algorithm after the step.</returns>
-        /// <exception cref="System.ArgumentNullException"> if <paramref name="state"/>
-        /// is <c>null</c>.</exception>
-        public IAlgorithmState MakeStep(IAlgorithmState state)
+        public void MakeStepInternal()
         {
-            if (state == null)
-            {
-                throw new ArgumentNullException(nameof(state));
-            }
-
-            Debug.Assert(state.StepNumber >= 0, "Negative step number");
-            Debug.Assert(state.Fireworks != null, "State firework collection is null");
+            Debug.Assert(this.state.StepNumber >= 0, "Negative step number");
+            Debug.Assert(this.state.StepNumber < int.MaxValue, "Updated step number is int.MaxValue, further steps will be incorrect");
+            Debug.Assert(this.state.Fireworks != null, "State firework collection is null");
             Debug.Assert(this.Settings != null, "Settings is null");
             Debug.Assert(this.Randomizer != null, "Randomizer is null");
             Debug.Assert(this.Settings.LocationsNumber >= 0, "Negative settings locations number");
@@ -216,18 +251,18 @@ namespace FireworksNet.Algorithm.Implementation
             Debug.Assert(this.ExplosionSparkGenerator != null, "Explosion spark generator is null");
             Debug.Assert(this.BestWorstFireworkSelector != null, "Best-Worst firework selector is null");
 
-            int stepNumber = state.StepNumber + 1;
+            int stepNumber = this.state.StepNumber + 1;
 
             IEnumerable<int> specificSparkParentIndices = this.Randomizer.NextUniqueInt32s(this.Settings.SpecificSparksNumber, 0, this.Settings.LocationsNumber);
 
             IEnumerable<Firework> explosionSparks = new List<Firework>();
             IEnumerable<Firework> specificSparks = new List<Firework>(this.Settings.SpecificSparksNumber);
             int currentFirework = 0;
-            foreach (Firework firework in state.Fireworks)
+            foreach (Firework firework in this.state.Fireworks)
             {
                 Debug.Assert(firework != null, "Firework is null");
 
-                ExplosionBase explosion = this.Exploder.Explode(firework, state.Fireworks, stepNumber);
+                ExplosionBase explosion = this.Exploder.Explode(firework, this.state.Fireworks, stepNumber);
                 Debug.Assert(explosion != null, "Explosion is null");
 
                 IEnumerable<Firework> fireworkExplosionSparks = this.ExplosionSparkGenerator.CreateSparks(explosion);
@@ -248,7 +283,7 @@ namespace FireworksNet.Algorithm.Implementation
             this.CalculateQualities(explosionSparks);
             this.CalculateQualities(specificSparks);
 
-            IEnumerable<Firework> allFireworks = state.Fireworks.Concat(explosionSparks.Concat(specificSparks));
+            IEnumerable<Firework> allFireworks = this.state.Fireworks.Concat(explosionSparks.Concat(specificSparks));
             IList<Firework> selectedFireworks = this.LocationSelector.SelectFireworks(allFireworks).ToList();
 
             IEnumerable<Firework> samplingFireworks = this.SamplingSelector.SelectFireworks(selectedFireworks, this.Settings.SamplingNumber);
@@ -263,61 +298,10 @@ namespace FireworksNet.Algorithm.Implementation
                 selectedFireworks.Add(eliteFirework);
             }
 
-            AlgorithmState mutableState = state as AlgorithmState;
-            if (state == null)
-            {
-                throw new InvalidOperationException();
-            }
-
-            mutableState.Fireworks = selectedFireworks;
-            mutableState.StepNumber = stepNumber;
-            mutableState.BestSolution = this.BestWorstFireworkSelector.SelectBest(selectedFireworks);
-            return mutableState;
+            this.state.Fireworks = selectedFireworks;
+            this.state.StepNumber = stepNumber;
+            this.state.BestSolution = this.BestWorstFireworkSelector.SelectBest(selectedFireworks);
         }
-
-        /// <summary>
-        /// Determines the best found solution.
-        /// </summary>
-        /// <param name="state">The state of the algorithm after the previous step
-        /// or initial state.</param>
-        /// <returns><see cref="Solution"/> instance that represents
-        /// best solution found during the algorithm run.</returns>
-        /// <exception cref="System.ArgumentNullException"> if <paramref name="state"/>
-        /// is <c>null</c>.</exception>
-        /// <remarks>This method does not modify <paramref name="state"/>.</remarks>
-        public Solution GetSolution(IAlgorithmState state)
-        {
-            if (state == null)
-            {
-                throw new ArgumentNullException(nameof(state));
-            }
-
-            return state.BestSolution;
-        }
-
-        /// <summary>
-        /// Tells if no further steps should be made.
-        /// </summary>
-        /// <param name="state">The state of the algorithm after the previous step
-        /// or initial state.</param>
-        /// <returns><c>true</c> if next step should be made. Otherwise 
-        /// <c>false</c>.</returns>
-        /// <exception cref="System.ArgumentNullException"> if <paramref name="state"/>
-        /// is <c>null</c>.</exception>
-        /// <remarks>This method does not modify <paramref name="state"/>.</remarks>
-        public bool ShouldStop(IAlgorithmState state)
-        {
-            if (state == null)
-            {
-                throw new ArgumentNullException(nameof(state));
-            }
-
-            Debug.Assert(this.StopCondition != null, "Stop condition is null");
-
-            return this.StopCondition.ShouldStop(state);
-        }
-
-        #endregion
 
         /// <summary>
         /// Compares two <see cref="Firework"/>s and determines if it is necessary to replace the worst one 

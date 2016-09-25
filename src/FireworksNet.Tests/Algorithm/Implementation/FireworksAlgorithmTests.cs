@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using FireworksNet.Algorithm.Implementation;
 using FireworksNet.Model;
 using FireworksNet.Problems;
-using FireworksNet.State;
 using FireworksNet.StopConditions;
 using Xunit;
 
@@ -96,48 +95,6 @@ namespace FireworksNet.Tests.Algorithm.Implementation
 
             Assert.NotNull(actualException);
             Assert.Equal(expectedParamName, actualException.ParamName);
-        }
-
-        [Theory]
-        [InlineData(null, "state")]
-        public void MakeStep_NegativeParams_ArgumentNullExceptionThrown(AlgorithmState state, string expectedParamName)
-        {
-            FireworksAlgorithm fireworksAlgorithm = this.GetFireworksAlgorithm();
-
-            ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => fireworksAlgorithm.MakeStep(state));
-
-            Assert.NotNull(actualException);
-            Assert.Equal(expectedParamName, actualException.ParamName);
-
-            testProblem.QualityCalculated -= ((CounterStopCondition)fireworksAlgorithm.StopCondition).IncrementCounter;
-        }
-
-        [Theory]
-        [InlineData(null, "state")]
-        public void GetSolution_NegativeParams_ArgumentNullExceptionThrown(AlgorithmState state, string expectedParamName)
-        {
-            FireworksAlgorithm fireworksAlgorithm = this.GetFireworksAlgorithm();
-
-            ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => fireworksAlgorithm.GetSolution(state));
-
-            Assert.NotNull(actualException);
-            Assert.Equal(expectedParamName, actualException.ParamName);
-
-            testProblem.QualityCalculated -= ((CounterStopCondition)fireworksAlgorithm.StopCondition).IncrementCounter;
-        }
-
-        [Theory]
-        [InlineData(null, "state")]
-        public void ShouldStop_NegativeParams_ArgumentNullExceptionThrown(AlgorithmState state, string expectedParamName)
-        {
-            FireworksAlgorithm fireworksAlgorithm = this.GetFireworksAlgorithm();
-
-            ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => fireworksAlgorithm.ShouldStop(state));
-
-            Assert.NotNull(actualException);
-            Assert.Equal(expectedParamName, actualException.ParamName);
-
-            testProblem.QualityCalculated -= ((CounterStopCondition)fireworksAlgorithm.StopCondition).IncrementCounter;
         }
 
         [Theory]
