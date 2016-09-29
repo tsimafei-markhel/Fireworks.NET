@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using Xunit;
-using NSubstitute;
-using FireworksNet.Selection;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using FireworksNet.Model;
-using System;
+using FireworksNet.Selection;
+using Xunit;
 
 namespace FireworksNet.Tests.Selection
 {
@@ -60,49 +60,37 @@ namespace FireworksNet.Tests.Selection
         [Fact]
         public void SelectFireworks_NegativeNumberAs2ndParam_ExceptionThrown()
         {
-            string expectedParamName = "numberToSelect";
-            int samplingNumber = -1;
-
-            ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() => this.randomSelector.SelectFireworks(this.allFireworks, samplingNumber));
+            ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() => this.randomSelector.SelectFireworks(this.allFireworks, -1));
 
             Assert.NotNull(actualException);
-            Assert.Equal(expectedParamName, actualException.ParamName);
+            Assert.Equal("numberToSelect", actualException.ParamName);
         }
 
         [Fact]
         public void SelectFireworks_GreatNumberAs2ndParam_ExceptionThrown()
         {
-            string expectedParamName = "numberToSelect";
-            int samplingNumber = this.countFireworks + 1;
-
-            ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() => this.randomSelector.SelectFireworks(this.allFireworks, samplingNumber));
+            ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() => this.randomSelector.SelectFireworks(this.allFireworks, this.countFireworks + 1));
 
             Assert.NotNull(actualException);
-            Assert.Equal(expectedParamName, actualException.ParamName);
+            Assert.Equal("numberToSelect", actualException.ParamName);
         }
 
         [Fact]
         public void SelectFireworks_CountFireworksEqual2ndParam_ReturnsEqualFireworks()
         {
-            IEnumerable<Firework> expectedFireworks = this.allFireworks;
-            int samplingNumber = this.countFireworks;
+            IEnumerable<Firework> resultingFireworks = this.randomSelector.SelectFireworks(this.allFireworks, this.countFireworks);
 
-            IEnumerable<Firework> resultingFireworks = this.randomSelector.SelectFireworks(this.allFireworks, samplingNumber);
-
-            Assert.NotSame(expectedFireworks, resultingFireworks);
-            Assert.Equal(expectedFireworks, resultingFireworks);
+            Assert.NotSame(this.allFireworks, resultingFireworks);
+            Assert.Equal(this.allFireworks, resultingFireworks);
         }
 
         [Fact]
-        public void SelectFireworks_NullAs2ndParam_ReturnsEmptyCollectionFireworks()
+        public void SelectFireworks_ZeroAs2ndParam_ReturnsEmptyCollectionFireworks()
         {
-            IEnumerable<Firework> expectedFireworks = new List<Firework>();
-            int samplingNumber = 0;
+            IEnumerable<Firework> resultingFireworks = this.randomSelector.SelectFireworks(this.allFireworks, 0);
 
-            IEnumerable<Firework> resultingFireworks = this.randomSelector.SelectFireworks(this.allFireworks, samplingNumber);
-
-            Assert.NotSame(expectedFireworks, resultingFireworks);
-            Assert.Equal(expectedFireworks, resultingFireworks);
+            Assert.NotSame(Enumerable.Empty<Firework>(), resultingFireworks);
+            Assert.Equal(Enumerable.Empty<Firework>(), resultingFireworks);
         }
     }
 }

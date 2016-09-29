@@ -14,7 +14,7 @@ namespace FireworksNet.Tests.Extensions
             rnd = new System.Random();
         }
 
-        public static IEnumerable<object[]> NextDoubleInternalsData
+        public static IEnumerable<object[]> NextDoubleData
         {
             get
             {
@@ -48,6 +48,33 @@ namespace FireworksNet.Tests.Extensions
             }
         }
 
+        #region NextDouble() tests
+
+        [Fact]
+        public void NextDouble_NullAsRandom_ExceptionThrown()
+        {
+            System.Random random = null;
+            const double minInclusive = 10.05D;
+            const double intervalLength = 11.984D;
+
+            string expectedParamName = "random";
+
+            ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => random.NextDouble(minInclusive, intervalLength));
+
+            Assert.NotNull(actualException);
+            Assert.Equal(expectedParamName, actualException.ParamName);
+        }
+
+        [Theory]
+        [MemberData("NextDoubleData")]
+        public void NextDouble_NegativeDoubleArgs_ExceptionThrown(System.Random random, double minInclusive, double intervalLength, string expectedParamName)
+        {
+            ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() => random.NextDouble(minInclusive, intervalLength));
+
+            Assert.NotNull(actualException);
+            Assert.Equal(expectedParamName, actualException.ParamName);
+        }
+
         // TODO : endless loop in NextDouble(this System.Random random, Range allowedRange)
         /*[Fact]
         public void NextDouble_BadRange_ExceptionThrown()
@@ -66,53 +93,9 @@ namespace FireworksNet.Tests.Extensions
         }
         */
 
-        [Theory]
-        [MemberData("NextInt32sData")]
-        public void NextUniqueInt32s_NegativeIntArgs_ExceptionThrown(System.Random random, int neededValuesNumber, int minInclusive, int maxExclusive, string expectedParamName)
-        {
-            ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() => random.NextUniqueInt32s(neededValuesNumber, minInclusive, maxExclusive));
+        #endregion
 
-            Assert.NotNull(actualException);
-            Assert.Equal(expectedParamName, actualException.ParamName);
-        }
-
-        [Theory]
-        [MemberData("NextInt32sData")]
-        public void NextInt32s_NegativeIntArgs_ExceptionThrown(System.Random random, int neededValuesNumber, int minInclusive, int maxExclusive, string expectedParamName)
-        {
-            ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() => random.NextInt32s(neededValuesNumber, minInclusive, maxExclusive));
-
-            Assert.NotNull(actualException);
-            Assert.Equal(expectedParamName, actualException.ParamName);
-        }
-
-
-        [Theory]
-        [MemberData("NextDoubleInternalsData")]
-        public void NextDoubleInternal_NegativeDoubleArgs_ExceptionThrown(System.Random random, double minInclusive, double intervalLength, string expectedParamName)
-        {
-            ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() => random.NextDouble(minInclusive, intervalLength));
-
-            Assert.NotNull(actualException);
-            Assert.Equal(expectedParamName, actualException.ParamName);
-        }
-
-
-        [Fact]
-        public void NextUniqueInt32s_NullAsRandom_ExceptionThrown()
-        {
-            System.Random random = null;
-            const int minInclusive = 5;
-            const int maxExclusive = 9;
-            const int neededValuesNumber = 3;
-
-            string expectedParamName = "random";
-
-            ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => random.NextUniqueInt32s(neededValuesNumber, minInclusive, maxExclusive));
-
-            Assert.NotNull(actualException);
-            Assert.Equal(expectedParamName, actualException.ParamName);
-        }
+        #region NextInt32s() tests
 
         [Fact]
         public void NextInt32s_NullAsRandom_ExceptionThrown()
@@ -130,20 +113,49 @@ namespace FireworksNet.Tests.Extensions
             Assert.Equal(expectedParamName, actualException.ParamName);
         }
 
-        [Fact]
-        public void NextDouble_NullAsRandom_ExceptionThrown()
+        [Theory]
+        [MemberData("NextInt32sData")]
+        public void NextInt32s_NegativeIntArgs_ExceptionThrown(System.Random random, int neededValuesNumber, int minInclusive, int maxExclusive, string expectedParamName)
         {
-            System.Random random = null;
-            const double minInclusive = 10.05D;
-            const double intervalLength = 11.984D;
-
-            string expectedParamName = "random";
-
-            ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => random.NextDouble(minInclusive, intervalLength));
+            ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() => random.NextInt32s(neededValuesNumber, minInclusive, maxExclusive));
 
             Assert.NotNull(actualException);
             Assert.Equal(expectedParamName, actualException.ParamName);
         }
+
+        #endregion
+
+        #region NextUniqueInt32s() tests
+
+        [Fact]
+        public void NextUniqueInt32s_NullAsRandom_ExceptionThrown()
+        {
+            System.Random random = null;
+            const int minInclusive = 5;
+            const int maxExclusive = 9;
+            const int neededValuesNumber = 3;
+
+            string expectedParamName = "random";
+
+            ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => random.NextUniqueInt32s(neededValuesNumber, minInclusive, maxExclusive));
+
+            Assert.NotNull(actualException);
+            Assert.Equal(expectedParamName, actualException.ParamName);
+        }
+
+        [Theory]
+        [MemberData("NextInt32sData")]
+        public void NextUniqueInt32s_NegativeIntArgs_ExceptionThrown(System.Random random, int neededValuesNumber, int minInclusive, int maxExclusive, string expectedParamName)
+        {
+            ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() => random.NextUniqueInt32s(neededValuesNumber, minInclusive, maxExclusive));
+
+            Assert.NotNull(actualException);
+            Assert.Equal(expectedParamName, actualException.ParamName);
+        }
+
+        #endregion
+
+        #region NextBoolean() tests
 
         [Fact]
         public void NextBoolean_NullAsRandom_ExceptionThrown()
@@ -156,5 +168,7 @@ namespace FireworksNet.Tests.Extensions
             Assert.NotNull(actualException);
             Assert.Equal(expectedParamName, actualException.ParamName);
         }
+
+        #endregion
     }
 }

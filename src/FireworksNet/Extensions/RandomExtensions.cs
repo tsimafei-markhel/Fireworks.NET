@@ -44,7 +44,7 @@ namespace FireworksNet.Extensions
                 // 1. 'Is generated value within a range' check is missed intentionally.
                 // 2. Even though upper bound is always exclusive, second check should stay here.
                 gotCorrectValue = !((allowedRange.IsMinimumOpen && allowedRange.Minimum.IsEqual(correctValue))
-                                 || (allowedRange.IsMaximumOpen && allowedRange.Maximum.IsEqual(correctValue)));
+                                    || (allowedRange.IsMaximumOpen && allowedRange.Maximum.IsEqual(correctValue)));
             }
             while (!gotCorrectValue);
 
@@ -52,7 +52,7 @@ namespace FireworksNet.Extensions
         }
 
         /// <summary>
-        /// Generates an enumerable of random integer numbers.
+        /// Generates an enumerable of uniform random integer numbers within specified range.
         /// </summary>
         /// <param name="random">The random number generator.</param>
         /// <param name="neededValuesNumber">The amount of values to be generated.</param>
@@ -87,17 +87,14 @@ namespace FireworksNet.Extensions
                 throw new ArgumentOutOfRangeException(nameof(maxExclusive));
             }
 
-            List<int> result = new List<int>(neededValuesNumber);
-            for (int i = 0; i < neededValuesNumber; i++)
-            {
-                result.Add(random.Next(minInclusive, maxExclusive));
-            }
+            int[] result = new int[neededValuesNumber];
+            MathNet.Numerics.Random.RandomExtensions.NextInt32s(random, result, minInclusive, maxExclusive);
 
             return result;
         }
 
         /// <summary>
-        /// Generates an enumerable of random integer numbers, unique within this enumerable.
+        /// Generates an enumerable of uniform random integer numbers within specified range, which are unique within this enumerable.
         /// </summary>
         /// <param name="random">The random number generator.</param>
         /// <param name="neededValuesNumber">The amount of values to be generated.</param>
@@ -133,7 +130,7 @@ namespace FireworksNet.Extensions
                 throw new ArgumentOutOfRangeException(nameof(maxExclusive));
             }
 
-            HashSet<int> uniqueNumbers = new HashSet<int>();
+            ISet<int> uniqueNumbers = new HashSet<int>();
             for (int top = maxExclusive - neededValuesNumber; top < maxExclusive; top++)
             {
                 if (!uniqueNumbers.Add(random.Next(minInclusive, top + 1)))
@@ -142,7 +139,7 @@ namespace FireworksNet.Extensions
                 }
             }
 
-            List<int> result = uniqueNumbers.ToList();
+            IList<int> result = uniqueNumbers.ToList();
             int temp = 0;
             for (int i = result.Count - 1; i > 0; i--)
             {
@@ -156,7 +153,7 @@ namespace FireworksNet.Extensions
         }
 
         /// <summary>
-        /// Generates a random boolean value.
+        /// Returns a random boolean.
         /// </summary>
         /// <param name="random">The random number generator.</param>
         /// <returns></returns>
@@ -169,7 +166,7 @@ namespace FireworksNet.Extensions
                 throw new ArgumentNullException(nameof(random));
             }
 
-            return random.NextDouble(0.0, 1.0).IsGreaterOrEqual(0.5D);
+            return MathNet.Numerics.Random.RandomExtensions.NextBoolean(random);
         }
 
         /// <summary>
