@@ -1,0 +1,45 @@
+#Default all files it determins as text
+* text=auto
+
+# These files are text and should be normalized (convert crlf => lf)
+# Git Files
+.gitattributes text eol=lf
+.gitignore text eol=lf
+.gitconfig text eol=lf
+
+# cSharp / Visual Studio
+*.bat     text eol=crlf
+*.cmd     text eol=crlf
+*.cs      text eol=crlf diff=csharp 
+*.csproj  text eol=crlf
+*.md      text eol=crlf
+*.msbuild text eol=crlf
+*.sln     text eol=crlf
+*.json    text eol=lf
+*.xml     text eol=lf
+
+# Media
+*.pdf     binary
+
+# Compression
+*.gz      binary
+*.zip     binary
+*.7z      binary
+*.nupkg   binary
+
+# Config
+*.conf text eol=lf
+
+# Documents
+*.txt text eol=lf
+*.md text eol=lf
+
+# Compiled Dynamic libraries
+*.so      binary
+*.dll     binary
+*.pdb     binary
+
+# Executables
+*.exe binary
+*.out binary
+*.app binary
