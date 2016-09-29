@@ -15,7 +15,7 @@ namespace FireworksNet.Model
         /// during initialization. It should be used when interval boundaries
         /// have to be formatted.
         /// </summary>
-        private String cachedStringFormat;
+        private string cachedStringFormat;
 
         /// <summary>
         /// Gets lower boundary of the <see cref="Range"/>.
@@ -30,7 +30,7 @@ namespace FireworksNet.Model
         /// <summary>
         /// Gets <see cref="Range"/> length. Always positive.
         /// </summary>
-        /// <remarks><see cref="Range.Length"/> = <see cref="Math.Abs"/>(
+        /// <remarks><see cref="Range.Length"/> = <see cref="Math"/>.Abs(
         /// <see cref="Range.Maximum"/> - <see cref="Range.Minimum"/>).</remarks>
         public double Length { get; private set; }
 
@@ -82,7 +82,7 @@ namespace FireworksNet.Model
             this.IsMaximumOpen = double.IsPositiveInfinity(this.Maximum) ? true : isMaximumOpen;
             this.IsOpen = this.IsMinimumOpen && this.IsMaximumOpen;
 
-            this.cachedStringFormat = (this.IsMinimumOpen ? "(" : "[") + "{1}, {2}" + (this.IsMaximumOpen ? ")" : "]");
+            this.cachedStringFormat = (this.IsMinimumOpen ? "(" : "[") + "{0}, {1}" + (this.IsMaximumOpen ? ")" : "]");
         }
 
         /// <summary>
@@ -150,12 +150,12 @@ namespace FireworksNet.Model
 
         /// <summary>
         /// Converts <see cref="Range"/> value to string with desired <paramref name="format"/> 
-        /// for <see cref="double"/> to <see cref="String"/> conversion.
+        /// for <see cref="double"/> to <see cref="string"/> conversion.
         /// </summary>
-        /// <param name="format"><see cref="double"/> to <see cref="String"/> format.</param>
+        /// <param name="format"><see cref="double"/> to <see cref="string"/> format.</param>
         /// <returns>String representation of this <see cref="Range"/> instance. Boundaries
         /// are formatted with <paramref name="format"/>.</returns>
-        public String ToString(String format)
+        public string ToString(string format)
         {
             return this.ToString(format, CultureInfo.CurrentCulture);
         }
@@ -169,32 +169,32 @@ namespace FireworksNet.Model
         /// to obtain the numeric format information from the current locale
         /// setting of the operating system.</param>
         /// <returns>The value of the current instance in the specified format.</returns>
-        public String ToString(String format, IFormatProvider formatProvider)
+        public string ToString(string format, IFormatProvider formatProvider)
         {
-            return String.Format(this.cachedStringFormat, this.Minimum.ToString(format, formatProvider), this.Maximum.ToString(format, formatProvider));
+            return string.Format(this.cachedStringFormat, this.Minimum.ToString(format, formatProvider), this.Maximum.ToString(format, formatProvider));
         }
 
         /// <summary>
-        /// Converts <see cref="Range"/> value to <see cref="String"/> 
-        /// with <see cref="CultureInfo.Invariant"/>.
+        /// Converts <see cref="Range"/> value to <see cref="string"/> 
+        /// with <see cref="CultureInfo.InvariantCulture"/>.
         /// </summary>
         /// <returns>String representation of this <see cref="Range"/> 
-        /// instance - for <see cref="CultureInfo.Invariant"/>.</returns>
-        public String ToStringInvariant()
+        /// instance - for <see cref="CultureInfo.InvariantCulture"/>.</returns>
+        public string ToStringInvariant()
         {
-            return this.ToStringInvariant((String)null);
+            return this.ToStringInvariant((string)null);
         }
 
         /// <summary>
         /// Converts <see cref="Range"/> value to string with desired <paramref name="format"/> 
-        /// for <see cref="double"/> to <see cref="String"/> conversion and <see cref="CultureInfo.Invariant"/>.
+        /// for <see cref="double"/> to <see cref="string"/> conversion and <see cref="CultureInfo.InvariantCulture"/>.
         /// </summary>
-        /// <param name="format"><see cref="double"/> to <see cref="String"/> format.</param>
+        /// <param name="format"><see cref="double"/> to <see cref="string"/> format.</param>
         /// <returns>String representation of this <see cref="Range"/> instance. Boundaries
-        /// are formatted with <paramref name="format"/> - for <see cref="CultureInfo.Invariant"/>.</returns>
-        public String ToStringInvariant(String format)
+        /// are formatted with <paramref name="format"/> - for <see cref="CultureInfo.InvariantCulture"/>.</returns>
+        public string ToStringInvariant(string format)
         {
-            return String.Format(this.cachedStringFormat, this.Minimum.ToString(format, CultureInfo.InvariantCulture), this.Maximum.ToString(format, CultureInfo.InvariantCulture));
+            return string.Format(this.cachedStringFormat, this.Minimum.ToString(format, CultureInfo.InvariantCulture), this.Maximum.ToString(format, CultureInfo.InvariantCulture));
         }
 
         #endregion
@@ -202,12 +202,12 @@ namespace FireworksNet.Model
         #region Factory methods
 
         /// <summary>
-        /// Creates new instance of <see cref="Invariant"/>. Boundaries are calculated from
+        /// Creates new instance of <see cref="Range"/>. Boundaries are calculated from
         /// <paramref name="mean"/> and <paramref name="deviationValue"/>; ends are closed (inclusive).
         /// </summary>
         /// <param name="mean">Mean (middle) of the interval.</param>
         /// <param name="deviationValue">Desired <see cref="Range.Length"/> / 2.</param>
-        /// <returns>New instance of <see cref="Invariant"/>. Its minimum is
+        /// <returns>New instance of <see cref="Range"/>. Its minimum is
         /// <paramref name="mean"/> - <paramref name="deviationValue"/> and its
         /// maximum is <paramref name="mean"/> + <paramref name="deviationValue"/>.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="mean"/> 
@@ -221,14 +221,14 @@ namespace FireworksNet.Model
         }
 
         /// <summary>
-        /// Creates new instance of <see cref="Invariant"/>. Boundaries are calculated from
+        /// Creates new instance of <see cref="Range"/>. Boundaries are calculated from
         /// <paramref name="mean"/> and <paramref name="deviationValue"/>.
         /// </summary>
         /// <param name="mean">Mean (middle) of the interval.</param>
         /// <param name="deviationValue">Desired <see cref="Range.Length"/> / 2.</param>
         /// <param name="isMinimumOpen">Whether lower boundary is open (exclusive) or not.</param>
         /// <param name="isMaximumOpen">Whether upper boundary is open (exclusive) or not.</param>
-        /// <returns>New instance of <see cref="Invariant"/>. Its minimum is
+        /// <returns>New instance of <see cref="Range"/>. Its minimum is
         /// <paramref name="mean"/> - <paramref name="deviationValue"/> and its
         /// maximum is <paramref name="mean"/> + <paramref name="deviationValue"/>.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="mean"/> or 
@@ -248,14 +248,14 @@ namespace FireworksNet.Model
         }
 
         /// <summary>
-        /// Creates new instance of <see cref="Invariant"/>. Boundaries are calculated from
+        /// Creates new instance of <see cref="Range"/>. Boundaries are calculated from
         /// <paramref name="mean"/> and <paramref name="deviationPercent"/>; ends are closed (inclusive).
         /// </summary>
         /// <param name="mean">Mean (middle) of the interval.</param>
         /// <param name="deviationPercent">Desired distance between <paramref name="mean"/>
         /// and resulting <see cref="Range.Minimum"/> (or <see cref="Range.Minimum"/>)
         /// expressed in percents of <paramref name="mean"/>.</param>
-        /// <returns>New instance of <see cref="Invariant"/> which is <paramref name="mean"/>
+        /// <returns>New instance of <see cref="Range"/> which is <paramref name="mean"/>
         /// +- <paramref name="deviationPercent"/> * <paramref name="mean"/>.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="mean"/> is 
         /// <see cref="double.NaN"/>. If <paramref name="mean"/> is <see cref="double.NegativeInfinity"/>
@@ -267,7 +267,7 @@ namespace FireworksNet.Model
         }
 
         /// <summary>
-        /// Creates new instance of <see cref="Invariant"/>. Boundaries are calculated from
+        /// Creates new instance of <see cref="Range"/>. Boundaries are calculated from
         /// <paramref name="mean"/> and <paramref name="deviationPercent"/>.
         /// </summary>
         /// <param name="mean">Mean (middle) of the interval.</param>
@@ -276,7 +276,7 @@ namespace FireworksNet.Model
         /// expressed in percents of <paramref name="mean"/>.</param>
         /// <param name="isMinimumOpen">Whether lower boundary is open (exclusive) or not.</param>
         /// <param name="isMaximumOpen">Whether upper boundary is open (exclusive) or not.</param>
-        /// <returns>New instance of <see cref="Invariant"/> which is <paramref name="mean"/>
+        /// <returns>New instance of <see cref="Range"/> which is <paramref name="mean"/>
         /// +- <paramref name="deviationPercent"/> * <paramref name="mean"/>.</returns>
         /// <exception cref="ArgumentException">If <paramref name="mean"/> is <see cref="double.NaN"/>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="mean"/> is
@@ -306,7 +306,7 @@ namespace FireworksNet.Model
         }
 
         /// <summary>
-        /// Creates new instance of <see cref="Invariant"/>. Boundaries are calculated from
+        /// Creates new instance of <see cref="Range"/>. Boundaries are calculated from
         /// <paramref name="mean"/> and <paramref name="deviationValue"/> but never exceed
         /// the restrictions; ends are closed (inclusive).
         /// </summary>
@@ -316,7 +316,7 @@ namespace FireworksNet.Model
         /// of the resulting <see cref="Range"/> instance will not be less than this value.</param>
         /// <param name="maxRestriction">Upper boundary restriction. <see cref="Range.Maximum"/>
         /// of the resulting <see cref="Range"/> instance will not be greater than this value.</param>
-        /// <returns>New instance of <see cref="Invariant"/>. Its minimum is
+        /// <returns>New instance of <see cref="Range"/>. Its minimum is
         /// MAX(<paramref name="mean"/> - <paramref name="deviationValue"/>; <paramref name="minRestriction"/>)
         /// and its maximum is MIN(<paramref name="mean"/> + <paramref name="deviationValue"/>;
         /// <paramref name="maxRestriction"/>).</returns>
@@ -338,7 +338,7 @@ namespace FireworksNet.Model
         }
 
         /// <summary>
-        /// Creates new instance of <see cref="Invariant"/>. Boundaries are calculated from
+        /// Creates new instance of <see cref="Range"/>. Boundaries are calculated from
         /// <paramref name="mean"/> and <paramref name="deviationValue"/> but never exceed
         /// the restrictions.
         /// </summary>
@@ -350,7 +350,7 @@ namespace FireworksNet.Model
         /// of the resulting <see cref="Range"/> instance will not be greater than this value.</param>
         /// <param name="isMinimumOpen">Whether lower boundary is open (exclusive) or not.</param>
         /// <param name="isMaximumOpen">Whether upper boundary is open (exclusive) or not.</param>
-        /// <returns>New instance of <see cref="Invariant"/>. Its minimum is
+        /// <returns>New instance of <see cref="Range"/>. Its minimum is
         /// MAX(<paramref name="mean"/> - <paramref name="deviationValue"/>; <paramref name="minRestriction"/>)
         /// and its maximum is MIN(<paramref name="mean"/> + <paramref name="deviationValue"/>;
         /// <paramref name="maxRestriction"/>).</returns>
@@ -389,7 +389,7 @@ namespace FireworksNet.Model
         }
 
         /// <summary>
-        /// Creates new instance of <see cref="Invariant"/>. Boundaries are calculated from
+        /// Creates new instance of <see cref="Range"/>. Boundaries are calculated from
         /// <paramref name="mean"/> and <paramref name="deviationPercent"/> but never exceed
         /// the restrictions.
         /// </summary>
@@ -401,7 +401,7 @@ namespace FireworksNet.Model
         /// of the resulting <see cref="Range"/> instance will not be less than this value.</param>
         /// <param name="maxRestriction">Upper boundary restriction. <see cref="Range.Maximum"/>
         /// of the resulting <see cref="Range"/> instance will not be greater than this value.</param>
-        /// <returns>New instance of <see cref="Invariant"/> which is <paramref name="mean"/>
+        /// <returns>New instance of <see cref="Range"/> which is <paramref name="mean"/>
         /// +- <paramref name="deviationPercent"/> * <paramref name="mean"/>. Restrictions
         /// are applied and can replace <see cref="Range.Minimum"/> and <see cref="Range.Maximum"/>
         /// in the result.</returns>
@@ -421,7 +421,7 @@ namespace FireworksNet.Model
         }
 
         /// <summary>
-        /// Creates new instance of <see cref="Invariant"/>. Boundaries are calculated from
+        /// Creates new instance of <see cref="Range"/>. Boundaries are calculated from
         /// <paramref name="mean"/> and <paramref name="deviationPercent"/> but never exceed
         /// the restrictions.
         /// </summary>
@@ -435,7 +435,7 @@ namespace FireworksNet.Model
         /// of the resulting <see cref="Range"/> instance will not be greater than this value.</param>
         /// <param name="isMinimumOpen">Whether lower boundary is open (exclusive) or not.</param>
         /// <param name="isMaximumOpen">Whether upper boundary is open (exclusive) or not.</param>
-        /// <returns>New instance of <see cref="Invariant"/> which is <paramref name="mean"/>
+        /// <returns>New instance of <see cref="Range"/> which is <paramref name="mean"/>
         /// +- <paramref name="deviationPercent"/> * <paramref name="mean"/>. Restrictions
         /// are applied and can replace <see cref="Range.Minimum"/> and <see cref="Range.Maximum"/>
         /// in the result.</returns>
@@ -502,12 +502,12 @@ namespace FireworksNet.Model
         {
             if (double.IsNaN(mean))
             {
-                throw new ArgumentOutOfRangeException("mean");
+                throw new ArgumentOutOfRangeException(nameof(mean));
             }
 
             if (double.IsInfinity(mean))
             {
-                throw new ArgumentOutOfRangeException("mean");
+                throw new ArgumentOutOfRangeException(nameof(mean));
             }
         }
 
@@ -524,17 +524,17 @@ namespace FireworksNet.Model
         {
             if (double.IsNaN(deviationValue))
             {
-                throw new ArgumentOutOfRangeException("deviationValue");
+                throw new ArgumentOutOfRangeException(nameof(deviationValue));
             }
 
             if (double.IsInfinity(deviationValue))
             {
-                throw new ArgumentOutOfRangeException("deviationValue");
+                throw new ArgumentOutOfRangeException(nameof(deviationValue));
             }
 
             if (deviationValue.IsLess(0.0))
             {
-                throw new ArgumentOutOfRangeException("deviationValue");
+                throw new ArgumentOutOfRangeException(nameof(deviationValue));
             }
         }
 
@@ -549,7 +549,7 @@ namespace FireworksNet.Model
         {
             if (deviationPercent < 0)
             {
-                throw new ArgumentOutOfRangeException("deviationPercent");
+                throw new ArgumentOutOfRangeException(nameof(deviationPercent));
             }
         }
 
@@ -568,17 +568,17 @@ namespace FireworksNet.Model
         {
             if (double.IsNaN(minimum))
             {
-                throw new ArgumentOutOfRangeException("minimum");
+                throw new ArgumentOutOfRangeException(nameof(minimum));
             }
 
             if (double.IsNaN(maximum))
             {
-                throw new ArgumentOutOfRangeException("maximum");
+                throw new ArgumentOutOfRangeException(nameof(maximum));
             }
 
             if (minimum.IsGreater(maximum))
             {
-                throw new ArgumentOutOfRangeException("minimum");
+                throw new ArgumentOutOfRangeException(nameof(minimum));
             }
         }
 
@@ -620,9 +620,9 @@ namespace FireworksNet.Model
         /// Returns a string that represents the current <see cref="Range"/> instance.
         /// </summary>
         /// <returns>A string that represents the current <see cref="Range"/> instance.</returns>
-        public override String ToString()
+        public override string ToString()
         {
-            return this.ToString((String)null, CultureInfo.CurrentCulture);
+            return this.ToString((string)null, CultureInfo.CurrentCulture);
         }
 
         #endregion

@@ -8,19 +8,19 @@ namespace FireworksNet.Explode
     {
         /// <summary>
         /// m - Parameter controlling the total number of sparks generated
-        /// by <see cref="LocationsNumber"/> fireworks.
+        /// by FireworkAlgorithmSettings.LocationsNumber.
         /// </summary>
         public double ExplosionSparksNumberModifier { get; set; }
 
         /// <summary>
         /// a - Constant,
-        /// has to be 0 &lt; a &lt; <paramref name="ExplosionSparksNumberUpperBound"/>.
+        /// has to be 0 &lt; a &lt; <see cref="ExploderSettings"/>.ExplosionSparksNumberUpperBound.
         /// </summary>
         public double ExplosionSparksNumberLowerBound { get; set; }
 
         /// <summary>
         /// b - Constant,
-        /// has to be <paramref name="ExplosionSparksNumberLowerBound"/> &lt; b &lt; 1.
+        /// has to be <see cref="ExploderSettings"/>.ExplosionSparksNumberLowerBound &lt; b &lt; 1.
         /// </summary>
         public double ExplosionSparksNumberUpperBound { get; set; }
 

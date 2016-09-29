@@ -11,39 +11,6 @@ namespace FireworksNet.Extensions
     public static class DoubleExtensions
     {
         /// <summary>
-        /// Implementation of <see cref="IComparer<T>"/> that relies on <see cref="DoubleExtensions"/>
-        /// to compare two instances of <see cref="double"/>.
-        /// </summary>
-        public sealed class DoubleExtensionComparer : IComparer<double>
-        {
-            /// <summary>
-            /// Compares two <see cref="double"/> instances and returns a value indicating
-            /// whether one is less than, equal to, or greater than the other.
-            /// </summary>
-            /// <param name="x">The first <see cref="double"/> to compare.</param>
-            /// <param name="y">The second <see cref="double"/> to compare.</param>
-            /// <returns>
-            /// A signed integer that indicates the relative values of <paramref name="x"/>
-            /// and <paramref name="y"/>. Less than zero: <paramref name="x"/> is less than 
-            /// <paramref name="y"/>. Zero: <paramref name="x"/> equals <paramref name="y"/>.
-            /// Greater than zero: <paramref name="x"/> is greater than <paramref name="y"/>.
-            /// </returns>
-            public int Compare(double x, double y)
-            {
-                if (x.IsLess(y))
-                {
-                    return -1;
-                }
-                else if (x.IsGreater(y))
-                {
-                    return 1;
-                }
-
-                return 0;
-            }
-        }
-
-        /// <summary>
         /// Compares two <see cref="double"/> and determines if they are equal within the
         /// <see cref="double.Epsilon"/> error.
         /// </summary>
@@ -123,6 +90,39 @@ namespace FireworksNet.Extensions
         public static String ToStringInvariant(this double value)
         {
             return value.ToString(CultureInfo.InvariantCulture);
+        }
+    }
+
+    /// <summary>
+    /// Implementation of <see cref="IComparer{T}"/> that relies on <see cref="DoubleExtensions"/>
+    /// to compare two instances of <see cref="double"/>.
+    /// </summary>
+    public sealed class DoubleExtensionComparer : IComparer<double>
+    {
+        /// <summary>
+        /// Compares two <see cref="double"/> instances and returns a value indicating
+        /// whether one is less than, equal to, or greater than the other.
+        /// </summary>
+        /// <param name="x">The first <see cref="double"/> to compare.</param>
+        /// <param name="y">The second <see cref="double"/> to compare.</param>
+        /// <returns>
+        /// A signed integer that indicates the relative values of <paramref name="x"/>
+        /// and <paramref name="y"/>. Less than zero: <paramref name="x"/> is less than 
+        /// <paramref name="y"/>. Zero: <paramref name="x"/> equals <paramref name="y"/>.
+        /// Greater than zero: <paramref name="x"/> is greater than <paramref name="y"/>.
+        /// </returns>
+        public int Compare(double x, double y)
+        {
+            if (x.IsLess(y))
+            {
+                return -1;
+            }
+            else if (x.IsGreater(y))
+            {
+                return 1;
+            }
+
+            return 0;
         }
     }
 }

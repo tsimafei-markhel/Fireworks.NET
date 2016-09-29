@@ -25,7 +25,6 @@ namespace FireworksNet.Problems.Benchmark
         /// create initial fireworks.</param>
         /// <param name="targetFunction">Quality function.</param>
         /// <param name="knownSolution">Known solution.</param>
-        /// <param name="stopCondition">Algorithm stop condition.</param>
         /// <param name="target">Problem target.</param>
         private Cigar(IList<Dimension> dimensions, IDictionary<Dimension, Range> initialDimensionRanges, Func<IDictionary<Dimension, double>, double> targetFunction, Solution knownSolution, ProblemTarget target)
             : base(dimensions, initialDimensionRanges, targetFunction, knownSolution, target)

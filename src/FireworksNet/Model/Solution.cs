@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using FireworksNet.Extensions;
 
 namespace FireworksNet.Model
@@ -13,7 +14,8 @@ namespace FireworksNet.Model
         /// <summary>
         /// Gets solution coordinates in problem space.
         /// </summary>
-        public IDictionary<Dimension, double> Coordinates { get; private set; } // TODO: Think of replacing Dictionary with some derived class, like CoordinateDictionary
+        [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "This is done for the sake of mutability of inheritors.")]
+        public IDictionary<Dimension, double> Coordinates { get; protected set; } // TODO: Think of replacing Dictionary with some derived class, like CoordinateDictionary
 
         /// <summary>
         /// Gets or sets solution quality (value of target function).
@@ -77,7 +79,11 @@ namespace FireworksNet.Model
             unchecked
             {
                 int hash = 17;
-                hash = hash * 29 + this.Coordinates.GetHashCode();
+                if (this.Coordinates != null)
+                {
+                    hash = hash * 29 + this.Coordinates.GetHashCode();
+                }
+
                 hash = hash * 29 + this.Quality.GetHashCode();
 
                 return hash;
@@ -143,8 +149,19 @@ namespace FireworksNet.Model
                 return true;
             }
 
-            return (this.Coordinates.Equals(other.Coordinates)) && // TODO: Need to compare dictionaries contents, not references.
-                   (this.Quality.IsEqual(other.Quality));
+            bool coordinatesEqual = false;
+            if (this.Coordinates == null)
+            {
+                coordinatesEqual = other.Coordinates == null;
+            }
+            else
+            {
+                coordinatesEqual = this.Coordinates.Equals(other.Coordinates); // TODO: Need to compare dictionaries contents, not references.
+            }
+
+            bool qualitiesEqual = this.Quality.IsEqual(other.Quality);
+
+            return coordinatesEqual && qualitiesEqual;
         }
 
         #endregion

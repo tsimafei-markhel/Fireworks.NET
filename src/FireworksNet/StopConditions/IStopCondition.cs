@@ -1,4 +1,4 @@
-﻿using FireworksNet.Model;
+﻿using FireworksNet.State;
 
 namespace FireworksNet.StopConditions
 {
@@ -14,6 +14,6 @@ namespace FireworksNet.StopConditions
         /// <param name="state">The current algorithm state.</param>
         /// <returns><c>true</c> if an algorithm that is currently in <paramref name="state"/>
         /// state should stop (and don't make further steps). Otherwise <c>false</c>.</returns>
-        bool ShouldStop(AlgorithmState state);
+        bool ShouldStop(IAlgorithmState state);
     }
 }

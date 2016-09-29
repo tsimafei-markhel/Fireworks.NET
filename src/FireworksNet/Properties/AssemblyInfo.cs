@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("FireworksNet")]
 [assembly: AssemblyDescription(".NET implementation of Fireworks Algorithm (FWA)")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Tsimafei Markhel")]
 [assembly: AssemblyProduct("Fireworks")]
-[assembly: AssemblyCopyright("Copyright © Tsimafei Markhel 2014-2015")]
+[assembly: AssemblyCopyright("Copyright © Tsimafei Markhel 2014-2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -28,7 +28,7 @@ namespace FireworksNet.Distances
         {
             if (dimensions == null)
             {
-                throw new ArgumentNullException("dimensions");
+                throw new ArgumentNullException(nameof(dimensions));
             }
 
             this.dimensions = dimensions;
@@ -56,12 +56,12 @@ namespace FireworksNet.Distances
         {
             if (first == null)
             {
-                throw new ArgumentNullException("first");
+                throw new ArgumentNullException(nameof(first));
             }
 
             if (second == null)
             {
-                throw new ArgumentNullException("second");
+                throw new ArgumentNullException(nameof(second));
             }
 
             if (first == second)
@@ -91,12 +91,12 @@ namespace FireworksNet.Distances
         {
             if (first == null)
             {
-                throw new ArgumentNullException("first");
+                throw new ArgumentNullException(nameof(first));
             }
 
             if (second == null)
             {
-                throw new ArgumentNullException("second");
+                throw new ArgumentNullException(nameof(second));
             }
 
             double[] firstCoordinates = this.GetCoordinates(first);
@@ -112,7 +112,7 @@ namespace FireworksNet.Distances
         /// </summary>
         /// <param name="solution">The <see cref="Solution"/> instance to be converted.</param>
         /// <returns><see cref="Double"/> array that corresponds to the coordinates
-        /// of <paramref name="soultion"/>.</returns>
+        /// of <paramref name="solution"/>.</returns>
         protected virtual double[] GetCoordinates(Solution solution)
         {
             Debug.Assert(this.dimensions != null, "Dimension collection is null");

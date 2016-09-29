@@ -5,7 +5,7 @@ namespace FireworksNet.Algorithm.Implementation
     /// Stores user-defined constants that control algorithm run.
     /// </summary>
     /// <remarks>Uses notation described in 2010 paper.</remarks>
-    public sealed class FireworksAlgorithmSettings
+    public class FireworksAlgorithmSettings
     {
         /// <summary>
         /// n - Number of fireworks (initial or selected on each step).
@@ -14,19 +14,19 @@ namespace FireworksNet.Algorithm.Implementation
 
         /// <summary>
         /// m - Parameter controlling the total number of sparks generated
-        /// by <see cref="LocationsNumber"/> fireworks.
+        /// by <see cref="FireworksAlgorithmSettings"/>.LocationsNumber.
         /// </summary>
         public double ExplosionSparksNumberModifier { get; set; }
 
         /// <summary>
         /// a - Constant,
-        /// has to be 0 &lt; a &lt; <paramref name="ExplosionSparksNumberUpperBound"/>.
+        /// has to be 0 &lt; a &lt; <see cref="FireworksAlgorithmSettings"/>.ExplosionSparksNumberUpperBound.
         /// </summary>
         public double ExplosionSparksNumberLowerBound { get; set; }
 
         /// <summary>
         /// b - Constant,
-        /// has to be <paramref name="ExplosionSparksNumberLowerBound"/> &lt; b &lt; 1.
+        /// has to be <see cref="FireworksAlgorithmSettings"/>.ExplosionSparksNumberLowerBound &lt; b &lt; 1.
         /// </summary>
         public double ExplosionSparksNumberUpperBound { get; set; }
 
