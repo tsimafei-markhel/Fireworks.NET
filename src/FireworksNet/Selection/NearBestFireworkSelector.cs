@@ -97,6 +97,7 @@ namespace FireworksNet.Selection
                 return new List<Firework>(from);
             }
 
+            // Have List<T> instead of IList<T> here since List<>.AddRange() is used below.
             List<Firework> selectedLocations = new List<Firework>(numberToSelect);
             if (numberToSelect > 0)
             {
@@ -105,7 +106,7 @@ namespace FireworksNet.Selection
                 // 1. Find a firework with best quality
                 Firework bestFirework = this.bestFireworkSelector(from);
 
-                // 2. Calculate distances near best firework
+                // 2. Calculate distances between the best firework and other fireworks
                 IDictionary<Firework, double> distances = this.CalculateDistances(from, bestFirework);
                 Debug.Assert(distances != null, "Distance collection is null");
 
@@ -133,6 +134,7 @@ namespace FireworksNet.Selection
         /// <returns>A map. Key is a <see cref="Firework"/>. Value is a distance
         /// between that <see cref="Firework"/> and the best <see cref="Firework"/>.
         /// </returns>
+        /// <remarks>Returned collection does not include the <paramref name="bestFirework"/>.</remarks>
         /// <exception cref="System.ArgumentNullException"> if <paramref name="fireworks"/> or 
         /// <paramref name="bestFirework"/> is <c>null</c>.</exception>
         /// <exception cref="System.ArgumentException"> if <paramref name="fireworks"/> is empty.
@@ -156,7 +158,7 @@ namespace FireworksNet.Selection
 
             Debug.Assert(this.distanceCalculator != null, "Distance calculator is null");
 
-            Dictionary<Firework, double> distances = new Dictionary<Firework, double>(fireworks.Count() - 1);
+            IDictionary<Firework, double> distances = new Dictionary<Firework, double>(fireworks.Count() - 1);
             foreach (Firework firework in fireworks)
             {
                 Debug.Assert(firework != null, "Firework is null");

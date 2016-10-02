@@ -84,7 +84,7 @@ namespace FireworksNet.Selection
                 return new List<Firework>(from);
             }
 
-            List<Firework> selectedLocations = new List<Firework>(numberToSelect);
+            IList<Firework> selectedLocations = new List<Firework>(numberToSelect);
             if (numberToSelect > 0)
             {
                 // 1. Generate random indices of fireworks

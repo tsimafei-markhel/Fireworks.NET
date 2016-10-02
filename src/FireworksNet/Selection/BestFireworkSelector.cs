@@ -77,6 +77,8 @@ namespace FireworksNet.Selection
 
             if (numberToSelect > from.Count())
             {
+                // At some point, we may need to return just as much as we have
+                // instead of throwing an exception.
                 throw new ArgumentOutOfRangeException(nameof(numberToSelect));
             }
 
@@ -87,7 +89,7 @@ namespace FireworksNet.Selection
 
             Debug.Assert(this.bestFireworkSelector != null, "Best firework selector is null");
 
-            List<Firework> bestFireworks = new List<Firework>(numberToSelect);
+            IList<Firework> bestFireworks = new List<Firework>(numberToSelect);
             if (numberToSelect == 1)
             {
                 // Handle "give me one best firework" case separately
@@ -97,7 +99,7 @@ namespace FireworksNet.Selection
             else if (numberToSelect > 1)
             {
                 // Find fireworks with the best quality based on a sampling number
-                List<Firework> currentFireworks = new List<Firework>(from);
+                IList<Firework> currentFireworks = new List<Firework>(from);
                 for (int i = 0; i < numberToSelect; i++)
                 {
                     // TODO: It makes sense to sort the collection first, and then take
