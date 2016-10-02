@@ -84,6 +84,7 @@
     <Compile Include="Extensions\DoubleExtensions.cs" />
     <Compile Include="Fit\IFit.cs" />
     <Compile Include="Fit\PolynomialFit.cs" />
+    <Compile Include="Problems\Benchmark\Sphere2012.cs" />
     <Compile Include="State\AlgorithmState.cs" />
     <Compile Include="Model\FireworkExplosion.cs" />
     <Compile Include="Model\InitialExplosion.cs" />
