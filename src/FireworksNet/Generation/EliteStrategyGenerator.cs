@@ -64,15 +64,15 @@ namespace FireworksNet.Generation
 
             // 12. Obtain a spark from approximated curves by Elite Strategy
             IDictionary<Dimension, Func<double, double>> fitnessLandscapes = this.ApproximateFitnessLandscapes(explosion.Fireworks);
-            IDictionary<Dimension, double> coordinatesElitePoint = new Dictionary<Dimension, double>();
+            IDictionary<Dimension, double> elitePointCoordinates = new Dictionary<Dimension, double>();
 
-            foreach (KeyValuePair<Dimension, Func<double, double>> data in fitnessLandscapes)
+            foreach (KeyValuePair<Dimension, Func<double, double>> fitnessLandscape in fitnessLandscapes)
             {
-                double elitePoint = this.CalculateElitePoint(data.Value, data.Key.VariationRange);
-                coordinatesElitePoint[data.Key] = elitePoint;
+                double coordinate = this.CalculateElitePoint(fitnessLandscape.Value, fitnessLandscape.Key.VariationRange);
+                elitePointCoordinates[fitnessLandscape.Key] = coordinate;
             }
 
-            return new Firework(this.GeneratedSparkType, explosion.StepNumber, coordinatesElitePoint);
+            return new Firework(this.GeneratedSparkType, explosion.StepNumber, elitePointCoordinates);
         }
 
         /// <summary>

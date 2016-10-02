@@ -12,7 +12,7 @@ namespace FireworksNet.Examples
         private static void Main()
         {
             RunFireworks2010();
-            //RunFireworks2012(); - TODO: Make it work!
+            RunFireworks2012();
 
             // TODO: Ideas for 'usage examples':
             //       1. Simple run: alg settings, one of the benchmark problems, get the solution
@@ -52,7 +52,7 @@ namespace FireworksNet.Examples
         private static void RunFireworks2012()
         {
             // 1. Define a problem to solve
-            Problem problem = Sphere.Create();
+            Problem problem = Sphere2012.Create();
 
             // 2. Setup algorithm stop condition
             CounterStopCondition stopCondition = new CounterStopCondition(10000);

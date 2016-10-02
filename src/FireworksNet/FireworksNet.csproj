@@ -60,6 +60,8 @@
     <Compile Include="Distributions\ContinuousUniformDistribution.cs" />
     <Compile Include="Explode\IExploder.cs" />
     <Compile Include="Generation\EliteStrategyGenerator.cs" />
+    <Compile Include="Generation\ExplosionSparkGenerator2012.cs" />
+    <Compile Include="Generation\GaussianSparkGenerator2012.cs" />
     <Compile Include="Generation\LS1EliteStrategyGenerator.cs" />
     <Compile Include="Generation\LS2EliteStrategyGenerator.cs" />
     <Compile Include="GlobalSuppressions.cs" />

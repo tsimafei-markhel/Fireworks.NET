@@ -118,8 +118,8 @@ namespace FireworksNet.Algorithm.Implementation
             this.BestWorstFireworkSelector = new ExtremumFireworkSelector(problem.Target);
             this.Distribution = new NormalDistribution(FireworksAlgorithm2012.normalDistributionMean, FireworksAlgorithm2012.normalDistributionStdDev);
             this.InitialSparkGenerator = new InitialSparkGenerator(problem.Dimensions, problem.InitialRanges, this.Randomizer);
-            this.ExplosionSparkGenerator = new ExplosionSparkGenerator(problem.Dimensions, this.Randomizer);
-            this.SpecificSparkGenerator = new GaussianSparkGenerator(problem.Dimensions, this.Distribution, this.Randomizer);
+            this.ExplosionSparkGenerator = new ExplosionSparkGenerator2012(problem.Dimensions, this.Randomizer);
+            this.SpecificSparkGenerator = new GaussianSparkGenerator2012(problem.Dimensions, this.Distribution);
             this.DistanceCalculator = new EuclideanDistance(problem.Dimensions);
             this.LocationSelector = new DistanceBasedFireworkSelector(this.DistanceCalculator, this.BestWorstFireworkSelector, this.Settings.LocationsNumber);
             this.SamplingSelector = new BestFireworkSelector(new Func<IEnumerable<Firework>, Firework>(this.BestWorstFireworkSelector.SelectBest));
