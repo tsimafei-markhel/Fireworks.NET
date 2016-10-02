@@ -62,7 +62,6 @@ namespace FireworksNet.Generation
             Debug.Assert(this.dimensions != null, "Dimension collection is null");
             Debug.Assert(this.polynomialFit != null, "Polynomial fit is null");
 
-            // 12. Obtain a spark from approximated curves by Elite Strategy
             IDictionary<Dimension, Func<double, double>> fitnessLandscapes = this.ApproximateFitnessLandscapes(explosion.Fireworks);
             IDictionary<Dimension, double> elitePointCoordinates = new Dictionary<Dimension, double>();
 
