@@ -45,7 +45,7 @@ namespace FireworksNet.Generation
             IList<Firework> sparks = new List<Firework>(desiredNumberOfSparks);
             for (int i = 0; i < desiredNumberOfSparks; i++)
             {
-                sparks.Add(this.CreateSparkTyped(typedExplosion));
+                sparks.Add(this.CreateSparkTyped(typedExplosion, i));
             }
 
             return sparks;
@@ -62,21 +62,46 @@ namespace FireworksNet.Generation
         /// does not match <typeparamref name="TExplosion"/>.</exception>
         public virtual Firework CreateSpark(ExplosionBase explosion)
         {
+            return this.CreateSpark(explosion, 0);
+        }
+
+        /// <summary>
+        /// Creates the spark from the explosion.
+        /// </summary>
+        /// <param name="explosion">The explosion that is the source of sparks.</param>
+        /// <param name="birthOrder">The number of spark in the collection of sparks born by
+        /// this generator within one step.</param>
+        /// <returns>A spark for the specified explosion.</returns>
+        /// <exception cref="System.ArgumentNullException"> if <paramref name="explosion"/>
+        /// is <c>null</c>.</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException"> if <paramref name="birthOrder"/>
+        /// is less than zero.</exception>
+        /// <exception cref="System.InvalidOperationException"> if <paramref name="explosion"/>
+        /// does not match <typeparamref name="TExplosion"/>.</exception>
+        public virtual Firework CreateSpark(ExplosionBase explosion, int birthOrder)
+        {
             if (explosion == null)
             {
                 throw new ArgumentNullException(nameof(explosion));
             }
 
+            if (birthOrder < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(explosion));
+            }
+
             TExplosion typedExplosion = SparkGeneratorBase<TExplosion>.GetTypedExplosion(explosion);
-            return this.CreateSparkTyped(typedExplosion);
+            return this.CreateSparkTyped(typedExplosion, birthOrder);
         }
 
         /// <summary>
         /// Creates the typed spark.
         /// </summary>
         /// <param name="explosion">The explosion that gives birth to the spark.</param>
+        /// <param name="birthOrder">The number of spark in the collection of sparks born by
+        /// this generator within one step.</param>
         /// <returns>The new typed spark.</returns>
-        protected abstract Firework CreateSparkTyped(TExplosion explosion);
+        protected abstract Firework CreateSparkTyped(TExplosion explosion, int birthOrder);
 
         /// <summary>
         /// Casts <paramref name="explosion"/> to the <typeparamref name="TExplosion"/>.

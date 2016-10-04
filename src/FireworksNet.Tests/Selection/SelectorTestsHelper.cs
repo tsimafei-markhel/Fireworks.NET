@@ -6,9 +6,6 @@ namespace FireworksNet.Tests.Selection
 {
     public static class SelectorTestsHelper
     {
-        private static double intervalLowerLimit = 0;
-        private static double intervalUpperLimit = 10.0;
-
         public static IEnumerable<Firework> Fireworks { get; set; }
 
         public static IEnumerable<Firework> NearBestFireworks
@@ -78,7 +75,7 @@ namespace FireworksNet.Tests.Selection
         //TODO: lazy initialization collection of fireworks
         private static void FormFireworks()
         {
-            Range range = new Range(intervalLowerLimit, intervalUpperLimit);
+            Range range = new Range(0, 10.0);
             List<Firework> fireworks = new List<Firework>();
             IDictionary<Dimension, double> coordinates;
 
@@ -87,10 +84,10 @@ namespace FireworksNet.Tests.Selection
                 coordinates = new Dictionary<Dimension, double>();
                 coordinates.Add(new Dimension(range), i);
                 coordinates.Add(new Dimension(range), i);
-                Firework firework = new Firework(FireworkType.Initial, 0, coordinates);
+                Firework firework = new Firework(FireworkType.Initial, 0, 0, coordinates);
                 firework.Quality = i;
                 fireworks.Add(firework);
-            }            
+            }
 
             Fireworks = fireworks;
         }

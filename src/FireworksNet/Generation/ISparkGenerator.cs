@@ -21,5 +21,14 @@ namespace FireworksNet.Generation
         /// <param name="explosion">The explosion that is the source of sparks.</param>
         /// <returns>A spark for the specified explosion.</returns>
         Firework CreateSpark(ExplosionBase explosion);
+
+        /// <summary>
+        /// Creates the spark from the explosion.
+        /// </summary>
+        /// <param name="explosion">The explosion that is the source of sparks.</param>
+        /// <param name="birthOrder">The number of spark in the collection of sparks born by
+        /// this generator within one step.</param>
+        /// <returns>A spark for the specified explosion.</returns>
+        Firework CreateSpark(ExplosionBase explosion, int birthOrder);
     }
 }

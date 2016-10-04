@@ -20,7 +20,7 @@ namespace FireworksNet.Tests.Generation
             IList<Dimension> dimensions = Substitute.For<IList<Dimension>>();
             System.Random randomizer = Substitute.For<System.Random>();
             ContinuousUniformDistribution distribution = Substitute.For<ContinuousUniformDistribution>(AbstractSourceData.Amplitude - AbstractSourceData.Delta, AbstractSourceData.Amplitude + AbstractSourceData.Delta);
-            Firework epicenter = Substitute.For<Firework>(expectedFireworkType, expectedBirthStepNumber - 1);
+            Firework epicenter = Substitute.For<Firework>(expectedFireworkType, expectedBirthStepNumber - 1, 0);
             IEnumerable<double> qualities = Substitute.For<IEnumerable<double>>();
             Dictionary<FireworkType, int> sparks = Substitute.For<Dictionary<FireworkType, int>>();
             FireworkExplosion explosion = Substitute.For<FireworkExplosion>(epicenter, expectedBirthStepNumber, AbstractSourceData.Amplitude, sparks);

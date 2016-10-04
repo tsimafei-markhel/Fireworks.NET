@@ -63,7 +63,7 @@
     <Compile Include="Extensions\RandomExtentionsTests.cs" />
     <Compile Include="Fit\PolynomialFitTests.cs" />
     <Compile Include="Distances\EuclideanDistanceTests.cs" />
-    <Compile Include="Generation\EliteStrategyGeneratorTests.cs" />
+    <Compile Include="Generation\EliteSparkGeneratorTests.cs" />
     <Compile Include="Generation\ExplosionSparkGeneratorTests.cs" />
     <Compile Include="Generation\GaussianSparkGeneratorTests.cs" />
     <Compile Include="Generation\InitialSparkGeneratorTests.cs" />

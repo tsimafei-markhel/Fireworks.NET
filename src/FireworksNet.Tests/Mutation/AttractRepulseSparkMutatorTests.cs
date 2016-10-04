@@ -60,8 +60,8 @@ namespace FireworksNet.Tests.Mutation
                 coordinatesAfter.Add(dimension, 1);
             }
 
-            MutableFirework mutableFirework = new MutableFirework(FireworkType.SpecificSpark, 0, coordinatesBefore);
-            MutableFirework mutateFirework = new MutableFirework(FireworkType.SpecificSpark, 1, coordinatesAfter); //present state mutable firework after mutate
+            MutableFirework mutableFirework = new MutableFirework(FireworkType.SpecificSpark, 0, 0, coordinatesBefore);
+            MutableFirework mutateFirework = new MutableFirework(FireworkType.SpecificSpark, 1, 0, coordinatesAfter); // Present state mutable firework after mutate
 
             FireworkExplosion explosion = CreateFireworkExplosion(mutableFirework);
             ISparkGenerator generator = CreateAttractRepulseSparkGenerator();

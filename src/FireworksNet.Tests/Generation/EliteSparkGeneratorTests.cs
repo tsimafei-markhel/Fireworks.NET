@@ -7,10 +7,10 @@ using Xunit;
 
 namespace FireworksNet.Tests.Generation
 {
-    public class EliteStrategyGeneratorTests
+    public class EliteSparkGeneratorTests
     {
         #region TestDataSource
-        public class TestEliteStrategyGenerator : EliteStrategyGenerator
+        public class TestEliteStrategyGenerator : EliteSparkGenerator
         {
             public TestEliteStrategyGenerator(IEnumerable<Dimension> dimensions, IFit polynomialFit)
                 : base(dimensions, polynomialFit)

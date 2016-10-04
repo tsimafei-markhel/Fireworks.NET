@@ -8,7 +8,7 @@ namespace FireworksNet.Generation
     /// <summary>
     /// Elite strategy spark generator using first order functions, per 2012 paper.
     /// </summary>
-    public class LS1EliteStrategyGenerator : EliteStrategyGenerator
+    public class LS1EliteStrategyGenerator : EliteSparkGenerator
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LS1EliteStrategyGenerator"/> class.

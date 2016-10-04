@@ -9,7 +9,7 @@ namespace FireworksNet.Generation
     /// <summary>
     /// Elite strategy spark generator, as described in 2012 paper.
     /// </summary>
-    public abstract class EliteStrategyGenerator : SparkGeneratorBase<EliteExplosion>
+    public abstract class EliteSparkGenerator : SparkGeneratorBase<EliteExplosion>
     {
         private readonly IEnumerable<Dimension> dimensions;
         private readonly IFit polynomialFit;
@@ -20,11 +20,11 @@ namespace FireworksNet.Generation
         public override FireworkType GeneratedSparkType { get { return FireworkType.EliteFirework; } }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EliteStrategyGenerator"/> class.
+        /// Initializes a new instance of the <see cref="EliteSparkGenerator"/> class.
         /// </summary>
         /// <param name="dimensions">The dimensions to fit generated sparks into.</param>
         /// <param name="polynomialFit">The polynomial fit.</param>
-        protected EliteStrategyGenerator(IEnumerable<Dimension> dimensions, IFit polynomialFit)
+        protected EliteSparkGenerator(IEnumerable<Dimension> dimensions, IFit polynomialFit)
         {
             if (dimensions == null)
             {
@@ -54,11 +54,14 @@ namespace FireworksNet.Generation
         /// </summary>
         /// <param name="explosion">The explosion that contains the collection 
         /// of sparks.</param>
+        /// <param name="birthOrder">The number of spark in the collection of sparks born by
+        /// this generator within one step.</param>
         /// <returns>The new typed spark.</returns>
-        protected override Firework CreateSparkTyped(EliteExplosion explosion)
+        protected override Firework CreateSparkTyped(EliteExplosion explosion, int birthOrder)
         {
             Debug.Assert(explosion != null, "Explosion is null");
             Debug.Assert(explosion.Fireworks != null, "Fireworks collection is null");
+            Debug.Assert(birthOrder >= 0, "Birth order is less than zero");
             Debug.Assert(this.dimensions != null, "Dimension collection is null");
             Debug.Assert(this.polynomialFit != null, "Polynomial fit is null");
 
@@ -71,7 +74,7 @@ namespace FireworksNet.Generation
                 elitePointCoordinates[fitnessLandscape.Key] = coordinate;
             }
 
-            return new Firework(this.GeneratedSparkType, explosion.StepNumber, elitePointCoordinates);
+            return new Firework(this.GeneratedSparkType, explosion.StepNumber, birthOrder, elitePointCoordinates);
         }
 
         /// <summary>

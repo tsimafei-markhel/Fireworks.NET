@@ -52,7 +52,7 @@ namespace FireworksNet.Tests.Generation
             get
             {
                 IDictionary<Dimension, double> coordinates = Substitute.For<IDictionary<Dimension, double>>();
-                MutableFirework mutableFirework = Substitute.For<MutableFirework>(FireworkType.SpecificSpark, 0, coordinates);
+                MutableFirework mutableFirework = Substitute.For<MutableFirework>(FireworkType.SpecificSpark, 0, 0, coordinates);
 
                 MutableFirework epicenter = mutableFirework;
                 Dictionary<FireworkType, int> sparks = Substitute.For<Dictionary<FireworkType, int>>();

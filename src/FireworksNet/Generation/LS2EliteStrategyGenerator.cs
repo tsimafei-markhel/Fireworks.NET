@@ -10,7 +10,7 @@ namespace FireworksNet.Generation
     /// <summary>
     /// Elite strategy spark generator using first order functions, per 2012 paper.
     /// </summary>
-    public class LS2EliteStrategyGenerator : EliteStrategyGenerator
+    public class LS2EliteStrategyGenerator : EliteSparkGenerator
     {
         private readonly IDifferentiator differentiation;
         private readonly ISolver solver;

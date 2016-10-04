@@ -68,20 +68,22 @@ namespace FireworksNet.Generation
         /// Creates the typed spark.
         /// </summary>
         /// <param name="explosion">The explosion that gives birth to the spark.</param>
+        /// <param name="birthOrder">The number of spark in the collection of sparks born by
+        /// this generator within one step.</param>
         /// <returns>The new typed spark.</returns>
-        protected override Firework CreateSparkTyped(FireworkExplosion explosion)
+        protected override Firework CreateSparkTyped(FireworkExplosion explosion, int birthOrder)
         {
             Debug.Assert(explosion != null, "Explosion is null");
             Debug.Assert(explosion.ParentFirework != null, "Explosion parent firework is null");
             Debug.Assert(explosion.ParentFirework.Coordinates != null, "Explosion parent firework coordinate collection is null");
+            Debug.Assert(birthOrder >= 0, "Birth order is less than zero");
 
-            Firework spark = new Firework(this.GeneratedSparkType, explosion.StepNumber, explosion.ParentFirework.Coordinates);
+            Firework spark = new Firework(this.GeneratedSparkType, explosion.StepNumber, birthOrder, explosion.ParentFirework.Coordinates);
 
             // Attract-Repulse scaling factor. (1-δ, 1+δ)
             double scalingFactor = this.distribution.Sample();
 
             Solution copyOfBestSolution = null;
-
             lock (this.bestSolution)
             {
                 copyOfBestSolution = new Solution(this.bestSolution.Coordinates, this.bestSolution.Quality);

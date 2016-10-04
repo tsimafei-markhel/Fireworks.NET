@@ -52,7 +52,7 @@ namespace FireworksNet.Tests.Explode
         {
             string expectedParamName = "currentFireworks";
 
-            ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => this.exploder.Explode(new Firework(FireworkType.Initial, 1), null, 0));
+            ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => this.exploder.Explode(new Firework(FireworkType.Initial, 1, 0), null, 0));
             Assert.NotNull(actualException);
             Assert.Equal(expectedParamName, actualException.ParamName);
         }
@@ -62,7 +62,7 @@ namespace FireworksNet.Tests.Explode
         {
             string expectedParamName = "currentStepNumber";
 
-            ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() => this.exploder.Explode(new Firework(FireworkType.Initial, 1), Enumerable.Empty<Firework>(), -1));
+            ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() => this.exploder.Explode(new Firework(FireworkType.Initial, 1, 0), Enumerable.Empty<Firework>(), -1));
             Assert.NotNull(actualException);
             Assert.Equal(expectedParamName, actualException.ParamName);
         }
@@ -72,7 +72,7 @@ namespace FireworksNet.Tests.Explode
         {
             string expectedParamName = "currentStepNumber";
 
-            ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() => this.exploder.Explode(new Firework(FireworkType.Initial, 1), Enumerable.Empty<Firework>(), 0));
+            ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() => this.exploder.Explode(new Firework(FireworkType.Initial, 1, 0), Enumerable.Empty<Firework>(), 0));
             Assert.NotNull(actualException);
             Assert.Equal(expectedParamName, actualException.ParamName);
         }

@@ -50,16 +50,19 @@ namespace FireworksNet.Generation
         /// Creates the typed spark.
         /// </summary>
         /// <param name="explosion">The explosion that gives birth to the spark.</param>
+        /// <param name="birthOrder">The number of spark in the collection of sparks born by
+        /// this generator within one step.</param>
         /// <returns>The new typed spark.</returns>
-        protected override Firework CreateSparkTyped(FireworkExplosion explosion)
+        protected override Firework CreateSparkTyped(FireworkExplosion explosion, int birthOrder)
         {
             Debug.Assert(explosion != null, "Explosion is null");
             Debug.Assert(explosion.ParentFirework != null, "Explosion parent firework is null");
             Debug.Assert(explosion.ParentFirework.Coordinates != null, "Explosion parent firework coordinate collection is null");
+            Debug.Assert(birthOrder >= 0, "Birth order is less than zero");
             Debug.Assert(this.randomizer != null, "Randomizer is null");
             Debug.Assert(this.dimensions != null, "Dimension collection is null");
 
-            Firework spark = new Firework(this.GeneratedSparkType, explosion.StepNumber, explosion.ParentFirework.Coordinates);
+            Firework spark = new Firework(this.GeneratedSparkType, explosion.StepNumber, birthOrder, explosion.ParentFirework.Coordinates);
 
             Debug.Assert(spark.Coordinates != null, "Spark coordinate collection is null");
 

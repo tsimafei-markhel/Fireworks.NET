@@ -25,7 +25,7 @@ namespace FireworksNet.Tests.Model
         [Fact]
         public void FirewordExplosion_NaNAs3tdParam_ExceptionThrown()
         {
-            Firework parent = new Firework(FireworkType.Initial, 1);
+            Firework parent = new Firework(FireworkType.Initial, 1, 0);
             int stepNumber = 1;
             double amplidute = double.NaN;
             Dictionary<FireworkType, int> sparkCounts = new Dictionary<FireworkType, int>();
@@ -40,7 +40,7 @@ namespace FireworksNet.Tests.Model
         [Fact]
         public void FirewordExplosion_InfinityAs3tdParam_ExceptionThrown()
         {
-            Firework parent = new Firework(FireworkType.Initial, 1);
+            Firework parent = new Firework(FireworkType.Initial, 1, 0);
             int stepNumber = 1;
             double amplidute = double.PositiveInfinity;
             Dictionary<FireworkType, int> sparkCounts = new Dictionary<FireworkType, int>();
