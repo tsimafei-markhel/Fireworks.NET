@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace FireworksNet.Model
 {
@@ -8,6 +9,11 @@ namespace FireworksNet.Model
     /// </summary>
     public class Firework : Solution
     {
+        /// <summary>
+        /// Firework label format: {BirthStepNumber}.{FireworkType}.{BirthOrder}
+        /// </summary>
+        protected const string LabelFormat = "{0}.{1}.{2}";
+
         /// <summary>
         /// Gets a unique identifier of this <see cref="Firework"/>.
         /// </summary>
@@ -29,6 +35,18 @@ namespace FireworksNet.Model
         /// the same generator within one step.
         /// </summary>
         public int BirthOrder { get; protected set; }
+
+        /// <summary>
+        /// Gets the firework label that can be used to easily distinguish it
+        /// from other fireworks: {BirthStepNumber}.{FireworkType}.{BirthOrder}
+        /// </summary>
+        public virtual string Label
+        {
+            get
+            {
+                return string.Format(CultureInfo.InvariantCulture, Firework.LabelFormat, this.BirthStepNumber, this.FireworkType, this.BirthOrder);
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Firework"/> class.

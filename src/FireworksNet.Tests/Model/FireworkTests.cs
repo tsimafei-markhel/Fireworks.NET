@@ -142,5 +142,14 @@ namespace FireworksNet.Tests.Model
         }
 
         #endregion
+
+        [Fact]
+        public void Label_ValidFirework_GetsValidLabel()
+        {
+            Firework result = new Firework(FireworkType.ExplosionSpark, 2, 17);
+            string label = result.Label;
+
+            Assert.Equal("2.ExplosionSpark.17", label);
+        }
     }
 }
