@@ -62,8 +62,8 @@
     <Compile Include="Generation\EliteSparkGenerator.cs" />
     <Compile Include="Generation\ExplosionSparkGenerator2012.cs" />
     <Compile Include="Generation\GaussianSparkGenerator2012.cs" />
-    <Compile Include="Generation\LS1EliteStrategyGenerator.cs" />
-    <Compile Include="Generation\LS2EliteStrategyGenerator.cs" />
+    <Compile Include="Generation\LS1EliteSparkGenerator.cs" />
+    <Compile Include="Generation\LS2EliteSparkGenerator.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Model\EliteExplosion.cs" />
     <Compile Include="Mutation\AttractRepulseSparkMutator.cs" />

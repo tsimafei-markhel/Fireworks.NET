@@ -10,13 +10,13 @@ namespace FireworksNet.Generation
     /// <summary>
     /// Elite strategy spark generator using first order functions, per 2012 paper.
     /// </summary>
-    public class LS2EliteStrategyGenerator : EliteSparkGenerator
+    public class LS2EliteSparkGenerator : EliteSparkGenerator
     {
         private readonly IDifferentiator differentiation;
         private readonly ISolver solver;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LS2EliteStrategyGenerator"/> class.
+        /// Initializes a new instance of the <see cref="LS2EliteSparkGenerator"/> class.
         /// </summary>
         /// <param name="dimensions">The dimensions to fit generated sparks into.</param>
         /// <param name="polynomialFit">The polynomial fit.</param>
@@ -25,7 +25,7 @@ namespace FireworksNet.Generation
         /// <exception cref="System.ArgumentNullException"> if <paramref name="differentiation"/>
         /// or <paramref name="solver"/> is <c>null</c>.
         /// </exception>
-        public LS2EliteStrategyGenerator(IEnumerable<Dimension> dimensions, IFit polynomialFit, IDifferentiator differentiation, ISolver solver)
+        public LS2EliteSparkGenerator(IEnumerable<Dimension> dimensions, IFit polynomialFit, IDifferentiator differentiation, ISolver solver)
             : base(dimensions, polynomialFit)
         {
             if (differentiation == null)

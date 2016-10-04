@@ -136,7 +136,7 @@ namespace FireworksNet.Algorithm.Implementation
             this.Differentiator = new Differentiator();
             this.PolynomialFit = new PolynomialFit(this.Settings.FunctionOrder);
             this.FunctionSolver = new Solver();
-            this.EliteStrategyGenerator = new LS2EliteStrategyGenerator(problem.Dimensions, this.PolynomialFit, this.Differentiator, this.FunctionSolver);
+            this.EliteStrategyGenerator = new LS2EliteSparkGenerator(problem.Dimensions, this.PolynomialFit, this.Differentiator, this.FunctionSolver);
         }
 
         #region IFireworksAlgorithm methods

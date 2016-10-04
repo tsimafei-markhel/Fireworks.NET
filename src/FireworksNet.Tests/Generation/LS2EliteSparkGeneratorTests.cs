@@ -9,7 +9,7 @@ using Xunit;
 
 namespace FireworksNet.Tests.Generation
 {
-    public class LS2EliteStrategyGeneratorTests
+    public class LS2EliteSparkGeneratorTests
     {
         #region TestDataSource
         public static IEnumerable<object[]> ProblemData
@@ -40,7 +40,7 @@ namespace FireworksNet.Tests.Generation
             ISolver solver,
             string expectedParamName)
         {
-            ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => new LS2EliteStrategyGenerator(dimensions, polynomialFit, differentiation, solver));
+            ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => new LS2EliteSparkGenerator(dimensions, polynomialFit, differentiation, solver));
 
             Assert.NotNull(actualException);
             Assert.Equal(expectedParamName, actualException.ParamName);

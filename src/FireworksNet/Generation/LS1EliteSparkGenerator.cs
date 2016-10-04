@@ -8,14 +8,14 @@ namespace FireworksNet.Generation
     /// <summary>
     /// Elite strategy spark generator using first order functions, per 2012 paper.
     /// </summary>
-    public class LS1EliteStrategyGenerator : EliteSparkGenerator
+    public class LS1EliteSparkGenerator : EliteSparkGenerator
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="LS1EliteStrategyGenerator"/> class.
+        /// Initializes a new instance of the <see cref="LS1EliteSparkGenerator"/> class.
         /// </summary>
         /// <param name="dimensions">The dimensions to fit generated sparks into.</param>
         /// <param name="polynomialFit">The polynomial fit.</param>
-        public LS1EliteStrategyGenerator(IEnumerable<Dimension> dimensions, IFit polynomialFit)
+        public LS1EliteSparkGenerator(IEnumerable<Dimension> dimensions, IFit polynomialFit)
             : base(dimensions, polynomialFit)
         {
         }

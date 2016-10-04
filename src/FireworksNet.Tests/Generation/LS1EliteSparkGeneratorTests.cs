@@ -7,7 +7,7 @@ using Xunit;
 
 namespace FireworksNet.Tests.Generation
 {
-    public class LS1EliteStrategyGeneratorTests
+    public class LS1EliteSparkGeneratorTests
     {
         #region TestDataSource
         public static IEnumerable<object[]> ProblemData
@@ -31,7 +31,7 @@ namespace FireworksNet.Tests.Generation
             IFit polynomialFit,
             string expectedParamName)
         {
-            ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => new LS1EliteStrategyGenerator(dimensions, polynomialFit));
+            ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => new LS1EliteSparkGenerator(dimensions, polynomialFit));
 
             Assert.NotNull(actualException);
             Assert.Equal(expectedParamName, actualException.ParamName);
