@@ -10,7 +10,7 @@ namespace FireworksNet.Mutation
     /// </summary>
     public class AttractRepulseSparkMutator : IFireworkMutator
     {
-        private readonly ISparkGenerator generator;
+        private readonly ISparkGenerator<FireworkExplosion> generator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AttractRepulseSparkMutator"/> class.
@@ -18,7 +18,7 @@ namespace FireworksNet.Mutation
         /// <param name="generator">Attract-Repulse generator to generate a spark.</param>
         /// <exception cref="System.ArgumentNullException">
         /// if <paramref name="generator"/> is <c>null</c>.</exception>
-        public AttractRepulseSparkMutator(ISparkGenerator generator)
+        public AttractRepulseSparkMutator(ISparkGenerator<FireworkExplosion> generator)
         {
             if (generator == null)
             {

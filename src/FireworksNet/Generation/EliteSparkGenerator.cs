@@ -50,18 +50,30 @@ namespace FireworksNet.Generation
         protected abstract double CalculateElitePoint(Func<double, double> func, Range variationRange);
 
         /// <summary>
-        /// Creates the typed spark by Elite Strategy.
+        /// Creates the spark from the explosion.
         /// </summary>
         /// <param name="explosion">The explosion that contains the collection 
         /// of sparks.</param>
         /// <param name="birthOrder">The number of spark in the collection of sparks born by
         /// this generator within one step.</param>
-        /// <returns>The new typed spark.</returns>
-        protected override Firework CreateSparkTyped(EliteExplosion explosion, int birthOrder)
+        /// <returns>A spark for the specified explosion.</returns>
+        /// <exception cref="System.ArgumentNullException"> if <paramref name="explosion"/>
+        /// is <c>null</c>.</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException"> if <paramref name="birthOrder"/>
+        /// is less than zero.</exception>
+        public override Firework CreateSpark(EliteExplosion explosion, int birthOrder)
         {
-            Debug.Assert(explosion != null, "Explosion is null");
+            if (explosion == null)
+            {
+                throw new ArgumentNullException(nameof(explosion));
+            }
+
+            if (birthOrder < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(birthOrder));
+            }
+
             Debug.Assert(explosion.Fireworks != null, "Fireworks collection is null");
-            Debug.Assert(birthOrder >= 0, "Birth order is less than zero");
             Debug.Assert(this.dimensions != null, "Dimension collection is null");
             Debug.Assert(this.polynomialFit != null, "Polynomial fit is null");
 

@@ -13,7 +13,7 @@ namespace FireworksNet.Tests.Mutation
         [Fact]
         public void CreateInstanceOfAttractRepulseSparkMutator_PassValidParameter()
         {
-            ISparkGenerator generator = CreateAttractRepulseSparkGenerator();
+            ISparkGenerator<FireworkExplosion> generator = CreateAttractRepulseSparkGenerator();
 
             AttractRepulseSparkMutator mutator = new AttractRepulseSparkMutator(generator);
 
@@ -34,7 +34,7 @@ namespace FireworksNet.Tests.Mutation
         public void MutateFirework_PassEachParameterAsNullAndOtherIsCorrect_ArgumentNullExceptionThrown(
             MutableFirework mutableFirework, FireworkExplosion explosion, String expectedParamName)
         {
-            ISparkGenerator generator = CreateAttractRepulseSparkGenerator();
+            ISparkGenerator<FireworkExplosion> generator = CreateAttractRepulseSparkGenerator();
             AttractRepulseSparkMutator mutator = new AttractRepulseSparkMutator(generator);
 
             ArgumentException exception = Assert.Throws<ArgumentNullException>(() => mutator.MutateFirework(ref mutableFirework, explosion));
@@ -64,7 +64,7 @@ namespace FireworksNet.Tests.Mutation
             MutableFirework mutateFirework = new MutableFirework(FireworkType.SpecificSpark, 1, 0, coordinatesAfter); // Present state mutable firework after mutate
 
             FireworkExplosion explosion = CreateFireworkExplosion(mutableFirework);
-            ISparkGenerator generator = CreateAttractRepulseSparkGenerator();
+            ISparkGenerator<FireworkExplosion> generator = CreateAttractRepulseSparkGenerator();
             generator.CreateSpark(explosion).Returns(mutateFirework);
             AttractRepulseSparkMutator mutator = Substitute.For<AttractRepulseSparkMutator>(generator);
 

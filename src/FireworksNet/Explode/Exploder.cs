@@ -11,7 +11,7 @@ namespace FireworksNet.Explode
     /// <summary>
     /// Explosion generator, per 2010 paper.
     /// </summary>
-    public class Exploder : IExploder
+    public class Exploder : IExploder<FireworkExplosion>
     {
         /// <summary>
         /// The exploder settings.
@@ -86,7 +86,7 @@ namespace FireworksNet.Explode
         /// <paramref name="currentStepNumber"/> is less than zero or
         /// less than birth step number of the <paramref name="focus"/>.
         /// </exception>
-        public virtual ExplosionBase Explode(Firework focus, IEnumerable<Firework> currentFireworks, int currentStepNumber)
+        public virtual FireworkExplosion Explode(Firework focus, IEnumerable<Firework> currentFireworks, int currentStepNumber)
         {
             if (focus == null)
             {

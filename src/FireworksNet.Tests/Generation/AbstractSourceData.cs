@@ -66,7 +66,7 @@ namespace FireworksNet.Tests.Generation
             }
         }
 
-        public static ISparkGenerator CreateAttractRepulseSparkGenerator()
+        public static ISparkGenerator<FireworkExplosion> CreateAttractRepulseSparkGenerator()
         {
             Solution bestSolution = Substitute.For<Solution>(0);
             IList<Dimension> dimensions = Substitute.For<IList<Dimension>>();

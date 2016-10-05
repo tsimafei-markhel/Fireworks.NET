@@ -65,18 +65,30 @@ namespace FireworksNet.Generation
         }
 
         /// <summary>
-        /// Creates the typed spark.
+        /// Creates the spark from the explosion.
         /// </summary>
         /// <param name="explosion">The explosion that gives birth to the spark.</param>
         /// <param name="birthOrder">The number of spark in the collection of sparks born by
         /// this generator within one step.</param>
-        /// <returns>The new typed spark.</returns>
-        protected override Firework CreateSparkTyped(FireworkExplosion explosion, int birthOrder)
+        /// <returns>A spark for the specified explosion.</returns>
+        /// <exception cref="System.ArgumentNullException"> if <paramref name="explosion"/>
+        /// is <c>null</c>.</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException"> if <paramref name="birthOrder"/>
+        /// is less than zero.</exception>
+        public override Firework CreateSpark(FireworkExplosion explosion, int birthOrder)
         {
-            Debug.Assert(explosion != null, "Explosion is null");
+            if (explosion == null)
+            {
+                throw new ArgumentNullException(nameof(explosion));
+            }
+
+            if (birthOrder < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(birthOrder));
+            }
+
             Debug.Assert(explosion.ParentFirework != null, "Explosion parent firework is null");
             Debug.Assert(explosion.ParentFirework.Coordinates != null, "Explosion parent firework coordinate collection is null");
-            Debug.Assert(birthOrder >= 0, "Birth order is less than zero");
 
             Firework spark = new Firework(this.GeneratedSparkType, explosion.StepNumber, birthOrder, explosion.ParentFirework.Coordinates);
 

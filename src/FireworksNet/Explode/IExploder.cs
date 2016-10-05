@@ -6,7 +6,8 @@ namespace FireworksNet.Explode
     /// <summary>
     /// An explosion generator.
     /// </summary>
-    public interface IExploder
+    /// <typeparam name="TExplosion">Type of the explosion generated.</typeparam>
+    public interface IExploder<TExplosion> where TExplosion : ExplosionBase
     {
         /// <summary>
         /// Creates an explosion.
@@ -16,6 +17,6 @@ namespace FireworksNet.Explode
         /// at the moment of explosion.</param>
         /// <param name="currentStepNumber">The current step number.</param>
         /// <returns>New explosion.</returns>
-        ExplosionBase Explode(Firework focus, IEnumerable<Firework> currentFireworks, int currentStepNumber);
+        TExplosion Explode(Firework focus, IEnumerable<Firework> currentFireworks, int currentStepNumber);
     }
 }

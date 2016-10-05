@@ -44,17 +44,17 @@ namespace FireworksNet.Algorithm.Implementation
         /// <summary>
         /// Gets or sets the initial spark generator.
         /// </summary>
-        public ISparkGenerator InitialSparkGenerator { get; set; }
+        public ISparkGenerator<InitialExplosion> InitialSparkGenerator { get; set; }
 
         /// <summary>
         /// Gets or sets the explosion spark generator.
         /// </summary>
-        public ISparkGenerator ExplosionSparkGenerator { get; set; }
+        public ISparkGenerator<FireworkExplosion> ExplosionSparkGenerator { get; set; }
 
         /// <summary>
         /// Gets or sets the specific spark generator.
         /// </summary>
-        public ISparkGenerator SpecificSparkGenerator { get; set; }
+        public ISparkGenerator<FireworkExplosion> SpecificSparkGenerator { get; set; }
 
         /// <summary>
         /// Gets or sets the distance calculator.
@@ -74,7 +74,7 @@ namespace FireworksNet.Algorithm.Implementation
         /// <summary>
         /// Gets or sets the explosion generator.
         /// </summary>
-        public IExploder Exploder { get; set; }
+        public IExploder<FireworkExplosion> Exploder { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FireworksAlgorithm"/> class.
@@ -231,7 +231,7 @@ namespace FireworksNet.Algorithm.Implementation
             {
                 Debug.Assert(firework != null, "Firework is null");
 
-                ExplosionBase explosion = this.Exploder.Explode(firework, this.state.Fireworks, stepNumber);
+                FireworkExplosion explosion = this.Exploder.Explode(firework, this.state.Fireworks, stepNumber);
                 Debug.Assert(explosion != null, "Explosion is null");
 
                 IEnumerable<Firework> fireworkExplosionSparks = this.ExplosionSparkGenerator.CreateSparks(explosion);
