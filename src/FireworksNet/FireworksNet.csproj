@@ -66,6 +66,7 @@
     <Compile Include="Generation\LS2EliteSparkGenerator.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Model\EliteExplosion.cs" />
+    <Compile Include="Model\EnhancedFireworkExplosion.cs" />
     <Compile Include="Mutation\AttractRepulseSparkMutator.cs" />
     <Compile Include="Extensions\RandomExtensions.cs" />
     <Compile Include="Algorithm\Implementation\FireworksAlgorithmSettings.cs" />
