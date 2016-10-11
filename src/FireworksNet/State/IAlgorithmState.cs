@@ -9,11 +9,6 @@ namespace FireworksNet.State
     public interface IAlgorithmState
     {
         /// <summary>
-        /// Gets unique state identifier.
-        /// </summary>
-        TId Id { get; }
-
-        /// <summary>
         /// Gets a collection of current fireworks.
         /// </summary>
         IEnumerable<Firework> Fireworks { get; }
